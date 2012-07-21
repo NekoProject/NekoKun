@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace orzTech.NekoKun.ProjectEngines.RGSS
+namespace NekoKun.RubyBindings
 {
-    public class RubyClass
+    public class RubyModule
     {
         private string name;
         private RubySymbol symbol;
-        private static Dictionary<string, RubyClass> classes = new Dictionary<string, RubyClass>();
+        private static Dictionary<string, RubyModule> modules = new Dictionary<string, RubyModule>();
 
-        protected RubyClass(string s)
+        protected RubyModule(string s)
         {
             this.name = s;
             this.symbol = RubySymbol.GetSymbol(s);
-            classes.Add(s, this);
+            modules.Add(s, this);
         }
 
-        public static Dictionary<string, RubyClass> GetClasses()
+        public static Dictionary<string, RubyModule> GetModules()
         {
-            return classes;
+            return modules;
         }
 
-        public static RubyClass GetClass(RubySymbol s)
+        public static RubyModule GetModule(RubySymbol s)
         {
-            return GetClass(s.GetString());
+            return GetModule(s.GetString());
         }
 
-        public static RubyClass GetClass(string s)
+        public static RubyModule GetModule(string s)
         {
-            if (classes.ContainsKey(s)) return classes[s];
-            return new RubyClass(s);
+            if (modules.ContainsKey(s)) return modules[s];
+            return new RubyModule(s);
         }
 
         public override string ToString()

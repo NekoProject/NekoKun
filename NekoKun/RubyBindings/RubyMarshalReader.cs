@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace orzTech.NekoKun.ProjectEngines.RGSS
+namespace NekoKun.RubyBindings
 {
     class RubyMarshalReader
     {

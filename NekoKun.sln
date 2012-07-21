@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET", "ScintillaNE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKun", "NekoKun\NekoKun.csproj", "{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zlib DLL", "Zlib\Zlib DLL.csproj", "{9816BA86-9250-4C00-A912-25F07F8677D1}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -29,6 +31,10 @@ Global
 		{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9816BA86-9250-4C00-A912-25F07F8677D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9816BA86-9250-4C00-A912-25F07F8677D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9816BA86-9250-4C00-A912-25F07F8677D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9816BA86-9250-4C00-A912-25F07F8677D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

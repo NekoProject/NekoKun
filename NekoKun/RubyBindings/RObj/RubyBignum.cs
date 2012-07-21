@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 
-namespace orzTech.NekoKun.ProjectEngines.RGSS
+namespace NekoKun.RubyBindings
 {
     //disassembled from Microsoft.Scripting.Math.RubyBignum @ Microsoft.Dynamic, Version=1.0.0.0
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace orzTech.NekoKun.ProjectEngines.RGSS
+namespace NekoKun.RubyBindings
 {
-    public class RubyUserdefinedDumpObject
+    public class RubyUserdefinedMarshalDumpObject
     {
         private object dumpedObject;
         private RubySymbol className;

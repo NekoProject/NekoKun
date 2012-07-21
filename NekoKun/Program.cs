@@ -35,7 +35,7 @@ namespace NekoKun
             }
             catch (Exception)
             {
-                MessageBox.Show("找不到工程目录。请将本程序放置于 Project7 或其任意层子目录内。", "NekoKun", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("可以给我一个工程目录吃吗？", "NekoKun", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

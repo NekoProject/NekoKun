@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace orzTech.NekoKun.ProjectEngines.RGSS
+namespace NekoKun.RubyBindings
 {
     [Serializable, System.Diagnostics.DebuggerDisplay("{GetDebugView()}")]
     public class RubyHash : Dictionary<object, object>
