@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NekoKun</RootNamespace>
+    <AssemblyName>NekoKun</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\AbstractEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\AbstractFile.cs" />
+    <Compile Include="Core\FindAllDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\FindAllDialog.Designer.cs">
+      <DependentUpon>FindAllDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\FindAllResultEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\FindAllResultFile.cs" />
+    <Compile Include="Core\NavPoint.cs" />
+    <Compile Include="Core\FileManager.cs" />
+    <Compile Include="Core\IBehavior\IClipboardHandler.cs" />
+    <Compile Include="Core\IBehavior\IDeleteHandler.cs" />
+    <Compile Include="Core\IBehavior\IFindReplaceHandler.cs" />
+    <Compile Include="Core\IBehavior\ISelectAllHandler.cs" />
+    <Compile Include="Core\IBehavior\IUndoHandler.cs" />
+    <Compile Include="Core\IBehavior\IFindAllProvider.cs" />
+    <Compile Include="Core\LogEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\LogFile.cs" />
+    <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Core\FindAllDialog.resx">
+      <DependentUpon>FindAllDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptEditor\ScriptListEditorInsertDialog.resx">
+      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptEditor\ScriptListEditorRenameDialog.resx">
+      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Workbench.resx">
+      <DependentUpon>Workbench.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptFile.cs" />
+    <Compile Include="ScriptEditor\ScriptListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.Designer.cs">
+      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.Designer.cs">
+      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListFile.cs" />
+    <Compile Include="UI\Scintilla\Scintilla.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\EditContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnListbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Scintilla\NavPointListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Scintilla\RubyScintilla.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ToolStripRender\Office2007ColorTable.cs" />
+    <Compile Include="UI\ToolStripRender\Office2007Helpers.cs" />
+    <Compile Include="UI\ToolStripRender\Office2007Renderer.cs" />
+    <Compile Include="Workbench.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Workbench.Designer.cs">
+      <DependentUpon>Workbench.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DockPanel_Src\WinFormsUI\WinFormsUI.csproj">
+      <Project>{D3C782BA-178E-4235-A3BA-8C11DEBB6BEE}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">
+      <Project>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</Project>
+      <Name>ScintillaNET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ClosePreviewHS.bmp" />
+    <Content Include="Resources\Copy.bmp" />
+    <Content Include="Resources\Cut.bmp" />
+    <Content Include="Resources\Delete.bmp" />
+    <Content Include="Resources\Edit_Redo.bmp" />
+    <Content Include="Resources\Edit_Undo.bmp" />
+    <Content Include="Resources\Find.bmp" />
+    <Content Include="Resources\Paste.bmp" />
+    <Content Include="Resources\Play.bmp" />
+    <Content Include="Resources\SaveAll.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
