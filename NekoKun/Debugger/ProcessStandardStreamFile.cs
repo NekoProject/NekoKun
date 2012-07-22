@@ -18,7 +18,13 @@ namespace NekoKun.Debugger
         BackgroundWorker outputWorker;
         BackgroundWorker errorWorker;
         public bool Active = false;
+        public bool IsGame = false;
 
+        public ProcessStandardStreamFile(Process Process, bool isGame)
+            : this(Process)
+        {
+            this.IsGame = isGame;
+        }
         public ProcessStandardStreamFile(Process Process)
             : base(String.Format(@"\\.\NekoKun\Process\{0}\StandardStream", Process.Id))
         {
@@ -68,9 +74,13 @@ namespace NekoKun.Debugger
                 do
                 {
                     StringBuilder builder = new StringBuilder();
-                    count = this.StandardOutputReader.Read(buffer, 0, 1024);
-                    builder.Append(buffer, 0, count);
-                    outputWorker.ReportProgress(0, new OutputEvent() { Output = builder.ToString() });
+                    try
+                    {
+                        count = this.StandardOutputReader.Read(buffer, 0, 1024);
+                        builder.Append(buffer, 0, count);
+                        outputWorker.ReportProgress(0, new OutputEvent() { Output = builder.ToString() });
+                    }
+                    catch { return; }
                     if (outputWorker.CancellationPending) return;
                     if (this.Process.HasExited) this.Process_Exited(sender, e);
                 } while (count > 0);
@@ -102,9 +112,13 @@ namespace NekoKun.Debugger
                 do
                 {
                     StringBuilder builder = new StringBuilder();
-                    count = this.StandardErrorReader.Read(buffer, 0, 1024);
-                    builder.Append(buffer, 0, count);
-                    errorWorker.ReportProgress(0, new ErrorEvent() { Error = builder.ToString() });
+                    try
+                    {
+                        count = this.StandardErrorReader.Read(buffer, 0, 1024);
+                        builder.Append(buffer, 0, count);
+                        errorWorker.ReportProgress(0, new ErrorEvent() { Error = builder.ToString() });
+                    }
+                    catch { return; }
                     if (outputWorker.CancellationPending) return;
                     if (this.Process.HasExited) this.Process_Exited(sender, e);
                 } while (count > 0);
@@ -126,7 +140,14 @@ namespace NekoKun.Debugger
                 this.StandardInputWriter = null;
                 this.StandardOutputReader = null;
 
-                this.Write(String.Format("\n\n# [{1}] {0} 已经退出，返回值为 {2}。", Process.ProcessName, Process.Id, Process.ExitCode));
+                this.Write(String.Format("\n\n# [{1}] {0} 已经退出，返回值为 {2}。\n", Process.ProcessName, Process.Id, Process.ExitCode));
+
+                if (this.IsGame)
+                {
+                    var curSel = Process.ExitCode / 65536;
+                    var curLine = Process.ExitCode % 65536 - 1;
+                    this.Write(String.Format("# 脚本 {0} 的 {1} 行发生了错误。\n", Workbench.Instance.ScriptList.scripts[curSel].ToString(), curLine + 1));
+                }
             }
         }
 

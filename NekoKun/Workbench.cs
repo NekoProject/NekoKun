@@ -141,7 +141,7 @@ namespace NekoKun
             info.RedirectStandardOutput = true;
             System.Diagnostics.Process proc = System.Diagnostics.Process.Start(info);
 
-            AbstractFile file = (new Debugger.ProcessStandardStreamFile(proc));
+            AbstractFile file = (new Debugger.ProcessStandardStreamFile(proc, true));
             file.ShowEditor();
             try
             {
