@@ -47,6 +47,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuEditFind = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditFindAll = new System.Windows.Forms.ToolStripMenuItem();
             this.menuView = new System.Windows.Forms.ToolStripMenuItem();
             this.menuViewScriptList = new System.Windows.Forms.ToolStripMenuItem();
             this.menuViewLog = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +63,6 @@
             this.statusPendingChanges = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripPanelLeft = new System.Windows.Forms.ToolStripPanel();
             this.toolStripPanelRight = new System.Windows.Forms.ToolStripPanel();
-            this.menuEditFindAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripPanelTop.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -91,7 +91,7 @@
             this.menuDebug});
             this.menuStrip.Location = new System.Drawing.Point(3, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(338, 24);
+            this.menuStrip.Size = new System.Drawing.Size(302, 24);
             this.menuStrip.Stretch = false;
             this.menuStrip.TabIndex = 9;
             this.menuStrip.Text = "menuStrip";
@@ -103,7 +103,7 @@
             this.toolStripSeparator1,
             this.menuExit});
             this.menuFile.Name = "menuFile";
-            this.menuFile.Size = new System.Drawing.Size(59, 20);
+            this.menuFile.Size = new System.Drawing.Size(73, 20);
             this.menuFile.Text = "文件(&F)";
             // 
             // menuSave
@@ -112,14 +112,14 @@
             this.menuSave.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuSave.Name = "menuSave";
             this.menuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuSave.Size = new System.Drawing.Size(177, 22);
+            this.menuSave.Size = new System.Drawing.Size(213, 22);
             this.menuSave.Text = "保存工程(&S)";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(210, 6);
             // 
             // menuExit
             // 
@@ -127,7 +127,7 @@
             this.menuExit.ImageTransparentColor = System.Drawing.Color.Black;
             this.menuExit.Name = "menuExit";
             this.menuExit.ShortcutKeyDisplayString = "Alt+F4";
-            this.menuExit.Size = new System.Drawing.Size(177, 22);
+            this.menuExit.Size = new System.Drawing.Size(213, 22);
             this.menuExit.Text = "退出(&X)";
             this.menuExit.Click += new System.EventHandler(this.menuExit_Click);
             // 
@@ -148,7 +148,7 @@
             this.menuEditReplace,
             this.menuEditFindAll});
             this.menuEdit.Name = "menuEdit";
-            this.menuEdit.Size = new System.Drawing.Size(59, 20);
+            this.menuEdit.Size = new System.Drawing.Size(73, 20);
             this.menuEdit.Text = "编辑(&E)";
             this.menuEdit.DropDownOpening += new System.EventHandler(this.menuEdit_DropDownOpening);
             // 
@@ -158,7 +158,7 @@
             this.menuEditUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditUndo.Name = "menuEditUndo";
             this.menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
-            this.menuEditUndo.Size = new System.Drawing.Size(213, 22);
+            this.menuEditUndo.Size = new System.Drawing.Size(261, 22);
             this.menuEditUndo.Text = "撤销(&U)";
             this.menuEditUndo.Click += new System.EventHandler(this.menuEditUndo_Click);
             // 
@@ -168,14 +168,14 @@
             this.menuEditRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditRedo.Name = "menuEditRedo";
             this.menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
-            this.menuEditRedo.Size = new System.Drawing.Size(213, 22);
+            this.menuEditRedo.Size = new System.Drawing.Size(261, 22);
             this.menuEditRedo.Text = "重做(&R)";
             this.menuEditRedo.Click += new System.EventHandler(this.menuEditRedo_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(258, 6);
             // 
             // menuEditCut
             // 
@@ -183,7 +183,7 @@
             this.menuEditCut.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditCut.Name = "menuEditCut";
             this.menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
-            this.menuEditCut.Size = new System.Drawing.Size(213, 22);
+            this.menuEditCut.Size = new System.Drawing.Size(261, 22);
             this.menuEditCut.Text = "剪切(&T)";
             this.menuEditCut.Click += new System.EventHandler(this.menuEditCut_Click);
             // 
@@ -193,7 +193,7 @@
             this.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditCopy.Name = "menuEditCopy";
             this.menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
-            this.menuEditCopy.Size = new System.Drawing.Size(213, 22);
+            this.menuEditCopy.Size = new System.Drawing.Size(261, 22);
             this.menuEditCopy.Text = "复制(&C)";
             this.menuEditCopy.Click += new System.EventHandler(this.menuEditCopy_Click);
             // 
@@ -203,7 +203,7 @@
             this.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditPaste.Name = "menuEditPaste";
             this.menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
-            this.menuEditPaste.Size = new System.Drawing.Size(213, 22);
+            this.menuEditPaste.Size = new System.Drawing.Size(261, 22);
             this.menuEditPaste.Text = "粘贴(&P)";
             this.menuEditPaste.Click += new System.EventHandler(this.menuEditPaste_Click);
             // 
@@ -213,27 +213,27 @@
             this.menuEditDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditDelete.Name = "menuEditDelete";
             this.menuEditDelete.ShortcutKeyDisplayString = "Delete";
-            this.menuEditDelete.Size = new System.Drawing.Size(213, 22);
+            this.menuEditDelete.Size = new System.Drawing.Size(261, 22);
             this.menuEditDelete.Text = "删除(&D)";
             this.menuEditDelete.Click += new System.EventHandler(this.menuEditDelete_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(258, 6);
             // 
             // menuEditSelectAll
             // 
             this.menuEditSelectAll.Name = "menuEditSelectAll";
             this.menuEditSelectAll.ShortcutKeyDisplayString = "Ctrl+A";
-            this.menuEditSelectAll.Size = new System.Drawing.Size(213, 22);
+            this.menuEditSelectAll.Size = new System.Drawing.Size(261, 22);
             this.menuEditSelectAll.Text = "全选(&A)";
             this.menuEditSelectAll.Click += new System.EventHandler(this.menuEditSelectAll_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(258, 6);
             // 
             // menuEditFind
             // 
@@ -242,7 +242,7 @@
             this.menuEditFind.Name = "menuEditFind";
             this.menuEditFind.ShortcutKeyDisplayString = "";
             this.menuEditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.menuEditFind.Size = new System.Drawing.Size(213, 22);
+            this.menuEditFind.Size = new System.Drawing.Size(261, 22);
             this.menuEditFind.Text = "查找(&F)";
             this.menuEditFind.Click += new System.EventHandler(this.menuEditFind_Click);
             // 
@@ -250,9 +250,18 @@
             // 
             this.menuEditReplace.Name = "menuEditReplace";
             this.menuEditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.menuEditReplace.Size = new System.Drawing.Size(213, 22);
+            this.menuEditReplace.Size = new System.Drawing.Size(261, 22);
             this.menuEditReplace.Text = "替换(&R)";
             this.menuEditReplace.Click += new System.EventHandler(this.menuEditReplace_Click);
+            // 
+            // menuEditFindAll
+            // 
+            this.menuEditFindAll.Name = "menuEditFindAll";
+            this.menuEditFindAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.F)));
+            this.menuEditFindAll.Size = new System.Drawing.Size(261, 22);
+            this.menuEditFindAll.Text = "查找全部(&I)";
+            this.menuEditFindAll.Click += new System.EventHandler(this.menuEditFindAll_Click);
             // 
             // menuView
             // 
@@ -260,14 +269,14 @@
             this.menuViewScriptList,
             this.menuViewLog});
             this.menuView.Name = "menuView";
-            this.menuView.Size = new System.Drawing.Size(59, 20);
+            this.menuView.Size = new System.Drawing.Size(73, 20);
             this.menuView.Text = "视图(&V)";
             // 
             // menuViewScriptList
             // 
             this.menuViewScriptList.Name = "menuViewScriptList";
             this.menuViewScriptList.ShortcutKeyDisplayString = "";
-            this.menuViewScriptList.Size = new System.Drawing.Size(152, 22);
+            this.menuViewScriptList.Size = new System.Drawing.Size(158, 22);
             this.menuViewScriptList.Text = "脚本列表(&S)";
             this.menuViewScriptList.Click += new System.EventHandler(this.menuViewScriptList_Click);
             // 
@@ -275,7 +284,7 @@
             // 
             this.menuViewLog.Name = "menuViewLog";
             this.menuViewLog.ShortcutKeyDisplayString = "";
-            this.menuViewLog.Size = new System.Drawing.Size(152, 22);
+            this.menuViewLog.Size = new System.Drawing.Size(158, 22);
             this.menuViewLog.Text = "日志(&L)";
             this.menuViewLog.Click += new System.EventHandler(this.menuViewLog_Click);
             // 
@@ -285,7 +294,7 @@
             this.menuDebugGame,
             this.menuRunGame});
             this.menuDebug.Name = "menuDebug";
-            this.menuDebug.Size = new System.Drawing.Size(59, 20);
+            this.menuDebug.Size = new System.Drawing.Size(73, 20);
             this.menuDebug.Text = "调试(&D)";
             // 
             // menuDebugGame
@@ -294,7 +303,7 @@
             this.menuDebugGame.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuDebugGame.Name = "menuDebugGame";
             this.menuDebugGame.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.menuDebugGame.Size = new System.Drawing.Size(231, 22);
+            this.menuDebugGame.Size = new System.Drawing.Size(282, 22);
             this.menuDebugGame.Text = "启动调试(&S)";
             this.menuDebugGame.Click += new System.EventHandler(this.menuDebugGame_Click);
             // 
@@ -302,7 +311,7 @@
             // 
             this.menuRunGame.Name = "menuRunGame";
             this.menuRunGame.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.menuRunGame.Size = new System.Drawing.Size(231, 22);
+            this.menuRunGame.Size = new System.Drawing.Size(282, 22);
             this.menuRunGame.Text = "开始执行(不调试)(&H)";
             this.menuRunGame.Click += new System.EventHandler(this.menuRunGame_Click);
             // 
@@ -313,7 +322,7 @@
             this.toolSaveAll,
             this.toolStripSeparator5,
             this.toolRun});
-            this.toolStripMain.Location = new System.Drawing.Point(525, 0);
+            this.toolStripMain.Location = new System.Drawing.Point(305, 0);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Size = new System.Drawing.Size(62, 25);
             this.toolStripMain.TabIndex = 7;
@@ -347,7 +356,7 @@
             // toolStripPanelBottom
             // 
             this.toolStripPanelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStripPanelBottom.Location = new System.Drawing.Point(0, 465);
+            this.toolStripPanelBottom.Location = new System.Drawing.Point(0, 504);
             this.toolStripPanelBottom.Name = "toolStripPanelBottom";
             this.toolStripPanelBottom.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.toolStripPanelBottom.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -357,8 +366,9 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusPendingChanges});
-            this.statusStrip.Location = new System.Drawing.Point(0, 443);
+            this.statusStrip.Location = new System.Drawing.Point(0, 482);
             this.statusStrip.Name = "statusStrip";
+            this.statusStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
             this.statusStrip.Size = new System.Drawing.Size(803, 22);
             this.statusStrip.TabIndex = 5;
             this.statusStrip.Text = "statusStrip1";
@@ -367,7 +377,7 @@
             // 
             this.statusPendingChanges.IsLink = true;
             this.statusPendingChanges.Name = "statusPendingChanges";
-            this.statusPendingChanges.Size = new System.Drawing.Size(89, 17);
+            this.statusPendingChanges.Size = new System.Drawing.Size(112, 17);
             this.statusPendingChanges.Text = "尚未保存的更改";
             this.statusPendingChanges.Click += new System.EventHandler(this.statusPendingChanges_Click);
             // 
@@ -378,7 +388,7 @@
             this.toolStripPanelLeft.Name = "toolStripPanelLeft";
             this.toolStripPanelLeft.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.toolStripPanelLeft.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.toolStripPanelLeft.Size = new System.Drawing.Size(0, 418);
+            this.toolStripPanelLeft.Size = new System.Drawing.Size(0, 457);
             // 
             // toolStripPanelRight
             // 
@@ -387,22 +397,13 @@
             this.toolStripPanelRight.Name = "toolStripPanelRight";
             this.toolStripPanelRight.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.toolStripPanelRight.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.toolStripPanelRight.Size = new System.Drawing.Size(0, 418);
-            // 
-            // menuEditFindAll
-            // 
-            this.menuEditFindAll.Name = "menuEditFindAll";
-            this.menuEditFindAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.F)));
-            this.menuEditFindAll.Size = new System.Drawing.Size(213, 22);
-            this.menuEditFindAll.Text = "查找全部(&I)";
-            this.menuEditFindAll.Click += new System.EventHandler(this.menuEditFindAll_Click);
+            this.toolStripPanelRight.Size = new System.Drawing.Size(0, 457);
             // 
             // Workbench
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(803, 465);
+            this.ClientSize = new System.Drawing.Size(803, 504);
             this.Controls.Add(this.toolStripPanelRight);
             this.Controls.Add(this.toolStripPanelLeft);
             this.Controls.Add(this.statusStrip);

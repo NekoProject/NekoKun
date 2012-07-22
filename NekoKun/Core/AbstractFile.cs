@@ -27,13 +27,18 @@ namespace NekoKun
 
             if (this.pendingDelete == true)
             {
-                System.IO.File.Delete(this.filename);
+                this.Delete();
                 this.isDirty = false;
                 return;
             }
 
             Save();
             this.isDirty = false;
+        }
+
+        protected virtual void Delete()
+        {
+            System.IO.File.Delete(this.filename);
         }
 
         public void PendingDelete()
@@ -89,10 +94,10 @@ namespace NekoKun
             }
         }
 
-        protected bool IsDirty
+        public bool IsDirty
         {
             get { return this.isDirty; }
-            set {
+            protected set {
                 if (this.isDirty == false && value == true)
                 {
                     this.isDirty = true;
