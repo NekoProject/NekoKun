@@ -73,6 +73,8 @@
     </Compile>
     <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectDocumentFile.cs" />
+    <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Core\FindAllDialog.resx">
       <DependentUpon>FindAllDialog.cs</DependentUpon>
@@ -126,8 +128,10 @@
     <Compile Include="RubyBindings\RubyMarshal.cs" />
     <Compile Include="RubyBindings\RubyMarshalReader.cs" />
     <Compile Include="RubyBindings\RubyMarshalWriter.cs" />
-    <Compile Include="ScriptEditor\RPGMaker\RPGMakerScriptFile.cs" />
-    <Compile Include="ScriptEditor\RPGMaker\RPGMakerScriptListFile.cs" />
+    <Compile Include="RPGMaker\ScriptFile.cs" />
+    <Compile Include="RPGMaker\ScriptListFile.cs" />
+    <Compile Include="ScriptEditor\VirtualScriptFile.cs" />
+    <Compile Include="ScriptEditor\VirtualScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>

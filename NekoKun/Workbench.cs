@@ -68,10 +68,13 @@ namespace NekoKun
             Program.Logger.ShowEditor();
             Program.Logger.Editor.DockState = DockState.DockBottom;
 
-            //ScriptList = new FSBasedScriptListFile(scriptListFile);
-            ScriptList = new RPGMakerScriptListFile(System.IO.Path.Combine(Program.ProjectPath, "Data" + System.IO.Path.DirectorySeparatorChar.ToString() + "Scripts.rxdata"));
-            ScriptList.ShowEditor();
-            ScriptList.Editor.DockState = DockState.DockLeft;
+            try
+            {
+                var file = (ProjectManager.Components["Scripts"] as ScriptListFile);
+                file.ShowEditor();
+                file.Editor.DockState = DockState.DockLeft;
+            }
+            catch { }
 
             UpdatePendingChanges();
         }

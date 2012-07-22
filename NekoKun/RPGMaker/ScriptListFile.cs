@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using NekoKun.RubyBindings;
 
-namespace NekoKun
+namespace NekoKun.RPGMaker
 {
-    public class RPGMakerScriptListFile : ScriptListFile
+    public class ScriptListFile : NekoKun.ScriptListFile
     {
         protected string scriptDir;
-        public RPGMakerScriptListFile(string filename)
+        public ScriptListFile(string filename)
             : base(filename)
         {
             Program.Logger.Log("加载脚本索引文件：{0}", filename);
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                RPGMakerScriptListFile script;
                 List<object> scripts = RubyBindings.RubyMarshal.Load(scriptFile, true) as List<object>;
 
                 foreach (List<object> item in scripts)
@@ -40,11 +39,22 @@ namespace NekoKun
                     string code = "";
                     if (inflated.Length > 0) code = System.Text.Encoding.UTF8.GetString(inflated);
 
-                    this.scripts.Add(new RPGMakerScriptFile(this, code, title, id));
+                    this.scripts.Add(new ScriptFile(this, code, title, id));
                 }
 
                 scriptFile.Close();
             }
+        }
+
+        public ScriptListFile(Dictionary<string, object> node)
+            : this(
+                System.IO.Path.Combine(
+                    ProjectManager.ProjectDir,
+                    node["FileName"].ToString()
+                )
+              )
+        {
+            
         }
 
         private static string UnicodeStringFromUTF8Bytes(byte[] bytes)
@@ -60,14 +70,14 @@ namespace NekoKun
         protected override void Save()
         {
             List<object> rawFile = new List<object>();
-            foreach (RPGMakerScriptFile item in this.scripts)
+            foreach (ScriptFile item in this.scripts)
             {
                 if (item.Editor != null)
                     item.Editor.Commit();
             }
 
             RubyBindings.RubyExpendObject obj;
-            foreach (RPGMakerScriptFile item in this.scripts)
+            foreach (ScriptFile item in this.scripts)
             {
                 List<object> rawItem = new List<object>();
                 rawItem.Add(item.ID);
@@ -95,14 +105,14 @@ namespace NekoKun
 
         private bool containsID(int id)
         {
-            foreach (RPGMakerScriptFile item in this.scripts)
+            foreach (ScriptFile item in this.scripts)
             {
                 if (id == item.ID) return true;
             }
             return false;
         }
 
-        public override ScriptFile InsertFile(string pageName, int index)
+        public override NekoKun.ScriptFile InsertFile(string pageName, int index)
         {
             string pathName = GenerateFileName(pageName);
 
@@ -111,7 +121,7 @@ namespace NekoKun
             while (containsID(id))
                 id = ran.Next(1, 100000000);
 
-            RPGMakerScriptFile scriptFile = new RPGMakerScriptFile(this, "", pageName, id);
+            ScriptFile scriptFile = new ScriptFile(this, "", pageName, id);
             this.scripts.Insert(index, scriptFile);
             scriptFile.MakeDirty();
 
@@ -120,7 +130,7 @@ namespace NekoKun
             return scriptFile;
         }
 
-        public override void DeleteFile(ScriptFile file)
+        public override void DeleteFile(NekoKun.ScriptFile file)
         {
             if (!this.scripts.Contains(file))
                 return;

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace NekoKun
+namespace NekoKun.RPGMaker
 {
-    public class RPGMakerScriptFile : ScriptFile
+    public class ScriptFile : NekoKun.ScriptFile
     {
-        public RPGMakerScriptListFile parent;
+        public ScriptListFile parent;
         public string Title;
         public int ID;
-        public RPGMakerScriptFile(RPGMakerScriptListFile file, string code, string title, int id)
+        public ScriptFile(ScriptListFile file, string code, string title, int id)
             : base(String.Format("{0}:{1}", file.filename, id.ToString()))
         {
             this.parent = file;

@@ -34,6 +34,17 @@ namespace NekoKun
                 Program.Logger.Log("因为脚本索引文件中存在无效条目，且无效条目未被加载，索引文件脏了。");
         }
 
+        public FSBasedScriptListFile(Dictionary<string, object> node)
+            : this(
+                System.IO.Path.Combine(
+                    ProjectManager.ProjectDir,
+                    node["FileName"].ToString()
+                )
+              )
+        {
+            
+        }
+
         protected override void Save()
         {
             StringBuilder sb = new StringBuilder();

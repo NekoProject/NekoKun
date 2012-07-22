@@ -146,7 +146,7 @@ namespace NekoKun.Debugger
                 {
                     var curSel = Process.ExitCode / 65536;
                     var curLine = Process.ExitCode % 65536 - 1;
-                    this.Write(String.Format("# 脚本 {0} 的 {1} 行发生了错误。\n", Workbench.Instance.ScriptList.scripts[curSel].ToString(), curLine + 1));
+                    // this.Write(String.Format("# 脚本 {0} 的 {1} 行发生了错误。\n", Workbench.Instance.ScriptList.scripts[curSel].ToString(), curLine + 1));
                 }
             }
         }

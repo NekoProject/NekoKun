@@ -39,6 +39,13 @@ namespace NekoKun
                 return;
             }
 
+            ProjectManager.OpenProject(
+                System.IO.Path.Combine(
+                    ProjectPath,
+                    "Game.nkproj"
+                )
+            );
+
             Logger.Log("工程路径: {0}", ProjectPath);
 
             ToolStripManager.Renderer = new Office2007Renderer();
