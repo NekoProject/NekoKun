@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AbstractEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\AbstractFile.cs" />
     <Compile Include="Core\FindAllDialog.cs">
@@ -53,7 +52,6 @@
       <DependentUpon>FindAllDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\FindAllResultEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\FindAllResultFile.cs" />
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
@@ -66,11 +64,9 @@
     <Compile Include="Core\IBehavior\IUndoHandler.cs" />
     <Compile Include="Core\IBehavior\IFindAllProvider.cs" />
     <Compile Include="Core\LogEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\LogFile.cs" />
     <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
     <Compile Include="ObjectEditor\SingleTextEditor.cs">
@@ -121,19 +117,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RPGMaker\DatabaseEditor.cs">
-      <SubType>Form</SubType>
+    <Compile Include="RPGMaker\Database\DatabaseEditor.cs">
     </Compile>
-    <Compile Include="RPGMaker\DatabaseField.cs" />
-    <Compile Include="RPGMaker\DatabaseFile.cs" />
-    <Compile Include="RPGMaker\DatabaseItem.cs" />
-    <Compile Include="RPGMaker\DatabaseItemEditor.cs">
+    <Compile Include="RPGMaker\Database\DatabaseField.cs" />
+    <Compile Include="RPGMaker\Database\DatabaseFile.cs" />
+    <Compile Include="RPGMaker\Database\DatabaseItem.cs" />
+    <Compile Include="RPGMaker\Database\DatabaseItemEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\DatabaseItemEditorTableLayout.cs">
+    <Compile Include="RPGMaker\Database\DatabaseItemEditorTableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\DatabaseItemEditorSmartLayout.cs">
+    <Compile Include="RPGMaker\Database\DatabaseItemEditorSmartLayout.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
@@ -153,17 +148,15 @@
     <Compile Include="RubyBindings\RubyMarshal.cs" />
     <Compile Include="RubyBindings\RubyMarshalReader.cs" />
     <Compile Include="RubyBindings\RubyMarshalWriter.cs" />
-    <Compile Include="RPGMaker\ScriptFile.cs" />
-    <Compile Include="RPGMaker\ScriptListFile.cs" />
+    <Compile Include="RPGMaker\Script\ScriptFile.cs" />
+    <Compile Include="RPGMaker\Script\ScriptListFile.cs" />
     <Compile Include="ScriptEditor\Virtual\VirtualScriptFile.cs" />
     <Compile Include="ScriptEditor\Virtual\VirtualScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptFile.cs" />
     <Compile Include="ScriptEditor\ScriptFile.cs" />
     <Compile Include="ScriptEditor\ScriptListEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.cs">
       <SubType>Form</SubType>
@@ -180,7 +173,6 @@
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptListFile.cs" />
     <Compile Include="UI\Scintilla\Scintilla.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\EditContextMenuStrip.cs">
       <SubType>Component</SubType>
@@ -189,10 +181,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Scintilla\NavPointListView.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Scintilla\RubyScintilla.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\ToolStripRender\Office2007ColorTable.cs" />
     <Compile Include="UI\ToolStripRender\Office2007Helpers.cs" />
