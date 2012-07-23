@@ -30,6 +30,16 @@ namespace NekoKun
             OnFontChanged(EventArgs.Empty);
         }
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            try
+            {
+                this.SelectedIndex = this.IndexFromPoint(e.Location);
+            }
+            catch { }
+            base.OnMouseDown(e);
+        }
+
         //override on
 
         protected override void OnDrawItem(DrawItemEventArgs e)
@@ -40,7 +50,7 @@ namespace NekoKun
                 Brush back = new SolidBrush(backColor);
                 if (e.Index >= 0 && this.Items.Count > 0)
                 {
-                    string s = this.Items[e.Index].ToString() + "　";
+                    string s = GetString(e.Index) + "　";
                     Brush fore;
                     if ((e.State & DrawItemState.Selected) != DrawItemState.None)
                     {
@@ -71,6 +81,11 @@ namespace NekoKun
                 }
             }
             catch { }
+        }
+
+        protected virtual string GetString(int id)
+        {
+            return this.Items[id].ToString();
         }
 
         [EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]

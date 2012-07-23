@@ -59,17 +59,7 @@ namespace NekoKun
                         {
                             components.Add(
                                 item.Attributes["ID"].Value,
-                                System.AppDomain.CurrentDomain.CreateInstance(
-                                    System.Reflection.Assembly.GetExecutingAssembly().FullName,
-                                    item.Attributes["Name"].Value,
-                                    false,
-                                    System.Reflection.BindingFlags.CreateInstance,
-                                    null,
-                                    new object[] { dict },
-                                    null,
-                                    null,
-                                    null
-                                ).Unwrap()
+                                Program.CreateInstanceFromTypeName(item.Attributes["Name"].Value, dict)
                             );
                         }
                         catch (TypeLoadException)

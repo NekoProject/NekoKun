@@ -51,7 +51,6 @@ namespace NekoKun
             };
 
             this.list.ContextMenuStrip = menu;
-
             this.list.KeyDown += new KeyEventHandler(list_KeyDown);
             this.list.DoubleClick += new EventHandler(list_DoubleClick);
         }

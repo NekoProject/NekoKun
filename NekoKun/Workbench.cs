@@ -70,11 +70,20 @@ namespace NekoKun
 
             try
             {
-                var file = (ProjectManager.Components["Scripts"] as ScriptListFile);
+                var file = (ProjectManager.Components["Scripts"] as AbstractFile);
                 file.ShowEditor();
                 file.Editor.DockState = DockState.DockLeft;
             }
             catch { }
+
+            try
+            {
+                var file = (ProjectManager.Components["CommonEvents"] as AbstractFile);
+                file.ShowEditor();
+            }
+            catch { }
+
+            (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
 
             UpdatePendingChanges();
         }

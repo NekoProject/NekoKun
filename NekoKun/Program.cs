@@ -54,5 +54,20 @@ namespace NekoKun
         }
 
         public static LogFile Logger = new LogFile();
+
+        public static object CreateInstanceFromTypeName(string typeName, params object[] param)
+        {
+            return System.AppDomain.CurrentDomain.CreateInstance(
+                        System.Reflection.Assembly.GetExecutingAssembly().FullName,
+                        typeName,
+                        false,
+                        System.Reflection.BindingFlags.CreateInstance,
+                        null,
+                        param,
+                        null,
+                        null,
+                        null
+                    ).Unwrap();
+        }
     }
 }
