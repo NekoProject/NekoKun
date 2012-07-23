@@ -66,7 +66,7 @@ namespace NekoKun
         void Workbench_Load(object sender, EventArgs e)
         {
             Program.Logger.ShowEditor();
-            Program.Logger.Editor.DockState = DockState.DockBottom;
+            Program.Logger.Editor.DockState = DockState.DockBottomAutoHide;
 
             try
             {
@@ -78,12 +78,10 @@ namespace NekoKun
 
             try
             {
-                var file = (ProjectManager.Components["CommonEvents"] as AbstractFile);
-                file.ShowEditor();
+                (ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
+                //(ProjectManager.Components["System"] as AbstractFile).ShowEditor();
             }
             catch { }
-
-            (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
 
             UpdatePendingChanges();
         }
