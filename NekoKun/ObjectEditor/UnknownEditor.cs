@@ -9,7 +9,7 @@ namespace NekoKun.ObjectEditor
         private Object obj;
         public UnknownEditor(Dictionary<string, object> Params)
         {
-            
+            if (RequestCommit != null) RequestCommit.ToString();
         }
 
         public void Commit()
@@ -31,5 +31,12 @@ namespace NekoKun.ObjectEditor
         }
 
         public event EventHandler RequestCommit;
+
+        #region IObjectEditor 成员
+
+
+        public event EventHandler DirtyChanged;
+
+        #endregion
     }
 }

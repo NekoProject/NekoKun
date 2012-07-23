@@ -15,7 +15,7 @@ namespace NekoKun
         private Color selectedColor1 = Color.FromArgb(0, 100, 200);
         private Color selectedColor2 = Color.FromArgb(0, 158, 247);
         private Color selectedForeColor = Color.White;
-        private StringFormat stringFormat;
+        protected StringFormat stringFormat;
 
         public LynnListbox()
             : base()
@@ -50,7 +50,6 @@ namespace NekoKun
                 Brush back = new SolidBrush(backColor);
                 if (e.Index >= 0 && this.Items.Count > 0)
                 {
-                    string s = GetString(e.Index) + "　";
                     Brush fore;
                     if ((e.State & DrawItemState.Selected) != DrawItemState.None)
                     {
@@ -63,13 +62,12 @@ namespace NekoKun
                     }
                     else
                     {
-
                         fore = new SolidBrush(foreColor);
 
                         e.Graphics.FillRectangle(e.Index % 2 == 0 ? back : backalt, e.Bounds);
                     }
 
-                    e.Graphics.DrawString(s, this.Font, fore, e.Bounds, stringFormat);
+                    DrawText(e.Index, GetString(e.Index), this.Font, fore, e.Bounds, this.stringFormat, e.Graphics, (e.State & DrawItemState.Selected) != DrawItemState.None);
                 }
                 if (e.Index == this.Items.Count - 1)
                 {
@@ -86,6 +84,11 @@ namespace NekoKun
         protected virtual string GetString(int id)
         {
             return this.Items[id].ToString();
+        }
+
+        protected virtual void DrawText(int id, string str, Font font, Brush fc, Rectangle bounds, StringFormat sf, Graphics g, bool selected)
+        {
+            g.DrawString(str + "　", font, fc, bounds, sf);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]

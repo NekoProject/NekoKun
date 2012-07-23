@@ -25,10 +25,15 @@ namespace NekoKun.RPGMaker
                 IObjectEditor editor;
                 editor = Program.CreateInstanceFromTypeName(item.Value.EditorTypeName, item.Value.EditorParams) as IObjectEditor;
                 editor.RequestCommit += new EventHandler(editor_RequestCommit);
-
+                editor.DirtyChanged += new EventHandler(editor_DirtyChanged);
                 editors.Add(item.Value, editor);
                 editorre.Add(editor, item.Value);
             }
+        }
+
+        void editor_DirtyChanged(object sender, EventArgs e)
+        {
+            this.file.MakeDirty();
         }
 
         void editor_RequestCommit(object sender, EventArgs e)

@@ -24,7 +24,7 @@ namespace NekoKun.RPGMaker
             {
                 if (cmd.Name != "EventCommand") continue;
 
-                EventCommand item = new EventCommand(cmd);
+                EventCommand item = new EventCommand(cmd, this);
 
                 this.Commands.Add(item.ID, item);
             }

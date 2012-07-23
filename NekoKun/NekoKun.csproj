@@ -136,8 +136,14 @@
     <Compile Include="RPGMaker\Database\DatabaseItemEditorSmartLayout.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="RPGMaker\Database\DatabaseListbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RPGMaker\EventCommand.cs" />
     <Compile Include="RPGMaker\EventCommandGroup.cs" />
+    <Compile Include="RPGMaker\EventCommandListbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RPGMaker\EventCommandProvider.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />

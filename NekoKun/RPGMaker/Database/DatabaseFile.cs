@@ -14,23 +14,7 @@ namespace NekoKun.RPGMaker
         protected List<DatabaseItem> contents;
         protected string layout;
         protected DatabaseField idField;
-        /*
-		<Property Name="Title">公共事件</Property>
-		<Property Name="FileName">Data\CommonEvents.rxdata</Property>
-		<Property Name="ClassName">RPG::CommonEvent</Property>
-		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.IntegerEditor"></Field>
-			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.RPGMaker.SwitchIDEditor"></Field>
-			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.EnumEditor">
-				<Property Name="Source">CommonEventTrigger</Property>
-			</Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.SingleTextEditor"></Field>
-			<Field ID="@list" Name="事件内容" Editor="NekoKun.RPGMaker.EventCommandListEditor">
-				<Property Name="Source">EventCommands</Property>
-			</Field>
-		</Property>
-		<Property Name="Layout">
-        */
+
         public bool ArrayMode { get { return this.arrayMode; } }
         public Dictionary<string, DatabaseField> Fields { get { return this.fields; } }
         public List<DatabaseItem> Contents { get { return this.contents; } }
@@ -151,6 +135,11 @@ namespace NekoKun.RPGMaker
         public override AbstractEditor CreateEditor()
         {
             return new DatabaseEditor(this);
+        }
+
+        public override string ToString()
+        {
+            return this.title;
         }
     }
 }

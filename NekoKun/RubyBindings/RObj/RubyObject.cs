@@ -27,8 +27,19 @@ namespace NekoKun.RubyBindings
 
         public object this[RubySymbol key]
         {
-            get { return variables[key]; }
-            set { variables[key] = value; }
+            get {
+                return variables.ContainsKey(key) ?
+                    variables[key] is RubyNil ?
+                        null :
+                        variables[key] :
+                    null;
+            }
+            set {
+                if (variables.ContainsKey(key))
+                    variables[key] = value;
+                else
+                    variables.Add(key, value);
+            }
         }
 
         public object this[string key]

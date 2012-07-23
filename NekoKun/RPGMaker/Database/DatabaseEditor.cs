@@ -26,8 +26,10 @@ namespace NekoKun.RPGMaker
                 split = new System.Windows.Forms.SplitContainer();
                 split.Dock = System.Windows.Forms.DockStyle.Fill;
                 split.Panel1MinSize = 100;
+                split.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+                split.SplitterDistance = 150;
 
-                list = new LynnListbox();
+                list = new DatabaseListbox();
                 list.Items.AddRange((file as DatabaseFile).Contents.ToArray());
                 list.Dock = System.Windows.Forms.DockStyle.Fill;
 

@@ -33,6 +33,7 @@ namespace NekoKun
         private Workbench()
         {
             DockPanel.Dock = DockStyle.Fill;
+
             this.IsMdiContainer = true;
             DockPanel.DocumentStyle = DocumentStyles.DockingWindow;
             this.Controls.Add(DockPanel);
@@ -72,7 +73,7 @@ namespace NekoKun
             {
                 var file = (ProjectManager.Components["Scripts"] as AbstractFile);
                 file.ShowEditor();
-                file.Editor.DockState = DockState.DockLeft;
+                file.Editor.DockState = DockState.DockLeftAutoHide;
             }
             catch { }
 

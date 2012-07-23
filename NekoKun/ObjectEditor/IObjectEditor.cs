@@ -13,6 +13,7 @@ namespace NekoKun
             set;
         }
 
+        event EventHandler DirtyChanged;
         event EventHandler RequestCommit;
     }
 }

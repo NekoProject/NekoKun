@@ -39,5 +39,12 @@ namespace NekoKun.ObjectEditor
         }
 
         public event EventHandler RequestCommit;
+
+        #region IObjectEditor 成员
+
+
+        public event EventHandler DirtyChanged;
+
+        #endregion
     }
 }
