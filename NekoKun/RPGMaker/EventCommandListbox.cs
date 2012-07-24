@@ -33,8 +33,7 @@ namespace NekoKun.RPGMaker
 
         protected override void DrawText(int id, string str, System.Drawing.Font font, System.Drawing.Brush fc, System.Drawing.Rectangle bounds, System.Drawing.StringFormat sf, System.Drawing.Graphics g, bool selected)
         {
-            float fix = g.MeasureString("傻", font).Width * 2 - g.MeasureString("傻傻", font).Width;
-
+            float fix = g.MeasureString("傻", font).Width * 2 - g.MeasureString("傻逼", font).Width;
             int indentw = (int)(g.MeasureString(strCommand, font).Width - fix);
             int indent = GetIndent(id);
             int x, height, y;
@@ -53,6 +52,9 @@ namespace NekoKun.RPGMaker
             {
                 g.DrawString(strCommand, font, fc, new System.Drawing.Rectangle(x - indentw, y, bounds.Right - x + indentw, height));
             }
+
+            if (GetCode(id) == "0")
+                return;
 
             if (cmd != null && !selected)
                 fc = new System.Drawing.SolidBrush(cmd.Group.ForeColor);
