@@ -139,12 +139,12 @@
     <Compile Include="RPGMaker\Database\DatabaseListbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\EventCommand.cs" />
-    <Compile Include="RPGMaker\EventCommandGroup.cs" />
-    <Compile Include="RPGMaker\EventCommandListbox.cs">
+    <Compile Include="RPGMaker\EventCommand\EventCommand.cs" />
+    <Compile Include="RPGMaker\EventCommand\EventCommandGroup.cs" />
+    <Compile Include="RPGMaker\EventCommand\EventCommandListbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\EventCommandProvider.cs" />
+    <Compile Include="RPGMaker\EventCommand\EventCommandProvider.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />
     <Compile Include="RubyBindings\RObj\RubyExpendObject.cs" />
