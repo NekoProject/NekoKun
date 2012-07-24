@@ -23,7 +23,7 @@ namespace NekoKun
             base.DrawMode = DrawMode.OwnerDrawFixed;
             this.IntegralHeight = false;
 
-            stringFormat = new StringFormat(StringFormatFlags.NoClip);
+            stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
             stringFormat.LineAlignment = StringAlignment.Center;
             stringFormat.Trimming = StringTrimming.EllipsisCharacter;
             stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;

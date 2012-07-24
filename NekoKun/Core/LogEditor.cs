@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using ScintillaNet;
-using WeifenLuo.WinFormsUI;
+using WeifenLuo.WinFormsUI.Docking;
 namespace NekoKun
 {
     public class LogEditor : AbstractEditor, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler
@@ -13,7 +13,7 @@ namespace NekoKun
 
         public LogEditor(LogFile log) : base(log)
         {
-            this.DockableAreas |= DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
+            this.DockAreas |= DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
 
             Editor = new UI.RubyScintilla();
             Editor.Dock = DockStyle.Fill;

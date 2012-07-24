@@ -18,7 +18,7 @@ namespace NekoKun
 
             this.Text = "脚本列表";
             this.ControlBox = false;
-            this.DockableAreas = WeifenLuo.WinFormsUI.DockAreas.DockBottom | WeifenLuo.WinFormsUI.DockAreas.DockLeft | WeifenLuo.WinFormsUI.DockAreas.DockRight | WeifenLuo.WinFormsUI.DockAreas.DockTop | WeifenLuo.WinFormsUI.DockAreas.Document | WeifenLuo.WinFormsUI.DockAreas.Float;
+            this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop | WeifenLuo.WinFormsUI.Docking.DockAreas.Document | WeifenLuo.WinFormsUI.Docking.DockAreas.Float;
 
             scriptList = item;
 

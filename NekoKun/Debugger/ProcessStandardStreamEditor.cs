@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScintillaNet;
 using System.Drawing;
-using WeifenLuo.WinFormsUI;
+using WeifenLuo.WinFormsUI.Docking;
 using System.Windows.Forms;
 
 namespace NekoKun.Debugger
@@ -16,7 +16,7 @@ namespace NekoKun.Debugger
         public ProcessStandardStreamEditor(ProcessStandardStreamFile file)
             : base(file)
         {
-            this.DockableAreas |= DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
+            this.DockAreas |= DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
 
             Editor = new UI.RubyScintilla();
             Editor.Dock = DockStyle.Fill;

@@ -6,7 +6,7 @@ using System.Drawing;
 
 using System.Text;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun
 {
@@ -35,7 +35,11 @@ namespace NekoKun
             DockPanel.Dock = DockStyle.Fill;
 
             this.IsMdiContainer = true;
-            DockPanel.DocumentStyle = DocumentStyles.DockingWindow;
+            DockPanel.DocumentStyle = DocumentStyle.DockingWindow;
+            DockPanel.BackColor = Color.FromArgb(191, 219, 255);
+            DockPanel.DockBackColor = Color.FromArgb(191, 219, 255);
+            DockPanel.Skin = new UI.DockingThemeOcean();
+
             this.Controls.Add(DockPanel);
             InitializeComponent();
 

@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using ScintillaNet;
-using WeifenLuo.WinFormsUI;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun
 {

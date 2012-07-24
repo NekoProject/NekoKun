@@ -11,7 +11,7 @@ namespace NekoKun
         public FindAllResultEditor(FindAllResultFile file)
             : base(file)
         {
-            this.DockableAreas = WeifenLuo.WinFormsUI.DockAreas.DockBottom | WeifenLuo.WinFormsUI.DockAreas.DockLeft | WeifenLuo.WinFormsUI.DockAreas.DockRight | WeifenLuo.WinFormsUI.DockAreas.DockTop | WeifenLuo.WinFormsUI.DockAreas.Float | WeifenLuo.WinFormsUI.DockAreas.Document;
+            this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop | WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.Document;
 
             this.view = new NekoKun.UI.NavPointListView();
             this.view.Dock = System.Windows.Forms.DockStyle.Fill;
