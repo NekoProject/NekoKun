@@ -6,7 +6,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun
 {
-    public abstract class AbstractEditor : WeifenLuo.WinFormsUI.Docking.DockContent
+    public abstract class AbstractEditor : UI.LynnDockContent
     {
         public AbstractFile File;
         public AbstractEditor(AbstractFile item)

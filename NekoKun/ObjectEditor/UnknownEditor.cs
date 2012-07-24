@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class UnknownEditor : System.Windows.Forms.Label, IObjectEditor
+    public class UnknownEditor : UI.LynnLabel, IObjectEditor
     {
         private Object obj;
         public UnknownEditor(Dictionary<string, object> Params)

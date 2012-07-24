@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 
-namespace NekoKun
+namespace NekoKun.UI
 {
     public class LynnListbox : System.Windows.Forms.ListBox
     {
@@ -51,20 +51,22 @@ namespace NekoKun
                 if (e.Index >= 0 && this.Items.Count > 0)
                 {
                     Brush fore;
+
                     if ((e.State & DrawItemState.Selected) != DrawItemState.None)
                     {
                         fore = new SolidBrush(selectedForeColor);
-
-                        Rectangle bound = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height - 1);
-                        Rectangle bound2 = new Rectangle(e.Bounds.X, e.Bounds.Y + e.Bounds.Height - 1, e.Bounds.Width, 1);
-                        e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(bound, this.selectedColor1, this.selectedColor2, 90), bound);
-                        e.Graphics.FillRectangle(new SolidBrush(selectedColor1), bound2);
+                        e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(e.Bounds, this.selectedColor1, this.selectedColor2, 90), e.Bounds);
                     }
                     else
                     {
                         fore = new SolidBrush(foreColor);
-
                         e.Graphics.FillRectangle(e.Index % 2 == 0 ? back : backalt, e.Bounds);
+                    }
+
+                    if ((e.State & DrawItemState.Focus) != DrawItemState.None)
+                    {
+                        Rectangle bound = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 1, e.Bounds.Height - 1);
+                        e.Graphics.DrawRectangle(new Pen(this.selectedColor1), bound);
                     }
 
                     DrawText(e.Index, GetString(e.Index), this.Font, fore, e.Bounds, this.stringFormat, e.Graphics, (e.State & DrawItemState.Selected) != DrawItemState.None);

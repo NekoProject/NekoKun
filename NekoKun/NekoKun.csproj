@@ -189,6 +189,25 @@
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptListFile.cs" />
     <Compile Include="UI\DockingThemeOcean.cs" />
+    <Compile Include="UI\LynnControls\LynnButtonNative.cs" />
+    <Compile Include="UI\LynnControls\LynnTextboxNative.cs">
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\NativeMethods.cs" />
     <Compile Include="UI\Scintilla\Scintilla.cs">
       <SubType>Component</SubType>
     </Compile>

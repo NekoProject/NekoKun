@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.RPGMaker
 {
-    public class DatabaseListbox : LynnListbox
+    public class DatabaseListbox : UI.LynnListbox
     {
         protected override string GetString(int id)
         {

@@ -19,7 +19,7 @@ namespace NekoKun.RPGMaker
 
             foreach (var item in this.editors)
             {
-                System.Windows.Forms.Control q = new System.Windows.Forms.Label();
+                System.Windows.Forms.Control q = new UI.LynnLabel();
                 q.Text = item.Key.Name;
                 q.Width = 200;
                 this.panel.Controls.Add(q);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class SingleTextEditor: System.Windows.Forms.TextBox, IObjectEditor
+    public class SingleTextEditor: UI.LynnTextbox, IObjectEditor
     {
         protected bool supply;
 

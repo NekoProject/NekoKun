@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace NekoKun
 {
-    public partial class ScriptListEditorRenameDialog : Form
+    public partial class ScriptListEditorRenameDialog : UI.LynnForm
     {
         ScriptListFile scriptListFile;
         ScriptFile file;

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace NekoKun
 {
-    public partial class ScriptListEditorInsertDialog : Form
+    public partial class ScriptListEditorInsertDialog : UI.LynnForm
     {
         ScriptListFile scriptListFile;
         public string result = "";

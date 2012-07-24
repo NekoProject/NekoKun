@@ -38,6 +38,7 @@ namespace NekoKun
             DockPanel.DocumentStyle = DocumentStyle.DockingWindow;
             DockPanel.BackColor = Color.FromArgb(191, 219, 255);
             DockPanel.DockBackColor = Color.FromArgb(191, 219, 255);
+            DockPanel.ShowDocumentIcon = true;
             DockPanel.Skin = new UI.DockingThemeOcean();
 
             this.Controls.Add(DockPanel);

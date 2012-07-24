@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.RPGMaker
 {
-    public class EventCommandListbox : LynnListbox, IObjectEditor
+    public class EventCommandListbox : UI.LynnListbox, IObjectEditor
     {
         protected EventCommandProvider source;
         protected List<object> obj;

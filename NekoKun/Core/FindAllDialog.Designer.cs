@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new UI.LynnLabel();
+            this.textBox1 = new UI.LynnTextbox();
+            this.button2 = new UI.LynnButton();
+            this.button1 = new UI.LynnButton();
             this.SuspendLayout();
             // 
             // label1
@@ -104,9 +104,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private UI.LynnLabel label1;
+        private UI.LynnTextbox textBox1;
+        private UI.LynnButton button2;
+        private UI.LynnButton button1;
     }
 }

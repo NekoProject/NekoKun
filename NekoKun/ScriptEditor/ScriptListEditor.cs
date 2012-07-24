@@ -8,7 +8,7 @@ namespace NekoKun
 {
     public class ScriptListEditor : AbstractEditor, IDeleteHandler  
     {
-        public LynnListbox list = new LynnListbox();
+        public UI.LynnListbox list = new UI.LynnListbox();
         private ScriptListFile scriptList;
 
         public ScriptListEditor(ScriptListFile item) : base(item)
