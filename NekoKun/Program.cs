@@ -18,7 +18,9 @@ namespace NekoKun
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            
             try
             {
                 ProjectPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
@@ -53,6 +55,15 @@ namespace NekoKun
             Application.Run(Workbench.Instance);
         }
 
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + ExceptionMessage(e.Exception));
+        }
+
+        static string ExceptionMessage(Exception e)
+        {
+            return (e.InnerException != null ? (ExceptionMessage(e.InnerException) + "\n\n") : "") + String.Format("{0}\n类型: {1}\n 来源: {2}\n堆栈: \n {3}", e.Message, e.GetType().FullName, e.Source, e.StackTrace);
+        }
         public static LogFile Logger = new LogFile();
 
         public static object CreateInstanceFromTypeName(string typeName, params object[] param)
@@ -90,6 +101,29 @@ namespace NekoKun
             }
             else
                 return System.Drawing.Color.FromName(name);
+        }
+
+        private static System.Drawing.Font monospaceFont;
+
+        public static System.Drawing.Font GetMonospaceFont()
+        {
+            if (monospaceFont != null)
+                return monospaceFont;
+
+            var fallback = new string[] { "雅黑宋体", "Consolas", "Lucida Console", "Courier New", "Courier" };
+
+            foreach (string name in fallback)
+            {
+                try
+                {
+                    monospaceFont = new System.Drawing.Font(name, 12);
+                    return monospaceFont;
+                }
+                catch { }
+            }
+
+            monospaceFont = System.Drawing.SystemFonts.MessageBoxFont;
+            return monospaceFont;
         }
     }
 }

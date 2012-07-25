@@ -72,19 +72,19 @@ namespace NekoKun
         void Workbench_Load(object sender, EventArgs e)
         {
             Program.Logger.ShowEditor();
-            Program.Logger.Editor.DockState = DockState.DockBottomAutoHide;
+            Program.Logger.Editor.DockState = DockState.DockBottom;
 
             try
             {
                 var file = (ProjectManager.Components["Scripts"] as AbstractFile);
                 file.ShowEditor();
-                file.Editor.DockState = DockState.DockLeftAutoHide;
+                file.Editor.DockState = DockState.DockLeft;
             }
             catch { }
 
             try
             {
-                (ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
+                //(ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
                 //(ProjectManager.Components["System"] as AbstractFile).ShowEditor();
             }
             catch { }
@@ -146,6 +146,21 @@ namespace NekoKun
 
         public void RunDebug()
         {
+            if (this.pendingChanges.Count >= 1)
+            {
+                DialogResult result = MessageBox.Show(this, "您已经修改了本工程。在开始调试前是否需要保存呢？", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                switch (result)
+                {
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Yes:
+                        this.SaveProject();
+                        break;
+                }
+            }
+
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(System.IO.Path.Combine(Program.ProjectPath, "Game.exe"));
             //System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
             info.UseShellExecute = false;
@@ -178,7 +193,13 @@ namespace NekoKun
 
         private void menuViewScriptList_Click(object sender, EventArgs e)
         {
-            ScriptList.ShowEditor();
+            try
+            {
+                var file = (ProjectManager.Components["Scripts"] as AbstractFile);
+                file.ShowEditor();
+                file.Editor.DockState = DockState.DockLeft;
+            }
+            catch { }
         }
 
         private void menuViewLog_Click(object sender, EventArgs e)

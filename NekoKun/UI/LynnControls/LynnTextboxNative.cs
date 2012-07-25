@@ -27,6 +27,8 @@ namespace NekoKun.UI
             switch (m.Msg)
             {
                 case 0x85: // WM_NCPAINT
+                    // base.WndProc(ref m);
+
                     if (pen2.Color != CON.BackColor) { pen2 = new Pen(CON.BackColor); }
 
                     IntPtr hDC = NativeMethods.GetWindowDC(this.Handle);

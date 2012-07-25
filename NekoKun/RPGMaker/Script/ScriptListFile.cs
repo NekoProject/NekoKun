@@ -21,9 +21,11 @@ namespace NekoKun.RPGMaker
                 {
                     string title;
                     byte[] bytes;
-                    int id;
 
-                    id = (int)item[0];
+                    var ran = new System.Random();
+                    int id = (int)item[0];
+                    while (containsID(id))
+                        id = ran.Next(1, 100000000);
 
                     if (item[1] is RubyBindings.RubyExpendObject)
                         title = UnicodeStringFromUTF8Bytes((byte[])((RubyBindings.RubyExpendObject)item[1]).BaseObject);
@@ -37,7 +39,11 @@ namespace NekoKun.RPGMaker
 
                     byte[] inflated = Ionic.Zlib.ZlibStream.UncompressBuffer(bytes);
                     string code = "";
+
                     if (inflated.Length > 0) code = System.Text.Encoding.UTF8.GetString(inflated);
+
+                    if (title.Length > 0 && !title.StartsWith("▼"))
+                        System.Diagnostics.Debug.Assert(code.Length > 0, title);
 
                     this.scripts.Add(new ScriptFile(this, code, title, id));
                 }

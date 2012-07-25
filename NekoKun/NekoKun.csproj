@@ -189,7 +189,6 @@
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptListFile.cs" />
     <Compile Include="UI\DockingThemeOcean.cs" />
-    <Compile Include="UI\LynnControls\LynnButtonNative.cs" />
     <Compile Include="UI\LynnControls\LynnTextboxNative.cs">
     </Compile>
     <Compile Include="UI\LynnControls\LynnButton.cs">

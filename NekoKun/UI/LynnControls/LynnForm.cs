@@ -14,7 +14,32 @@ namespace NekoKun.UI
 
         public LynnForm()
         {
-            
+            this.Font = System.Drawing.SystemFonts.MessageBoxFont;
+        }
+
+        protected override void OnControlAdded(ControlEventArgs e)
+        {
+            SetFont(e.Control);
+            base.OnControlAdded(e);
+        }
+
+        protected void SetFont(Control e)
+        {
+            if (e is Scintilla)
+                e.Font = Program.GetMonospaceFont();
+            else
+                e.Font = this.Font;
+
+            if (e is Panel || e is SplitContainer)
+            {
+                e.BackColor = Color.Transparent;// back1;
+            }
+
+            if (e.Controls.Count != 0)
+                foreach (Control item in e.Controls)
+                {
+                    SetFont(item);
+                }
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)

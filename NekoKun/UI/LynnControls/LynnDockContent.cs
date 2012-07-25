@@ -10,18 +10,37 @@ namespace NekoKun.UI
 {
     public class LynnDockContent : DockContent
     {
-        protected Color back1 = Color.FromArgb(227, 239, 251);
-        protected Color back2 = Color.FromArgb(196, 208, 220);
+        protected Color back = Color.FromArgb(191, 219, 255);
 
         public LynnDockContent()
         {
-
+            this.BackColor = back;
+            this.Font = System.Drawing.SystemFonts.MessageBoxFont;
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
+        protected override void OnControlAdded(ControlEventArgs e)
         {
-            // base.OnPaintBackground(e);
-            e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(this.ClientRectangle, this.back1, this.back2, LinearGradientMode.Vertical), this.ClientRectangle);
+            SetFont(e.Control);
+            base.OnControlAdded(e);
+        }
+
+        protected void SetFont(Control e)
+        {
+            if (e is Scintilla)
+                e.Font = Program.GetMonospaceFont();
+            else
+                e.Font = this.Font;
+
+            if (e is Panel || e is SplitContainer)
+            {
+                e.BackColor = Color.Transparent;// back1;
+            }
+
+            if (e.Controls.Count != 0)
+                foreach (Control item in e.Controls)
+                {
+                    SetFont(item);
+                }
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace NekoKun
 {
-    public partial class FindAllDialog : Form
+    public partial class FindAllDialog : UI.LynnForm
     {
         public string Keyword;
 
