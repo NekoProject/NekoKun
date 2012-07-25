@@ -10,7 +10,8 @@ namespace NekoKun.ObjectEditor
 
         public SingleTextEditor(Dictionary<string, object> Params)
         {
-            this.TextChanged += new EventHandler(SingleTextEditor_TextChanged);   
+            this.TextChanged += new EventHandler(SingleTextEditor_TextChanged);
+            if (DirtyChanged != null) DirtyChanged.ToString();
         }
 
         void SingleTextEditor_TextChanged(object sender, EventArgs e)

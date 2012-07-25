@@ -57,29 +57,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AbstractEditor.cs">
+    <Compile Include="Core\CLRCodeCompiler.cs" />
+    <Compile Include="Core\DocumentFramework\AbstractEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Core\AbstractFile.cs" />
-    <Compile Include="Core\FindAllDialog.cs">
+    <Compile Include="Core\DocumentFramework\AbstractFile.cs" />
+    <Compile Include="Core\Enum.cs" />
+    <Compile Include="Core\DocumentFramework\FindAllDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Core\FindAllDialog.Designer.cs">
+    <Compile Include="Core\DocumentFramework\FindAllDialog.Designer.cs">
       <DependentUpon>FindAllDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\FindAllResultEditor.cs">
+    <Compile Include="Core\DocumentFramework\FindAllResultEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Core\FindAllResultFile.cs" />
+    <Compile Include="Core\DocumentFramework\FindAllResultFile.cs" />
+    <Compile Include="Core\EnumProvider.cs" />
+    <Compile Include="Core\IAssemblyProvider.cs" />
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
-    <Compile Include="Core\NavPoint.cs" />
-    <Compile Include="Core\FileManager.cs" />
-    <Compile Include="Core\IBehavior\IClipboardHandler.cs" />
-    <Compile Include="Core\IBehavior\IDeleteHandler.cs" />
-    <Compile Include="Core\IBehavior\IFindReplaceHandler.cs" />
-    <Compile Include="Core\IBehavior\ISelectAllHandler.cs" />
-    <Compile Include="Core\IBehavior\IUndoHandler.cs" />
-    <Compile Include="Core\IBehavior\IFindAllProvider.cs" />
+    <Compile Include="Core\DocumentFramework\NavPoint.cs" />
+    <Compile Include="Core\DocumentFramework\FileManager.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\IClipboardHandler.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\IDeleteHandler.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\IFindReplaceHandler.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\ISelectAllHandler.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\IUndoHandler.cs" />
+    <Compile Include="Core\DocumentFramework\IBehavior\IFindAllProvider.cs" />
     <Compile Include="Core\LogEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,11 +101,14 @@
     <Compile Include="ObjectEditor\UnknownEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ObjectEditor\EnumEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProjectDocumentFile.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Core\FindAllDialog.resx">
+    <EmbeddedResource Include="Core\DocumentFramework\FindAllDialog.resx">
       <DependentUpon>FindAllDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -204,6 +211,12 @@
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptListFile.cs" />
     <Compile Include="UI\DockingThemeOcean.cs" />
+    <Compile Include="UI\LynnControls\LynnCombobox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LynnControls\NativeBorder.cs">
     </Compile>
     <Compile Include="UI\LynnControls\LynnButton.cs">

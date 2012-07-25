@@ -4,15 +4,14 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class DecimalEditor : System.Windows.Forms.NumericUpDown, IObjectEditor
+    public class DecimalEditor : UI.LynnNumericUpDown, IObjectEditor
     {
         protected decimal orig;
         protected object ori;
-        internal System.Windows.Forms.NativeWindow native;
 
         public DecimalEditor(Dictionary<string, object> Params)
         {
-            native = new UI.NativeBorder(this, 0xf /* WM_PAINT */, true, false);
+            if (DirtyChanged != null) DirtyChanged.ToString();
 
             this.Maximum = int.MaxValue;
             this.Minimum = int.MinValue;

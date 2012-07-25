@@ -7,6 +7,31 @@
 	<Component Name="NekoKun.RPGMaker.ScriptListFile" ID="Scripts">
 		<Property Name="FileName">Data\Scripts.rxdata</Property>
 	</Component>
+	<Component Name="NekoKun.CLRCodeCompiler" ID="Helper">
+		<Property Name="Language">CSharp</Property>
+		<Property Name="DebugMode">True</Property>
+		<Property Name="Code">
+			<![CDATA[
+				using System;
+				using System.Collections.Generic;
+				using System.Text;
+				using NekoKun;
+				using NekoKun.RubyBindings;
+				using NekoKun.RPGMaker;
+				
+				namespace NekoKun.RPGMaker
+				{
+					public static class XPHelper
+					{
+						public static string EventCommand111(List<object> arguments)
+						{
+							return arguments.Count.ToString();
+						}
+					}
+				}
+			]]>
+		</Property>
+	</Component>
 	<Component Name="NekoKun.RPGMaker.EventCommandProvider" ID="EventCommands">
 		<Property Name="EventCommands">
 			<Group ID="Messages" ForeColor="Black" Name="文章">
@@ -26,7 +51,7 @@
 				<EventCommand ID="408" Name="注释" Format="{hide}注释{/hide} : {0}" GeneratedBy="108"/>
 			</Group>
 			<Group ID="ControlStructures" ForeColor="#808080" Name="控制结构">
-				<EventCommand ID="111" Name="条件分岐" Format="条件分岐 : {0} {1} {2} {3} {4}" TODO="1"/>
+				<EventCommand ID="111" Name="条件分岐" Format="{assembly|Helper|NekoKun.RPGMaker.XPHelper|EventCommand111}"/>
 				<EventCommand ID="411" Name="除此以外的场合" Format="除此以外的场合" GeneratedBy="111"/>
 				<EventCommand ID="412" Name="分歧结束" Format="分歧结束" GeneratedBy="111"/>
 				<EventCommand ID="112" Name="循环" Format="循环"/>
@@ -144,9 +169,9 @@
 	<Component Name="NekoKun.EnumProvider" ID="Enums">
 		<Property Name="Enums">
 			<Enum ID="CommonEventTrigger" Name="公共事件触发方式">
-				<Item Value="0">无</Item>
-				<Item Value="1">自动执行</Item>
-				<Item Value="2">并行处理</Item>
+				<EnumItem Value="0">无</EnumItem>
+				<EnumItem Value="1">自动执行</EnumItem>
+				<EnumItem Value="2">并行处理</EnumItem>
 			</Enum>
 		</Property>
 	</Component>
@@ -159,7 +184,7 @@
 			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.ObjectEditor.DecimalEditor" O="NekoKun.RPGMaker.SwitchIDEditor">
 				<Property Name="Condition">@trigger == 0</Property>
 			</Field>
-			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.ObjectEditor.DecimalEditor" O=".EnumEditor">
+			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.ObjectEditor.EnumEditor">
 				<Property Name="Source">CommonEventTrigger</Property>
 			</Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>

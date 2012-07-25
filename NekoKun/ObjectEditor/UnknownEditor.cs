@@ -10,6 +10,7 @@ namespace NekoKun.ObjectEditor
         public UnknownEditor(Dictionary<string, object> Params)
         {
             if (RequestCommit != null) RequestCommit.ToString();
+            if (DirtyChanged != null) DirtyChanged.ToString();
         }
 
         public void Commit()

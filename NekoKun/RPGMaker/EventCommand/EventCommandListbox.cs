@@ -59,7 +59,13 @@ namespace NekoKun.RPGMaker
             if (cmd != null && !selected)
                 fc = new System.Drawing.SolidBrush(cmd.Group.ForeColor);
 
-            string drawing = ParseText(id, cmd == null ? strUnknown : cmd.Format);
+            string drawing;
+            if (cmd == null)
+                drawing = strUnknown;
+            else
+            {
+                drawing = cmd.FormatParams(this.Items[id] as RubyBindings.RubyObject);
+            }
 
             string draw;
             while (drawing.Length > 0)
@@ -87,27 +93,6 @@ namespace NekoKun.RPGMaker
             }            
         }
 
-        protected string ParseText(int id, string str)
-        {
-            object o = (this.Items[id] as RubyBindings.RubyObject)["@parameters"];
-            if (o == null)
-                return str;
-            List<object> param = o as List<object>;
-            if (param.Count == 0)
-                return str;
-
-            return System.Text.RegularExpressions.Regex.Replace(str, @"\{([0-9]*)(.([@A-Za-z0-9_]))?\}",
-                delegate(System.Text.RegularExpressions.Match match)
-                {
-                    try
-                    {
-                        int index = Int32.Parse(match.Groups[1].Value);
-                        return param[index].ToString();
-                    }
-                    catch { return match.Value; }
-                }
-            );
-        }
 
         protected string GetCode(int id)
         {

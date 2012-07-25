@@ -8,7 +8,7 @@ namespace NekoKun.UI
     {
         public Scintilla()
         {
-            this.Font = new System.Drawing.Font("雅黑宋体", 12);
+            this.Font = Program.GetMonospaceFont();
         }
     }
 }
