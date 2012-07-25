@@ -8,9 +8,12 @@ namespace NekoKun.ObjectEditor
     {
         protected decimal orig;
         protected object ori;
+        internal System.Windows.Forms.NativeWindow native;
 
         public DecimalEditor(Dictionary<string, object> Params)
         {
+            native = new UI.NativeBorder(this, 0xf /* WM_PAINT */, true, false);
+
             this.Maximum = int.MaxValue;
             this.Minimum = int.MinValue;
             this.ValueChanged += new EventHandler(DecimalEditor_ValueChanged);
@@ -31,7 +34,9 @@ namespace NekoKun.ObjectEditor
         {
             get
             {
-                return ori.GetType().InvokeMember("Parse", System.Reflection.BindingFlags.Default | System.Reflection.BindingFlags.InvokeMethod, null, null, new object[] { this.Value.ToString() });
+                if (ori == null)
+                    return (Int32)this.Value;
+                return Convert.ChangeType(this.Value, ori.GetType());
             }
             set
             {

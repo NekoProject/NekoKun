@@ -14,6 +14,7 @@ namespace NekoKun.RPGMaker
 
         public DatabaseItemEditor(System.Xml.XmlNode param, DatabaseFile file)
         {
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.file = file;
             this.param = param;
             this.editors = new Dictionary<DatabaseField, IObjectEditor>();
@@ -42,7 +43,7 @@ namespace NekoKun.RPGMaker
             var l1 = this.selectedItem[this.editorre[sender as IObjectEditor]];
             var l2 = editor.SelectedItem;
 
-            if ((l1 as IComparable == null || l1.GetType() == l2.GetType()) ? !l1.Equals(l2) : (l1 as IComparable).CompareTo(l2) != 0)
+            if ((l1 ==null && l2 != null) || ((l1 as IComparable == null || l1.GetType() == l2.GetType()) ? !l1.Equals(l2) : (l1 as IComparable).CompareTo(l2) != 0))
             {
                 this.file.MakeDirty();
                 this.selectedItem[this.editorre[sender as IObjectEditor]] = editor.SelectedItem;

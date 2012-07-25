@@ -14,6 +14,7 @@ namespace NekoKun.UI
         Brush brushNormal;
         Brush brushActive;
         Brush brushDisabled;
+        StringFormat sf;
 
         public LynnButton()
         {
@@ -36,6 +37,14 @@ namespace NekoKun.UI
                 Color.FromArgb(177, 185, 191),
                 LinearGradientMode.Vertical
             );
+
+            brushDisabled = new SolidBrush(Color.FromArgb(228, 240, 252));
+            
+            sf = new StringFormat();
+            sf.Alignment = StringAlignment.Center;
+            sf.LineAlignment = StringAlignment.Center;
+            sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.Show;
+            sf.Trimming = StringTrimming.EllipsisCharacter;
         }
 
         protected override void OnPaint(PaintEventArgs pevent)
@@ -46,9 +55,16 @@ namespace NekoKun.UI
             Rectangle bounds = new Rectangle(0, 0, this.ClientSize.Width - 1, this.ClientSize.Height - 1);
             Rectangle bounds2 = new Rectangle(Point.Empty, this.ClientSize);
             pevent.Graphics.DrawRectangle(pen, bounds);
-            //bounds.Inflate(-1, -1);
             bounds2.Inflate(-1, -1);
-            pevent.Graphics.FillRectangle(brushNormal, bounds2);
+
+            if (!this.Enabled)
+                pevent.Graphics.FillRectangle(brushDisabled, bounds2);
+            else
+            {
+                pevent.Graphics.FillRectangle(brushNormal, bounds2);
+            }
+
+            pevent.Graphics.DrawString(this.Text, this.Font, Brushes.Black, bounds2, this.sf);
 
             // base.OnPaint(pevent);
         }

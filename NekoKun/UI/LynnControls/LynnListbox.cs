@@ -16,10 +16,14 @@ namespace NekoKun.UI
         private Color selectedColor2 = Color.FromArgb(0, 158, 247);
         private Color selectedForeColor = Color.White;
         protected StringFormat stringFormat;
+        internal System.Windows.Forms.NativeWindow native, native2;
 
         public LynnListbox()
             : base()
         {
+            native2 = new UI.NativeBorder(this, 0xf /* WM_NCPAINT */, false, false);
+            native = new UI.NativeBorder(this, 0x85 /* WM_NCPAINT */, false, false);
+
             base.DrawMode = DrawMode.OwnerDrawFixed;
             this.IntegralHeight = false;
 

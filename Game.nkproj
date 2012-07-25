@@ -156,7 +156,9 @@
 		<Property Name="ClassName">[RPG::CommonEvent]</Property>
 		<Property Name="Fields">
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.ObjectEditor.DecimalEditor" O="NekoKun.RPGMaker.SwitchIDEditor"></Field>
+			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.ObjectEditor.DecimalEditor" O="NekoKun.RPGMaker.SwitchIDEditor">
+				<Property Name="Condition">@trigger == 0</Property>
+			</Field>
 			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.ObjectEditor.DecimalEditor" O=".EnumEditor">
 				<Property Name="Source">CommonEventTrigger</Property>
 			</Field>
@@ -166,24 +168,14 @@
 			</Field>
 		</Property>
 		<Property Name="Layout">
-			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout">
-				<TableRow Height="Fit">
-					<TableCell Width="1/3">名称</TableCell>
-					<TableCell Width="1/3">触发方式</TableCell>
-					<TableCell Width="1/3">开关编号</TableCell>
-				</TableRow>
-				<TableRow Height="Fit">
-					<TableCell><Control ID="@name" /></TableCell>
-					<TableCell><Control ID="@trigger" /></TableCell>
-					<TableCell><Control ID="@switch_id">
-						<Condition>@trigger == 0</Condition>
-					</Control></TableCell>
-				</TableRow>
-				<TableRow Height="Spring">
-					<TableCell ColumnSpan="3">
-						<Control ID="@list"/>
-					</TableCell>
-				</TableRow>
+			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout" RowCount="3" ColumnCount="3">
+				<TableCell X="1" Y="1" Width="1/3">名称</TableCell>
+				<TableCell X="2" Y="1" Width="1/3">触发方式</TableCell>
+				<TableCell X="3" Y="1" Width="1/3">开关编号</TableCell>
+				<TableCell X="1" Y="2"><Control ID="@name" /></TableCell>
+				<TableCell X="2" Y="2"><Control ID="@trigger" /></TableCell>
+				<TableCell X="3" Y="2"><Control ID="@switch_id"></Control></TableCell>
+				<TableCell X="1" Y="3" ColumnSpan="3"><Control ID="@list"/></TableCell>
 			</Layout>
 		</Property>
 	</Component>

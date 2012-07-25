@@ -42,9 +42,6 @@ namespace NekoKun.RPGMaker
 
                     if (inflated.Length > 0) code = System.Text.Encoding.UTF8.GetString(inflated);
 
-                    if (title.Length > 0 && !title.StartsWith("▼"))
-                        System.Diagnostics.Debug.Assert(code.Length > 0, title);
-
                     this.scripts.Add(new ScriptFile(this, code, title, id));
                 }
 
