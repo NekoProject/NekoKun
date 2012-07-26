@@ -20,7 +20,7 @@ namespace NekoKun
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            
+            System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             try
             {
                 ProjectPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
@@ -41,18 +41,30 @@ namespace NekoKun
                 return;
             }
 
-            ProjectManager.OpenProject(
-                System.IO.Path.Combine(
-                    ProjectPath,
-                    "Game.nkproj"
-                )
-            );
+            try
+            {
+                ProjectManager.OpenProject(
+                    System.IO.Path.Combine(
+                        ProjectPath,
+                        "Game.nkproj"
+                    )
+                );
+            }
+            catch (Exception e)
+            {
+                Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
+            }
 
             Logger.Log("工程路径: {0}", ProjectPath);
 
             ToolStripManager.Renderer = new Office2007Renderer();
 
             Application.Run(Workbench.Instance);
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Application_ThreadException(sender, new System.Threading.ThreadExceptionEventArgs(e.ExceptionObject as Exception));
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

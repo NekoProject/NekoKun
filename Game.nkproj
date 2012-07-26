@@ -23,16 +23,177 @@
 				{
 					public static class XPHelper
 					{
+						public static string SwitchName(int id)
+						{
+							return String.Format("[{0:D4}]", id);
+						}
+						public static string ItemName(int id)
+						{
+							return String.Format("[Item{0:D4}]", id);
+						}
+						public static string WeaponName(int id)
+						{
+							return String.Format("[Weapon{0:D4}]", id);
+						}
+						public static string ArmorName(int id)
+						{
+							return String.Format("[Armor{0:D4}]", id);
+						}
 						public static string EventCommand111(List<object> arguments)
 						{
-							return arguments.Count.ToString();
+							StringBuilder sb = new StringBuilder();
+							sb.Append("条件分歧 : ");
+							switch((int)arguments[0])
+							{
+								case 0:
+									sb.Append("开关 ");
+									sb.Append(SwitchName((int)arguments[1]));
+									sb.Append((int)arguments[2] == 0 ? " == ON" : " == OFF");
+									break;
+								case 1:
+									break;
+								case 2:
+									break;
+								case 3:
+									break;
+								case 4:
+									break;
+								case 5:
+									break;
+								case 6:
+									break;
+								case 7:
+									sb.Append("金钱 ");
+									sb.Append(arguments[1].ToString());
+									sb.Append((int)arguments[2] == 0 ? " 以上" : " 以下");
+									break;
+								case 8:
+									sb.Append("持有 ");
+									sb.Append(ItemName((int)arguments[1]));
+									break;
+								case 9:
+									sb.Append("持有 ");
+									sb.Append(WeaponName((int)arguments[1]));
+									break;
+								case 10:
+									sb.Append("持有 ");
+									sb.Append(ArmorName((int)arguments[1]));
+									break;
+								case 11:
+									break;
+								case 12:
+									break;
+							}
+							return sb.ToString();
 						}
+						
+/*
+    when 7  # 金钱
+      if @parameters[2] == 0
+        result = ($game_party.gold >= @parameters[1])
+      else
+        result = ($game_party.gold <= @parameters[1])
+      end
+    when 8  # 物品
+      result = ($game_party.item_number(@parameters[1]) > 0)
+    when 9  # 武器
+      result = ($game_party.weapon_number(@parameters[1]) > 0)
+    when 10  # 防具
+      result = ($game_party.armor_number(@parameters[1]) > 0)
+    when 11  # 按钮
+      result = (Input.press?(@parameters[1]))
+    when 12  # 活动块
+      result = eval(@parameters[1])
+    when 1  # 变量
+      value1 = $game_variables[@parameters[1]]
+      if @parameters[2] == 0
+        value2 = @parameters[3]
+      else
+        value2 = $game_variables[@parameters[3]]
+      end
+      case @parameters[4]
+      when 0  # 等于
+        result = (value1 == value2)
+      when 1  # 以上
+        result = (value1 >= value2)
+      when 2  # 以下
+        result = (value1 <= value2)
+      when 3  # 超过
+        result = (value1 > value2)
+      when 4  # 未满
+        result = (value1 < value2)
+      when 5  # 以外
+        result = (value1 != value2)
+      end
+    when 2  # 独立开关
+      if @event_id > 0
+        key = [$game_map.map_id, @event_id, @parameters[1]]
+        if @parameters[2] == 0
+          result = ($game_self_switches[key] == true)
+        else
+          result = ($game_self_switches[key] != true)
+        end
+      end
+    when 3  # 计时器
+      if $game_system.timer_working
+        sec = $game_system.timer / Graphics.frame_rate
+        if @parameters[2] == 0
+          result = (sec >= @parameters[1])
+        else
+          result = (sec <= @parameters[1])
+        end
+      end
+    when 4  # 角色
+      actor = $game_actors[@parameters[1]]
+      if actor != nil
+        case @parameters[2]
+        when 0  # 同伴
+          result = ($game_party.actors.include?(actor))
+        when 1  # 名称
+          result = (actor.name == @parameters[3])
+        when 2  # 特技
+          result = (actor.skill_learn?(@parameters[3]))
+        when 3  # 武器
+          result = (actor.weapon_id == @parameters[3])
+        when 4  # 防具
+  result = (actor.armor1_id == @parameters[3] or
+                    actor.armor2_id == @parameters[3] or
+                    actor.armor3_id == @parameters[3] or
+                    actor.armor4_id == @parameters[3])
+        when 5  # 状态
+          result = (actor.state?(@parameters[3]))
+        end
+      end
+    when 5  # 敌人
+      enemy = $game_troop.enemies[@parameters[1]]
+      if enemy != nil
+        case @parameters[2]
+        when 0  # 出现
+          result = (enemy.exist?)
+        when 1  # 状态
+          result = (enemy.state?(@parameters[3]))
+        end
+      end
+    when 6  # 角色
+      character = get_character(@parameters[1])
+      if character != nil
+        result = (character.direction == @parameters[2])
+      end
+
+
+*/
 					}
 				}
 			]]>
 		</Property>
 	</Component>
+	<Component Name="NekoKun.FormatProvider" ID="Format">
+		<Property Name="Aliases">
+			<Alias ID="helper">assembly|Helper|NekoKun.RPGMaker.XPHelper|</Alias>
+		</Property>
+	</Component>
 	<Component Name="NekoKun.RPGMaker.EventCommandProvider" ID="EventCommands">
+		<Property Name="Format">Format</Property>
 		<Property Name="EventCommands">
 			<Group ID="Messages" ForeColor="Black" Name="文章">
 				<EventCommand ID="101" Name="显示文章" Format="文章 : {0}"/>
@@ -50,7 +211,7 @@
 				<EventCommand ID="108" Name="注释" Format="注释 : {0}"/>
 				<EventCommand ID="408" Name="注释" Format="{hide}注释{/hide} : {0}" GeneratedBy="108"/>
 			</Group>
-			<Group ID="ControlStructures" ForeColor="#808080" Name="控制结构">
+			<Group ID="ControlStructures" ForeColor="#0000FF" Name="控制结构">
 				<EventCommand ID="111" Name="条件分岐" Format="{assembly|Helper|NekoKun.RPGMaker.XPHelper|EventCommand111}"/>
 				<EventCommand ID="411" Name="除此以外的场合" Format="除此以外的场合" GeneratedBy="111"/>
 				<EventCommand ID="412" Name="分歧结束" Format="分歧结束" GeneratedBy="111"/>

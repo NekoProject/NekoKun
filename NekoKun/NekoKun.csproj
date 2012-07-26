@@ -62,6 +62,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\DocumentFramework\AbstractFile.cs" />
+    <Compile Include="Core\DocumentFramework\LogEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\DocumentFramework\LogFile.cs" />
     <Compile Include="Core\Enum.cs" />
     <Compile Include="Core\DocumentFramework\FindAllDialog.cs">
       <SubType>Form</SubType>
@@ -74,6 +78,7 @@
     </Compile>
     <Compile Include="Core\DocumentFramework\FindAllResultFile.cs" />
     <Compile Include="Core\EnumProvider.cs" />
+    <Compile Include="Core\FormatProvider.cs" />
     <Compile Include="Core\IAssemblyProvider.cs" />
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
     <Compile Include="Core\DocumentFramework\NavPoint.cs" />
@@ -84,10 +89,6 @@
     <Compile Include="Core\DocumentFramework\IBehavior\ISelectAllHandler.cs" />
     <Compile Include="Core\DocumentFramework\IBehavior\IUndoHandler.cs" />
     <Compile Include="Core\DocumentFramework\IBehavior\IFindAllProvider.cs" />
-    <Compile Include="Core\LogEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\LogFile.cs" />
     <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DockPanel_Src\WinFormsUI\WinFormsUI.csproj">
-      <Project>{D3C782BA-178E-4235-A3BA-8C11DEBB6BEE}</Project>
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">

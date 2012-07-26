@@ -10,10 +10,12 @@ namespace NekoKun.RPGMaker
         public string ID;
         public string Name;
         public System.Drawing.Color ForeColor;
+        public EventCommandProvider Provider;
 
-        public EventCommandGroup(System.Xml.XmlNode node)
+        public EventCommandGroup(System.Xml.XmlNode node, EventCommandProvider provider)
         {
             Commands = new Dictionary<string, EventCommand>();
+            Provider = provider;
             ID = node.Attributes["ID"].Value;
             Name = node.Attributes["Name"].Value;
             ForeColor = (node.Attributes["ForeColor"] != null) ? 
