@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <NekoKunProject Version="1.0">
 	<!--<Component Name="NekoKun.FSBasedScriptListFile" ID="Scripts">
 		<Property Name="FileName">Data\Scripts\source\rakefile.info</Property>
@@ -23,68 +23,26 @@
 				{
 					public static class XPHelper
 					{
-						public static string SwitchName(int id)
+						public static string DatabaseName(object id, string[] p)
 						{
-							return String.Format("[{0:D4}]", id);
-						}
-						public static string ItemName(int id)
-						{
-							return String.Format("[Item{0:D4}]", id);
-						}
-						public static string WeaponName(int id)
-						{
-							return String.Format("[Weapon{0:D4}]", id);
-						}
-						public static string ArmorName(int id)
-						{
-							return String.Format("[Armor{0:D4}]", id);
-						}
-						public static string EventCommand111(List<object> arguments)
-						{
-							StringBuilder sb = new StringBuilder();
-							sb.Append("条件分歧 : ");
-							switch((int)arguments[0])
+							string name = p[0];
+							if (name == "Switches" || name == "Variables")
+								return String.Format("[{0:D4}]", Int32.Parse(id.ToString()));
+							
+							if (ProjectManager.Components.ContainsKey(name))
 							{
-								case 0:
-									sb.Append("开关 ");
-									sb.Append(SwitchName((int)arguments[1]));
-									sb.Append((int)arguments[2] == 0 ? " == ON" : " == OFF");
-									break;
-								case 1:
-									break;
-								case 2:
-									break;
-								case 3:
-									break;
-								case 4:
-									break;
-								case 5:
-									break;
-								case 6:
-									break;
-								case 7:
-									sb.Append("金钱 ");
-									sb.Append(arguments[1].ToString());
-									sb.Append((int)arguments[2] == 0 ? " 以上" : " 以下");
-									break;
-								case 8:
-									sb.Append("持有 ");
-									sb.Append(ItemName((int)arguments[1]));
-									break;
-								case 9:
-									sb.Append("持有 ");
-									sb.Append(WeaponName((int)arguments[1]));
-									break;
-								case 10:
-									sb.Append("持有 ");
-									sb.Append(ArmorName((int)arguments[1]));
-									break;
-								case 11:
-									break;
-								case 12:
-									break;
+								List<DatabaseItem> db = (ProjectManager.Components[name] as DatabaseFile).Contents;
+								int index = Int32.Parse(id.ToString()) - 1;
+								
+								return String.Format("[{0:D3}: {1}]", index + 1, (index >= 0 && index < db.Count) ? db[index].ToString() : "");
 							}
-							return sb.ToString();
+							
+							return "♂" + id.ToString() + name.ToString() + "♀";
+						}
+						
+						public static string Choose(object id, string[] strs)
+						{
+							return strs[Int32.Parse(id.ToString())];
 						}
 						
 /*
@@ -189,7 +147,55 @@
 	</Component>
 	<Component Name="NekoKun.FormatProvider" ID="Format">
 		<Property Name="Aliases">
-			<Alias ID="helper">assembly|Helper|NekoKun.RPGMaker.XPHelper|</Alias>
+			<Alias ID="helper">assembly|Helper|NekoKun.RPGMaker.XPHelper</Alias>
+			<Alias ID="name">assembly|Helper|NekoKun.RPGMaker.XPHelper|DatabaseName</Alias>
+			<Alias ID="choose">assembly|Helper|NekoKun.RPGMaker.XPHelper|Choose</Alias>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.EnumProvider" ID="Enums">
+		<Property Name="Enums">
+			<Enum ID="EventCommand111p0" Name="事件指令 111 条件分歧 @parameters[0]">
+				<EnumItem Value="0">开关 {1|name|Switches} == {2|choose|ON|OFF}</EnumItem>
+				<EnumItem Value="1">变量 {1|name|Variables}</EnumItem>
+				<EnumItem Value="2">独立开关</EnumItem>
+				<EnumItem Value="3">计时器</EnumItem>
+				<EnumItem Value="4">角色4</EnumItem>
+				<EnumItem Value="5">敌人</EnumItem>
+				<EnumItem Value="6">角色6</EnumItem>
+				<EnumItem Value="7">金钱 {1} {2|choose|以上|以下}</EnumItem>
+				<EnumItem Value="8">持有 {1|name|Items}</EnumItem>
+				<EnumItem Value="9">持有 {1|name|Weapons}</EnumItem>
+				<EnumItem Value="10">持有 {1|name|Armors}</EnumItem>
+				<EnumItem Value="11">按钮 {1|enum|Enums|InputKeys} 被按下时</EnumItem>
+				<EnumItem Value="12">脚本 : {1}</EnumItem>
+			</Enum>
+			<Enum ID="InputKeys" Name="Input 键常数">
+				<EnumItem Value="2">下</EnumItem>
+				<EnumItem Value="4">左</EnumItem>
+				<EnumItem Value="6">右</EnumItem>
+				<EnumItem Value="8">上</EnumItem>
+				<EnumItem Value="11">A</EnumItem>
+				<EnumItem Value="12">B</EnumItem>
+				<EnumItem Value="13">C</EnumItem>
+				<EnumItem Value="14">X</EnumItem>
+				<EnumItem Value="15">Y</EnumItem>
+				<EnumItem Value="16">Z</EnumItem>
+				<EnumItem Value="17">L</EnumItem>
+				<EnumItem Value="18">R</EnumItem>
+				<EnumItem Value="21">CTRL</EnumItem>
+				<EnumItem Value="22">ALT</EnumItem>
+				<EnumItem Value="23">SHIFT</EnumItem>
+				<EnumItem Value="25">F5</EnumItem>
+				<EnumItem Value="26">F6</EnumItem>
+				<EnumItem Value="27">F7</EnumItem>
+				<EnumItem Value="28">F8</EnumItem>
+				<EnumItem Value="29">F9</EnumItem>
+			</Enum>
+			<Enum ID="CommonEventTrigger" Name="公共事件触发方式">
+				<EnumItem Value="0">无</EnumItem>
+				<EnumItem Value="1">自动执行</EnumItem>
+				<EnumItem Value="2">并行处理</EnumItem>
+			</Enum>
 		</Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.EventCommandProvider" ID="EventCommands">
@@ -212,7 +218,7 @@
 				<EventCommand ID="408" Name="注释" Format="{hide}注释{/hide} : {0}" GeneratedBy="108"/>
 			</Group>
 			<Group ID="ControlStructures" ForeColor="#0000FF" Name="控制结构">
-				<EventCommand ID="111" Name="条件分岐" Format="{assembly|Helper|NekoKun.RPGMaker.XPHelper|EventCommand111}"/>
+				<EventCommand ID="111" Name="条件分岐" Format="条件分歧 : {0|enum|Enums|EventCommand111p0}"/>
 				<EventCommand ID="411" Name="除此以外的场合" Format="除此以外的场合" GeneratedBy="111"/>
 				<EventCommand ID="412" Name="分歧结束" Format="分歧结束" GeneratedBy="111"/>
 				<EventCommand ID="112" Name="循环" Format="循环"/>
@@ -225,15 +231,15 @@
 				<EventCommand ID="119" Name="标签跳转" Format="标签跳转 : {0}"/>
 			</Group>
 			<Group ID="Variables" ForeColor="#FF0000" Name="变量" TODO="1">
-				<EventCommand ID="121" Name="开关操作" Format="开关操作 : {0} {1} {2} {3} {4}"/>
+				<EventCommand ID="121" Name="开关操作" Format="开关操作 : {0|name|Switches}..{1|name|Switches} = {2|choose|ON|OFF}"/>
 				<EventCommand ID="122" Name="变量操作" Format="变量操作 : {0} {1} {2} {3} {4}"/>
 				<EventCommand ID="123" Name="独立开关操作" Format="独立开关的操作 : {0} = {1}"/>
 				<EventCommand ID="124" Name="计时器操作" Format="计时器的操作 : {0}"/>
 				<EventCommand ID="125" Name="增减金钱" Format="增减金钱 : {0} {1}"/>
-				<EventCommand ID="126" Name="增减物品" Format="增减物品 : {0} {1} {2}"/>
-				<EventCommand ID="127" Name="增减武器" Format="增减武器 : {0} {1} {2}"/>
-				<EventCommand ID="128" Name="增减防具" Format="增减防具 : {0} {1} {2}"/>
-				<EventCommand ID="129" Name="替换队员" Format="替换队员 : {0} {1}"/>
+				<EventCommand ID="126" Name="增减物品" Format="增减物品 : {0|name|Items} {1} {2}"/>
+				<EventCommand ID="127" Name="增减武器" Format="增减武器 : {0|name|Weapons} {1} {2}"/>
+				<EventCommand ID="128" Name="增减防具" Format="增减防具 : {0|name|Armors} {1} {2}"/>
+				<EventCommand ID="129" Name="替换队员" Format="替换队员 : {0|name|Actors} {1}"/>
 			</Group>
 			<Group ID="Options" ForeColor="#FF00FF" Name="选项" TODO="1">
 				<EventCommand ID="131" Name="更改窗口外观" Format="更改窗口外观 : '{0}'"/>
@@ -327,14 +333,45 @@
 			</Group>
 		</Property>
 	</Component>
-	<Component Name="NekoKun.EnumProvider" ID="Enums">
-		<Property Name="Enums">
-			<Enum ID="CommonEventTrigger" Name="公共事件触发方式">
-				<EnumItem Value="0">无</EnumItem>
-				<EnumItem Value="1">自动执行</EnumItem>
-				<EnumItem Value="2">并行处理</EnumItem>
-			</Enum>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
+		<Property Name="Title">角色</Property>
+		<Property Name="FileName">Data\Actors.rxdata</Property>
+		<Property Name="ClassName">[RPG::Actor]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Items">
+		<Property Name="Title">物品</Property>
+		<Property Name="FileName">Data\Items.rxdata</Property>
+		<Property Name="ClassName">[RPG::Item]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
+		<Property Name="Title">武器</Property>
+		<Property Name="FileName">Data\Weapons.rxdata</Property>
+		<Property Name="ClassName">[RPG::Weapon]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Armors">
+		<Property Name="Title">防具</Property>
+		<Property Name="FileName">Data\Armors.rxdata</Property>
+		<Property Name="ClassName">[RPG::Armor]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="CommonEvents">
 		<Property Name="Title">公共事件</Property>
