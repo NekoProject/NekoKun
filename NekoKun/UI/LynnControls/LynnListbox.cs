@@ -50,6 +50,8 @@ namespace NekoKun.UI
         {
             try
             {
+                // e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+
                 Brush backalt = new SolidBrush(backColorAlt);
                 Brush back = new SolidBrush(backColor);
                 if (e.Index >= 0 && this.Items.Count > 0)

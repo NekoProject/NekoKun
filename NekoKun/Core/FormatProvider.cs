@@ -60,6 +60,8 @@ namespace NekoKun
                 delegate(System.Text.RegularExpressions.Match match)
                 {
                     object parm = null;
+
+                    format.ToString();
                     if (match.Groups[2].Success || match.Groups[9].Success)
                     {
                         int index = Int32.Parse(match.Groups[2].Success ? match.Groups[2].Value : match.Groups[9].Value);
@@ -67,7 +69,7 @@ namespace NekoKun
                             parm = parameters[index];
                     }
 
-                    if (match.Groups[9].Success)
+                    if (match.Groups[9].Success && parm != null)
                         return parm.ToString();
 
                     if (match.Groups[8].Success)
@@ -75,20 +77,11 @@ namespace NekoKun
 
                     if (match.Groups[5].Success)
                     {
-                        object[] para;
+                        string[] para;
+                        para = match.Groups[6].Value.Substring(1).Split(Char.Parse("|"));
                         if (parm == null)
-                            para = match.Groups[6].Value.Substring(1).Split(Char.Parse("|"));
-                        else
-                        {
-                            para = Array.ConvertAll<string, object>(
-                                match.Groups[6].Value.Split(Char.Parse("|")),
-                                delegate(string i){
-                                    return i;
-                                }
-                            );
-                            para[0] = parm;
-                        }
-                        return this.methods[Int32.Parse(match.Groups[5].Value)].Invoke(null, para) as string;
+                            parm = parameters.ToArray();
+                        return this.methods[Int32.Parse(match.Groups[5].Value)].Invoke(null, new object[] { parm, para }) as string;
                     }
 
                     return match.Value;
@@ -117,11 +110,11 @@ namespace NekoKun
                             enums.Add(enu);
 
                             var newenu = new Dictionary<string, string>();
+                            enumLocaleInfo.Add(newenu);
                             foreach (var item in enu.GetKeys())
                             {
                                 newenu.Add(item, PrepareFormat(enu[item]));
                             }
-                            enumLocaleInfo.Add(newenu);
                         }
 
                         return "{" + match.Groups[1].Value + "enum|" + enums.IndexOf(enu).ToString() + "}";
