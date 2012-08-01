@@ -30,7 +30,9 @@ namespace NekoKun.RPGMaker
                 split.SplitterDistance = 150;
 
                 list = new DatabaseListbox();
-                list.Items.AddRange((file as DatabaseFile).Contents.ToArray());
+                foreach (var item in (file as DatabaseFile).Contents) {
+                	list.Items.Add(item);
+                }
                 list.Dock = System.Windows.Forms.DockStyle.Fill;
 
                 list.SelectedIndexChanged += new EventHandler(list_SelectedIndexChanged);
