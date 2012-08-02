@@ -11,9 +11,10 @@ namespace NekoKun.UI
         public Scintilla()
         {
             this.Font = Program.GetMonospaceFont();
-            
+
             // left margin backcolor
 			this.Styles[33].BackColor = back;
+            this.Margins.FoldMarginColor = back;
         }
     }
 }

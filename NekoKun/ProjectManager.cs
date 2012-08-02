@@ -74,6 +74,7 @@ namespace NekoKun
             catch (Exception e)
             {
                 Clean();
+                Program.Logger.Log(Program.ExceptionMessage(e));
                 throw e;
             }
         }

@@ -72,9 +72,9 @@ namespace NekoKun
             MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + ExceptionMessage(e.Exception));
         }
 
-        static string ExceptionMessage(Exception e)
+        public static string ExceptionMessage(Exception e)
         {
-            return (e.InnerException != null ? (ExceptionMessage(e.InnerException) + "\n\n") : "") + String.Format("{0}\n类型: {1}\n 来源: {2}\n堆栈: \n {3}", e.Message, e.GetType().FullName, e.Source, e.StackTrace);
+            return (e.InnerException != null ? (ExceptionMessage(e.InnerException) + "\n\n") : "") + String.Format("{0}\n类型: {1}\n来源: {2}\n堆栈: \n {3}", e.Message, e.GetType().FullName, e.Source, e.StackTrace);
         }
         public static LogFile Logger = new LogFile();
 
@@ -122,19 +122,19 @@ namespace NekoKun
             if (monospaceFont != null)
                 return monospaceFont;
 
-            var fallback = new string[] { "雅黑宋体", "Consolas", "Lucida Console", "Courier New", "Courier" };
+            var fallback = new string[] { "Simsun_Yahei", "Consolas", "宋体", "SimSun", "Courier New", "Courier" };
 
             foreach (string name in fallback)
             {
                 try
                 {
-                    monospaceFont = new System.Drawing.Font(name, 12);
+                    monospaceFont = new System.Drawing.Font(new System.Drawing.FontFamily(name), 12);
                     return monospaceFont;
                 }
                 catch { }
             }
 
-            monospaceFont = System.Drawing.SystemFonts.MessageBoxFont;
+            monospaceFont = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 12);
             return monospaceFont;
         }
     }

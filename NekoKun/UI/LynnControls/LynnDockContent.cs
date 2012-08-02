@@ -27,7 +27,15 @@ namespace NekoKun.UI
         protected void SetFont(Control e)
         {
             if (e is Scintilla)
+            {
+                Scintilla sci = e as Scintilla;
                 e.Font = Program.GetMonospaceFont();
+
+                for (int i = 0; i < 200; i++)
+                {
+                    sci.Styles[i].Font = e.Font;
+                }
+            }
             else
                 e.Font = this.Font;
 
