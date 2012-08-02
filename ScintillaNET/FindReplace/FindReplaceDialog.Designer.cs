@@ -1,4 +1,4 @@
-namespace ScintillaNet
+Ôªønamespace ScintillaNet
 {
 	partial class FindReplaceDialog
 	{
@@ -132,7 +132,7 @@ namespace ScintillaNet
             this.tpgFind.Padding = new System.Windows.Forms.Padding(3);
             this.tpgFind.Size = new System.Drawing.Size(491, 244);
             this.tpgFind.TabIndex = 0;
-            this.tpgFind.Text = "≤È’“";
+            this.tpgFind.Text = "Êü•Êâæ";
             this.tpgFind.UseVisualStyleBackColor = true;
             // 
             // grpFindAll
@@ -146,7 +146,7 @@ namespace ScintillaNet
             this.grpFindAll.Size = new System.Drawing.Size(209, 60);
             this.grpFindAll.TabIndex = 8;
             this.grpFindAll.TabStop = false;
-            this.grpFindAll.Text = "≤È’“»´≤ø";
+            this.grpFindAll.Text = "Êü•ÊâæÂÖ®ÈÉ®";
             // 
             // btnClear
             // 
@@ -154,7 +154,7 @@ namespace ScintillaNet
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(88, 21);
             this.btnClear.TabIndex = 3;
-            this.btnClear.Text = "«Âø’(&L)";
+            this.btnClear.Text = "Ê∏ÖÁ©∫(&L)";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
@@ -164,7 +164,7 @@ namespace ScintillaNet
             this.btnFindAll.Name = "btnFindAll";
             this.btnFindAll.Size = new System.Drawing.Size(88, 21);
             this.btnFindAll.TabIndex = 2;
-            this.btnFindAll.Text = "≤È’“»´≤ø(&A)";
+            this.btnFindAll.Text = "Êü•ÊâæÂÖ®ÈÉ®(&A)";
             this.btnFindAll.UseVisualStyleBackColor = true;
             this.btnFindAll.Click += new System.EventHandler(this.btnFindAll_Click);
             // 
@@ -175,7 +175,7 @@ namespace ScintillaNet
             this.chkHighlightMatches.Name = "chkHighlightMatches";
             this.chkHighlightMatches.Size = new System.Drawing.Size(90, 16);
             this.chkHighlightMatches.TabIndex = 1;
-            this.chkHighlightMatches.Text = "∏ﬂ¡¡∆•≈‰(&H)";
+            this.chkHighlightMatches.Text = "È´ò‰∫ÆÂåπÈÖç(&H)";
             this.chkHighlightMatches.UseVisualStyleBackColor = true;
             // 
             // chkMarkLine
@@ -185,7 +185,7 @@ namespace ScintillaNet
             this.chkMarkLine.Name = "chkMarkLine";
             this.chkMarkLine.Size = new System.Drawing.Size(78, 16);
             this.chkMarkLine.TabIndex = 0;
-            this.chkMarkLine.Text = "±Íº«––(&M)";
+            this.chkMarkLine.Text = "Ê†áËÆ∞Ë°å(&M)";
             this.chkMarkLine.UseVisualStyleBackColor = true;
             // 
             // chkSearchSelectionF
@@ -195,7 +195,7 @@ namespace ScintillaNet
             this.chkSearchSelectionF.Name = "chkSearchSelectionF";
             this.chkSearchSelectionF.Size = new System.Drawing.Size(90, 16);
             this.chkSearchSelectionF.TabIndex = 6;
-            this.chkSearchSelectionF.Text = "À˘—°Œƒ◊÷(&S)";
+            this.chkSearchSelectionF.Text = "ÊâÄÈÄâÊñáÂ≠ó(&S)";
             this.chkSearchSelectionF.UseVisualStyleBackColor = true;
             // 
             // chkWrapF
@@ -207,7 +207,7 @@ namespace ScintillaNet
             this.chkWrapF.Name = "chkWrapF";
             this.chkWrapF.Size = new System.Drawing.Size(90, 16);
             this.chkWrapF.TabIndex = 5;
-            this.chkWrapF.Text = "◊‘∂ØªÿæÌ(&W)";
+            this.chkWrapF.Text = "Ëá™Âä®ÂõûÂç∑(&W)";
             this.chkWrapF.UseVisualStyleBackColor = true;
             // 
             // btnFindPrevious
@@ -217,7 +217,7 @@ namespace ScintillaNet
             this.btnFindPrevious.Name = "btnFindPrevious";
             this.btnFindPrevious.Size = new System.Drawing.Size(107, 21);
             this.btnFindPrevious.TabIndex = 9;
-            this.btnFindPrevious.Text = "≤È’“…œ“ª∏ˆ(&P)";
+            this.btnFindPrevious.Text = "Êü•Êâæ‰∏ä‰∏Ä‰∏™(&P)";
             this.btnFindPrevious.UseVisualStyleBackColor = true;
             this.btnFindPrevious.Click += new System.EventHandler(this.btnFindPrevious_Click);
             // 
@@ -228,7 +228,7 @@ namespace ScintillaNet
             this.btnFindNext.Name = "btnFindNext";
             this.btnFindNext.Size = new System.Drawing.Size(107, 21);
             this.btnFindNext.TabIndex = 10;
-            this.btnFindNext.Text = "≤È’“œ¬“ª∏ˆ(&N)";
+            this.btnFindNext.Text = "Êü•Êâæ‰∏ã‰∏Ä‰∏™(&N)";
             this.btnFindNext.UseVisualStyleBackColor = true;
             this.btnFindNext.Click += new System.EventHandler(this.btnFindNext_Click);
             // 
@@ -253,7 +253,7 @@ namespace ScintillaNet
             this.grpOptionsF.Size = new System.Drawing.Size(481, 71);
             this.grpOptionsF.TabIndex = 7;
             this.grpOptionsF.TabStop = false;
-            this.grpOptionsF.Text = "—°œÓ";
+            this.grpOptionsF.Text = "ÈÄâÈ°π";
             // 
             // pnlStandardOptionsF
             // 
@@ -273,7 +273,7 @@ namespace ScintillaNet
             this.chkWordStartF.Name = "chkWordStartF";
             this.chkWordStartF.Size = new System.Drawing.Size(66, 16);
             this.chkWordStartF.TabIndex = 2;
-            this.chkWordStartF.Text = "¥ Õ∑(&O)";
+            this.chkWordStartF.Text = "ËØçÂ§¥(&O)";
             this.chkWordStartF.UseVisualStyleBackColor = true;
             // 
             // chkWholeWordF
@@ -283,7 +283,7 @@ namespace ScintillaNet
             this.chkWholeWordF.Name = "chkWholeWordF";
             this.chkWholeWordF.Size = new System.Drawing.Size(90, 16);
             this.chkWholeWordF.TabIndex = 1;
-            this.chkWholeWordF.Text = "»´◊÷∆•≈‰(&D)";
+            this.chkWholeWordF.Text = "ÂÖ®Â≠óÂåπÈÖç(&D)";
             this.chkWholeWordF.UseVisualStyleBackColor = true;
             // 
             // chkMatchCaseF
@@ -293,7 +293,7 @@ namespace ScintillaNet
             this.chkMatchCaseF.Name = "chkMatchCaseF";
             this.chkMatchCaseF.Size = new System.Drawing.Size(102, 16);
             this.chkMatchCaseF.TabIndex = 0;
-            this.chkMatchCaseF.Text = "∆•≈‰¥Û–°–¥(&C)";
+            this.chkMatchCaseF.Text = "ÂåπÈÖçÂ§ßÂ∞èÂÜô(&C)";
             this.chkMatchCaseF.UseVisualStyleBackColor = true;
             // 
             // pnlRegexpOptionsF
@@ -411,7 +411,7 @@ namespace ScintillaNet
             this.lblSearchTypeF.Name = "lblSearchTypeF";
             this.lblSearchTypeF.Size = new System.Drawing.Size(53, 12);
             this.lblSearchTypeF.TabIndex = 2;
-            this.lblSearchTypeF.Text = "≤È’“¿‡–Õ";
+            this.lblSearchTypeF.Text = "Êü•ÊâæÁ±ªÂûã";
             // 
             // rdoRegexF
             // 
@@ -420,7 +420,7 @@ namespace ScintillaNet
             this.rdoRegexF.Name = "rdoRegexF";
             this.rdoRegexF.Size = new System.Drawing.Size(101, 16);
             this.rdoRegexF.TabIndex = 4;
-            this.rdoRegexF.Text = "’˝‘Ú±Ì¥Ô Ω(&E)";
+            this.rdoRegexF.Text = "Ê≠£ÂàôË°®ËææÂºè(&E)";
             this.rdoRegexF.UseVisualStyleBackColor = true;
             this.rdoRegexF.CheckedChanged += new System.EventHandler(this.rdoStandardF_CheckedChanged);
             // 
@@ -433,7 +433,7 @@ namespace ScintillaNet
             this.rdoStandardF.Size = new System.Drawing.Size(65, 16);
             this.rdoStandardF.TabIndex = 3;
             this.rdoStandardF.TabStop = true;
-            this.rdoStandardF.Text = "±Í◊º(&S)";
+            this.rdoStandardF.Text = "Ê†áÂáÜ(&S)";
             this.rdoStandardF.UseVisualStyleBackColor = true;
             this.rdoStandardF.CheckedChanged += new System.EventHandler(this.rdoStandardF_CheckedChanged);
             // 
@@ -444,7 +444,7 @@ namespace ScintillaNet
             this.lblFindF.Name = "lblFindF";
             this.lblFindF.Size = new System.Drawing.Size(47, 12);
             this.lblFindF.TabIndex = 0;
-            this.lblFindF.Text = "≤È’“(&F)";
+            this.lblFindF.Text = "Êü•Êâæ(&F)";
             // 
             // tpgReplace
             // 
@@ -466,7 +466,7 @@ namespace ScintillaNet
             this.tpgReplace.Padding = new System.Windows.Forms.Padding(3);
             this.tpgReplace.Size = new System.Drawing.Size(491, 244);
             this.tpgReplace.TabIndex = 1;
-            this.tpgReplace.Text = "ÃÊªª";
+            this.tpgReplace.Text = "ÊõøÊç¢";
             this.tpgReplace.UseVisualStyleBackColor = true;
             // 
             // btnReplaceAll
@@ -475,7 +475,7 @@ namespace ScintillaNet
             this.btnReplaceAll.Name = "btnReplaceAll";
             this.btnReplaceAll.Size = new System.Drawing.Size(107, 21);
             this.btnReplaceAll.TabIndex = 10;
-            this.btnReplaceAll.Text = "»´≤øÃÊªª(&A)";
+            this.btnReplaceAll.Text = "ÂÖ®ÈÉ®ÊõøÊç¢(&A)";
             this.btnReplaceAll.UseVisualStyleBackColor = true;
             this.btnReplaceAll.Click += new System.EventHandler(this.btnReplaceAll_Click);
             // 
@@ -496,7 +496,7 @@ namespace ScintillaNet
             this.lblReplace.Name = "lblReplace";
             this.lblReplace.Size = new System.Drawing.Size(47, 12);
             this.lblReplace.TabIndex = 2;
-            this.lblReplace.Text = "ÃÊªª(&R)";
+            this.lblReplace.Text = "ÊõøÊç¢(&R)";
             // 
             // chkSearchSelectionR
             // 
@@ -505,7 +505,7 @@ namespace ScintillaNet
             this.chkSearchSelectionR.Name = "chkSearchSelectionR";
             this.chkSearchSelectionR.Size = new System.Drawing.Size(90, 16);
             this.chkSearchSelectionR.TabIndex = 8;
-            this.chkSearchSelectionR.Text = "À˘—°Œƒ◊÷(&S)";
+            this.chkSearchSelectionR.Text = "ÊâÄÈÄâÊñáÂ≠ó(&S)";
             this.chkSearchSelectionR.UseVisualStyleBackColor = true;
             // 
             // chkWrapR
@@ -517,7 +517,7 @@ namespace ScintillaNet
             this.chkWrapR.Name = "chkWrapR";
             this.chkWrapR.Size = new System.Drawing.Size(90, 16);
             this.chkWrapR.TabIndex = 7;
-            this.chkWrapR.Text = "◊‘∂ØªÿæÌ(&W)";
+            this.chkWrapR.Text = "Ëá™Âä®ÂõûÂç∑(&W)";
             this.chkWrapR.UseVisualStyleBackColor = true;
             // 
             // btnReplacePrevious
@@ -527,7 +527,7 @@ namespace ScintillaNet
             this.btnReplacePrevious.Name = "btnReplacePrevious";
             this.btnReplacePrevious.Size = new System.Drawing.Size(107, 21);
             this.btnReplacePrevious.TabIndex = 11;
-            this.btnReplacePrevious.Text = "ÃÊªª…œ“ª∏ˆ(&R)";
+            this.btnReplacePrevious.Text = "ÊõøÊç¢‰∏ä‰∏Ä‰∏™(&R)";
             this.btnReplacePrevious.UseVisualStyleBackColor = true;
             this.btnReplacePrevious.Click += new System.EventHandler(this.btnReplacePrevious_Click);
             // 
@@ -538,7 +538,7 @@ namespace ScintillaNet
             this.btnReplaceNext.Name = "btnReplaceNext";
             this.btnReplaceNext.Size = new System.Drawing.Size(107, 21);
             this.btnReplaceNext.TabIndex = 12;
-            this.btnReplaceNext.Text = "ÃÊªªœ¬“ª∏ˆ(&N)";
+            this.btnReplaceNext.Text = "ÊõøÊç¢‰∏ã‰∏Ä‰∏™(&N)";
             this.btnReplaceNext.UseVisualStyleBackColor = true;
             this.btnReplaceNext.Click += new System.EventHandler(this.btnReplaceNext_Click);
             // 
@@ -563,7 +563,7 @@ namespace ScintillaNet
             this.grdOptionsR.Size = new System.Drawing.Size(481, 71);
             this.grdOptionsR.TabIndex = 9;
             this.grdOptionsR.TabStop = false;
-            this.grdOptionsR.Text = "—°œÓ";
+            this.grdOptionsR.Text = "ÈÄâÈ°π";
             // 
             // pnlStandardOptionsR
             // 
@@ -583,7 +583,7 @@ namespace ScintillaNet
             this.chkWordStartR.Name = "chkWordStartR";
             this.chkWordStartR.Size = new System.Drawing.Size(66, 16);
             this.chkWordStartR.TabIndex = 2;
-            this.chkWordStartR.Text = "¥ Õ∑(&O)";
+            this.chkWordStartR.Text = "ËØçÂ§¥(&O)";
             this.chkWordStartR.UseVisualStyleBackColor = true;
             // 
             // chkWholeWordR
@@ -593,7 +593,7 @@ namespace ScintillaNet
             this.chkWholeWordR.Name = "chkWholeWordR";
             this.chkWholeWordR.Size = new System.Drawing.Size(90, 16);
             this.chkWholeWordR.TabIndex = 1;
-            this.chkWholeWordR.Text = "»´◊÷∆•≈‰(&D)";
+            this.chkWholeWordR.Text = "ÂÖ®Â≠óÂåπÈÖç(&D)";
             this.chkWholeWordR.UseVisualStyleBackColor = true;
             // 
             // chkMatchCaseR
@@ -603,7 +603,7 @@ namespace ScintillaNet
             this.chkMatchCaseR.Name = "chkMatchCaseR";
             this.chkMatchCaseR.Size = new System.Drawing.Size(102, 16);
             this.chkMatchCaseR.TabIndex = 0;
-            this.chkMatchCaseR.Text = "∆•≈‰¥Û–°–¥(&C)";
+            this.chkMatchCaseR.Text = "ÂåπÈÖçÂ§ßÂ∞èÂÜô(&C)";
             this.chkMatchCaseR.UseVisualStyleBackColor = true;
             // 
             // pnlRegexpOptionsR
@@ -630,7 +630,7 @@ namespace ScintillaNet
             this.chkSinglelineR.Name = "chkSinglelineR";
             this.chkSinglelineR.Size = new System.Drawing.Size(48, 16);
             this.chkSinglelineR.TabIndex = 8;
-            this.chkSinglelineR.Text = "µ•––";
+            this.chkSinglelineR.Text = "ÂçïË°å";
             this.chkSinglelineR.UseVisualStyleBackColor = true;
             // 
             // chkRightToLeftR
@@ -640,7 +640,7 @@ namespace ScintillaNet
             this.chkRightToLeftR.Name = "chkRightToLeftR";
             this.chkRightToLeftR.Size = new System.Drawing.Size(84, 16);
             this.chkRightToLeftR.TabIndex = 7;
-            this.chkRightToLeftR.Text = "¥””“±ﬂµΩ◊Û";
+            this.chkRightToLeftR.Text = "‰ªéÂè≥ËæπÂà∞Â∑¶";
             this.chkRightToLeftR.UseVisualStyleBackColor = true;
             // 
             // chkMultilineR
@@ -650,7 +650,7 @@ namespace ScintillaNet
             this.chkMultilineR.Name = "chkMultilineR";
             this.chkMultilineR.Size = new System.Drawing.Size(48, 16);
             this.chkMultilineR.TabIndex = 6;
-            this.chkMultilineR.Text = "∂‡––";
+            this.chkMultilineR.Text = "Â§öË°å";
             this.chkMultilineR.UseVisualStyleBackColor = true;
             // 
             // chkIgnorePatternWhitespaceR
@@ -660,7 +660,7 @@ namespace ScintillaNet
             this.chkIgnorePatternWhitespaceR.Name = "chkIgnorePatternWhitespaceR";
             this.chkIgnorePatternWhitespaceR.Size = new System.Drawing.Size(126, 16);
             this.chkIgnorePatternWhitespaceR.TabIndex = 5;
-            this.chkIgnorePatternWhitespaceR.Text = "∫ˆ¬‘±Ì¥Ô Ωø’∞◊(&G)";
+            this.chkIgnorePatternWhitespaceR.Text = "ÂøΩÁï•Ë°®ËææÂºèÁ©∫ÁôΩ(&G)";
             this.chkIgnorePatternWhitespaceR.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreCaseR
@@ -670,7 +670,7 @@ namespace ScintillaNet
             this.chkIgnoreCaseR.Name = "chkIgnoreCaseR";
             this.chkIgnoreCaseR.Size = new System.Drawing.Size(102, 16);
             this.chkIgnoreCaseR.TabIndex = 4;
-            this.chkIgnoreCaseR.Text = "∫ˆ¬‘¥Û–°–¥(&I)";
+            this.chkIgnoreCaseR.Text = "ÂøΩÁï•Â§ßÂ∞èÂÜô(&I)";
             this.chkIgnoreCaseR.UseVisualStyleBackColor = true;
             // 
             // chkExplicitCaptureR
@@ -680,7 +680,7 @@ namespace ScintillaNet
             this.chkExplicitCaptureR.Name = "chkExplicitCaptureR";
             this.chkExplicitCaptureR.Size = new System.Drawing.Size(90, 16);
             this.chkExplicitCaptureR.TabIndex = 3;
-            this.chkExplicitCaptureR.Text = "—œ∏Ò≤∂◊Ω(&X)";
+            this.chkExplicitCaptureR.Text = "‰∏•Ê†ºÊçïÊçâ(&X)";
             this.chkExplicitCaptureR.UseVisualStyleBackColor = true;
             // 
             // chkEcmaScriptR
@@ -690,7 +690,7 @@ namespace ScintillaNet
             this.chkEcmaScriptR.Name = "chkEcmaScriptR";
             this.chkEcmaScriptR.Size = new System.Drawing.Size(78, 16);
             this.chkEcmaScriptR.TabIndex = 2;
-            this.chkEcmaScriptR.Text = "ECMA Ω≈±æ";
+            this.chkEcmaScriptR.Text = "ECMA ËÑöÊú¨";
             this.chkEcmaScriptR.UseVisualStyleBackColor = true;
             this.chkEcmaScriptR.CheckedChanged += new System.EventHandler(this.chkEcmaScript_CheckedChanged);
             // 
@@ -701,7 +701,7 @@ namespace ScintillaNet
             this.chkCultureInvariantR.Name = "chkCultureInvariantR";
             this.chkCultureInvariantR.Size = new System.Drawing.Size(90, 16);
             this.chkCultureInvariantR.TabIndex = 1;
-            this.chkCultureInvariantR.Text = "”Ô—‘±‰ÃÂ(&U)";
+            this.chkCultureInvariantR.Text = "ËØ≠Ë®ÄÂèò‰Ωì(&U)";
             this.chkCultureInvariantR.UseVisualStyleBackColor = true;
             // 
             // chkCompiledR
@@ -711,7 +711,7 @@ namespace ScintillaNet
             this.chkCompiledR.Name = "chkCompiledR";
             this.chkCompiledR.Size = new System.Drawing.Size(78, 16);
             this.chkCompiledR.TabIndex = 0;
-            this.chkCompiledR.Text = "±‡“Îµƒ(&C)";
+            this.chkCompiledR.Text = "ÁºñËØëÁöÑ(&C)";
             this.chkCompiledR.UseVisualStyleBackColor = true;
             // 
             // lblSearchTypeR
@@ -721,7 +721,7 @@ namespace ScintillaNet
             this.lblSearchTypeR.Name = "lblSearchTypeR";
             this.lblSearchTypeR.Size = new System.Drawing.Size(53, 12);
             this.lblSearchTypeR.TabIndex = 4;
-            this.lblSearchTypeR.Text = "≤È’“¿‡–Õ";
+            this.lblSearchTypeR.Text = "Êü•ÊâæÁ±ªÂûã";
             // 
             // rdoRegexR
             // 
@@ -730,7 +730,7 @@ namespace ScintillaNet
             this.rdoRegexR.Name = "rdoRegexR";
             this.rdoRegexR.Size = new System.Drawing.Size(101, 16);
             this.rdoRegexR.TabIndex = 6;
-            this.rdoRegexR.Text = "’˝‘Ú±Ì¥Ô Ω(&E)";
+            this.rdoRegexR.Text = "Ê≠£ÂàôË°®ËææÂºè(&E)";
             this.rdoRegexR.UseVisualStyleBackColor = true;
             this.rdoRegexR.CheckedChanged += new System.EventHandler(this.rdoStandardR_CheckedChanged);
             // 
@@ -743,7 +743,7 @@ namespace ScintillaNet
             this.rdoStandardR.Size = new System.Drawing.Size(65, 16);
             this.rdoStandardR.TabIndex = 5;
             this.rdoStandardR.TabStop = true;
-            this.rdoStandardR.Text = "±Í◊º(&S)";
+            this.rdoStandardR.Text = "Ê†áÂáÜ(&S)";
             this.rdoStandardR.UseVisualStyleBackColor = true;
             this.rdoStandardR.CheckedChanged += new System.EventHandler(this.rdoStandardR_CheckedChanged);
             // 
@@ -754,7 +754,7 @@ namespace ScintillaNet
             this.lblFindR.Name = "lblFindR";
             this.lblFindR.Size = new System.Drawing.Size(47, 12);
             this.lblFindR.TabIndex = 0;
-            this.lblFindR.Text = "≤È’“(&F)";
+            this.lblFindR.Text = "Êü•Êâæ(&F)";
             // 
             // statusStrip
             // 
@@ -788,7 +788,7 @@ namespace ScintillaNet
             this.Name = "FindReplaceDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "≤È’“∫ÕÃÊªª";
+            this.Text = "Êü•ÊâæÂíåÊõøÊç¢";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindReplaceDialog_FormClosing);
             this.tabAll.ResumeLayout(false);
             this.tpgFind.ResumeLayout(false);
