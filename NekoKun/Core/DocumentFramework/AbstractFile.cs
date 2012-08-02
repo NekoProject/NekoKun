@@ -22,8 +22,8 @@ namespace NekoKun
 
         public void Commit()
         {
-            if (this.editor != null)
-                this.editor.Commit();
+            if (this.Editor != null)
+                this.Editor.Commit();
 
             if (this.pendingDelete == true)
             {
