@@ -11,6 +11,7 @@ namespace NekoKun
         protected AbstractEditor editor;
         protected bool isDirty = false;
         protected bool pendingDelete = false;
+        protected bool isProjectFile = true;
 
         public AbstractFile(string filename)
         {
@@ -101,11 +102,18 @@ namespace NekoKun
                 if (this.isDirty == false && value == true)
                 {
                     this.isDirty = true;
-                    Workbench.Instance.AddPendingChange(this);
+                    if (this.IsProjectFile)
+                        Workbench.Instance.AddPendingChange(this);
                 }
                 else if (value == false)
                     this.isDirty = false;
             }
+        }
+
+        public bool IsProjectFile
+        {
+            get { return this.isProjectFile; }
+            set { this.isProjectFile = value; }
         }
 
         public void MakeDirty()

@@ -54,7 +54,6 @@ namespace NekoKun
             {
                 Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
             }
-
             Logger.Log("工程路径: {0}", ProjectPath);
 
             ToolStripManager.Renderer = new Office2007Renderer();

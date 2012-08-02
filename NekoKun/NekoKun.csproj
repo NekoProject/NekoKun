@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptListFile.cs" />
+    <Compile Include="SettingsFile.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="UI\DockingThemeOcean.cs" />
     <Compile Include="UI\LynnControls\LynnCombobox.cs">
