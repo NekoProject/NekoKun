@@ -65,10 +65,6 @@ namespace NekoKun.RPGMaker
             {
                 var objl = obj as List<object>;
                 objl.RemoveAt(0);
-                foreach (var item in objl) {
-                	var fuck = LoadItem(item);
-                	fuck.ToString();
-                }
                 this.contents = new List<DatabaseItem>(Array.ConvertAll<Object, DatabaseItem>(objl.ToArray(), LoadItem));
             }
                 

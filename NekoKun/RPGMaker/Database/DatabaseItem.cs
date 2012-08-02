@@ -18,7 +18,7 @@ namespace NekoKun.RPGMaker
             foreach (var item in Items)
             {
                 if (item.Key.ID == "@name")
-                    return item.Value as string;
+                    return (item.Value as string) ?? "";
             }
             return base.ToString();
         }
