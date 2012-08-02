@@ -21,6 +21,7 @@ namespace NekoKun
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            /*
             try
             {
                 ProjectPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
@@ -54,11 +55,28 @@ namespace NekoKun
             {
                 Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
             }
+            */
+
             Logger.Log("工程路径: {0}", ProjectPath);
 
             ToolStripManager.Renderer = new Office2007Renderer();
 
-            Application.Run(Workbench.Instance);
+            WelcomePage welcome = new WelcomePage();
+            welcome.ShowDialog();
+            if (welcome.DialogResult == DialogResult.OK)
+            {
+                string result = welcome.Result;
+                try
+                {
+                    ProjectManager.OpenProject(result);
+                }
+                catch (Exception e)
+                {
+                    Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
+                    return;
+                }
+                Application.Run(Workbench.Instance);
+            }
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -129,6 +129,9 @@
       <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WelcomePage.resx">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Workbench.resx">
       <DependentUpon>Workbench.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -259,6 +262,12 @@
     <Compile Include="UI\ToolStripRender\Office2007ColorTable.cs" />
     <Compile Include="UI\ToolStripRender\Office2007Helpers.cs" />
     <Compile Include="UI\ToolStripRender\Office2007Renderer.cs" />
+    <Compile Include="WelcomePage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WelcomePage.Designer.cs">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Workbench.cs">
       <SubType>Form</SubType>
     </Compile>
