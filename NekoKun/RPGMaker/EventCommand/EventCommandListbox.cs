@@ -17,6 +17,38 @@ namespace NekoKun.RPGMaker
             if (RequestCommit != null) RequestCommit.ToString();
             source = ProjectManager.Components[Params["Source"] as string] as EventCommandProvider;
             this.SelectedItem = new List<object>();
+
+            this.ContextMenuStrip = new EditContextMenuStrip(this);
+            this.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+            this.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripMenuItem("复制全部为 UBB(&B)", null, delegate
+            {
+                System.Windows.Forms.Clipboard.Clear();
+                System.Windows.Forms.Clipboard.SetText(ExportUBB(), System.Windows.Forms.TextDataFormat.UnicodeText);
+            }));
+        }
+
+        public string ExportUBB()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int id = 0; id < this.Items.Count; id++)
+            {
+                EventCommand cmd = GetCodeCommand(id);
+                int indent = GetIndent(id);
+                sb.Append("[font=黑体]");
+                if (indent > 0) sb.Append(new String(' ', indent * 2));
+                sb.Append((cmd != null && cmd.IsGenerated) ? " :" : "◆");
+                sb.Append("[/font]");
+                if (GetCode(id) != "0")
+                {
+                    System.Drawing.Color color = cmd == null ? System.Drawing.Color.Black : cmd.Group.ForeColor;
+                    sb.Append(String.Format("[color=#{0:x2}{1:x2}{2:x2}]", color.R, color.G, color.B));
+                    string drawing = cmd == null ? strUnknown : cmd.FormatParams(this.Items[id] as RubyBindings.RubyObject);
+                    sb.Append(drawing.Replace("{hide}", "[color=white]").Replace("{/hide}", "[/color]"));
+                    sb.Append("[/color]");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
 
         public void MakeDirty()
