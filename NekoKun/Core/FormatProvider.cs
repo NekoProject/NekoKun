@@ -78,9 +78,13 @@ namespace NekoKun
                     if (match.Groups[5].Success)
                     {
                         string[] para;
-                        para = match.Groups[6].Value.Substring(1).Split(Char.Parse("|"));
+                        if (match.Groups[6].Length == 0)
+                            para = null;
+                        else
+                            para = match.Groups[6].Value.Substring(1).Split(Char.Parse("|"));
                         if (parm == null)
                             parm = parameters.ToArray();
+
                         return this.methods[Int32.Parse(match.Groups[5].Value)].Invoke(null, new object[] { parm, para }) as string;
                     }
 
