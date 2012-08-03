@@ -8,18 +8,18 @@ namespace NekoKun
     {
         public static SettingsFile GlobalSettings;
         public static SettingsFile ProjectSettings;
-        private static string settingDirectory = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NekoKun"), "Settings");
-        private static string settingFilename = System.IO.Path.Combine(settingDirectory, "Settings.xml");
+
         private static SettingsHelper helper;
 
         static SettingsManager()
         {
-            if (!System.IO.Directory.Exists(settingDirectory))
-            {
-                System.IO.Directory.CreateDirectory(settingDirectory);
-            }
-            GlobalSettings = new SettingsFile(settingFilename);
-            GlobalSettings.IsProjectFile = false;
+            GlobalSettings = new SettingsFile(
+                System.IO.Path.Combine(
+                    StorageManager.GetUserDirectory("Settings"),
+                    "Settings.xml"
+                ),
+                false
+            );
         }
 
         public static SettingsHelper Settings

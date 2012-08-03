@@ -9,8 +9,8 @@ namespace NekoKun
     {
         protected Dictionary<string, object> settings;
 
-        public SettingsFile(string filename)
-            : base(filename)
+        public SettingsFile(string filename, bool project)
+            : base(filename, project)
         {
             try
             {
@@ -19,9 +19,16 @@ namespace NekoKun
                     settings = (Dictionary<string, object>)new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter().Deserialize(stream);
                 }
             }
-            catch {
+            catch
+            {
                 this.settings = new Dictionary<string, object>();
             }
+        }
+
+        public SettingsFile(string filename)
+            : this(filename, true)
+        {
+            
         }
 
         public object this[string key]

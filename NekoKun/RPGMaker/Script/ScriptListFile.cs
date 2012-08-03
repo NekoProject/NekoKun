@@ -62,6 +62,7 @@ namespace NekoKun.RPGMaker
 
         private static string UnicodeStringFromUTF8Bytes(byte[] bytes)
         {
+            return System.Text.Encoding.UTF8.GetString(bytes);
             return Encoding.Unicode.GetString(Encoding.Convert(Encoding.UTF8, Encoding.Unicode, bytes));
         }
 

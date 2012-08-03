@@ -11,6 +11,7 @@ namespace NekoKun.UI
     {
         protected Color back1 = Color.FromArgb(227, 239, 251);
         protected Color back2 = Color.FromArgb(196, 208, 220);
+        protected LinearGradientBrush brush;
 
         public LynnForm()
         {
@@ -44,8 +45,17 @@ namespace NekoKun.UI
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            // base.OnPaintBackground(e);
-            e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(this.ClientRectangle, this.back1, this.back2, LinearGradientMode.Vertical), this.ClientRectangle);
+            if (this.ClientRectangle.Width == 0 && this.ClientRectangle.Height == 0)
+                return;
+
+            if (brush == null || !brush.Rectangle.Equals(this.ClientRectangle))
+                brush = new System.Drawing.Drawing2D.LinearGradientBrush(this.ClientRectangle, this.back1, this.back2, LinearGradientMode.Vertical);
+            
+            try
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+            catch { }
         }
     }
 }

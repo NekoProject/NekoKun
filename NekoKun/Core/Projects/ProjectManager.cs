@@ -87,5 +87,13 @@ namespace NekoKun
             projectFile = null;
             components = null;
         }
+
+        public static string CreateProject(string dir, ArchiveFile template)
+        {
+            System.IO.Directory.CreateDirectory(dir);
+            template.Extract(dir);
+
+            return System.IO.Path.Combine(dir, "Game.nkproj");
+        }
     }
 }

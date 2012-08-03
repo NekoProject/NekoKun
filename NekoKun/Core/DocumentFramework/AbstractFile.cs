@@ -19,6 +19,14 @@ namespace NekoKun
             FileManager.Open(this);
         }
 
+        public AbstractFile(string filename, bool IsProjectFile)
+        {
+            this.filename = filename;
+            this.isProjectFile = IsProjectFile;
+            if (this.isProjectFile)
+                FileManager.Open(this);
+        }
+
         protected abstract void Save();
 
         public void Commit()

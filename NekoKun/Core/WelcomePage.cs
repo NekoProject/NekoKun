@@ -50,6 +50,11 @@ namespace NekoKun
         {
             if (p == 0)
             {
+                CreateProjectWizard wizard = new CreateProjectWizard();
+                if (wizard.ShowDialog(this) == DialogResult.OK)
+                {
+                    SetResult(wizard.FileName);
+                }
             }
             else if (p == 1)
             {
