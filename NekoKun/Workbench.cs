@@ -27,8 +27,6 @@ namespace NekoKun
 
         public DockPanel DockPanel = new DockPanel();
         public ScriptListFile ScriptList;
-        public static string scriptDir = System.IO.Path.GetFullPath(System.IO.Path.Combine(Program.ProjectPath, @"Data\\Scripts\\source\\"));
-        public static string scriptListFile = System.IO.Path.Combine(scriptDir, "rakefile.info");
 
         private Workbench()
         {
@@ -140,7 +138,7 @@ namespace NekoKun
 
         public void RunNormal()
         {
-            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(System.IO.Path.Combine(Program.ProjectPath, "Game.exe"));
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(System.IO.Path.Combine(ProjectManager.ProjectDir, "Game.exe"));
             System.Diagnostics.Process.Start(info);
         }
 
@@ -161,7 +159,7 @@ namespace NekoKun
                 }
             }
 
-            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(System.IO.Path.Combine(Program.ProjectPath, "Game.exe"));
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(System.IO.Path.Combine(ProjectManager.ProjectDir, "Game.exe"));
             //System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
             info.UseShellExecute = false;
             info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;

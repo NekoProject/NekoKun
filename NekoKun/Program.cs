@@ -11,8 +11,6 @@ namespace NekoKun
         /// 应用程序的主入口点。
         /// </summary>
         /// 
-        public static string ProjectPath;
-
         [STAThread]
         static void Main()
         {
@@ -56,8 +54,6 @@ namespace NekoKun
                 Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
             }
             */
-
-            Logger.Log("工程路径: {0}", ProjectPath);
 
             ToolStripManager.Renderer = new Office2007Renderer();
 

@@ -58,6 +58,7 @@
             this.Controls.Add(this.welcome);
             this.MinimumSize = new System.Drawing.Size(441, 178);
             this.Name = "WelcomePage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "欢迎来到 NekoKun";
             this.ResumeLayout(false);
             this.PerformLayout();
