@@ -6,3 +6,5 @@ obj
 TestResults
 *.cache
 /*.suo
+*.nkar
+*.nkar

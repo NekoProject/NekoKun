@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NekoKunProject Version="1.0">
+	<Component Name="NekoKun.RPGMaker.ScriptListFile" ID="Scripts">
+		<Property Name="FileName">Data\Scripts.rvdata2</Property>
+	</Component>
+	<Component Name="NekoKun.CLRCodeCompiler" ID="Helper">
+		<Property Name="Language">CSharp</Property>
+		<Property Name="DebugMode">True</Property>
+		<Property Name="Code">
+			<![CDATA[
+				using System;
+				using System.Collections.Generic;
+				using System.Text;
+				using NekoKun;
+				using NekoKun.RubyBindings;
+				using NekoKun.RPGMaker;
+				
+				namespace NekoKun.RPGMaker
+				{
+					public static class VAHelper
+					{
+						public static string DatabaseName(object id, string[] p)
+						{
+							string name = p[0];
+							if (name == "Switches" || name == "Variables")
+								return String.Format("[{0:D4}]", Int32.Parse(id.ToString()));
+							
+							if (ProjectManager.Components.ContainsKey(name))
+							{
+								List<DatabaseItem> db = (ProjectManager.Components[name] as DatabaseFile).Contents;
+								int index = Int32.Parse(id.ToString()) - 1;
+								
+								return String.Format("[{0:D3}: {1}]", index + 1, (index >= 0 && index < db.Count) ? db[index].ToString() : "");
+							}
+							
+							return "♂" + id.ToString() + name.ToString() + "♀";
+						}
+						
+						public static string Timer(object id, string[] strs)
+						{
+							int time = Int32.Parse(id.ToString());
+							return String.Format("{0} 分 {1:D2} 秒", time / 60, time % 60);
+						}
+						
+						public static string Choose(object id, string[] strs)
+						{
+							return strs[Int32.Parse(id.ToString())];
+						}
+						
+					}
+				}
+			]]>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.FormatProvider" ID="Format">
+		<Property Name="Aliases">
+			<Alias ID="helper">assembly|Helper|NekoKun.RPGMaker.VAHelper</Alias>
+			<Alias ID="name">assembly|Helper|NekoKun.RPGMaker.VAHelper|DatabaseName</Alias>
+			<Alias ID="choose">assembly|Helper|NekoKun.RPGMaker.VAHelper|Choose</Alias>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.EnumProvider" ID="Enums">
+		<Property Name="Enums">
+			<Enum ID="CommonEventTrigger" Name="公共事件触发方式">
+				<EnumItem Value="0">无</EnumItem>
+				<EnumItem Value="1">自动执行</EnumItem>
+				<EnumItem Value="2">并行处理</EnumItem>
+			</Enum>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.EventCommandProvider" ID="EventCommands">
+		<Property Name="Format">Format</Property>
+		<Property Name="EventCommands">
+			<Group ID="Message" ForeColor="Black" Name="信息">
+				<EventCommand ID="101" Name="显示文字" Format="文章 : {0}"/>
+				<EventCommand ID="401" Name="文字数据" GeneratedBy="101" Format="{hide}文章{/hide} : {0}"/>
+				<EventCommand ID="102" Name="显示选项" Format="显示选项"/>
+				<EventCommand ID="402" Name="[**] 的时候" GeneratedBy="102" Format="[**] 的时候"/>
+				<EventCommand ID="403" Name="取消的时候" GeneratedBy="102" Format="取消的时候"/>
+				<EventCommand ID="103" Name="数值输入的处理" Format="数值输入的处理"/>
+				<EventCommand ID="104" Name="物品选择的处理" Format="物品选择的处理"/>
+				<EventCommand ID="105" Name="显示滚动文字" Format="显示滚动文字"/>
+				<EventCommand ID="405" Name="显示滚动文字" GeneratedBy="105" Format="显示滚动文字"/>
+			</Group>
+			<Group ID="GameProgression" ForeColor="Black" Name="条件控制">
+				<EventCommand ID="121" Name="操作开关" Format="操作开关"/>
+				<EventCommand ID="122" Name="变量操作" Format="变量操作"/>
+				<EventCommand ID="123" Name="操作独立开关" Format="操作独立开关"/>
+				<EventCommand ID="124" Name="操作计时器" Format="操作计时器"/>
+			</Group>
+			<Group ID="FlowControl" ForeColor="Black" Name="流程控制">
+				<EventCommand ID="111" Name="条件分歧" Format="条件分歧"/>
+				<EventCommand ID="411" Name="除此之外" GeneratedBy="111" Format="除此之外"/>
+				<EventCommand ID="112" Name="循环" Format="循环"/>
+				<EventCommand ID="413" Name="重复" GeneratedBy="112" Format="重复"/>
+				<EventCommand ID="113" Name="跳出循环" Format="跳出循环"/>
+				<EventCommand ID="115" Name="中止事件处理" Format="中止事件处理"/>
+				<EventCommand ID="117" Name="公共事件" Format="公共事件"/>
+				<EventCommand ID="118" Name="添加标签" Format="添加标签"/>
+				<EventCommand ID="119" Name="转至标签" Format="转至标签"/>
+				<EventCommand ID="108" Name="添加注释" Format="添加注释"/>
+				<EventCommand ID="408" Name="添加注释" GeneratedBy="108" Format="添加注释"/>
+			</Group>
+			<Group ID="Party" ForeColor="Black" Name="队伍">
+				<EventCommand ID="125" Name="增减持有金钱" Format="增减持有金钱"/>
+				<EventCommand ID="126" Name="增减物品" Format="增减物品"/>
+				<EventCommand ID="127" Name="增减武器" Format="增减武器"/>
+				<EventCommand ID="128" Name="增减护甲" Format="增减护甲"/>
+				<EventCommand ID="129" Name="队伍管理" Format="队伍管理"/>
+			</Group>
+			<Group ID="Actor" ForeColor="Black" Name="角色">
+				<EventCommand ID="311" Name="增减 HP " Format="增减 HP "/>
+				<EventCommand ID="312" Name="增减 MP " Format="增减 MP "/>
+				<EventCommand ID="313" Name="更改状态" Format="更改状态"/>
+				<EventCommand ID="314" Name="完全恢复" Format="完全恢复"/>
+				<EventCommand ID="315" Name="增减经验值" Format="增减经验值"/>
+				<EventCommand ID="316" Name="增减等级" Format="增减等级"/>
+				<EventCommand ID="317" Name="增减能力值" Format="增减能力值"/>
+				<EventCommand ID="318" Name="增减技能" Format="增减技能"/>
+				<EventCommand ID="319" Name="更换装备" Format="更换装备"/>
+				<EventCommand ID="320" Name="更改名字" Format="更改名字"/>
+				<EventCommand ID="321" Name="更改职业" Format="更改职业"/>
+				<EventCommand ID="324" Name="更改称号" Format="更改称号"/>
+			</Group>
+			<Group ID="Movement" ForeColor="Black" Name="场所">
+				<EventCommand ID="201" Name="场所移动" Format="场所移动"/>
+				<EventCommand ID="202" Name="设置载具位置" Format="设置载具位置"/>
+				<EventCommand ID="203" Name="设置事件的位置" Format="设置事件的位置"/>
+				<EventCommand ID="204" Name="地图卷动" Format="地图卷动"/>
+				<EventCommand ID="205" Name="设置移动路径" Format="设置移动路径"/>
+				<EventCommand ID="206" Name="载具的乘降" Format="载具的乘降"/>
+			</Group>
+			<Group ID="Character" ForeColor="Black" Name="人物">
+				<EventCommand ID="211" Name="更改透明状态" Format="更改透明状态"/>
+				<EventCommand ID="212" Name="显示动画" Format="显示动画"/>
+				<EventCommand ID="213" Name="显示心情图标" Format="显示心情图标"/>
+				<EventCommand ID="216" Name="更改队列前进" Format="更改队列前进"/>
+				<EventCommand ID="217" Name="集合队伍成员" Format="集合队伍成员"/>
+				<EventCommand ID="214" Name="暂时消除事件" Format="暂时消除事件"/>
+			</Group>
+			<Group ID="ScreenEffects" ForeColor="Black" Name="画面效果">
+				<EventCommand ID="221" Name="淡出画面" Format="淡出画面"/>
+				<EventCommand ID="222" Name="淡入画面" Format="淡入画面"/>
+				<EventCommand ID="223" Name="更改画面的色调" Format="更改画面的色调"/>
+				<EventCommand ID="224" Name="画面闪烁" Format="画面闪烁"/>
+				<EventCommand ID="225" Name="画面震动" Format="画面震动"/>
+			</Group>
+			<Group ID="Timing" ForeColor="Black" Name="时间调整">
+				<EventCommand ID="230" Name="等待" Format="等待"/>
+			</Group>
+			<Group ID="PictureAndWeather" ForeColor="Black" Name="图片与天气">
+				<EventCommand ID="231" Name="显示图片" Format="显示图片"/>
+				<EventCommand ID="232" Name="移动图片" Format="移动图片"/>
+				<EventCommand ID="233" Name="旋转图片" Format="旋转图片"/>
+				<EventCommand ID="234" Name="更改图片的色调" Format="更改图片的色调"/>
+				<EventCommand ID="235" Name="消除图片" Format="消除图片"/>
+				<EventCommand ID="236" Name="设置天气" Format="设置天气"/>
+			</Group>
+			<Group ID="MusicAndSounds" ForeColor="Black" Name="音乐与声音">
+				<EventCommand ID="241" Name="播放 BGM " Format="播放 BGM "/>
+				<EventCommand ID="242" Name="淡出 BGM " Format="淡出 BGM "/>
+				<EventCommand ID="243" Name="记忆 BGM " Format="记忆 BGM "/>
+				<EventCommand ID="244" Name="恢复 BGM " Format="恢复 BGM "/>
+				<EventCommand ID="245" Name="播放 BGS " Format="播放 BGS "/>
+				<EventCommand ID="246" Name="淡出 BGS " Format="淡出 BGS "/>
+				<EventCommand ID="249" Name="播放 ME " Format="播放 ME "/>
+				<EventCommand ID="250" Name="播放 SE " Format="播放 SE "/>
+				<EventCommand ID="251" Name="停止 SE " Format="停止 SE "/>
+			</Group>
+			<Group ID="SceneControl" ForeColor="Black" Name="场景控制">
+				<EventCommand ID="301" Name="战斗的处理" Format="战斗的处理"/>
+				<EventCommand ID="601" Name="胜利的时候" GeneratedBy="301" Format="胜利的时候"/>
+				<EventCommand ID="602" Name="撤退的时候" GeneratedBy="301" Format="撤退的时候"/>
+				<EventCommand ID="603" Name="全灭的时候" GeneratedBy="301" Format="全灭的时候"/>
+				<EventCommand ID="302" Name="商店的处理" Format="商店的处理"/>
+				<EventCommand ID="605" Name="商店的处理" GeneratedBy="302" Format="商店的处理"/>
+				<EventCommand ID="303" Name="名字输入的处理" Format="名字输入的处理"/>
+				<EventCommand ID="351" Name="打开菜单画面" Format="打开菜单画面"/>
+				<EventCommand ID="352" Name="打开存档画面" Format="打开存档画面"/>
+				<EventCommand ID="353" Name="游戏结束" Format="游戏结束"/>
+				<EventCommand ID="354" Name="返回标题画面" Format="返回标题画面"/>
+			</Group>
+			<Group ID="SystemSettings" ForeColor="Black" Name="系统设置">
+				<EventCommand ID="132" Name="更改战斗 BGM " Format="更改战斗 BGM "/>
+				<EventCommand ID="133" Name="更改战斗结束 ME " Format="更改战斗结束 ME "/>
+				<EventCommand ID="134" Name="设置禁用存档" Format="设置禁用存档"/>
+				<EventCommand ID="135" Name="设置禁用菜单" Format="设置禁用菜单"/>
+				<EventCommand ID="136" Name="设置禁用遇敌" Format="设置禁用遇敌"/>
+				<EventCommand ID="137" Name="设置禁用整队" Format="设置禁用整队"/>
+				<EventCommand ID="138" Name="更改窗口色调" Format="更改窗口色调"/>
+			</Group>
+			<Group ID="Movie" ForeColor="Black" Name="影像">
+				<EventCommand ID="261" Name="播放影像" Format="播放影像"/>
+			</Group>
+			<Group ID="Map" ForeColor="Black" Name="地图">
+				<EventCommand ID="281" Name="更改地图名称显示" Format="更改地图名称显示"/>
+				<EventCommand ID="282" Name="更改图块组" Format="更改图块组"/>
+				<EventCommand ID="283" Name="更改战场背景" Format="更改战场背景"/>
+				<EventCommand ID="284" Name="更改远景" Format="更改远景"/>
+				<EventCommand ID="285" Name="获取指定位置的信息" Format="获取指定位置的信息"/>
+			</Group>
+			<Group ID="Battle" ForeColor="Black" Name="战斗事件">
+				<EventCommand ID="322" Name="更改角色图像" Format="更改角色图像"/>
+				<EventCommand ID="323" Name="更改载具的图像" Format="更改载具的图像"/>
+				<EventCommand ID="331" Name="增减敌人的 HP " Format="增减敌人的 HP "/>
+				<EventCommand ID="332" Name="增减敌人的 MP " Format="增减敌人的 MP "/>
+				<EventCommand ID="333" Name="更改敌人的状态" Format="更改敌人的状态"/>
+				<EventCommand ID="334" Name="敌人完全恢复" Format="敌人完全恢复"/>
+				<EventCommand ID="335" Name="敌人出现" Format="敌人出现"/>
+				<EventCommand ID="336" Name="敌人变身" Format="敌人变身"/>
+				<EventCommand ID="337" Name="显示战斗动画" Format="显示战斗动画"/>
+				<EventCommand ID="339" Name="强制战斗行动" Format="强制战斗行动"/>
+				<EventCommand ID="340" Name="中止战斗" Format="中止战斗"/>
+			</Group>
+			<Group ID="Advanced" ForeColor="Black" Name="高级">
+				<EventCommand ID="355" Name="脚本" Format="脚本"/>
+				<EventCommand ID="655" Name="脚本" Format="{hide}脚本{/hide} : {0}" GeneratedBy="355"/>
+			</Group>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
+		<Property Name="Title">角色</Property>
+		<Property Name="FileName">Data\Actors.rvdata2</Property>
+		<Property Name="ClassName">[RPG::Actor]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Items">
+		<Property Name="Title">物品</Property>
+		<Property Name="FileName">Data\Items.rvdata2</Property>
+		<Property Name="ClassName">[RPG::Item]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
+		<Property Name="Title">武器</Property>
+		<Property Name="FileName">Data\Weapons.rvdata2</Property>
+		<Property Name="ClassName">[RPG::Weapon]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Armors">
+		<Property Name="Title">防具</Property>
+		<Property Name="FileName">Data\Armors.rvdata2</Property>
+		<Property Name="ClassName">[RPG::Armor]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="CommonEvents">
+		<Property Name="Title">公共事件</Property>
+		<Property Name="FileName">Data\CommonEvents.rvdata2</Property>
+		<Property Name="ClassName">[RPG::CommonEvent]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.ObjectEditor.DecimalEditor" O="NekoKun.RPGMaker.SwitchIDEditor">
+				<Property Name="Condition">@trigger == 0</Property>
+			</Field>
+			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.ObjectEditor.EnumEditor">
+				<Property Name="Source">CommonEventTrigger</Property>
+			</Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@list" Name="事件内容" Editor="NekoKun.RPGMaker.EventCommandListbox" O="NekoKun.RPGMaker.EventCommandListEditor">
+				<Property Name="Source">EventCommands</Property>
+			</Field>
+		</Property>
+		<Property Name="Layout">
+			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout" RowCount="3" ColumnCount="3">
+				<TableCell X="1" Y="1" Width="1/3">名称</TableCell>
+				<TableCell X="2" Y="1" Width="1/3">触发方式</TableCell>
+				<TableCell X="3" Y="1" Width="1/3">开关编号</TableCell>
+				<TableCell X="1" Y="2"><Control ID="@name" /></TableCell>
+				<TableCell X="2" Y="2"><Control ID="@trigger" /></TableCell>
+				<TableCell X="3" Y="2"><Control ID="@switch_id"></Control></TableCell>
+				<TableCell X="1" Y="3" ColumnSpan="3"><Control ID="@list"/></TableCell>
+			</Layout>
+		</Property>
+	</Component>
+	<Component Name="NekoKun.UIProvider" ID="UI">
+		<Property Name="Toolbars">
+			<Toolbar ID="General">
+				<Item Name="脚本(&amp;S)" Type="Component"><Property Name="ID">Scripts</Property></Item>
+				<Item Name="公共事件(&amp;C)" Type="Component"><Property Name="ID">CommonEvents</Property></Item>
+				<Item Name="系统选项(&amp;Y)" Type="Component"><Property Name="ID">System</Property></Item>
+			</Toolbar>
+		</Property>
+		<Property Name="Menus">
+			<Menu ID="View">
+				<Item Name="脚本(&amp;S)" Type="Component"><Property Name="ID">Scripts</Property></Item>
+				<Item Name="公共事件(&amp;C)" Type="Component"><Property Name="ID">CommonEvents</Property></Item>
+				<Item Name="系统选项(&amp;Y)" Type="Component"><Property Name="ID">System</Property></Item>
+			</Menu>
+		</Property>
+	</Component>
+</NekoKunProject>
