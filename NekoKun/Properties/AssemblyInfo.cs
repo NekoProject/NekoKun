@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("NekoKun")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("An open source editor platform")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OrzTech")]
-[assembly: AssemblyProduct("NekoKun")]
-[assembly: AssemblyCopyright("Copyright © OrzTech 2012")]
+[assembly: AssemblyCompany("Moe9th")]
+[assembly: AssemblyProduct("NekoKun Framework")]
+[assembly: AssemblyCopyright("Copyright © OrzTech & Moe9th 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

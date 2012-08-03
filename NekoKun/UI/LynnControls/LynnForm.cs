@@ -15,6 +15,7 @@ namespace NekoKun.UI
 
         public LynnForm()
         {
+            this.Icon = NekoKun.Properties.Resources.MainIcon;
             this.Font = System.Drawing.SystemFonts.MessageBoxFont;
         }
 

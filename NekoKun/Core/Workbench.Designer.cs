@@ -31,38 +31,38 @@
             this.toolStripPanelTop = new System.Windows.Forms.ToolStripPanel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuEditCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEditDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuEditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuEditFind = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditFindAll = new System.Windows.Forms.ToolStripMenuItem();
             this.menuView = new System.Windows.Forms.ToolStripMenuItem();
             this.menuViewScriptList = new System.Windows.Forms.ToolStripMenuItem();
             this.menuViewLog = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDebug = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuDebugGame = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRunGame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
+            this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolRun = new System.Windows.Forms.ToolStripButton();
             this.toolStripPanelBottom = new System.Windows.Forms.ToolStripPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusPendingChanges = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripPanelLeft = new System.Windows.Forms.ToolStripPanel();
             this.toolStripPanelRight = new System.Windows.Forms.ToolStripPanel();
-            this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuEditFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuDebugGame = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
-            this.toolRun = new System.Windows.Forms.ToolStripButton();
             this.toolStripPanelTop.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -107,10 +107,30 @@
             this.menuFile.Size = new System.Drawing.Size(57, 20);
             this.menuFile.Text = "文件(&F)";
             // 
+            // menuSave
+            // 
+            this.menuSave.Image = global::NekoKun.Properties.Resources.SaveAll;
+            this.menuSave.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.menuSave.Name = "menuSave";
+            this.menuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.menuSave.Size = new System.Drawing.Size(176, 22);
+            this.menuSave.Text = "保存工程(&S)";
+            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
+            // 
+            // menuExit
+            // 
+            this.menuExit.Image = global::NekoKun.Properties.Resources.ClosePreviewHS;
+            this.menuExit.ImageTransparentColor = System.Drawing.Color.Black;
+            this.menuExit.Name = "menuExit";
+            this.menuExit.ShortcutKeyDisplayString = "Alt+F4";
+            this.menuExit.Size = new System.Drawing.Size(176, 22);
+            this.menuExit.Text = "退出(&X)";
+            this.menuExit.Click += new System.EventHandler(this.menuExit_Click);
             // 
             // menuEdit
             // 
@@ -133,10 +153,70 @@
             this.menuEdit.Text = "编辑(&E)";
             this.menuEdit.DropDownOpening += new System.EventHandler(this.menuEdit_DropDownOpening);
             // 
+            // menuEditUndo
+            // 
+            this.menuEditUndo.Image = global::NekoKun.Properties.Resources.Edit_Undo;
+            this.menuEditUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuEditUndo.Name = "menuEditUndo";
+            this.menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
+            this.menuEditUndo.Size = new System.Drawing.Size(205, 22);
+            this.menuEditUndo.Text = "撤销(&U)";
+            this.menuEditUndo.Click += new System.EventHandler(this.menuEditUndo_Click);
+            // 
+            // menuEditRedo
+            // 
+            this.menuEditRedo.Image = global::NekoKun.Properties.Resources.Edit_Redo;
+            this.menuEditRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuEditRedo.Name = "menuEditRedo";
+            this.menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
+            this.menuEditRedo.Size = new System.Drawing.Size(205, 22);
+            this.menuEditRedo.Text = "重做(&R)";
+            this.menuEditRedo.Click += new System.EventHandler(this.menuEditRedo_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(202, 6);
+            // 
+            // menuEditCut
+            // 
+            this.menuEditCut.Image = global::NekoKun.Properties.Resources.Cut;
+            this.menuEditCut.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.menuEditCut.Name = "menuEditCut";
+            this.menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
+            this.menuEditCut.Size = new System.Drawing.Size(205, 22);
+            this.menuEditCut.Text = "剪切(&T)";
+            this.menuEditCut.Click += new System.EventHandler(this.menuEditCut_Click);
+            // 
+            // menuEditCopy
+            // 
+            this.menuEditCopy.Image = global::NekoKun.Properties.Resources.Copy;
+            this.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.menuEditCopy.Name = "menuEditCopy";
+            this.menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
+            this.menuEditCopy.Size = new System.Drawing.Size(205, 22);
+            this.menuEditCopy.Text = "复制(&C)";
+            this.menuEditCopy.Click += new System.EventHandler(this.menuEditCopy_Click);
+            // 
+            // menuEditPaste
+            // 
+            this.menuEditPaste.Image = global::NekoKun.Properties.Resources.Paste;
+            this.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.menuEditPaste.Name = "menuEditPaste";
+            this.menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
+            this.menuEditPaste.Size = new System.Drawing.Size(205, 22);
+            this.menuEditPaste.Text = "粘贴(&P)";
+            this.menuEditPaste.Click += new System.EventHandler(this.menuEditPaste_Click);
+            // 
+            // menuEditDelete
+            // 
+            this.menuEditDelete.Image = global::NekoKun.Properties.Resources.Delete;
+            this.menuEditDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuEditDelete.Name = "menuEditDelete";
+            this.menuEditDelete.ShortcutKeyDisplayString = "Delete";
+            this.menuEditDelete.Size = new System.Drawing.Size(205, 22);
+            this.menuEditDelete.Text = "删除(&D)";
+            this.menuEditDelete.Click += new System.EventHandler(this.menuEditDelete_Click);
             // 
             // toolStripSeparator3
             // 
@@ -155,6 +235,17 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(202, 6);
+            // 
+            // menuEditFind
+            // 
+            this.menuEditFind.Image = global::NekoKun.Properties.Resources.Find;
+            this.menuEditFind.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuEditFind.Name = "menuEditFind";
+            this.menuEditFind.ShortcutKeyDisplayString = "";
+            this.menuEditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.menuEditFind.Size = new System.Drawing.Size(205, 22);
+            this.menuEditFind.Text = "查找(&F)";
+            this.menuEditFind.Click += new System.EventHandler(this.menuEditFind_Click);
             // 
             // menuEditReplace
             // 
@@ -207,6 +298,16 @@
             this.menuDebug.Size = new System.Drawing.Size(59, 20);
             this.menuDebug.Text = "调试(&D)";
             // 
+            // menuDebugGame
+            // 
+            this.menuDebugGame.Image = global::NekoKun.Properties.Resources.Play;
+            this.menuDebugGame.ImageTransparentColor = System.Drawing.Color.Fuchsia;
+            this.menuDebugGame.Name = "menuDebugGame";
+            this.menuDebugGame.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.menuDebugGame.Size = new System.Drawing.Size(229, 22);
+            this.menuDebugGame.Text = "启动调试(&S)";
+            this.menuDebugGame.Click += new System.EventHandler(this.menuDebugGame_Click);
+            // 
             // menuRunGame
             // 
             this.menuRunGame.Name = "menuRunGame";
@@ -229,10 +330,30 @@
             this.toolStripMain.TabIndex = 7;
             this.toolStripMain.Text = "toolStrip1";
             // 
+            // toolSaveAll
+            // 
+            this.toolSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolSaveAll.Image = global::NekoKun.Properties.Resources.SaveAll;
+            this.toolSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSaveAll.Name = "toolSaveAll";
+            this.toolSaveAll.Size = new System.Drawing.Size(23, 22);
+            this.toolSaveAll.Text = "保存工程(Ctrl+S)";
+            this.toolSaveAll.Click += new System.EventHandler(this.menuSave_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolRun
+            // 
+            this.toolRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolRun.Image = global::NekoKun.Properties.Resources.Play;
+            this.toolRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolRun.Name = "toolRun";
+            this.toolRun.Size = new System.Drawing.Size(23, 22);
+            this.toolRun.Text = "启动调试(F5)";
+            this.toolRun.Click += new System.EventHandler(this.menuDebugGame_Click);
             // 
             // toolStripPanelBottom
             // 
@@ -280,127 +401,6 @@
             this.toolStripPanelRight.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.toolStripPanelRight.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.toolStripPanelRight.Size = new System.Drawing.Size(0, 457);
-            // 
-            // menuSave
-            // 
-            this.menuSave.Image = global::NekoKun.Properties.Resources.SaveAll;
-            this.menuSave.ImageTransparentColor = System.Drawing.Color.Fuchsia;
-            this.menuSave.Name = "menuSave";
-            this.menuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuSave.Size = new System.Drawing.Size(176, 22);
-            this.menuSave.Text = "保存工程(&S)";
-            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
-            // 
-            // menuExit
-            // 
-            this.menuExit.Image = global::NekoKun.Properties.Resources.ClosePreviewHS;
-            this.menuExit.ImageTransparentColor = System.Drawing.Color.Black;
-            this.menuExit.Name = "menuExit";
-            this.menuExit.ShortcutKeyDisplayString = "Alt+F4";
-            this.menuExit.Size = new System.Drawing.Size(176, 22);
-            this.menuExit.Text = "退出(&X)";
-            this.menuExit.Click += new System.EventHandler(this.menuExit_Click);
-            // 
-            // menuEditUndo
-            // 
-            this.menuEditUndo.Image = global::NekoKun.Properties.Resources.Edit_Undo;
-            this.menuEditUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuEditUndo.Name = "menuEditUndo";
-            this.menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
-            this.menuEditUndo.Size = new System.Drawing.Size(205, 22);
-            this.menuEditUndo.Text = "撤销(&U)";
-            this.menuEditUndo.Click += new System.EventHandler(this.menuEditUndo_Click);
-            // 
-            // menuEditRedo
-            // 
-            this.menuEditRedo.Image = global::NekoKun.Properties.Resources.Edit_Redo;
-            this.menuEditRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuEditRedo.Name = "menuEditRedo";
-            this.menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
-            this.menuEditRedo.Size = new System.Drawing.Size(205, 22);
-            this.menuEditRedo.Text = "重做(&R)";
-            this.menuEditRedo.Click += new System.EventHandler(this.menuEditRedo_Click);
-            // 
-            // menuEditCut
-            // 
-            this.menuEditCut.Image = global::NekoKun.Properties.Resources.Cut;
-            this.menuEditCut.ImageTransparentColor = System.Drawing.Color.Fuchsia;
-            this.menuEditCut.Name = "menuEditCut";
-            this.menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
-            this.menuEditCut.Size = new System.Drawing.Size(205, 22);
-            this.menuEditCut.Text = "剪切(&T)";
-            this.menuEditCut.Click += new System.EventHandler(this.menuEditCut_Click);
-            // 
-            // menuEditCopy
-            // 
-            this.menuEditCopy.Image = global::NekoKun.Properties.Resources.Copy;
-            this.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Fuchsia;
-            this.menuEditCopy.Name = "menuEditCopy";
-            this.menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
-            this.menuEditCopy.Size = new System.Drawing.Size(205, 22);
-            this.menuEditCopy.Text = "复制(&C)";
-            this.menuEditCopy.Click += new System.EventHandler(this.menuEditCopy_Click);
-            // 
-            // menuEditPaste
-            // 
-            this.menuEditPaste.Image = global::NekoKun.Properties.Resources.Paste;
-            this.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Fuchsia;
-            this.menuEditPaste.Name = "menuEditPaste";
-            this.menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
-            this.menuEditPaste.Size = new System.Drawing.Size(205, 22);
-            this.menuEditPaste.Text = "粘贴(&P)";
-            this.menuEditPaste.Click += new System.EventHandler(this.menuEditPaste_Click);
-            // 
-            // menuEditDelete
-            // 
-            this.menuEditDelete.Image = global::NekoKun.Properties.Resources.Delete;
-            this.menuEditDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuEditDelete.Name = "menuEditDelete";
-            this.menuEditDelete.ShortcutKeyDisplayString = "Delete";
-            this.menuEditDelete.Size = new System.Drawing.Size(205, 22);
-            this.menuEditDelete.Text = "删除(&D)";
-            this.menuEditDelete.Click += new System.EventHandler(this.menuEditDelete_Click);
-            // 
-            // menuEditFind
-            // 
-            this.menuEditFind.Image = global::NekoKun.Properties.Resources.Find;
-            this.menuEditFind.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuEditFind.Name = "menuEditFind";
-            this.menuEditFind.ShortcutKeyDisplayString = "";
-            this.menuEditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.menuEditFind.Size = new System.Drawing.Size(205, 22);
-            this.menuEditFind.Text = "查找(&F)";
-            this.menuEditFind.Click += new System.EventHandler(this.menuEditFind_Click);
-            // 
-            // menuDebugGame
-            // 
-            this.menuDebugGame.Image = global::NekoKun.Properties.Resources.Play;
-            this.menuDebugGame.ImageTransparentColor = System.Drawing.Color.Fuchsia;
-            this.menuDebugGame.Name = "menuDebugGame";
-            this.menuDebugGame.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.menuDebugGame.Size = new System.Drawing.Size(229, 22);
-            this.menuDebugGame.Text = "启动调试(&S)";
-            this.menuDebugGame.Click += new System.EventHandler(this.menuDebugGame_Click);
-            // 
-            // toolSaveAll
-            // 
-            this.toolSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolSaveAll.Image = global::NekoKun.Properties.Resources.SaveAll;
-            this.toolSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolSaveAll.Name = "toolSaveAll";
-            this.toolSaveAll.Size = new System.Drawing.Size(23, 22);
-            this.toolSaveAll.Text = "保存工程(Ctrl+S)";
-            this.toolSaveAll.Click += new System.EventHandler(this.menuSave_Click);
-            // 
-            // toolRun
-            // 
-            this.toolRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolRun.Image = global::NekoKun.Properties.Resources.Play;
-            this.toolRun.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolRun.Name = "toolRun";
-            this.toolRun.Size = new System.Drawing.Size(23, 22);
-            this.toolRun.Text = "启动调试(F5)";
-            this.toolRun.Click += new System.EventHandler(this.menuDebugGame_Click);
             // 
             // Workbench
             // 

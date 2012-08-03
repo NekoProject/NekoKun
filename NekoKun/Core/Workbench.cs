@@ -30,6 +30,8 @@ namespace NekoKun
 
         private Workbench()
         {
+            this.Icon = NekoKun.Properties.Resources.MainIcon;
+
             DockPanel.Dock = DockStyle.Fill;
 
             this.IsMdiContainer = true;

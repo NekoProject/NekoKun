@@ -9,7 +9,7 @@ namespace NekoKun.RPGMaker
         protected EventCommandProvider source;
         protected List<object> obj;
         protected string strCommand = "◆";
-        protected string strIndent = ":";
+        protected string strIndent = "·";
         protected string strUnknown = "未定义的指令";
 
         public EventCommandListbox(Dictionary<string, object> Params)
@@ -36,7 +36,7 @@ namespace NekoKun.RPGMaker
                 int indent = GetIndent(id);
                 sb.Append("[font=黑体]");
                 if (indent > 0) sb.Append(new String(' ', indent * 2));
-                sb.Append((cmd != null && cmd.IsGenerated) ? " :" : "◆");
+                sb.Append((cmd != null && cmd.IsGenerated) ? "·" : "◆");
                 sb.Append("[/font]");
                 if (GetCode(id) != "0")
                 {
