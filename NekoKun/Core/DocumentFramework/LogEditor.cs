@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using ScintillaNet;
+using ScintillaNET;
 using WeifenLuo.WinFormsUI.Docking;
 namespace NekoKun
 {

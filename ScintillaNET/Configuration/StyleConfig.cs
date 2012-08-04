@@ -1,277 +1,256 @@
+#region Using Directives
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
 
-namespace ScintillaNet.Configuration
+#endregion Using Directives
+
+
+namespace ScintillaNET.Configuration
 {
-	public class StyleConfigList : List<StyleConfig>
-	{
-		private int? _bits;
-		public int? Bits
-		{
-			get
-			{
-				return _bits;
-			}
-			set
-			{
-				_bits = value;
-			}
-		}
+    public class StyleConfig
+    {
+        #region Fields
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
+        private Color _backColor;
+        private bool? _bold;
+        private StyleCase? _case;
+        private CharacterSet? _characterSet;
+        private string _fontName;
+        private Color _foreColor;
+        private bool? _inherit;
+        private bool? _isChangeable;
+        private bool? _isHotspot;
+        private bool? _isSelectionEolFilled;
+        private bool? _isVisible;
+        private bool? _italic;
+        private string _name;
+        private int? _number;
+        private int? _size;
+        private bool? _underline;
 
-	}
-
-	public class StyleConfig
-	{
-		private bool? _bold;
-		public bool? Bold
-		{
-			get
-			{
-				return _bold;
-			}
-			set
-			{
-				_bold = value;
-			}
-		}
-
-		private StyleCase? _case;
-		public StyleCase? Case
-		{
-			get
-			{
-				return _case;
-			}
-			set
-			{
-				_case = value;
-			}
-		}
-
-		private CharacterSet? _characterSet;
-		public CharacterSet? CharacterSet
-		{
-			get
-			{
-				return _characterSet;
-			}
-			set
-			{
-				_characterSet = value;
-			}
-		}
-
-		private string _fontName;
-		public string FontName
-		{
-			get
-			{
-				return _fontName;
-			}
-			set
-			{
-				_fontName = value;
-			}
-		}
-
-		private Color _foreColor;
-		public Color ForeColor
-		{
-			get
-			{
-				return _foreColor;
-			}
-			set
-			{
-				_foreColor = value;
-			}
-		}
-
-		private Color _backColor;
-		public Color BackColor
-		{
-			get
-			{
-				return _backColor;
-			}
-			set
-			{
-				_backColor = value;
-			}
-		}
-
-		private bool? _isChangeable;
-		public bool? IsChangeable
-		{
-			get
-			{
-				return _isChangeable;
-			}
-			set
-			{
-				_isChangeable = value;
-			}
-		}
-
-		private bool? _isHotspot;
-		public bool? IsHotspot
-		{
-			get
-			{
-				return _isHotspot;
-			}
-			set
-			{
-				_isHotspot = value;
-			}
-		}
-
-		private bool? _isSelectionEolFilled;
-		public bool? IsSelectionEolFilled
-		{
-			get
-			{
-				return _isSelectionEolFilled;
-			}
-			set
-			{
-				_isSelectionEolFilled = value;
-			}
-		}
-
-		private bool? _isVisible;
-		public bool? IsVisible
-		{
-			get
-			{
-				return _isVisible;
-			}
-			set
-			{
-				_isVisible = value;
-			}
-		}
-
-		private bool? _italic;
-		public bool? Italic
-		{
-			get
-			{
-				return _italic;
-			}
-			set
-			{
-				_italic = value;
-			}
-		}
-
-		private int? _size;
-		public int? Size
-		{
-			get
-			{
-				return _size;
-			}
-			set
-			{
-				_size = value;
-			}
-		}
+        #endregion Fields
 
 
-		private bool? _underline;
-		public bool? Underline
-		{
-			get
-			{
-				return _underline;
-			}
-			set
-			{
-				_underline = value;
-			}
-		}
+        #region Methods
 
-		private int? _number;
-		public int? Number
-		{
-			get
-			{
-				return _number;
-			}
-			set
-			{
-				_number = value;
-			}
-		}
+        public override string ToString()
+        {
+            return "Name = \"" + _name + "\" Number=" + _number.ToString();
+        }
 
-		private string _name;
-		public string Name
-		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
-		}
+        #endregion Methods
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
 
-		public override string ToString()
-		{
-			return "Name = \"" + _name + "\" Number=" + _number.ToString();
-		}
-	}
+        #region Properties
 
-	public class ResolvedStyleList : Dictionary<int, StyleConfig>
-	{
+        public Color BackColor
+        {
+            get
+            {
+                return _backColor;
+            }
+            set
+            {
+                _backColor = value;
+            }
+        }
 
-		public ResolvedStyleList()
-		{
-			
-		}
 
-		public StyleConfig FindByName(string name)
-		{
-			
-			foreach (StyleConfig item in this.Values)
-			{
-				if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-					return item;
-			}
+        public bool? Bold
+        {
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+            }
+        }
 
-			return null;
-		}
 
-	}
+        public StyleCase? Case
+        {
+            get
+            {
+                return _case;
+            }
+            set
+            {
+                _case = value;
+            }
+        }
+
+
+        public CharacterSet? CharacterSet
+        {
+            get
+            {
+                return _characterSet;
+            }
+            set
+            {
+                _characterSet = value;
+            }
+        }
+
+
+        public string FontName
+        {
+            get
+            {
+                return _fontName;
+            }
+            set
+            {
+                _fontName = value;
+            }
+        }
+
+
+        public Color ForeColor
+        {
+            get
+            {
+                return _foreColor;
+            }
+            set
+            {
+                _foreColor = value;
+            }
+        }
+
+
+        public bool? Inherit
+        {
+            get
+            {
+                return _inherit;
+            }
+            set
+            {
+                _inherit = value;
+            }
+        }
+
+
+        public bool? IsChangeable
+        {
+            get
+            {
+                return _isChangeable;
+            }
+            set
+            {
+                _isChangeable = value;
+            }
+        }
+
+
+        public bool? IsHotspot
+        {
+            get
+            {
+                return _isHotspot;
+            }
+            set
+            {
+                _isHotspot = value;
+            }
+        }
+
+
+        public bool? IsSelectionEolFilled
+        {
+            get
+            {
+                return _isSelectionEolFilled;
+            }
+            set
+            {
+                _isSelectionEolFilled = value;
+            }
+        }
+
+
+        public bool? IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                _isVisible = value;
+            }
+        }
+
+
+        public bool? Italic
+        {
+            get
+            {
+                return _italic;
+            }
+            set
+            {
+                _italic = value;
+            }
+        }
+
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+
+
+        public int? Number
+        {
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+            }
+        }
+
+
+        public int? Size
+        {
+            get
+            {
+                return _size;
+            }
+            set
+            {
+                _size = value;
+            }
+        }
+
+
+        public bool? Underline
+        {
+            get
+            {
+                return _underline;
+            }
+            set
+            {
+                _underline = value;
+            }
+        }
+
+        #endregion Properties
+    }
 }

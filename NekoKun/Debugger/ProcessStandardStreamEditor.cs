@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ScintillaNet;
+using ScintillaNET;
 using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Windows.Forms;

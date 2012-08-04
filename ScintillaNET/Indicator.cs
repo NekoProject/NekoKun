@@ -1,236 +1,247 @@
-using System;
+#region Using Directives
+
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 
-namespace ScintillaNet
+#endregion Using Directives
+
+
+namespace ScintillaNET
 {
-	[TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
-	public class IndicatorCollection : TopLevelHelper
-	{
-		internal IndicatorCollection(Scintilla scintilla) : base(scintilla){}
-		public Indicator this[int number]
-		{
-			get
-			{
-				return new Indicator(number, Scintilla);
-			}
-		}
+    [TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
+    public class Indicator : ScintillaHelperBase
+    {
+        #region Fields
 
-		public void Reset()
-		{
-			for (int i = 0; i < 32; i++)
-				this[i].Reset();
-		}
+        private int _number;
+
+        #endregion Fields
 
 
-	}
-	[TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
-	public class Indicator : ScintillaHelperBase
-	{
-		private int _number;
+        #region Methods
 
-		internal Indicator(int number, Scintilla scintilla) : base(scintilla)
-		{
-			_number	= number;
-		}
+        public override bool Equals(object obj)
+        {
+            if (!IsSameHelperFamily(obj))
+                return false;
 
-		internal bool ShouldSerialize()
-		{
-			return ShouldSerializeColor() ||
-				ShouldSerializeIsDrawnUnder() ||
-				ShouldSerializeStyle();
-		}
+            return ((Indicator)obj).Number == this.Number;
+        }
 
-		public int Number
-		{
-			get
-			{
-				return _number;
-			}
-			set
+
+        private Color GetDefaultColor()
+        {
+            if (_number == 0)
+                return Color.FromArgb(0, 127, 0);
+            else if (_number == 1)
+                return Color.FromArgb(0, 0, 255);
+            else if (_number == 2)
+                return Color.FromArgb(255, 0, 0);
+            else
+                return Color.FromArgb(0, 0, 0);
+        }
+
+
+        private IndicatorStyle GetDefaultStyle()
+        {
+            if (_number == 0)
+                return IndicatorStyle.Squiggle;
+            else if (_number == 1)
+                return IndicatorStyle.TT;
+            else
+                return IndicatorStyle.Plain;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+
+        public void Reset()
+        {
+            ResetColor();
+            ResetIsDrawnUnder();
+            ResetStyle();
+        }
+
+
+        public void ResetColor()
+        {
+            Color = GetDefaultColor();
+        }
+
+
+        public void ResetIsDrawnUnder()
+        {
+            IsDrawnUnder = false;
+        }
+
+
+        public void ResetStyle()
+        {
+            Style = GetDefaultStyle();
+        }
+
+
+        public Range Search()
+        {
+            return Search(Scintilla.GetRange());
+        }
+
+
+        public Range Search(Range searchRange)
+        {
+            int foundStart = NativeScintilla.IndicatorEnd(_number, searchRange.Start);
+            int foundEnd = NativeScintilla.IndicatorEnd(_number, foundStart);
+            if (foundStart < 0 || foundStart > searchRange.End || foundStart == foundEnd)
+                return null;
+
+
+            return new Range(foundStart, foundEnd, Scintilla);
+        }
+
+
+        public Range Search(Range searchRange, Range startingAfterRange)
+        {
+            int start = startingAfterRange.End;
+            if (start > NativeScintilla.GetTextLength())
+                return null;
+
+            int foundStart = NativeScintilla.IndicatorEnd(_number, start);
+            int foundEnd = NativeScintilla.IndicatorEnd(_number, foundStart);
+            if (foundStart < 0 || foundStart > searchRange.End || foundStart == foundEnd)
+                return null;
+            
+            return new Range(foundStart, foundEnd, Scintilla);
+        }
+
+
+        public List<Range> SearchAll()
+        {
+            return SearchAll(Scintilla.GetRange());
+        }
+
+
+        public List<Range> SearchAll(Range searchRange)
+        {
+            Range foundRange = Scintilla.GetRange(-1, -1);
+
+            List<Range> ret = new List<Range>();
+            do
             {
-            	_number = value;
+                foundRange = Search(searchRange, foundRange);
+                if (foundRange != null)
+                    ret.Add(foundRange);
             }
-		}
-
-		#region Color
-		public Color Color
-		{
-			get
-			{
-				if (Scintilla.ColorBag.ContainsKey(ToString() + ".Color"))
-					return Scintilla.ColorBag[ToString() + ".Color"];
-
-				return Utilities.RgbToColor(NativeScintilla.IndicGetFore(_number));
-			}
-			set
-			{
-				Scintilla.ColorBag[ToString() + ".Color"] = value;
-				NativeScintilla.IndicSetFore(_number, Utilities.ColorToRgb(value));
-			}
-		}
-
-		private bool ShouldSerializeColor()
-		{
-			return Color != getDefaultColor();
-		}
-
-		public void ResetColor()
-		{
-			Color = getDefaultColor();
-		}
-
-		private Color getDefaultColor()
-		{
-			if (_number == 0)
-				return Color.FromArgb(0, 127, 0);
-			else if (_number == 1)
-				return Color.FromArgb(0, 0, 255);
-			else if (_number == 2)
-				return Color.FromArgb(255, 0, 0);
-			else
-				return Color.FromArgb(0, 0, 0);
-		}
-		#endregion
+            while (foundRange != null);
+            return ret;
+        }
 
 
-		#region Style
-		public IndicatorStyle Style
-		{
-			get
-			{
-				return (IndicatorStyle)NativeScintilla.IndicGetStyle(_number);
-			}
-			set
-			{
-				NativeScintilla.IndicSetStyle(_number, (int)value);
-			}
-		}
-
-		private bool ShouldSerializeStyle()
-		{
-			return Style != getDefaultStyle();
-		}
-
-		public void ResetStyle()
-		{
-			Style = getDefaultStyle();
-		}
-
-		private IndicatorStyle getDefaultStyle()
-		{
-			if (_number == 0)
-				return IndicatorStyle.Squiggle;
-			else if (_number == 1)
-				return IndicatorStyle.TT;
-			else
-				return IndicatorStyle.Plain;
-		} 
-		#endregion
-
-		#region IsDrawnUnder
-		public bool IsDrawnUnder
-		{
-			get
-			{
-				return NativeScintilla.IndicGetUnder(_number);
-			}
-			set
-			{
-				NativeScintilla.IndicSetUnder(_number, value);
-			}
-		}
-
-		private bool ShouldSerializeIsDrawnUnder()
-		{
-			return IsDrawnUnder;
-		}
-
-		public void ResetIsDrawnUnder()
-		{
-			IsDrawnUnder = false;
-		}
-
-		public void Reset()
-		{
-			ResetColor();
-			ResetIsDrawnUnder();
-			ResetStyle();
-		} 
-		#endregion
-
-		public Range Search()
-		{
-			return Search(Scintilla.GetRange());
-		}
-
-		public Range Search(Range searchRange)
-		{
-			int foundStart = NativeScintilla.IndicatorEnd(_number, searchRange.Start);
-			int foundEnd = NativeScintilla.IndicatorEnd(_number, foundStart);
-			if (foundStart < 0 || foundStart > searchRange.End || foundStart == foundEnd)
-				return null;
+        internal bool ShouldSerialize()
+        {
+            return ShouldSerializeColor() ||
+                ShouldSerializeIsDrawnUnder() ||
+                ShouldSerializeStyle();
+        }
 
 
-			return new Range(foundStart, foundEnd, Scintilla);
-		}
-
-		public Range Search(Range searchRange, Range startingAfterRange)
-		{
-			int start = startingAfterRange.End;
-			if (start > NativeScintilla.GetTextLength())
-				return null;
-
-			int foundStart = NativeScintilla.IndicatorEnd(_number, start);
-			int foundEnd = NativeScintilla.IndicatorEnd(_number, foundStart);
-			if (foundStart < 0 || foundStart > searchRange.End || foundStart == foundEnd)
-				return null;
-			
-			return new Range(foundStart, foundEnd, Scintilla);
-		}
+        private bool ShouldSerializeColor()
+        {
+            return Color != GetDefaultColor();
+        }
 
 
-		public List<Range> SearchAll()
-		{
-			return SearchAll(Scintilla.GetRange());
-		}
-			
+        private bool ShouldSerializeIsDrawnUnder()
+        {
+            return IsDrawnUnder;
+        }
 
-		public List<Range> SearchAll(Range searchRange)
-		{
-			Range foundRange = Scintilla.GetRange(-1, -1);
 
-			List<Range> ret = new List<Range>();
-			do
-			{
-				foundRange = Search(searchRange, foundRange);
-				if (foundRange != null)
-					ret.Add(foundRange);
-			}
-			while (foundRange != null);
-			return ret;
-		}
+        private bool ShouldSerializeStyle()
+        {
+            return Style != GetDefaultStyle();
+        }
 
-		public override string ToString()
-		{
-			return "Indicator" + _number;
-		}
 
-		public override bool Equals(object obj)
-		{
-			if (!IsSameHelperFamily(obj))
-				return false;
+        public override string ToString()
+        {
+            return "Indicator" + _number;
+        }
 
-			return ((Indicator)obj).Number == this.Number;
-		}
+        #endregion Methods
 
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
-	}
 
-	
+        #region Properties
+
+        public Color Color
+        {
+            get
+            {
+                if (Scintilla.ColorBag.ContainsKey(ToString() + ".Color"))
+                    return Scintilla.ColorBag[ToString() + ".Color"];
+
+                return Utilities.RgbToColor(NativeScintilla.IndicGetFore(_number));
+            }
+            set
+            {
+                Scintilla.ColorBag[ToString() + ".Color"] = value;
+                NativeScintilla.IndicSetFore(_number, Utilities.ColorToRgb(value));
+            }
+        }
+
+
+        public bool IsDrawnUnder
+        {
+            get
+            {
+                return NativeScintilla.IndicGetUnder(_number);
+            }
+            set
+            {
+                NativeScintilla.IndicSetUnder(_number, value);
+            }
+        }
+
+
+        public int Number
+        {
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+            }
+        }
+
+
+        public IndicatorStyle Style
+        {
+            get
+            {
+                return (IndicatorStyle)NativeScintilla.IndicGetStyle(_number);
+            }
+            set
+            {
+                NativeScintilla.IndicSetStyle(_number, (int)value);
+            }
+        }
+
+        #endregion Properties
+
+
+        #region Constructors
+
+        internal Indicator(int number, Scintilla scintilla) : base(scintilla)
+        {
+            _number = number;
+        }
+
+        #endregion Constructors
+    }
 }

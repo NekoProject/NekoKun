@@ -1,23 +1,37 @@
+#region Using Directives
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScintillaNet.Configuration
-{
-	public class LexerPropertiesConfig : Dictionary<string, string>
-	{
+#endregion Using Directives
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
-	}
+
+namespace ScintillaNET.Configuration
+{
+    public class LexerPropertiesConfig : Dictionary<string, string>
+    {
+        #region Fields
+
+        private bool? _inherit;
+
+        #endregion Fields
+
+
+        #region Properties
+
+        public bool? Inherit
+        {
+            get
+            {
+                return _inherit;
+            }
+            set
+            {
+                _inherit = value;
+            }
+        }
+
+        #endregion Properties
+    }
 }

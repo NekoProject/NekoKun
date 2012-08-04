@@ -1,122 +1,119 @@
+#region Using Directives
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
 
-namespace ScintillaNet.Configuration
+#endregion Using Directives
+
+namespace ScintillaNET.Configuration
 {
-	public class MarkersConfig
-	{
-		private int? _alpha;
-		public int? Alpha
-		{
-			get
-			{
-				return _alpha;
-			}
-			set
-			{
-				_alpha = value;
-			}
-		}
+    public class MarkersConfig
+    {
+        #region Fields
 
-		private Color _backColor;
-		public Color BackColor
-		{
-			get
-			{
-				return _backColor;
-			}
-			set
-			{
-				_backColor = value;
-			}
-		}
+        private int? _alpha;
+        private Color _backColor;
+        private Color _foreColor;
+        private bool? _inherit;
+        private string _name;
+        private int? _number;
+        private MarkerSymbol? _symbol;
 
-		private Color _foreColor;
-		public Color ForeColor
-		{
-			get
-			{
-				return _foreColor;
-			}
-			set
-			{
-				_foreColor = value;
-			}
-		}
+        #endregion Fields
 
-		private string _name;
-		public string Name
-		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
-		}
-		private int? _number;
-		public int? Number
-		{
-			get
-			{
-				return _number;
-			}
-			set
-			{
-				_number = value;
-			}
-		}
 
-		private MarkerSymbol? _symbol;
-		public MarkerSymbol? Symbol
-		{
-			get
-			{
-				return _symbol;
-			}
-			set
-			{
-				_symbol = value;
-			}
-		}
+        #region Properties
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
-	}
+        public int? Alpha
+        {
+            get
+            {
+                return _alpha;
+            }
+            set
+            {
+                _alpha = value;
+            }
+        }
 
-	public class MarkersConfigList : System.Collections.ObjectModel.KeyedCollection<int, MarkersConfig>
-	{
-		protected override int GetKeyForItem(MarkersConfig item)
-		{
-			return item.Number.Value;
-		}
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
-	}
+        public Color BackColor
+        {
+            get
+            {
+                return _backColor;
+            }
+            set
+            {
+                _backColor = value;
+            }
+        }
+
+
+        public Color ForeColor
+        {
+            get
+            {
+                return _foreColor;
+            }
+            set
+            {
+                _foreColor = value;
+            }
+        }
+
+
+        public bool? Inherit
+        {
+            get
+            {
+                return _inherit;
+            }
+            set
+            {
+                _inherit = value;
+            }
+        }
+
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+
+
+        public int? Number
+        {
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+            }
+        }
+
+
+        public MarkerSymbol? Symbol
+        {
+            get
+            {
+                return _symbol;
+            }
+            set
+            {
+                _symbol = value;
+            }
+        }
+
+        #endregion Properties
+    }
 }

@@ -1,17 +1,18 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScintillaNet")]
-[assembly: AssemblyDescription(".NET Wrapper around Scintilla edit control")]
+[assembly: AssemblyTitle("ScintillaNET")]
+[assembly: AssemblyDescription("Windows Forms Scintilla Text Editor Control")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ScintillaNet Team")]
-[assembly: AssemblyProduct("ScintillaNet")]
-[assembly: AssemblyCopyright("Copyright © ScintillaNet Team 2008")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("ScintillaNET Team")]
+[assembly: AssemblyProduct("ScintillaNET")]
+[assembly: AssemblyCopyright("Copyright (C) 2012 ScintillaNET. All rights reserved.")]
+[assembly: AssemblyTrademark("http://scintillanet.codeplex.com/")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -31,5 +32,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.2.*")]
-[assembly: AssemblyFileVersion("2.2.0.0")]
+[assembly: AssemblyVersion("2.5.0.0")]
+[assembly: AssemblyFileVersion("2.5.0.0")]
+[assembly: AssemblyInformationalVersion("2.5.0.0")]
+[assembly: NeutralResourcesLanguageAttribute("en-US")]

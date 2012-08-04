@@ -1,70 +1,90 @@
+#region Using Directives
+
 using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Text;
 
-using System.Windows.Forms;
+#endregion Using Directives
 
-namespace ScintillaNet
+
+namespace ScintillaNET
 {
-	public class SnippetLinkEnd : ManagedRange
-	{
-		internal SnippetLinkEnd(int start, Scintilla scintilla) : base(start, start, scintilla) { }
+    public class SnippetLinkEnd : ManagedRange
+    {
+        #region Methods
 
-		public override void Change(int newStart, int newEnd)
-		{
-			Invalidate();
+        public override void Change(int newStart, int newEnd)
+        {
+            Invalidate();
 
-			//	This actually changes Start and End
-			base.Change(newStart, newEnd);
-		}
+            //	This actually changes Start and End
+            base.Change(newStart, newEnd);
+        }
 
-		public void Invalidate()
-		{
-			if(Scintilla != null && Start > 0)
-			{
-				INativeScintilla _ns = Scintilla as INativeScintilla;
-				int x = _ns.PointXFromPosition(Start);
-				int y = _ns.PointYFromPosition(Start) + _ns.TextHeight(0) - 2;
 
-				//	Invalidate the old Marker Location so that we don't get "Ghosts"
-				Scintilla.Invalidate(new Rectangle(x-2, y, 5, 5));
-			}
-		}
+        public override void Dispose()
+        {
+            if (!IsDisposed)
+            {
+                Invalidate();
+                base.Dispose();
+            }
+        }
 
-		//	Drop Markers are points, not a spanned range.
-		public override bool IsPoint
-		{
-			get
-			{
-				return true;
-			}
-		}
 
-		protected internal override void Paint(Graphics g)
-		{
-			base.Paint(g);
+        public void Invalidate()
+        {
+            if(Scintilla != null && Start > 0)
+            {
+                INativeScintilla _ns = Scintilla as INativeScintilla;
+                int x = _ns.PointXFromPosition(Start);
+                int y = _ns.PointYFromPosition(Start) + _ns.TextHeight(0) - 2;
 
-			if (IsDisposed)
-				return;
+                //	Invalidate the old Marker Location so that we don't get "Ghosts"
+                Scintilla.Invalidate(new Rectangle(x-2, y, 5, 5));
+            }
+        }
 
-			INativeScintilla _ns = Scintilla as INativeScintilla;
 
-			int x = _ns.PointXFromPosition(Start);
-			int y = _ns.PointYFromPosition(Start) + _ns.TextHeight(0) - 2;
+        protected internal override void Paint(Graphics g)
+        {
+            base.Paint(g);
 
-			//	Draw a red Triangle with a dark red border at the marker position
-			g.FillPolygon(Brushes.Lime, new Point[] { new Point(x-2, y+4), new Point(x, y), new Point(x+2, y+4) });
-			g.DrawPolygon(Pens.Green, new Point[] { new Point(x-2, y+4), new Point(x, y), new Point(x+2, y+4) });
-		}
+            if (IsDisposed)
+                return;
 
-		public override void Dispose()
-		{
-			if (!IsDisposed)
-			{
-				Invalidate();
-				base.Dispose();
-			}
-		}
-	}
+            INativeScintilla _ns = Scintilla as INativeScintilla;
+
+            int x = _ns.PointXFromPosition(Start);
+            int y = _ns.PointYFromPosition(Start) + _ns.TextHeight(0) - 2;
+
+            //	Draw a red Triangle with a dark red border at the marker position
+            g.FillPolygon(Brushes.Lime, new Point[] { new Point(x-2, y+4), new Point(x, y), new Point(x+2, y+4) });
+            g.DrawPolygon(Pens.Green, new Point[] { new Point(x-2, y+4), new Point(x, y), new Point(x+2, y+4) });
+        }
+
+        #endregion Methods
+
+
+        #region Properties
+
+        // Drop Markers are points, not a spanned range.
+        public override bool IsPoint
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        #endregion Properties
+
+
+        #region Constructors
+
+        internal SnippetLinkEnd(int start, Scintilla scintilla) : base(start, start, scintilla)
+        {
+        }
+
+        #endregion Constructors
+    }
 }

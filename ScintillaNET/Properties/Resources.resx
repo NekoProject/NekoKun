@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LineColorHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LineColorHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -132,5 +132,56 @@
   </data>
   <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exception_CannotLoadModule" xml:space="preserve">
+    <value>Cannot load the '{0}' module into memory.</value>
+  </data>
+  <data name="Exception_EmptyStringArgument" xml:space="preserve">
+    <value>The '{0}' argument cannot be an empty string.</value>
+  </data>
+  <data name="Exception_ModuleAlreadyLoaded" xml:space="preserve">
+    <value>The module name must be set before any Scintilla object are created.</value>
+  </data>
+  <data name="ModuleName" xml:space="preserve">
+    <value>SciLexer.dll</value>
+  </data>
+  <data name="ModuleName64" xml:space="preserve">
+    <value>SciLexer64.dll</value>
+  </data>
+  <data name="Exception_CannotCreateDirectFunction" xml:space="preserve">
+    <value>Cannot create the Scintilla direct message function.</value>
+  </data>
+  <data name="Exception_IllegalCrossThreadCall" xml:space="preserve">
+    <value>Cross-thread operation not valid: Control '{0}' accessed from a thread other than the thread it was created on.</value>
+  </data>
+  <data name="Exception_InvalidModule" xml:space="preserve">
+    <value>'{0}' is not a valid Scintilla module.</value>
+  </data>
+  <data name="Exception_EnumeratorEnded" xml:space="preserve">
+    <value>Enumeration already finished.</value>
+  </data>
+  <data name="Exception_EnumeratorNotStarted" xml:space="preserve">
+    <value>Enumeration has not started. Call MoveNext.</value>
+  </data>
+  <data name="Exception_IndexOutOfRange" xml:space="preserve">
+    <value>Index was out of range. Must be non-negative and less than the size of the collection.</value>
+  </data>
+  <data name="Exception_InsufficientSpace" xml:space="preserve">
+    <value>Insufficient space in the target location to copy the information.</value>
+  </data>
+  <data name="Exception_InvalidAnnotation" xml:space="preserve">
+    <value>A change in the control who created this annotation has rendered the object invalid.</value>
+  </data>
+  <data name="Exception_MustBeNonNegativeAndLessThan" xml:space="preserve">
+    <value>'{0}' was out of range. Must be non-negative and less than {1}.</value>
+  </data>
+  <data name="Exception_InvalidLine" xml:space="preserve">
+    <value>The {0} line must specify a valid line within the document.</value>
+  </data>
+  <data name="Exception_InvalidLineRange" xml:space="preserve">
+    <value>The start line and end line must specify a valid range.</value>
+  </data>
+  <data name="Exception_InvalidStartLine" xml:space="preserve">
+    <value>The start line must be greater than or equal to zero.</value>
   </data>
 </root>

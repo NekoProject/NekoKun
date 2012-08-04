@@ -1,100 +1,119 @@
+#region Using Directives
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace ScintillaNet
+#endregion Using Directives
+
+
+namespace ScintillaNET
 {
-	[TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
-	public class LongLines : TopLevelHelper
-	{
-		internal LongLines(Scintilla scintilla) : base(scintilla) { }
+    [TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
+    public class LongLines : TopLevelHelper
+    {
+        #region Methods
 
-		internal bool ShouldSerialize()
-		{
-			return ShouldSerializeEdgeColor() ||
-				ShouldSerializeEdgeColumn() ||
-				ShouldSerializeEdgeMode();
-		}
+        private void ResetEdgeColor()
+        {
+            EdgeColor = Color.Silver;
+        }
 
-		#region EdgeMode
-		public EdgeMode EdgeMode
-		{
-			get
-			{
-				return (EdgeMode)NativeScintilla.GetEdgeMode();
-			}
-			set
-			{
-				NativeScintilla.SetEdgeMode((int)value);
-			}
-		}
 
-		private bool ShouldSerializeEdgeMode()
-		{
-			return EdgeMode != EdgeMode.None;
-		}
+        private void ResetEdgeColumn()
+        {
+            EdgeColumn = 0;
+        }
 
-		private void ResetEdgeMode()
-		{
-			EdgeMode = EdgeMode.None;
-		}
-		#endregion
 
-		#region EdgeColumn
-		public int EdgeColumn
-		{
-			get
-			{
-				return NativeScintilla.GetEdgeColumn();
-			}
-			set
-			{
-				NativeScintilla.SetEdgeColumn(value);
-			}
-		}
+        private void ResetEdgeMode()
+        {
+            EdgeMode = EdgeMode.None;
+        }
 
-		private bool ShouldSerializeEdgeColumn()
-		{
-			return EdgeColumn != 0;
-		}
 
-		private void ResetEdgeColumn()
-		{
-			EdgeColumn = 0;
-		}
-		#endregion
+        internal bool ShouldSerialize()
+        {
+            return ShouldSerializeEdgeColor() ||
+                ShouldSerializeEdgeColumn() ||
+                ShouldSerializeEdgeMode();
+        }
 
-		#region EdgeColor
-		public Color EdgeColor
-		{
-			get
-			{
-				if (Scintilla.ColorBag.ContainsKey("LongLines.EdgeColor"))
-					return Scintilla.ColorBag["LongLines.EdgeColor"];
 
-				return Color.Silver;
-			}
-			set
-			{
-				if (value == Color.Silver)
-					Scintilla.ColorBag.Remove("LongLines.EdgeColor");
+        private bool ShouldSerializeEdgeColor()
+        {
+            return EdgeColor != Color.Silver;
+        }
 
-				Scintilla.ColorBag["LongLines.EdgeColor"] = value;
-				NativeScintilla.SetEdgeColour(Utilities.ColorToRgb(value));
-			}
-		}
 
-		private bool ShouldSerializeEdgeColor()
-		{
-			return EdgeColor != Color.Silver;
-		}
+        private bool ShouldSerializeEdgeColumn()
+        {
+            return EdgeColumn != 0;
+        }
 
-		private void ResetEdgeColor()
-		{
-			EdgeColor = Color.Silver;
-		}
-		#endregion
-	}
+
+        private bool ShouldSerializeEdgeMode()
+        {
+            return EdgeMode != EdgeMode.None;
+        }
+
+        #endregion Methods
+
+
+        #region Properties
+
+        public Color EdgeColor
+        {
+            get
+            {
+                if (Scintilla.ColorBag.ContainsKey("LongLines.EdgeColor"))
+                    return Scintilla.ColorBag["LongLines.EdgeColor"];
+
+                return Color.Silver;
+            }
+            set
+            {
+                if (value == Color.Silver)
+                    Scintilla.ColorBag.Remove("LongLines.EdgeColor");
+
+                Scintilla.ColorBag["LongLines.EdgeColor"] = value;
+                NativeScintilla.SetEdgeColour(Utilities.ColorToRgb(value));
+            }
+        }
+
+
+        public int EdgeColumn
+        {
+            get
+            {
+                return NativeScintilla.GetEdgeColumn();
+            }
+            set
+            {
+                NativeScintilla.SetEdgeColumn(value);
+            }
+        }
+
+
+        public EdgeMode EdgeMode
+        {
+            get
+            {
+                return (EdgeMode)NativeScintilla.GetEdgeMode();
+            }
+            set
+            {
+                NativeScintilla.SetEdgeMode((int)value);
+            }
+        }
+
+        #endregion Properties
+
+
+        #region Constructors
+
+        internal LongLines(Scintilla scintilla) : base(scintilla) { }
+
+        #endregion Constructors
+    }
 }

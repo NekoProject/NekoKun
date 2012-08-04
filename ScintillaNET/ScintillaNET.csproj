@@ -1,20 +1,32 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScintillaNet</RootNamespace>
-    <AssemblyName>ScintillaNet</AssemblyName>
+    <RootNamespace>ScintillaNET</RootNamespace>
+    <AssemblyName>ScintillaNET</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <PublishUrl>http://localhost/ScintillaNet/</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ScintillaNET.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -26,11 +38,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>ScintillaNet.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +50,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +60,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -60,24 +71,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotation.cs" />
+    <Compile Include="AnnotationChangedEventArgs.cs" />
+    <Compile Include="AnnotationCollection.cs" />
+    <Compile Include="AnnotationsVisibility.cs" />
     <Compile Include="AutoComplete.cs" />
+    <Compile Include="AutoCompleteAcceptedEventArgs.cs" />
+    <Compile Include="BindableCommand.cs" />
     <Compile Include="CallTip.cs" />
-    <Compile Include="Caret.cs" />
+    <Compile Include="CallTipArrow.cs" />
+    <Compile Include="CallTipClickEventArgs.cs" />
+    <Compile Include="CaretInfo.cs" />
+    <Compile Include="CaretPolicy.cs" />
+    <Compile Include="CaretStyle.cs" />
+    <Compile Include="CharacterRange.cs" />
+    <Compile Include="CharacterSet.cs" />
+    <Compile Include="CharAddedEventArgs.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Commands.cs" />
-    <Compile Include="Configuration\CommandConfig.cs" />
+    <Compile Include="Configuration\CommandBindingConfig.cs" />
+    <Compile Include="Configuration\CommandBindingConfigList.cs" />
     <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\ConfigurationLoadOrder.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\IndicatorConfigList.cs" />
     <Compile Include="Configuration\IndicatorsConfig.cs" />
+    <Compile Include="Configuration\KeyWordConfig.cs" />
     <Compile Include="Configuration\KeyWordConfigList.cs" />
     <Compile Include="Configuration\LexerProperties.cs" />
     <Compile Include="Configuration\MarginConfig.cs" />
+    <Compile Include="Configuration\MarginConfigList.cs" />
     <Compile Include="Configuration\MarkersConfig.cs" />
+    <Compile Include="Configuration\MarkersConfigList.cs" />
+    <Compile Include="Configuration\ResolvedStyleList.cs" />
     <Compile Include="Configuration\SnippetsConfig.cs" />
+    <Compile Include="Configuration\SnippetsConfigList.cs" />
     <Compile Include="Configuration\StyleConfig.cs" />
+    <Compile Include="Configuration\StyleConfigList.cs" />
+    <Compile Include="CopyFormat.cs" />
+    <Compile Include="CursorShape.cs" />
     <Compile Include="Document.cs" />
+    <Compile Include="DocumentHandler.cs" />
     <Compile Include="DocumentNavigation.cs" />
+    <Compile Include="DropMarkerCollectEventArgs.cs" />
+    <Compile Include="DropMarkerList.cs" />
+    <Compile Include="DropMarkers.cs" />
+    <Compile Include="EdgeMode.cs" />
     <Compile Include="EndOfLine.cs" />
+    <Compile Include="EndOfLineMode.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="FakeStack.cs" />
+    <Compile Include="FileDropEventArgs.cs" />
+    <Compile Include="FindReplace\FindOption.cs" />
     <Compile Include="FindReplace\FindReplace.cs" />
     <Compile Include="FindReplace\FindReplaceDialog.cs">
       <SubType>Form</SubType>
@@ -91,11 +136,18 @@
     <Compile Include="FindReplace\IncrementalSearcher.Designer.cs">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlagsDesigner.cs">
+    <Compile Include="FindReplace\ToolStripIncrementalSearcher.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Design\FlagsDesigner.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FoldChangedEventArgs.cs" />
+    <Compile Include="FoldFlag.cs" />
     <Compile Include="Folding.cs">
     </Compile>
+    <Compile Include="FoldLevel.cs" />
+    <Compile Include="FoldMarkerScheme.cs" />
     <Compile Include="GoTo.cs" />
     <Compile Include="GoToDialog.cs">
       <SubType>Form</SubType>
@@ -103,33 +155,65 @@
     <Compile Include="GoToDialog.Designer.cs">
       <DependentUpon>GoToDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="HotspotClickEventArgs.cs" />
     <Compile Include="HotspotStyle.cs" />
     <Compile Include="Indentation.cs" />
+    <Compile Include="IndicatorCollection.cs" />
+    <Compile Include="IndicatorStyle.cs" />
+    <Compile Include="KeyBinding.cs" />
+    <Compile Include="KeyMod.cs" />
+    <Compile Include="KeywordCollection.cs" />
+    <Compile Include="Lexer.cs" />
     <Compile Include="Lexing.cs" />
-    <Compile Include="LineWrap.cs" />
+    <Compile Include="LayoutCacheMode.cs" />
+    <Compile Include="LinesNeedShownEventArgs.cs" />
+    <Compile Include="LineWrapping.cs" />
+    <Compile Include="LineWrappingIndentMode.cs" />
     <Compile Include="LongLines.cs" />
-    <Compile Include="Margins.cs" />
-    <Compile Include="Markers.cs" />
+    <Compile Include="MacroRecordEventArgs.cs" />
+    <Compile Include="ManagedRange.cs" />
+    <Compile Include="MarginClickEventArgs.cs" />
+    <Compile Include="MarginCollection.cs" />
+    <Compile Include="Margin.cs" />
+    <Compile Include="MarginType.cs" />
+    <Compile Include="Marker.cs" />
+    <Compile Include="MarkerChangedEventArgs.cs" />
+    <Compile Include="MarkerCollection.cs" />
+    <Compile Include="MarkerInstance.cs" />
+    <Compile Include="MarkerOutline.cs" />
+    <Compile Include="MarkerSymbol.cs" />
+    <Compile Include="ModificationFlags.cs" />
+    <Compile Include="ModifiedEventArgs.cs" />
     <Compile Include="NativeMethods.cs" />
-    <Compile Include="NativeStructs.cs" />
+    <Compile Include="NativeMethods.Scintilla.cs" />
+    <Compile Include="NativeScintillaEventArgs.cs" />
+    <Compile Include="NavigationPont.cs" />
+    <Compile Include="NotifyHeader.cs" />
+    <Compile Include="OverloadList.cs" />
+    <Compile Include="PrintColorMode.cs" />
+    <Compile Include="Printing\FooterInformation.cs" />
+    <Compile Include="Printing\HeaderInformation.cs" />
+    <Compile Include="Printing\InformationType.cs" />
     <Compile Include="Printing\PageInformation.cs" />
+    <Compile Include="Printing\PageInformationBorder.cs" />
     <Compile Include="Printing\PageSettings.cs" />
     <Compile Include="Printing\PrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Printing\Printing.cs" />
+    <Compile Include="PrintRectangle.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RangeToFormat.cs" />
+    <Compile Include="RECT.cs" />
     <Compile Include="Scintilla.INativeScintilla.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="DropMarker.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="EventArgs.cs" />
     <Compile Include="INativeScintilla.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="Line.cs" />
@@ -139,11 +223,15 @@
     <Compile Include="Scintilla.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ScintillaDesigner.cs" />
+    <Compile Include="Design\ScintillaDesigner.cs" />
     <Compile Include="ScintillaHelperBase.cs" />
+    <Compile Include="ScintillaMouseEventArgs.cs" />
+    <Compile Include="SCNotification.cs" />
     <Compile Include="Scrolling.cs" />
     <Compile Include="SearchFlags.cs" />
     <Compile Include="Selection.cs" />
+    <Compile Include="SelectionMode.cs" />
+    <Compile Include="SmartIndent.cs" />
     <Compile Include="Snippets\Snippet.cs" />
     <Compile Include="Snippets\SnippetChooser.cs">
       <SubType>UserControl</SubType>
@@ -151,15 +239,36 @@
     <Compile Include="Snippets\SnippetChooser.Designer.cs">
       <DependentUpon>SnippetChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Snippets\SnippetLinkCollection.cs" />
     <Compile Include="Snippets\SnippetLinkEnd.cs" />
+    <Compile Include="Snippets\SnippetLinkRange.cs" />
     <Compile Include="Snippets\SnippetLinks.cs" />
     <Compile Include="Snippets\SnippetList.cs" />
     <Compile Include="Snippets\SnippetManager.cs" />
     <Compile Include="Style.cs" />
+    <Compile Include="StyleCase.cs" />
+    <Compile Include="StyleChangedEventArgs.cs" />
+    <Compile Include="StyleCollection.cs" />
+    <Compile Include="StyleNeededEventArgs.cs" />
+    <Compile Include="StyleRun.cs" />
+    <Compile Include="StyleRunReader.cs" />
+    <Compile Include="StylesCommon.cs" />
+    <Compile Include="StyleRunWriter.cs" />
+    <Compile Include="TextModifiedEventArgs.cs" />
+    <Compile Include="TextRange.cs" />
+    <Compile Include="TextToFind.cs" />
+    <Compile Include="TopLevelHelper.cs" />
     <Compile Include="UndoRedo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="UndoRedoFlags.cs" />
+    <Compile Include="UriDroppedEventArgs.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="VOID.cs" />
     <Compile Include="Whitespace.cs" />
+    <Compile Include="WhitespaceMode.cs" />
     <Compile Include="WhitespaceStringConverter.cs" />
+    <Compile Include="LineWrappingMode.cs" />
+    <Compile Include="LineWrappingVisualFlags.cs" />
+    <Compile Include="LineWrappingVisualFlagsLocations.cs" />
     <Compile Include="XpmAdapter.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -192,13 +301,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>SnippetChooser.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Documentation\ScintillaNET.cd" />
     <None Include="Resources\GoToPreviousMessage.png" />
     <None Include="Resources\GoToNextMessage.png" />
     <None Include="Resources\GoToNextMessage - Copy.png" />
     <None Include="Resources\LineColorHS.png" />
     <None Include="Resources\DeleteHS.png" />
-    <None Include="ScintillaNet.snk" />
+    <None Include="ScintillaNET.snk" />
     <EmbeddedResource Include="Configuration\Builtin\html.xml" />
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\cpp.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\hypertext.txt" />
@@ -365,6 +473,11 @@
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\ave.txt" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -380,14 +493,23 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration\Builtin\LexerKeywordListNames\scriptol.txt" />
     <EmbeddedResource Include="Configuration\Builtin\LexerStyleNames\scriptol.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="SciLexer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SciLexer64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -401,5 +523,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

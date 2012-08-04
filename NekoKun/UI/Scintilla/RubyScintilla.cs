@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ScintillaNet;
+using ScintillaNET;
 using System.Drawing;
 
 namespace NekoKun.UI
@@ -10,26 +10,29 @@ namespace NekoKun.UI
 	{
 		public RubyScintilla()
 		{
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
+
+            //this.ConfigurationManager.Language = "ruby";
+
 			// http://ondineyuga.com/svn/RGE2/Tools/RGESEditor/RGESEditor_lang/EditorScintilla/Scintilla.cs
 			// line number
 			this.Margins[0].Width = 39;
 
 			// fold
-			this.Margins[1].Type = MarginType.Symbol;
 			this.Margins[1].Mask = -33554432; //SC_MASK_FOLDERS
-			this.Margins[1].Width = 16;
-			this.Margins[1].IsClickable = true;
-			this.NativeInterface.SetProperty("fold", "1");
-			this.NativeInterface.SetProperty("fold.comment", "0");
-			this.NativeInterface.SetProperty("fold.compact", "1");
-			this.NativeInterface.SetProperty("fold.preprocessor", "1");
+            this.Margins[1].Width = 16;
+            this.Margins[1].IsClickable = true;
 
-			this.Folding.Flags = FoldFlag.LineAfterContracted;
-
+            
 			// lexing
 			this.Lexing.Lexer = Lexer.Ruby;
 			this.Lexing.SetKeywords(0, "__FILE__ __LINE__ BEGIN END alias and begin break case class def defined? do else elsif end ensure false for if in module next nil not or redo rescue retry return self super then true undef unless until when while yield");
-			this.UseFont = true;
+
+            this.Folding.MarkerScheme = FoldMarkerScheme.Arrow;
+            this.Folding.UseCompactFolding = true;
+            this.Folding.Flags = FoldFlag.LineAfterContracted;
+            this.Folding.IsEnabled = true;
+
 			this.Styles[(int)SCE_RB.DEFAULT].ForeColor = Color.FromArgb(0, 0, 0);
 			this.Styles[(int)SCE_RB.DEFAULT].BackColor = Color.FromArgb(255, 255, 255);
 			this.Styles[(int)SCE_RB.WORD].ForeColor = Color.FromArgb(0, 0, 127);
@@ -58,7 +61,7 @@ namespace NekoKun.UI
 			this.Styles[(int)SCE_RB.COMMENTLINE].ForeColor = Color.FromArgb(0, 127, 0);
 
 			this.EndOfLine.Mode = EndOfLineMode.Crlf;
-			this.LineWrap.Mode = WrapMode.None;
+            this.LineWrapping.Mode = LineWrappingMode.None;
 
 			this.Indentation.UseTabs = false;
 			this.Indentation.TabIndents = true;

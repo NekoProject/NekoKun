@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ScintillaNet;
+using ScintillaNET;
 
 namespace NekoKun.UI
 {
@@ -23,10 +23,10 @@ namespace NekoKun.UI
             this.Styles["orz"].IsHotspot = true;
             this.Styles["orz"].Font = this.Font = new System.Drawing.Font("雅黑宋体", 10);
 
-            this.HotspotDoubleClick += new EventHandler<ScintillaMouseEventArgs>(NavPointListView_HotspotDoubleClick);
+            this.HotspotDoubleClick += new EventHandler<HotspotClickEventArgs>(NavPointListView_HotspotDoubleClick);
         }
 
-        void NavPointListView_HotspotDoubleClick(object sender, ScintillaMouseEventArgs e)
+        void NavPointListView_HotspotDoubleClick(object sender, HotspotClickEventArgs e)
         {
             this.Lines.FromPosition(e.Position).Select();
             try

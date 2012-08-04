@@ -1,112 +1,144 @@
+#region Using Directives
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScintillaNet
+#endregion Using Directives
+
+
+namespace ScintillaNET
 {
-	public class Snippet : IComparable<Snippet>
-	{
-		internal const char RealDelimeter = '\x1';
+    public class Snippet : IComparable<Snippet>
+    {
+        #region Constants
 
-		public char DefaultDelimeter = '$';
+        internal const char RealDelimeter = '\x1';
 
-		public Snippet(string shortcut, string code) : this(shortcut, code, '$', false) { }
-
-		public Snippet(string shortcut, string code, char delimeter, bool isSurroundsWith)
-		{
-			_isSurroundsWith	= isSurroundsWith;
-			_shortcut			= shortcut;
-			_delimeter			= delimeter;
-			Code				= code;			
-		}
+        #endregion Constants
 
 
-		private string _realCode;
-		internal string RealCode
-		{
-			get
-			{
-				return _realCode;
-			}
-			set
-			{
-				_realCode = value;
-			}
-		}
+        #region Fields
 
-		private string _shortcut;
-		public string Shortcut
-		{
-			get
-			{
-				return _shortcut;
-			}
-			set
-			{
-				_shortcut = value;
-			}
-		}
+        private string _code;
+        private char _delimeter;
+        private bool _isSurroundsWith;
+        private List<string> _languages = new List<string>();
+        private string _realCode;
+        private string _shortcut;
+        public char DefaultDelimeter = '$';
 
-		private char _delimeter;
-		public char Delimeter
-		{
-			get
-			{
-				return _delimeter;
-			}
-			set
-			{
-				_delimeter = value;
-			}
-		}
+        #endregion Fields
 
-		private string _code;
-		public string Code
-		{
-			get
-			{
-				return _code;
-			}
-			set
-			{
-				_code = value;
-				_realCode = _code.Replace(_delimeter, RealDelimeter);
-			}
-		}
 
-		private List<string> _languages = new List<string>();
-		public List<string> Languages
-		{
-			get
-			{
-				return _languages;
-			}
-			set
-			{
-				_languages = value;
-			}
-		}
+        #region Methods
 
-		private bool _isSurroundsWith;
-		public bool IsSurroundsWith
-		{
-			get
-			{
-				return _isSurroundsWith;
-			}
-			set
-			{
-				_isSurroundsWith = value;
-			}
-		}
+        public int CompareTo(Snippet other)
+        {
+            return StringComparer.OrdinalIgnoreCase.Compare(_shortcut, other._shortcut);
+        }
 
-		#region IComparable<Snippet> Members
+        #endregion Methods
 
-		public int CompareTo(Snippet other)
-		{
-			return StringComparer.OrdinalIgnoreCase.Compare(_shortcut, other._shortcut);
-		}
 
-		#endregion
-	}
+        #region Properties
+
+        public string Code
+        {
+            get
+            {
+                return _code;
+            }
+            set
+            {
+                _code = value;
+                _realCode = _code.Replace(_delimeter, RealDelimeter);
+            }
+        }
+
+
+        public char Delimeter
+        {
+            get
+            {
+                return _delimeter;
+            }
+            set
+            {
+                _delimeter = value;
+            }
+        }
+
+
+        public bool IsSurroundsWith
+        {
+            get
+            {
+                return _isSurroundsWith;
+            }
+            set
+            {
+                _isSurroundsWith = value;
+            }
+        }
+
+
+        public List<string> Languages
+        {
+            get
+            {
+                return _languages;
+            }
+            set
+            {
+                _languages = value;
+            }
+        }
+
+
+        internal string RealCode
+        {
+            get
+            {
+                return _realCode;
+            }
+            set
+            {
+                _realCode = value;
+            }
+        }
+
+
+        public string Shortcut
+        {
+            get
+            {
+                return _shortcut;
+            }
+            set
+            {
+                _shortcut = value;
+            }
+        }
+
+        #endregion Properties
+
+
+        #region Constructors
+
+        public Snippet(string shortcut, string code) : this(shortcut, code, '$', false)
+        {
+        }
+
+
+        public Snippet(string shortcut, string code, char delimeter, bool isSurroundsWith)
+        {
+            _isSurroundsWith = isSurroundsWith;
+            _shortcut = shortcut;
+            _delimeter = delimeter;
+            Code = code;
+        }
+
+        #endregion Constructors
+    }
 }

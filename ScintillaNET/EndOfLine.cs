@@ -1,131 +1,132 @@
+#region Using Directives
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
-namespace ScintillaNet
+#endregion Using Directives
+
+
+namespace ScintillaNET
 {
-	/// <summary>
-	/// Manages End of line settings for the Scintilla Control
-	/// </summary>
-	[TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
-	public class EndOfLine : TopLevelHelper
-	{
-		internal EndOfLine(Scintilla scintilla) : base(scintilla) { }
+    /// <summary>
+    ///     Manages End of line settings for the Scintilla Control
+    /// </summary>
+    [TypeConverterAttribute(typeof(System.ComponentModel.ExpandableObjectConverter))]
+    public class EndOfLine : TopLevelHelper
+    {
+        #region Methods
 
-		internal bool ShouldSerialize()
-		{
-			return ShouldSerializeIsVisible() || ShouldSerializeMode() || ShouldSerializeConvertOnPaste();
-		}
+        /// <summary>
+        ///     Converts all lines in the document to the given mode.
+        /// </summary>
+        /// <param name="toMode">The EndOfLineMode to convert all lines to </param>
+        public void ConvertAllLines(EndOfLineMode toMode)
+        {
+            NativeScintilla.ConvertEols((int)toMode);
+        }
 
-		#region ConvertOnPaste
-		/// <summary>
-		/// Gets/Sets whether pasted content's line endings should be changed to match
-		/// the current document's settings.
-		/// </summary>
-		public bool ConvertOnPaste
-		{
-			get
-			{
-				return NativeScintilla.GetPasteConvertEndings();
-			}
-			set
-			{
-				NativeScintilla.SetPasteConvertEndings(value);
-			}
-		}
 
-		private bool ShouldSerializeConvertOnPaste()
-		{
-			return !ConvertOnPaste;
-		}
+        private void ResetIsVisible()
+        {
+            IsVisible = false;
+        }
 
-		private void ResetConvertOnPaste()
-		{
-			ConvertOnPaste = true;
-		} 
-		#endregion
 
-		#region Mode
-		/// <summary>
-		/// Gets/Sets the <see cref="EndOfLineMode"/> for the document. Default is CrLf.
-		/// </summary>
-		public EndOfLineMode Mode
-		{
-			get
-			{
-				return (EndOfLineMode)NativeScintilla.GetEolMode();
-			}
-			set
-			{
-				NativeScintilla.SetEolMode((int)value);
-			}
-		}
+        private void ResetMode()
+        {
+            Mode = EndOfLineMode.Crlf;
+        }
 
-		private bool ShouldSerializeMode()
-		{
-			//	Yeah I'm assuming Windows, if this does ever make it to another platform 
-			//	a check should be made to make it platform specific
-			return Mode != EndOfLineMode.Crlf;
-		}
 
-		private void ResetMode()
-		{
-			Mode = EndOfLineMode.Crlf;
-		} 
-		#endregion
+        internal bool ShouldSerialize()
+        {
+            return ShouldSerializeIsVisible() || ShouldSerializeMode();
+        }
 
-		#region IsVisible
-		/// <summary>
-		/// Gets/Sets if End of line markers are visible in the Scintilla control.
-		/// </summary>
-		public bool IsVisible
-		{
-			get
-			{
-				return NativeScintilla.GetViewEol();
-			}
-			set
-			{
-				NativeScintilla.SetViewEol(value);
-			}
-		}
 
-		private bool ShouldSerializeIsVisible()
-		{
-			return IsVisible;
-		}
+        private bool ShouldSerializeIsVisible()
+        {
+            return IsVisible;
+        }
 
-		private void ResetIsVisible()
-		{
-			IsVisible = false;
-		} 
-		#endregion
 
-		public string EolString
-		{
-			get
-			{
-				switch (Mode)
-				{
-					case EndOfLineMode.CR:
-						return "\r";
-					case EndOfLineMode.LF:
-						return "\n";
-					case EndOfLineMode.Crlf:
-						return "\r\n";
-				}
-				return "";
-			}
-		}
+        private bool ShouldSerializeMode()
+        {
+            // Yeah I'm assuming Windows, if this does ever make it to another platform 
+            // a check should be made to make it platform specific
+            return Mode != EndOfLineMode.Crlf;
+        }
 
-		/// <summary>
-		/// Converts all lines in the document to the given mode.
-		/// </summary>
-		/// <param name="toMode">The EndOfLineMode to convert all lines to </param>
-		public void ConvertAllLines(EndOfLineMode toMode)
-		{
-			NativeScintilla.ConvertEols((int)toMode);
-		}
-	}
+        #endregion Methods
+
+
+        #region Properties
+
+        /// <summary>
+        ///     Return as a string the characters used to mean _end-of-line. This depends solely on the
+        ///     selected EOL mode.
+        /// </summary>
+        /// <remarks>Should Mode not be CR, LF or CrLf, this function returns the empty string.</remarks>
+        public string EolString
+        {
+            get
+            {
+                switch (Mode)
+                {
+                    case EndOfLineMode.CR:
+                        return "\r";
+                    case EndOfLineMode.LF:
+                        return "\n";
+                    case EndOfLineMode.Crlf:
+                        return "\r\n";
+                }
+                return "";
+            }
+        }
+
+
+        /// <summary>
+        ///     Gets/Sets if End of line markers are visible in the Scintilla control.
+        /// </summary>
+        public bool IsVisible
+        {
+            get
+            {
+                return NativeScintilla.GetViewEol();
+            }
+            set
+            {
+                NativeScintilla.SetViewEol(value);
+            }
+        }
+
+
+        /// <summary>
+        ///     Gets/Sets the <see cref="EndOfLineMode"/> for the document. Default is CrLf.
+        /// </summary>
+        /// <remarks>
+        ///     Changing this value does NOT change all EOL marks in a currently-loaded document.
+        ///     To do this, use <see cref="ConvertAllLines"/>ConvertAllLines.
+        /// </remarks>
+        public EndOfLineMode Mode
+        {
+            get
+            {
+                return (EndOfLineMode)NativeScintilla.GetEolMode();
+            }
+            set
+            {
+                NativeScintilla.SetEolMode((int)value);
+            }
+        }
+
+        #endregion Properties
+
+
+        #region Constructors
+
+        internal EndOfLine(Scintilla scintilla) : base(scintilla) { }
+
+        #endregion Constructors
+    }
 }

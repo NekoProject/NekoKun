@@ -1,97 +1,93 @@
+#region Using Directives
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Text;
+using System.Collections.ObjectModel;
 
-namespace ScintillaNet.Configuration
+#endregion Using Directives
+
+
+namespace ScintillaNET.Configuration
 {
-	public class IndicatorConfigList : KeyedCollection<int, IndicatorConfig>
-	{
-		protected override int GetKeyForItem(IndicatorConfig item)
-		{
-			return item.Number;
-		}
+    public class IndicatorConfig
+    {
+        #region Fields
 
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
-	}
+        private Color _color;
+        private bool? _inherit;
+        private bool? _isDrawnUnder;
+        private int _number;
+        private IndicatorStyle? _style;
 
-	public class IndicatorConfig
-	{
-		private bool? _inherit;
-		public bool? Inherit
-		{
-			get
-			{
-				return _inherit;
-			}
-			set
-			{
-				_inherit = value;
-			}
-		}
+        #endregion Fields
 
-		private Color _color;
-		public Color Color
-		{
-			get
-			{
-				return _color;
-			}
-			set
-			{
-				_color = value;
-			}
-		}
 
-		private int _number;
-		public int Number
-		{
-			get
-			{
-				return _number;
-			}
-			set
-			{
-				_number = value;
-			}
-		}
+        #region Properties
 
-		private IndicatorStyle? _style;
-		public IndicatorStyle? Style
-		{
-			get
-			{
-				return _style;
-			}
-			set
-			{
-				_style = value;
-			}
-		}
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+            }
+        }
 
-		private bool? _isDrawnUnder;
-		public bool? IsDrawnUnder
-		{
-			get
-			{
-				return _isDrawnUnder;
-			}
-			set
-			{
-				_isDrawnUnder = value;
-			}
-		}
-	}
+
+        public bool? Inherit
+        {
+            get
+            {
+                return _inherit;
+            }
+            set
+            {
+                _inherit = value;
+            }
+        }
+
+
+        public bool? IsDrawnUnder
+        {
+            get
+            {
+                return _isDrawnUnder;
+            }
+            set
+            {
+                _isDrawnUnder = value;
+            }
+        }
+
+
+        public int Number
+        {
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+            }
+        }
+
+
+        public IndicatorStyle? Style
+        {
+            get
+            {
+                return _style;
+            }
+            set
+            {
+                _style = value;
+            }
+        }
+
+        #endregion Properties
+    }
 }
