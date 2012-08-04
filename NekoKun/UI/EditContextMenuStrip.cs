@@ -106,6 +106,15 @@ namespace NekoKun
             this.Opening += new System.ComponentModel.CancelEventHandler(EditContextMenuStrip_Opening);
         }
 
+        public void ResetHandler(object handler)
+        {
+            hUndo = handler as IUndoHandler;
+            hClip = handler as IClipboardHandler;
+            hDelete = handler as IDeleteHandler;
+            hSelectAll = handler as ISelectAllHandler;
+            hFind = handler as IFindReplaceHandler;
+        }
+
         private void EditContextMenuStrip_Opening(object sender, EventArgs e)
         {
             if (hUndo != null)

@@ -9,7 +9,7 @@ namespace NekoKun
 {
     public class LogEditor : AbstractEditor, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler
     {
-        public Scintilla Editor;
+        public UI.Scintilla Editor;
 
         public LogEditor(LogFile log) : base(log)
         {
@@ -22,7 +22,6 @@ namespace NekoKun
             Editor.Text = log.LogText;
             Editor.IsReadOnly = true;
 
-            Editor.ContextMenuStrip = new EditContextMenuStrip(this);
         }
 
         public void Append(string str)
@@ -49,57 +48,77 @@ namespace NekoKun
 
         public void Cut()
         {
-            this.Editor.Clipboard.Cut();
+            this.Editor.Cut();
         }
 
         public void Copy()
         {
-            this.Editor.Clipboard.Copy();
+            this.Editor.Copy();
         }
 
         public void Paste()
         {
-            this.Editor.Clipboard.Paste();
+            this.Editor.Paste();
         }
 
         public bool CanUndo
         {
-            get { return this.Editor.UndoRedo.CanUndo; }
+            get { return this.Editor.CanUndo; }
         }
 
         public bool CanRedo
         {
-            get { return this.Editor.UndoRedo.CanRedo; }
+            get { return this.Editor.CanRedo; }
         }
 
         public void Undo()
         {
-            this.Editor.UndoRedo.Undo();
+            this.Editor.Undo();
         }
 
         public void Redo()
         {
-            this.Editor.UndoRedo.Redo();
+            this.Editor.Redo();
         }
 
         public bool CanDelete
         {
-            get { return this.Editor.Selection.Length != 0 && !this.Editor.IsReadOnly; }
+            get { return this.Editor.CanDelete; }
         }
 
         public void Delete()
         {
-            this.Editor.Selection.Clear();
+            this.Editor.Delete();
         }
 
         public bool CanSelectAll
         {
-            get { return this.Editor.TextLength > 0; }
+            get { return this.Editor.CanSelectAll; }
         }
 
         public void SelectAll()
         {
-            this.Editor.Selection.SelectAll();
+            this.Editor.SelectAll();
+        }
+
+        public bool CanShowFindDialog
+        {
+            get { return this.Editor.CanShowFindDialog; }
+        }
+
+        public bool CanShowReplaceDialog
+        {
+            get { return this.Editor.CanShowReplaceDialog; }
+        }
+
+        public void ShowFindDialog()
+        {
+            this.Editor.ShowFindDialog();
+        }
+
+        public void ShowReplaceDialog()
+        {
+            this.Editor.ShowReplaceDialog();
         }
     }
 }

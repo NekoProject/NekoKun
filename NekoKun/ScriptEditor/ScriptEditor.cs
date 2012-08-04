@@ -3,14 +3,13 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using ScintillaNET;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun
 {
     public class ScriptEditor : AbstractEditor, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler, IFindReplaceHandler
     {
-        public Scintilla editor;
+        public NekoKun.UI.Scintilla editor;
 
         public ScriptEditor(ScriptFile item) : base(item)
         {
@@ -20,13 +19,11 @@ namespace NekoKun
 
             editor.Text = (this.File as ScriptFile).Code;
             editor.UndoRedo.EmptyUndoBuffer();
-            editor.TextDeleted += new EventHandler<TextModifiedEventArgs>(editor_TextDeleted);
-            editor.TextInserted += new EventHandler<TextModifiedEventArgs>(editor_TextInserted);
+            editor.TextDeleted += new EventHandler<ScintillaNET.TextModifiedEventArgs>(editor_TextDeleted);
+            editor.TextInserted += new EventHandler<ScintillaNET.TextModifiedEventArgs>(editor_TextInserted);
             editor.Scrolling.HorizontalWidth = 1;
 
             this.FormClosing += new FormClosingEventHandler(ScriptEditor_FormClosing);
-
-            editor.ContextMenuStrip = new EditContextMenuStrip(this);
         }
 
         public override void Commit()
@@ -39,17 +36,15 @@ namespace NekoKun
             this.Commit();
         }
 
-        void editor_TextInserted(object sender, TextModifiedEventArgs e)
+        void editor_TextInserted(object sender, ScintillaNET.TextModifiedEventArgs e)
         {
             this.File.MakeDirty();
         }
 
-        void editor_TextDeleted(object sender, TextModifiedEventArgs e)
+        void editor_TextDeleted(object sender, ScintillaNET.TextModifiedEventArgs e)
         {
             this.File.MakeDirty();
         }
-
-
 
         public bool CanCut
         {
@@ -68,77 +63,77 @@ namespace NekoKun
 
         public void Cut()
         {
-            this.editor.Clipboard.Cut();
+            this.editor.Cut();
         }
 
         public void Copy()
         {
-            this.editor.Clipboard.Copy();
+            this.editor.Copy();
         }
 
         public void Paste()
         {
-            this.editor.Clipboard.Paste();
+            this.editor.Paste();
         }
 
         public bool CanUndo
         {
-            get { return this.editor.UndoRedo.CanUndo; }
+            get { return this.editor.CanUndo; }
         }
 
         public bool CanRedo
         {
-            get { return this.editor.UndoRedo.CanRedo; }
+            get { return this.editor.CanRedo; }
         }
 
         public void Undo()
         {
-            this.editor.UndoRedo.Undo();
+            this.editor.Undo();
         }
 
         public void Redo()
         {
-            this.editor.UndoRedo.Redo();
+            this.editor.Redo();
         }
 
         public bool CanDelete
         {
-            get { return this.editor.Selection.Length != 0 && !this.editor.IsReadOnly; }
+            get { return this.editor.CanDelete; }
         }
 
         public void Delete()
         {
-            this.editor.Selection.Clear();
+            this.editor.Delete();
         }
 
         public bool CanSelectAll
         {
-            get { return this.editor.TextLength > 0; }
+            get { return this.editor.CanSelectAll; }
         }
 
         public void SelectAll()
         {
-            this.editor.Selection.SelectAll();
+            this.editor.SelectAll();
         }
 
         public bool CanShowFindDialog
         {
-            get { return true; }
+            get { return this.editor.CanShowFindDialog; }
         }
 
         public bool CanShowReplaceDialog
         {
-            get { return true; }
+            get { return this.editor.CanShowReplaceDialog; }
         }
 
         public void ShowFindDialog()
         {
-            this.editor.FindReplace.ShowFind();
+            this.editor.ShowFindDialog();
         }
 
         public void ShowReplaceDialog()
         {
-            this.editor.FindReplace.ShowReplace();
+            this.editor.ShowReplaceDialog();
         }
     }
 }

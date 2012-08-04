@@ -10,7 +10,7 @@ namespace NekoKun.Debugger
 {
     public class ProcessStandardStreamEditor: AbstractEditor , IClipboardHandler, ISelectAllHandler
     {
-        public Scintilla Editor;
+        public UI.Scintilla Editor;
         public int InputStart;
 
         public ProcessStandardStreamEditor(ProcessStandardStreamFile file)
@@ -32,7 +32,7 @@ namespace NekoKun.Debugger
             Editor.MouseUp += new MouseEventHandler(Editor_MouseUp);
             this.FormClosing += new FormClosingEventHandler(ProcessStandardStreamEditor_FormClosing);
 
-            Editor.ContextMenuStrip = new EditContextMenuStrip(this);
+            (Editor.ContextMenuStrip as EditContextMenuStrip).ResetHandler(this);
         }
 
         void Editor_MouseUp(object sender, MouseEventArgs e)

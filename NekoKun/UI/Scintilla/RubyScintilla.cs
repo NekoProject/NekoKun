@@ -30,6 +30,7 @@ namespace NekoKun.UI
 			// lexing
 			this.Lexing.Lexer = Lexer.Ruby;
 			this.Lexing.SetKeywords(0, "__FILE__ __LINE__ BEGIN END alias and begin break case class def defined? do else elsif end ensure false for if in module next nil not or redo rescue retry return self super then true undef unless until when while yield");
+            this.Lexing.LineCommentPrefix = "#~ ";
 
             this.Folding.MarkerScheme = FoldMarkerScheme.Arrow;
             this.Folding.UseCompactFolding = true;
@@ -72,7 +73,6 @@ namespace NekoKun.UI
             this.Indentation.ShowGuides = true;
 			this.Indentation.BackspaceUnindents = true;
 			this.Indentation.IndentWidth = 2;
-			//this.Indentation.SmartIndentType = SmartIndent.Simple;
 
 			this.LongLines.EdgeMode = EdgeMode.Line;
 			this.LongLines.EdgeColumn = 160;
@@ -81,8 +81,29 @@ namespace NekoKun.UI
 			this.Caret.CurrentLineBackgroundColor = Color.FromArgb(240, 240, 240);
 
             this.CharAdded += new EventHandler<CharAddedEventArgs>(RubyScintilla_CharAdded);
+
+            this.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+            this.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripMenuItem(
+                "智能格式化(&S)", null,
+                delegate
+                {
+                    this.SmartIndent();
+                }
+            ));
+            this.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripMenuItem(
+                "切换注释(&Q)", null,
+                delegate
+                {
+                    this.ToggleComment();
+                }, 
+                System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q
+            ));
 		}
 
+        private void ToggleComment()
+        {
+            this.Commands.Execute(BindableCommand.ToggleLineComment);
+        }
 
         void RubyScintilla_CharAdded(object sender, CharAddedEventArgs e)
         {
@@ -97,8 +118,8 @@ namespace NekoKun.UI
                     if (num != -1) { Lines.Current.Previous.Indentation = num * Indentation.TabWidth; }
                 }
                 int lineIndent = this.GetLineIndent(Lines.Current);
-                System.Diagnostics.Debug.WriteLine(lineIndent);
-                this.InsertText(new string(' ', lineIndent * Indentation.TabWidth));
+                if (lineIndent != -1)
+                    this.InsertText(new string(' ', lineIndent * Indentation.TabWidth));
             }
         }
 
@@ -120,6 +141,24 @@ namespace NekoKun.UI
             }
             return indent;
         }
+
+        public void SmartIndent()
+        {
+            this.UndoRedo.BeginUndoAction();
+            foreach (Line line in this.Lines)
+            {
+                int lineIndent = this.GetLineIndent(line);
+                if (lineIndent != -1)
+                {
+                    line.Indentation = 0;
+                    line.Indentation = lineIndent * this.Indentation.TabWidth;
+                }
+            }
+            this.UndoRedo.EndUndoAction();
+        }
+
+
+        
 
 
 		public enum SCE_RB
