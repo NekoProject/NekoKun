@@ -21,7 +21,6 @@ namespace NekoKun.UI
             this.StyleNeeded += new EventHandler<StyleNeededEventArgs>(NavPointListView_StyleNeeded);
             this.Lexing.StyleNameMap.Add("orz", 32);
             this.Styles["orz"].IsHotspot = true;
-            this.Styles["orz"].Font = this.Font = new System.Drawing.Font("雅黑宋体", 10);
 
             this.HotspotDoubleClick += new EventHandler<HotspotClickEventArgs>(NavPointListView_HotspotDoubleClick);
         }

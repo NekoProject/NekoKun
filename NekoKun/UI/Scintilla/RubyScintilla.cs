@@ -7,10 +7,13 @@ using System.Drawing;
 namespace NekoKun.UI
 {
 	public class RubyScintilla : Scintilla
-	{
+    {
+        private static List<char> braces = new List<char> { '(', ')', '[', ']', '{', '}' };
+        private static List<char> suppressedChars = new List<char> { ' ', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '{', '}', '[', ']', ':', ';', '<', '>', '.', ',', '?', '/', '\\', '\n', '\r', '\t', '`', '~', '|', '\'', '"' };
+        private static List<string> unindentWords = new List<string> { "else", "elsif", "rescue", "ensure", "when", "end", ")", "]", "}" };
+
 		public RubyScintilla()
 		{
-            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
 
             //this.ConfigurationManager.Language = "ruby";
 
@@ -66,17 +69,58 @@ namespace NekoKun.UI
 			this.Indentation.UseTabs = false;
 			this.Indentation.TabIndents = true;
 			this.Indentation.TabWidth = 2;
-			this.Indentation.ShowGuides = false;
+            this.Indentation.ShowGuides = true;
 			this.Indentation.BackspaceUnindents = true;
 			this.Indentation.IndentWidth = 2;
-			this.Indentation.SmartIndentType = SmartIndent.Simple;
+			//this.Indentation.SmartIndentType = SmartIndent.Simple;
 
 			this.LongLines.EdgeMode = EdgeMode.Line;
 			this.LongLines.EdgeColumn = 160;
 
 			this.Caret.HighlightCurrentLine = true;
 			this.Caret.CurrentLineBackgroundColor = Color.FromArgb(240, 240, 240);
+
+            this.CharAdded += new EventHandler<CharAddedEventArgs>(RubyScintilla_CharAdded);
 		}
+
+
+        void RubyScintilla_CharAdded(object sender, CharAddedEventArgs e)
+        {
+            if (e.Ch == '\n')
+            {
+                string lastline = this.Lines.Current.Previous.Text.Trim();
+                if (lastline == "=begin" || lastline == "=end")
+                    this.Lines.Current.Previous.Indentation = 0;
+                else
+                {
+                    int num = this.GetLineIndent(Lines.Current.Previous);
+                    if (num != -1) { Lines.Current.Previous.Indentation = num * Indentation.TabWidth; }
+                }
+                int lineIndent = this.GetLineIndent(Lines.Current);
+                System.Diagnostics.Debug.WriteLine(lineIndent);
+                this.InsertText(new string(' ', lineIndent * Indentation.TabWidth));
+            }
+        }
+
+        private int GetLineIndent(Line line)
+        {
+            int num = line.StartPosition - 1;
+            this.NativeInterface.Colourise(num, num + 1);
+            int styleAt = (int)this.Styles.GetStyleAt(num);
+            if (styleAt == 3 || styleAt == 6 || styleAt == 7 || styleAt == 12 || styleAt == 18 || line.Text.StartsWith("=begin"))
+            {
+                return -1;
+            }
+            int indent = line.FoldLevel - 1024;
+            string word = this.GetWordFromPosition(line.IndentPosition);
+            string item = this.CharAt(line.IndentPosition).ToString();
+            if (unindentWords.Contains(word) || unindentWords.Contains(item))
+            {
+                indent--;
+            }
+            return indent;
+        }
+
 
 		public enum SCE_RB
 		{

@@ -10,6 +10,8 @@ namespace NekoKun.UI
     	
         public Scintilla()
         {
+
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Font = Program.GetMonospaceFont();
             this.Styles.Default.Font = this.Font;
             for (int i = 0; i < 200; i++)
