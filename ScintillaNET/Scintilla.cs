@@ -31,7 +31,7 @@ namespace ScintillaNet
 	{
 		#region Constants
 
-        public string DefaultDllName = IntPtr.Size == 4 ? "SciLexer.dll" : "SciLexer64.dll";
+		public const string DefaultDllName = "SciLexer.dll";
 
 		#endregion Constants
 
