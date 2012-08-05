@@ -162,6 +162,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RPGMaker\AudioFile.cs" />
+    <Compile Include="RPGMaker\AudioFileEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RPGMaker\Database\DatabaseEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -287,6 +291,7 @@
     <Compile Include="Core\Workbench.Designer.cs">
       <DependentUpon>Workbench.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DockPanel_Src\WinFormsUI\WinFormsUI.csproj">

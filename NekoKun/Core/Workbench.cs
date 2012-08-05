@@ -84,6 +84,7 @@ namespace NekoKun
 
             try
             {
+                (ProjectManager.Components["Skills"] as AbstractFile).ShowEditor();
             	(ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
                 (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
             }

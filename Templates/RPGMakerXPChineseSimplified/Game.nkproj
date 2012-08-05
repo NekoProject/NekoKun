@@ -50,102 +50,6 @@
 						{
 							return strs[Int32.Parse(id.ToString())];
 						}
-						
-/*
-    when 7  # 金钱
-      if @parameters[2] == 0
-        result = ($game_party.gold >= @parameters[1])
-      else
-        result = ($game_party.gold <= @parameters[1])
-      end
-    when 8  # 物品
-      result = ($game_party.item_number(@parameters[1]) > 0)
-    when 9  # 武器
-      result = ($game_party.weapon_number(@parameters[1]) > 0)
-    when 10  # 防具
-      result = ($game_party.armor_number(@parameters[1]) > 0)
-    when 11  # 按钮
-      result = (Input.press?(@parameters[1]))
-    when 12  # 活动块
-      result = eval(@parameters[1])
-    when 1  # 变量
-      value1 = $game_variables[@parameters[1]]
-      if @parameters[2] == 0
-        value2 = @parameters[3]
-      else
-        value2 = $game_variables[@parameters[3]]
-      end
-      case @parameters[4]
-      when 0  # 等于
-        result = (value1 == value2)
-      when 1  # 以上
-        result = (value1 >= value2)
-      when 2  # 以下
-        result = (value1 <= value2)
-      when 3  # 超过
-        result = (value1 > value2)
-      when 4  # 未满
-        result = (value1 < value2)
-      when 5  # 以外
-        result = (value1 != value2)
-      end
-    when 2  # 独立开关
-      if @event_id > 0
-        key = [$game_map.map_id, @event_id, @parameters[1]]
-        if @parameters[2] == 0
-          result = ($game_self_switches[key] == true)
-        else
-          result = ($game_self_switches[key] != true)
-        end
-      end
-    when 3  # 计时器
-      if $game_system.timer_working
-        sec = $game_system.timer / Graphics.frame_rate
-        if @parameters[2] == 0
-          result = (sec >= @parameters[1])
-        else
-          result = (sec <= @parameters[1])
-        end
-      end
-    when 4  # 角色
-      actor = $game_actors[@parameters[1]]
-      if actor != nil
-        case @parameters[2]
-        when 0  # 同伴
-          result = ($game_party.actors.include?(actor))
-        when 1  # 名称
-          result = (actor.name == @parameters[3])
-        when 2  # 特技
-          result = (actor.skill_learn?(@parameters[3]))
-        when 3  # 武器
-          result = (actor.weapon_id == @parameters[3])
-        when 4  # 防具
-  result = (actor.armor1_id == @parameters[3] or
-                    actor.armor2_id == @parameters[3] or
-                    actor.armor3_id == @parameters[3] or
-                    actor.armor4_id == @parameters[3])
-        when 5  # 状态
-          result = (actor.state?(@parameters[3]))
-        end
-      end
-    when 5  # 敌人
-      enemy = $game_troop.enemies[@parameters[1]]
-      if enemy != nil
-        case @parameters[2]
-        when 0  # 出现
-          result = (enemy.exist?)
-        when 1  # 状态
-          result = (enemy.state?(@parameters[3]))
-        end
-      end
-    when 6  # 角色
-      character = get_character(@parameters[1])
-      if character != nil
-        result = (character.direction == @parameters[2])
-      end
-
-
-*/
 					}
 				}
 			]]>
@@ -253,6 +157,26 @@
 				<EnumItem Value="0">无</EnumItem>
 				<EnumItem Value="1">自动执行</EnumItem>
 				<EnumItem Value="2">并行处理</EnumItem>
+			</Enum>
+			<Enum ID="ItemScope" Name="物品效果范围">
+				<EnumItem Value="0">无</EnumItem>
+				<EnumItem Value="1">敌单体</EnumItem>
+				<EnumItem Value="2">敌全体</EnumItem>
+				<EnumItem Value="3">己方单体</EnumItem>
+				<EnumItem Value="4">己方全体</EnumItem>
+				<EnumItem Value="5">己方单体（HP 0）</EnumItem>
+				<EnumItem Value="6">己方全体（HP 0）</EnumItem>
+				<EnumItem Value="7">使用者</EnumItem>
+			</Enum>
+			<Enum ID="ItemOccasion" Name="物品使用条件">
+				<EnumItem Value="0">平时</EnumItem>
+				<EnumItem Value="1">战斗中</EnumItem>
+				<EnumItem Value="2">菜单中</EnumItem>
+				<EnumItem Value="3">不能使用</EnumItem>
+				<EnumItem Value="4">己方全体</EnumItem>
+				<EnumItem Value="5">己方单体（HP 0）</EnumItem>
+				<EnumItem Value="6">己方全体（HP 0）</EnumItem>
+				<EnumItem Value="7">使用者</EnumItem>
 			</Enum>
 		</Property>
 	</Component>
@@ -409,7 +333,9 @@
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+		<Property Name="Layout">
+			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout>
+		</Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
 		<Property Name="Title">武器</Property>
@@ -428,8 +354,93 @@
 		<Property Name="Fields">
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@icon_name" Name="图标" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@description" Name="说明" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@scope" Name="效果范围" Editor="NekoKun.ObjectEditor.EnumEditor">
+				<Property Name="Source">ItemScope</Property>
+			</Field>
+			<Field ID="@occasion" Name="可使用的场合" Editor="NekoKun.ObjectEditor.EnumEditor">
+				<Property Name="Source">ItemOccasion</Property>
+			</Field>
+			<Field ID="@animation1_id" Name="使用方的动画 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@menu_se" Name="菜单画面使用时的 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@common_event_id" Name="公共事件 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@sp_cost" Name="消费 SP" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@power" Name="威力" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@atk_f" Name="攻击力 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@eva_f" Name="回避 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@str_f" Name="力量 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@dex_f" Name="灵巧 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@agi_f" Name="速度 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@int_f" Name="魔力 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@hit" Name="命中率" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@pdef_f" Name="物理防御 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@mdef_f" Name="魔法防御 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@variance" Name="分散度" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@element_set" Name="属性" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
+			<Field ID="@plus_state_set" Name="附加状态" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
+			<Field ID="@minus_state_set" Name="解除状态" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
+
 		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+		<Property Name="Layout">
+			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout" RowCount="16" ColumnCount="6">
+				<TableCell Y="1" X="1" ColumnSpan="2">名称</TableCell>
+				<TableCell Y="1" X="3" ColumnSpan="2">图标</TableCell>
+				<TableCell Y="1" X="5" Width="1/4">属性</TableCell>
+				<TableCell Y="1" X="6" Width="1/4">状态变化</TableCell>
+				
+				<TableCell Y="2" X="1" ColumnSpan="2"><Control ID="@name" /></TableCell>
+				<TableCell Y="2" X="3" ColumnSpan="2"><Control ID="@icon_name" /></TableCell>
+				<TableCell Y="2" X="5" RowSpan="16"><Control ID="@element_set"/></TableCell>
+				<TableCell Y="2" X="6" RowSpan="16"><Control ID="@plus_state_set"/></TableCell>
+				
+				<TableCell Y="3" X="1" ColumnSpan="4">说明</TableCell>
+				<TableCell Y="4" X="1" ColumnSpan="4"><Control ID="@description" /></TableCell>
+				
+				<TableCell Y="5" X="1" ColumnSpan="2">效果范围</TableCell>
+				<TableCell Y="5" X="3" ColumnSpan="2">可能使用时</TableCell>
+				<TableCell Y="6" X="1" ColumnSpan="2"><Control ID="@scope" /></TableCell>
+				<TableCell Y="6" X="3" ColumnSpan="2"><Control ID="@occasion" /></TableCell>
+				
+				<TableCell Y="7" X="1" ColumnSpan="2">使用方的动画</TableCell>
+				<TableCell Y="7" X="3" ColumnSpan="2">对象方的动画</TableCell>
+				<TableCell Y="8" X="1" ColumnSpan="2"><Control ID="@animation1_id" /></TableCell>
+				<TableCell Y="8" X="3" ColumnSpan="2"><Control ID="@animation2_id" /></TableCell>
+				
+				<TableCell Y="9" X="1" ColumnSpan="2">菜单画面使用时的 SE</TableCell>
+				<TableCell Y="9" X="3" ColumnSpan="2">公共事件</TableCell>
+				<TableCell Y="10" X="1" ColumnSpan="2"><Control ID="@menu_se" /></TableCell>
+				<TableCell Y="10" X="3" ColumnSpan="2"><Control ID="@common_event_id" /></TableCell>
+
+				<TableCell Y="11" X="1" Width="1/8">消费 SP</TableCell>
+				<TableCell Y="11" X="2" Width="1/8">威力</TableCell>
+				<TableCell Y="11" X="3" Width="1/8">攻击力 F</TableCell>
+				<TableCell Y="11" X="4" Width="1/8">回避 F</TableCell>
+				<TableCell Y="12" X="1"><Control ID="@sp_cost" /></TableCell>
+				<TableCell Y="12" X="2"><Control ID="@power" /></TableCell>
+				<TableCell Y="12" X="3"><Control ID="@atk_f" /></TableCell>
+				<TableCell Y="12" X="4"><Control ID="@eva_f" /></TableCell>
+				
+				<TableCell Y="13" X="1">力量 F</TableCell>
+				<TableCell Y="13" X="2">灵巧 F</TableCell>
+				<TableCell Y="13" X="3">速度 F</TableCell>
+				<TableCell Y="13" X="4">魔力 F</TableCell>
+				<TableCell Y="14" X="1"><Control ID="@str_f" /></TableCell>
+				<TableCell Y="14" X="2"><Control ID="@dex_f" /></TableCell>
+				<TableCell Y="14" X="3"><Control ID="@agi_f" /></TableCell>
+				<TableCell Y="14" X="4"><Control ID="@int_f" /></TableCell>
+				
+				<TableCell Y="15" X="1">命中率</TableCell>
+				<TableCell Y="15" X="2">物理防御 F</TableCell>
+				<TableCell Y="15" X="3">魔法防御 F</TableCell>
+				<TableCell Y="15" X="4">分散度</TableCell>
+				<TableCell Y="16" X="1"><Control ID="@hit" /></TableCell>
+				<TableCell Y="16" X="2"><Control ID="@pdef_f" /></TableCell>
+				<TableCell Y="16" X="3"><Control ID="@mdef_f" /></TableCell>
+				<TableCell Y="16" X="4"><Control ID="@variance" /></TableCell>
+			</Layout>
+		</Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
 		<Property Name="Title">状态</Property>
@@ -494,22 +505,22 @@
 			<Field ID="@title_name" Name="标题图像的文件名" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 			<Field ID="@gameover_name" Name="游戏结束图像的文件名" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 			<Field ID="@battle_transition" Name="战斗切换时显示的渐变图像的文件名" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-			<Field ID="@title_bgm" Name="标题 BGM" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@battle_bgm" Name="战斗 BGM" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@battle_end_me" Name="战斗结束 ME" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@gameover_me" Name="游戏结束 ME" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@cursor_se" Name="光标 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@decision_se" Name="确定 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@cancel_se" Name="取消 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@buzzer_se" Name="警告 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@equip_se" Name="装备 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@shop_se" Name="商店 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@save_se" Name="存档 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@load_se" Name="读档 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@battle_start_se" Name="战斗开始 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@escape_se" Name="逃跑 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@actor_collapse_se" Name="角色受伤 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@enemy_collapse_se" Name="敌人受伤 SE" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
+			<Field ID="@title_bgm" Name="标题 BGM" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@battle_bgm" Name="战斗 BGM" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@battle_end_me" Name="战斗结束 ME" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@gameover_me" Name="游戏结束 ME" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@cursor_se" Name="光标 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@decision_se" Name="确定 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@cancel_se" Name="取消 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@buzzer_se" Name="警告 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@equip_se" Name="装备 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@shop_se" Name="商店 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@save_se" Name="存档 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@load_se" Name="读档 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@battle_start_se" Name="战斗开始 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@escape_se" Name="逃跑 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@actor_collapse_se" Name="角色受伤 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
+			<Field ID="@enemy_collapse_se" Name="敌人受伤 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
 			<Field ID="@words" Name="用语" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
 			<Field ID="@start_map_id" Name="主角初期位置的地图 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@start_x" Name="主角初期位置的地图 X" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
@@ -528,13 +539,6 @@
 		</Property>
 	</Component>
 	<Component Name="NekoKun.UIProvider" ID="UI">
-		<Property Name="Toolbars">
-			<Toolbar ID="General">
-				<Item Name="脚本(&amp;S)" Type="Component"><Property Name="ID">Scripts</Property></Item>
-				<Item Name="公共事件(&amp;C)" Type="Component"><Property Name="ID">CommonEvents</Property></Item>
-				<Item Name="系统选项(&amp;Y)" Type="Component"><Property Name="ID">System</Property></Item>
-			</Toolbar>
-		</Property>
 		<Property Name="Menus">
 			<Menu ID="View">
 				<Item Name="脚本(&amp;S)" Type="Component"><Property Name="ID">Scripts</Property></Item>
