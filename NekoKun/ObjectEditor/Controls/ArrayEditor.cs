@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class ArrayEditor : System.Windows.Forms.SplitContainer, IObjectEditor
+    public class ArrayEditor : System.Windows.Forms.SplitContainer, IObjectEditor, IClipboardHandler, IDeleteHandler
     {
         object orig;
         System.Windows.Forms.ListBox list;
@@ -25,6 +25,8 @@ namespace NekoKun.ObjectEditor
             this.Panel2.Controls.Add(con);
 
             Con.DirtyChanged += new EventHandler(Con_DirtyChanged);
+
+            this.list.ContextMenuStrip = new EditContextMenuStrip(this);
         }
 
         void Con_DirtyChanged(object sender, EventArgs e)
@@ -81,5 +83,47 @@ namespace NekoKun.ObjectEditor
                 return String.Format("{0:D3}: {1}", id + 1, this.Items[id].ToString());
             }
         }
+
+        public bool CanCut
+        {
+            get { return false; }
+        }
+
+        public bool CanCopy
+        {
+            get { return false; }
+        }
+
+        public bool CanPaste
+        {
+            get { return false; }
+        }
+
+        public void Cut()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Paste()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanDelete
+        {
+            get { return false; }
+        }
+
+        public void Delete()
+        {
+            this.list.Items[this.list.SelectedIndex] = new ObjectEditor.Struct();
+            (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
+        }
+
     }
 }

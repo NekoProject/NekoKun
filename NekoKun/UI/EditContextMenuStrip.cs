@@ -18,12 +18,6 @@ namespace NekoKun
         public EditContextMenuStrip(Object handler)
             : base()
         {
-            hUndo = handler as IUndoHandler;
-            hClip = handler as IClipboardHandler;
-            hDelete = handler as IDeleteHandler;
-            hSelectAll = handler as ISelectAllHandler;
-            hFind = handler as IFindReplaceHandler;
-
             this.menuUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +97,7 @@ namespace NekoKun
                 this.menuFind, this.menuReplace
             });
 
+            ResetHandler(handler);
             this.Opening += new System.ComponentModel.CancelEventHandler(EditContextMenuStrip_Opening);
         }
 
@@ -113,6 +108,15 @@ namespace NekoKun
             hDelete = handler as IDeleteHandler;
             hSelectAll = handler as ISelectAllHandler;
             hFind = handler as IFindReplaceHandler;
+            this.menuUndo.Tag = hUndo != null;
+            this.menuRedo.Tag = hUndo != null;
+            this.menuCut.Tag = hClip != null;
+            this.menuCopy.Tag = hClip != null;
+            this.menuPaste.Tag = hClip != null;
+            this.menuDelete.Tag = hDelete != null;
+            this.menuSelectAll.Tag = hSelectAll != null;
+            this.menuFind.Tag = hFind != null;
+            this.menuReplace.Tag = hFind != null;
         }
 
         private void EditContextMenuStrip_Opening(object sender, EventArgs e)
@@ -168,6 +172,37 @@ namespace NekoKun
             {
                 this.menuFind.Enabled = false;
                 this.menuReplace.Enabled = false;
+            }
+
+            CheckSeparator();
+        }
+
+        private void CheckSeparator()
+        {
+            List<ToolStripItem> visibled = new List<ToolStripItem>();
+            foreach (ToolStripItem item in this.Items)
+            {
+                if ((item.Tag != null && (bool)item.Tag == true) || item.Tag == null)
+                {
+                    item.Visible = true;
+                    visibled.Add(item);
+                }
+                else
+                {
+                    item.Visible = false;
+                }
+            }
+
+            if (visibled[0] is ToolStripSeparator)
+                visibled[0].Visible = false;
+
+            if (visibled[visibled.Count - 1] is ToolStripSeparator)
+                visibled[visibled.Count - 1].Visible = false;
+
+            for (int i = 0; i < visibled.Count - 1; i++)
+            {
+                if (visibled[i] is ToolStripSeparator && visibled[i + 1] is ToolStripSeparator)
+                    visibled[i + 1].Visible = false;
             }
         }
 

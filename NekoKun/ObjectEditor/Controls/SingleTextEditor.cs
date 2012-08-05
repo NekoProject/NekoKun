@@ -4,12 +4,13 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class SingleTextEditor: UI.LynnTextbox, IObjectEditor
+    public class SingleTextEditor: UI.LynnTextbox, IObjectEditor, IUndoHandler, IClipboardHandler, ISelectAllHandler, IDeleteHandler
     {
         protected bool supply;
 
         public SingleTextEditor(Dictionary<string, object> Params)
         {
+            this.ContextMenuStrip = new EditContextMenuStrip(this);
             this.TextChanged += new EventHandler(SingleTextEditor_TextChanged);
             if (DirtyChanged != null) DirtyChanged.ToString();
         }
@@ -47,5 +48,46 @@ namespace NekoKun.ObjectEditor
         public event EventHandler DirtyChanged;
 
         #endregion
+
+        public bool CanRedo
+        {
+            get { return false; }
+        }
+
+        public void Redo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanCut
+        {
+            get { return !this.ReadOnly && this.SelectionLength != 0; }
+        }
+
+        public bool CanCopy
+        {
+            get { return this.SelectionLength != 0; }
+        }
+
+        public bool CanPaste
+        {
+            get { return !this.ReadOnly && System.Windows.Forms.Clipboard.ContainsText(); }
+        }
+
+        public bool CanSelectAll
+        {
+            get { return !(this.SelectionStart == 0 && this.SelectionLength == this.Text.Length) && this.Text.Length > 0; }
+        }
+
+        public bool CanDelete
+        {
+            get { return !this.ReadOnly && this.Text.Length > 0; }
+        }
+
+        public void Delete()
+        {
+            this.Text = "";
+        }
+
     }
 }
