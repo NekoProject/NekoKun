@@ -41,12 +41,12 @@ namespace NekoKun.ObjectEditor
                 page.BackColor = System.Drawing.Color.Transparent;
                 this.TabPages.Add(page);
             }
-            this.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Selecting);
+            this.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Deselecting);
             this.Selected += new System.Windows.Forms.TabControlEventHandler(StructEditor_Selected);
 
         }
 
-        void StructEditor_Selecting(object sender, System.Windows.Forms.TabControlCancelEventArgs e)
+        void StructEditor_Deselecting(object sender, System.Windows.Forms.TabControlCancelEventArgs e)
         {
             this.Commit();
         }
@@ -119,6 +119,12 @@ namespace NekoKun.ObjectEditor
                 if (this.DirtyChanged != null)
                     this.DirtyChanged(sender, null);
                 this.selectedItem[this.views[this.SelectedIndex].EditorsR[sender as IObjectEditor]] = editor.SelectedItem;
+            }
+
+            foreach (var view in this.views)
+            {
+                if (view != this.views[this.SelectedIndex])
+                    view.IsFresh = false;
             }
         }
 
