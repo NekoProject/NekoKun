@@ -4,22 +4,18 @@ using System.Text;
 
 namespace NekoKun.RPGMaker
 {
-    public class DatabaseFile : AbstractFile
+    public class DatabaseFile : ObjectEditor.ObjectFile
     {
         protected string title;
         protected string className;
         protected bool arrayMode;
-        protected Dictionary<string, DatabaseField> fields;
-        protected System.Xml.XmlNode layoutInfo;
-        protected List<DatabaseItem> contents;
-        protected string layout;
-        protected DatabaseField idField;
+        protected Dictionary<string, ObjectEditor.StructField> fields;
+        protected object contents;
+        protected ObjectEditor.StructField idField;
+        protected System.Xml.XmlNodeList views;
 
         public bool ArrayMode { get { return this.arrayMode; } }
-        public Dictionary<string, DatabaseField> Fields { get { return this.fields; } }
-        public List<DatabaseItem> Contents { get { return this.contents; } }
-        public System.Xml.XmlNode LayoutInfo { get { return this.layoutInfo; } }
-        public string Layout { get { return this.layout; } }
+        public Dictionary<string, ObjectEditor.StructField> Fields { get { return this.fields; } }
 
         public DatabaseFile(Dictionary<string, object> node)
             : base(
@@ -36,15 +32,14 @@ namespace NekoKun.RPGMaker
                 this.arrayMode = true;
                 this.className = this.className.Substring(1, this.className.Length - 2);
             }
-            this.layoutInfo = (node["Layout"] as System.Xml.XmlNodeList)[0];
-            this.layout = (node["Layout"] as System.Xml.XmlNodeList)[0].Attributes["Type"].Value;
+            this.views = (node["Views"] as System.Xml.XmlNodeList);
 
-            this.fields = new Dictionary<string, DatabaseField>();
+            this.fields = new Dictionary<string, NekoKun.ObjectEditor.StructField>();
             var fields = node["Fields"] as System.Xml.XmlNodeList;
             foreach (System.Xml.XmlNode item in fields)
             {
                 if (item.Name != "Field") continue;
-                var field = new DatabaseField(item);
+                var field = new ObjectEditor.StructField(item);
                 this.fields.Add(field.ID, field);
                 if (field.Name == "ID")
                     idField = field;
@@ -58,39 +53,38 @@ namespace NekoKun.RPGMaker
             Object obj = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open));
             if (!this.arrayMode)
             {
-                this.contents = new List<DatabaseItem>();
-                contents.Add(LoadItem(obj));
+                this.contents = LoadItem(obj);
             }
             else
             {
                 var objl = obj as List<object>;
                 objl.RemoveAt(0);
-                this.contents = new List<DatabaseItem>(Array.ConvertAll<Object, DatabaseItem>(objl.ToArray(), LoadItem));
+                this.contents = new List<object>(Array.ConvertAll<Object, ObjectEditor.Struct>(objl.ToArray(), LoadItem));
             }
                 
         }
 
-        protected DatabaseItem LoadItem(object RubyObj)
+        protected ObjectEditor.Struct LoadItem(object RubyObj)
         {
             if (RubyObj is RubyBindings.RubyNil)
-                return new DatabaseItem(new Dictionary<DatabaseField, object>());
+                return new ObjectEditor.Struct();
             if (RubyObj is RubyBindings.RubyExpendObject)
                 return LoadItem((RubyObj as RubyBindings.RubyExpendObject).BaseObject);
             if (RubyObj is RubyBindings.RubyExtendedObject)
                 return LoadItem((RubyObj as RubyBindings.RubyExtendedObject).BaseObject);
-            Dictionary<DatabaseField, object> dict = new Dictionary<DatabaseField, object>();
+
+            ObjectEditor.Struct dict = new NekoKun.ObjectEditor.Struct();
 
             foreach (var item in (RubyObj as RubyBindings.RubyObject).Variables)
             {
-                //System.Diagnostics.Debug.Assert(this.fields.ContainsKey(item.Key.GetString()), String.Format("RM 又卖萌了：{0} 竟然含有 {1}。", this.className, item.Key.GetString()));
                 if (!this.fields.ContainsKey(item.Key.GetString()))
-                    this.fields.Add(item.Key.GetString(), new DatabaseField(item.Key.GetString()));
+                    this.fields.Add(item.Key.GetString(), new ObjectEditor.StructField(item.Key.GetString()));
 
                 var field = this.fields[item.Key.GetString()];
                 dict.Add(field, item.Value);
             }
 
-            return new DatabaseItem(dict);
+            return dict;
         }
 
         protected override void Save()
@@ -101,9 +95,9 @@ namespace NekoKun.RPGMaker
                 
                 var list = new List<object>();
                 list.Add(RubyBindings.RubyNil.Instance);
-                foreach (var item in this.contents)
+                foreach (var item in this.contents as List<object>)
                 {
-                    var obj = CreateRubyObject(this.className, item);
+                    var obj = CreateRubyObject(this.className, item as ObjectEditor.Struct);
                     if (this.idField != null)
                         obj.Variables[RubyBindings.RubySymbol.GetSymbol(idField.ID)] = list.Count + 1;
 
@@ -113,7 +107,7 @@ namespace NekoKun.RPGMaker
             }
             else
             {
-                dump = CreateRubyObject(this.className, this.contents[0]);
+                dump = CreateRubyObject(this.className, this.contents as ObjectEditor.Struct);
             }
 
             var file = new System.IO.FileStream(this.filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
@@ -121,11 +115,11 @@ namespace NekoKun.RPGMaker
             file.Close();
         }
 
-        private RubyBindings.RubyObject CreateRubyObject(string className, DatabaseItem item)
+        private RubyBindings.RubyObject CreateRubyObject(string className, ObjectEditor.Struct item)
         {
             RubyBindings.RubyObject obj = new NekoKun.RubyBindings.RubyObject();
             obj.ClassName = RubyBindings.RubySymbol.GetSymbol(className);
-            foreach (var kv in item.Items)
+            foreach (var kv in item)
 	        {
                 obj.Variables[RubyBindings.RubySymbol.GetSymbol(kv.Key.ID)] = kv.Value;
 	        }
@@ -134,12 +128,26 @@ namespace NekoKun.RPGMaker
 
         public override AbstractEditor CreateEditor()
         {
-            return new DatabaseEditor(this);
+            ObjectEditor.StructField[] fields = new NekoKun.ObjectEditor.StructField[this.fields.Count];
+            this.fields.Values.CopyTo(fields, 0);
+
+            Dictionary<string, object> param = new Dictionary<string, object>();
+            param["Views"] = this.views;
+
+            if (this.arrayMode)
+                return new ObjectEditor.ObjectFileEditor(this, new ObjectEditor.ArrayEditor(new ObjectEditor.StructEditor(param, fields)));
+            else
+                return new ObjectEditor.ObjectFileEditor(this, new ObjectEditor.StructEditor(param, fields));
         }
 
         public override string ToString()
         {
             return this.title;
+        }
+
+        public override object Contents
+        {
+            get { return this.contents; }
         }
     }
 }

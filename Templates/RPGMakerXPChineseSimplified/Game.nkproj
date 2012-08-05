@@ -31,7 +31,7 @@
 							
 							if (ProjectManager.Components.ContainsKey(name))
 							{
-								List<DatabaseItem> db = (ProjectManager.Components[name] as DatabaseFile).Contents;
+								List<ObjectEditor.Struct> db = (ProjectManager.Components[name] as DatabaseFile).Contents as List<ObjectEditor.Struct>;
 								int index = Int32.Parse(id.ToString()) - 1;
 								
 								return String.Format("[{0:D3}: {1}]", index + 1, (index >= 0 && index < db.Count) ? db[index].ToString() : "");
@@ -315,7 +315,7 @@
 			</Group>
 		</Property>
 	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
+	<!--<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
 		<Property Name="Title">角色</Property>
 		<Property Name="FileName">Data\Actors.rxdata</Property>
 		<Property Name="ClassName">[RPG::Actor]</Property>
@@ -346,103 +346,112 @@
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 		</Property>
 		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
-	</Component>
+	</Component>-->
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Skills">
 		<Property Name="Title">技能</Property>
 		<Property Name="FileName">Data\Skills.rxdata</Property>
 		<Property Name="ClassName">[RPG::Skill]</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-			<Field ID="@icon_name" Name="图标" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-			<Field ID="@description" Name="说明" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-			<Field ID="@scope" Name="效果范围" Editor="NekoKun.ObjectEditor.EnumEditor">
-				<Property Name="Source">ItemScope</Property>
-			</Field>
-			<Field ID="@occasion" Name="可使用的场合" Editor="NekoKun.ObjectEditor.EnumEditor">
-				<Property Name="Source">ItemOccasion</Property>
-			</Field>
-			<Field ID="@animation1_id" Name="使用方的动画 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@animation2_id" Name="对象方的动画 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@menu_se" Name="菜单画面使用时的 SE" Editor="NekoKun.RPGMaker.AudioFileEditor"></Field>
-			<Field ID="@common_event_id" Name="公共事件 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@sp_cost" Name="消费 SP" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@power" Name="威力" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@atk_f" Name="攻击力 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@eva_f" Name="回避 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@str_f" Name="力量 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@dex_f" Name="灵巧 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@agi_f" Name="速度 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@int_f" Name="魔力 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@hit" Name="命中率" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@pdef_f" Name="物理防御 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@mdef_f" Name="魔法防御 F" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@variance" Name="分散度" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@element_set" Name="属性" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@plus_state_set" Name="附加状态" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-			<Field ID="@minus_state_set" Name="解除状态" Editor="NekoKun.ObjectEditor.UnknownEditor"></Field>
-
+			<Field ID="@id" Name="ID"></Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@icon_name" Name="图标"></Field>
+			<Field ID="@description" Name="说明"></Field>
+			<Field ID="@scope" Name="效果范围"></Field>
+			<Field ID="@occasion" Name="可使用的场合"></Field>
+			<Field ID="@animation1_id" Name="使用方的动画 ID"></Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID"></Field>
+			<Field ID="@menu_se" Name="菜单画面使用时的 SE"></Field>
+			<Field ID="@common_event_id" Name="公共事件 ID"></Field>
+			<Field ID="@sp_cost" Name="消费 SP"></Field>
+			<Field ID="@power" Name="威力"></Field>
+			<Field ID="@atk_f" Name="攻击力 F"></Field>
+			<Field ID="@eva_f" Name="回避 F"></Field>
+			<Field ID="@str_f" Name="力量 F"></Field>
+			<Field ID="@dex_f" Name="灵巧 F"></Field>
+			<Field ID="@agi_f" Name="速度 F"></Field>
+			<Field ID="@int_f" Name="魔力 F"></Field>
+			<Field ID="@hit" Name="命中率"></Field>
+			<Field ID="@pdef_f" Name="物理防御 F"></Field>
+			<Field ID="@mdef_f" Name="魔法防御 F"></Field>
+			<Field ID="@variance" Name="分散度"></Field>
+			<Field ID="@element_set" Name="属性"></Field>
+			<Field ID="@plus_state_set" Name="附加状态"></Field>
+			<Field ID="@minus_state_set" Name="解除状态"></Field>
 		</Property>
-		<Property Name="Layout">
-			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout" RowCount="16" ColumnCount="6">
-				<TableCell Y="1" X="1" ColumnSpan="2">名称</TableCell>
-				<TableCell Y="1" X="3" ColumnSpan="2">图标</TableCell>
-				<TableCell Y="1" X="5" Width="1/4">属性</TableCell>
-				<TableCell Y="1" X="6" Width="1/4">状态变化</TableCell>
-				
-				<TableCell Y="2" X="1" ColumnSpan="2"><Control ID="@name" /></TableCell>
-				<TableCell Y="2" X="3" ColumnSpan="2"><Control ID="@icon_name" /></TableCell>
-				<TableCell Y="2" X="5" RowSpan="16"><Control ID="@element_set"/></TableCell>
-				<TableCell Y="2" X="6" RowSpan="16"><Control ID="@plus_state_set"/></TableCell>
-				
-				<TableCell Y="3" X="1" ColumnSpan="4">说明</TableCell>
-				<TableCell Y="4" X="1" ColumnSpan="4"><Control ID="@description" /></TableCell>
-				
-				<TableCell Y="5" X="1" ColumnSpan="2">效果范围</TableCell>
-				<TableCell Y="5" X="3" ColumnSpan="2">可能使用时</TableCell>
-				<TableCell Y="6" X="1" ColumnSpan="2"><Control ID="@scope" /></TableCell>
-				<TableCell Y="6" X="3" ColumnSpan="2"><Control ID="@occasion" /></TableCell>
-				
-				<TableCell Y="7" X="1" ColumnSpan="2">使用方的动画</TableCell>
-				<TableCell Y="7" X="3" ColumnSpan="2">对象方的动画</TableCell>
-				<TableCell Y="8" X="1" ColumnSpan="2"><Control ID="@animation1_id" /></TableCell>
-				<TableCell Y="8" X="3" ColumnSpan="2"><Control ID="@animation2_id" /></TableCell>
-				
-				<TableCell Y="9" X="1" ColumnSpan="2">菜单画面使用时的 SE</TableCell>
-				<TableCell Y="9" X="3" ColumnSpan="2">公共事件</TableCell>
-				<TableCell Y="10" X="1" ColumnSpan="2"><Control ID="@menu_se" /></TableCell>
-				<TableCell Y="10" X="3" ColumnSpan="2"><Control ID="@common_event_id" /></TableCell>
+		<Property Name="Views">
+			<View ID="General" Name="一般">
+				<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="17" ColumnCount="6">
+					<TableCell Y="1" X="1" ColumnSpan="2">名称</TableCell>
+					<TableCell Y="1" X="3" ColumnSpan="2">图标</TableCell>
+					<TableCell Y="1" X="5" Width="1/4">属性</TableCell>
+					<TableCell Y="1" X="6" Width="1/4">状态变化</TableCell>
+					
+					<TableCell Y="2" X="1" ColumnSpan="2"><Control ID="@name" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
+					<TableCell Y="2" X="3" ColumnSpan="2"><Control ID="@icon_name" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
+					<TableCell Y="2" X="5" RowSpan="16"><Control ID="@element_set" Editor="NekoKun.ObjectEditor.UnknownEditor"/></TableCell>
+					<TableCell Y="2" X="6" RowSpan="16"><Control ID="@plus_state_set" Editor="NekoKun.ObjectEditor.UnknownEditor"/></TableCell>
+					
+					<TableCell Y="3" X="1" ColumnSpan="4">说明</TableCell>
+					<TableCell Y="4" X="1" ColumnSpan="4"><Control ID="@description" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
+					
+					<TableCell Y="5" X="1" ColumnSpan="2">效果范围</TableCell>
+					<TableCell Y="5" X="3" ColumnSpan="2">可能使用时</TableCell>
+					<TableCell Y="6" X="1" ColumnSpan="2"><Control ID="@scope" Editor="NekoKun.ObjectEditor.EnumEditor">
+						<Property Name="Source">ItemScope</Property>
+					</Control></TableCell>
+					<TableCell Y="6" X="3" ColumnSpan="2"><Control ID="@occasion" Editor="NekoKun.ObjectEditor.EnumEditor">
+						<Property Name="Source">ItemOccasion</Property>
+					</Control></TableCell>
+					
+					<TableCell Y="7" X="1" ColumnSpan="2">使用方的动画</TableCell>
+					<TableCell Y="7" X="3" ColumnSpan="2">对象方的动画</TableCell>
+					<TableCell Y="8" X="1" ColumnSpan="2"><Control ID="@animation1_id" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="8" X="3" ColumnSpan="2"><Control ID="@animation2_id" Editor="NekoKun.ObjectEditor.DecimalEditor"/></TableCell>
+					
+					<TableCell Y="9" X="1" ColumnSpan="2">菜单画面使用时的 SE</TableCell>
+					<TableCell Y="9" X="3" ColumnSpan="2">公共事件</TableCell>
+					<TableCell Y="10" X="1" ColumnSpan="2"><Control ID="@menu_se" Editor="NekoKun.RPGMaker.AudioFileEditor"/></TableCell>
+					<TableCell Y="10" X="3" ColumnSpan="2"><Control ID="@common_event_id" Editor="NekoKun.ObjectEditor.DecimalEditor"/></TableCell>
 
-				<TableCell Y="11" X="1" Width="1/8">消费 SP</TableCell>
-				<TableCell Y="11" X="2" Width="1/8">威力</TableCell>
-				<TableCell Y="11" X="3" Width="1/8">攻击力 F</TableCell>
-				<TableCell Y="11" X="4" Width="1/8">回避 F</TableCell>
-				<TableCell Y="12" X="1"><Control ID="@sp_cost" /></TableCell>
-				<TableCell Y="12" X="2"><Control ID="@power" /></TableCell>
-				<TableCell Y="12" X="3"><Control ID="@atk_f" /></TableCell>
-				<TableCell Y="12" X="4"><Control ID="@eva_f" /></TableCell>
-				
-				<TableCell Y="13" X="1">力量 F</TableCell>
-				<TableCell Y="13" X="2">灵巧 F</TableCell>
-				<TableCell Y="13" X="3">速度 F</TableCell>
-				<TableCell Y="13" X="4">魔力 F</TableCell>
-				<TableCell Y="14" X="1"><Control ID="@str_f" /></TableCell>
-				<TableCell Y="14" X="2"><Control ID="@dex_f" /></TableCell>
-				<TableCell Y="14" X="3"><Control ID="@agi_f" /></TableCell>
-				<TableCell Y="14" X="4"><Control ID="@int_f" /></TableCell>
-				
-				<TableCell Y="15" X="1">命中率</TableCell>
-				<TableCell Y="15" X="2">物理防御 F</TableCell>
-				<TableCell Y="15" X="3">魔法防御 F</TableCell>
-				<TableCell Y="15" X="4">分散度</TableCell>
-				<TableCell Y="16" X="1"><Control ID="@hit" /></TableCell>
-				<TableCell Y="16" X="2"><Control ID="@pdef_f" /></TableCell>
-				<TableCell Y="16" X="3"><Control ID="@mdef_f" /></TableCell>
-				<TableCell Y="16" X="4"><Control ID="@variance" /></TableCell>
-			</Layout>
+					<TableCell Y="11" X="1" Width="1/8">消费 SP</TableCell>
+					<TableCell Y="11" X="2" Width="1/8">威力</TableCell>
+					<TableCell Y="11" X="3" Width="1/8">攻击力 F</TableCell>
+					<TableCell Y="11" X="4" Width="1/8">回避 F</TableCell>
+					<TableCell Y="12" X="1"><Control ID="@sp_cost" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="12" X="2"><Control ID="@power" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="12" X="3"><Control ID="@atk_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="12" X="4"><Control ID="@eva_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					
+					<TableCell Y="13" X="1">力量 F</TableCell>
+					<TableCell Y="13" X="2">灵巧 F</TableCell>
+					<TableCell Y="13" X="3">速度 F</TableCell>
+					<TableCell Y="13" X="4">魔力 F</TableCell>
+					<TableCell Y="14" X="1"><Control ID="@str_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="14" X="2"><Control ID="@dex_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="14" X="3"><Control ID="@agi_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="14" X="4"><Control ID="@int_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					
+					<TableCell Y="15" X="1">命中率</TableCell>
+					<TableCell Y="15" X="2">物理防御 F</TableCell>
+					<TableCell Y="15" X="3">魔法防御 F</TableCell>
+					<TableCell Y="15" X="4">分散度</TableCell>
+					<TableCell Y="16" X="1"><Control ID="@hit" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="16" X="2"><Control ID="@pdef_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="16" X="3"><Control ID="@mdef_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="16" X="4"><Control ID="@variance" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
+					<TableCell Y="17" X="1" ColumnSpan="6">
+						<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="2" ColumnCount="2">
+							<TableCell Y="1" X="1">IamI</TableCell>
+							<TableCell Y="1" X="2">Yangff</TableCell>
+							<TableCell Y="2" X="1">RadarNyan</TableCell>
+							<TableCell Y="2" X="2">Fux2</TableCell>
+						</Layout>
+					</TableCell>
+				</Layout>
+			</View>
 		</Property>
 	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
+	<!--<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
 		<Property Name="Title">状态</Property>
 		<Property Name="FileName">Data\States.rxdata</Property>
 		<Property Name="ClassName">[RPG::State]</Property>
@@ -546,5 +555,5 @@
 				<Item Name="系统选项(&amp;Y)" Type="Component"><Property Name="ID">System</Property></Item>
 			</Menu>
 		</Property>
-	</Component>
+	</Component>-->
 </NekoKunProject>

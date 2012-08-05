@@ -88,6 +88,9 @@
     <Compile Include="Core\Projects\CreateProjectWizard.Designer.cs">
       <DependentUpon>CreateProjectWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectEditor\Controls\ArrayEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
     <Compile Include="Core\DocumentFramework\NavPoint.cs" />
     <Compile Include="Core\DocumentFramework\FileManager.cs" />
@@ -101,18 +104,25 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
-    <Compile Include="ObjectEditor\SingleTextEditor.cs">
+    <Compile Include="ObjectEditor\Controls\SingleTextEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ObjectEditor\DecimalEditor.cs">
+    <Compile Include="ObjectEditor\Controls\DecimalEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ObjectEditor\UnknownEditor.cs">
+    <Compile Include="ObjectEditor\Controls\UnknownEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ObjectEditor\EnumEditor.cs">
+    <Compile Include="ObjectEditor\Controls\EnumEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ObjectEditor\ObjectFile.cs" />
+    <Compile Include="ObjectEditor\Struct\Layouts\IStructEditorLayout.cs" />
+    <Compile Include="ObjectEditor\ObjectFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectEditor\Struct\Struct.cs" />
+    <Compile Include="ObjectEditor\Struct\StructField.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\Projects\ProjectDocumentFile.cs" />
     <Compile Include="Core\Projects\ProjectDocumentFileEditor.cs">
@@ -166,22 +176,14 @@
     <Compile Include="RPGMaker\AudioFileEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\Database\DatabaseEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RPGMaker\Database\DatabaseField.cs" />
     <Compile Include="RPGMaker\Database\DatabaseFile.cs" />
-    <Compile Include="RPGMaker\Database\DatabaseItem.cs" />
-    <Compile Include="RPGMaker\Database\DatabaseItemEditor.cs">
+    <Compile Include="ObjectEditor\Struct\StructEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\Database\DatabaseItemEditorTableLayout.cs">
+    <Compile Include="ObjectEditor\Struct\Layouts\TableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RPGMaker\Database\DatabaseItemEditorSmartLayout.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="RPGMaker\Database\DatabaseListbox.cs">
+    <Compile Include="ObjectEditor\Struct\Layouts\SmartLayout.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommand.cs" />

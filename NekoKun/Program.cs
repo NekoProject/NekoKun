@@ -150,5 +150,27 @@ namespace NekoKun
             monospaceFont = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 12);
             return monospaceFont;
         }
+
+        public static Dictionary<string, object> BuildParameterDictionary(System.Xml.XmlNode field)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+
+            foreach (System.Xml.XmlNode property in field.ChildNodes)
+            {
+                if (property.HasChildNodes && property.ChildNodes.Count == 1 && (property.FirstChild is System.Xml.XmlText))
+                    dict.Add(
+                        property.Attributes["Name"].Value,
+                        property.FirstChild.Value
+                    );
+                else
+                    dict.Add(
+                        property.Attributes["Name"].Value,
+                        property.ChildNodes
+                    );
+
+            }
+
+            return dict;
+        }
     }
 }
