@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace NekoKun.ObjectEditor
 {
-    public class StructEditor : System.Windows.Forms.TabControl, IObjectEditor
+    public class StructEditor : UI.LynnTabControl, IObjectEditor
     {
         protected List<View> views;
         protected Struct selectedItem;
@@ -38,7 +40,7 @@ namespace NekoKun.ObjectEditor
             foreach (View view in views)
             {
                 var page = new System.Windows.Forms.TabPage(view.Name);
-                page.BackColor = System.Drawing.Color.Transparent;
+                page.BackColor = Color.Transparent;
                 this.TabPages.Add(page);
             }
             this.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Deselecting);

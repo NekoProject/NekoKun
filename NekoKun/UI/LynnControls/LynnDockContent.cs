@@ -10,11 +10,14 @@ namespace NekoKun.UI
 {
     public class LynnDockContent : DockContent
     {
-        protected Color back = Color.FromArgb(191, 219, 255);
+        //protected static Image backgroundImage = Program.DecodeBase64Image("iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAMAAADXEh96AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF5/L90Oz9VJBYwwAAABhJREFUeNpiYGQAAkYYAhJgEkohiwMEGAABJgANVHFu+gAAAABJRU5ErkJggg==");
+        protected Color back = Color.FromArgb(191, 219, 255); //Color.FromArgb(231, 242, 253);
 
         public LynnDockContent()
         {
             this.BackColor = back;
+            //this.BackgroundImage = backgroundImage;
+            //this.BackgroundImageLayout = ImageLayout.Tile;
             this.Font = System.Drawing.SystemFonts.MessageBoxFont;
         }
 
@@ -34,10 +37,14 @@ namespace NekoKun.UI
             else
                 e.Font = this.Font;
 
-            if (e is Panel || e is SplitContainer)
+            if (e is TabPage)
             {
-                e.BackColor = Color.Transparent;// back1;
+                e.BackColor = Color.White;
+                //e.BackgroundImage = backgroundImage;
+                //e.BackgroundImageLayout = ImageLayout.Tile;
             }
+            else if (e is Panel || e is SplitContainer)
+                e.BackColor = Color.Transparent;// back1;
 
             if (e.Controls.Count != 0)
                 foreach (Control item in e.Controls)

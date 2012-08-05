@@ -245,6 +245,9 @@
     <Compile Include="UI\LynnControls\LynnNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LynnControls\LynnTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LynnControls\NativeBorder.cs">
     </Compile>
     <Compile Include="UI\LynnControls\LynnButton.cs">

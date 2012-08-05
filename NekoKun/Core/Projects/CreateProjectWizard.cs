@@ -59,10 +59,7 @@ namespace NekoKun
                     lvi.ToolTipText = root["Description"] != null ? root["Description"].InnerText : "";
                     if (root["Icon"] != null)
                     {
-                        byte[] imageBytes = Convert.FromBase64String(root["Icon"].InnerText);
-                        MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-                        ms.Write(imageBytes, 0, imageBytes.Length);
-                        Image image = Image.FromStream(ms, true);
+                        Image image = Program.DecodeBase64Image(root["Icon"].InnerText);
 
                         this.templateList.LargeImageList.Images.Add(filename, image);
                         this.templateList.SmallImageList.Images.Add(filename, image);

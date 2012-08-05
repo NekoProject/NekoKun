@@ -8,10 +8,9 @@ namespace NekoKun.ObjectEditor
     {
         public TableLayout(System.Xml.XmlNode param, CreateControlDelegate createControlDelegate)
         {
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.None;
             this.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            this.Margin = new System.Windows.Forms.Padding(0);
             this.RowCount = Int32.Parse(param.Attributes["RowCount"].Value);
             this.ColumnCount = Int32.Parse(param.Attributes["ColumnCount"].Value);
 
@@ -72,7 +71,7 @@ namespace NekoKun.ObjectEditor
 
                 if (con != null)
                 {
-                    con.Margin = new System.Windows.Forms.Padding(0);
+                    //con.Margin = new System.Windows.Forms.Padding(5);
                     con.Dock = System.Windows.Forms.DockStyle.Fill;
                     this.Controls.Add(con, x - 1, y - 1);
 

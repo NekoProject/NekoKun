@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using System.Windows.Forms;
+using System.IO;
+using System.Drawing;
 
 namespace NekoKun
 {
@@ -171,6 +173,15 @@ namespace NekoKun
             }
 
             return dict;
+        }
+
+        public static System.Drawing.Image DecodeBase64Image(string base64)
+        {
+            byte[] imageBytes = Convert.FromBase64String(base64);
+            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+            ms.Write(imageBytes, 0, imageBytes.Length);
+            Image image = Image.FromStream(ms, true);
+            return image;
         }
     }
 }

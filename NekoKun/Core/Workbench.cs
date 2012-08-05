@@ -83,12 +83,9 @@ namespace NekoKun
             catch { }
 
             (ProjectManager.Components["Skills"] as AbstractFile).ShowEditor();
-            try
-            {
-            	(ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
-                (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
-            }
-            catch { }
+            (ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
+            (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
+
 
             UpdatePendingChanges();
         }

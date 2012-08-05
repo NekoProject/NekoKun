@@ -31,7 +31,7 @@
 							
 							if (ProjectManager.Components.ContainsKey(name))
 							{
-								List<ObjectEditor.Struct> db = (ProjectManager.Components[name] as DatabaseFile).Contents as List<ObjectEditor.Struct>;
+								List<object> db = (ProjectManager.Components[name] as DatabaseFile).Contents as List<object>;
 								int index = Int32.Parse(id.ToString()) - 1;
 								
 								return String.Format("[{0:D3}: {1}]", index + 1, (index >= 0 && index < db.Count) ? db[index].ToString() : "");
@@ -315,7 +315,7 @@
 			</Group>
 		</Property>
 	</Component>
-	<!--<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Actors">
 		<Property Name="Title">角色</Property>
 		<Property Name="FileName">Data\Actors.rxdata</Property>
 		<Property Name="ClassName">[RPG::Actor]</Property>
@@ -323,30 +323,8 @@
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
 	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Items">
-		<Property Name="Title">物品</Property>
-		<Property Name="FileName">Data\Items.rxdata</Property>
-		<Property Name="ClassName">[RPG::Item]</Property>
-		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-		</Property>
-		<Property Name="Layout">
-			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout>
-		</Property>
-	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
-		<Property Name="Title">武器</Property>
-		<Property Name="FileName">Data\Weapons.rxdata</Property>
-		<Property Name="ClassName">[RPG::Weapon]</Property>
-		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
-	</Component>-->
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Skills">
 		<Property Name="Title">技能</Property>
 		<Property Name="FileName">Data\Skills.rxdata</Property>
@@ -379,8 +357,8 @@
 			<Field ID="@minus_state_set" Name="解除状态"></Field>
 		</Property>
 		<Property Name="Views">
-			<View ID="General" Name="一般">
-				<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="17" ColumnCount="6">
+			<View ID="General" Name="常规">
+				<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="16" ColumnCount="6">
 					<TableCell Y="1" X="1" ColumnSpan="2">名称</TableCell>
 					<TableCell Y="1" X="3" ColumnSpan="2">图标</TableCell>
 					<TableCell Y="1" X="5" Width="1/4">属性</TableCell>
@@ -439,19 +417,54 @@
 					<TableCell Y="16" X="2"><Control ID="@pdef_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
 					<TableCell Y="16" X="3"><Control ID="@mdef_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
 					<TableCell Y="16" X="4"><Control ID="@variance" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
-					<TableCell Y="17" X="1" ColumnSpan="6">
-						<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="2" ColumnCount="2">
-							<TableCell Y="1" X="1">IamI</TableCell>
-							<TableCell Y="1" X="2">Yangff</TableCell>
-							<TableCell Y="2" X="1">RadarNyan</TableCell>
-							<TableCell Y="2" X="2">Fux2</TableCell>
-						</Layout>
-					</TableCell>
 				</Layout>
 			</View>
 		</Property>
 	</Component>
-	<!--<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Items">
+		<Property Name="Title">物品</Property>
+		<Property Name="FileName">Data\Items.rxdata</Property>
+		<Property Name="ClassName">[RPG::Item]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID"></Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@icon_name" Name="图标图像的文件名"></Field>
+			<Field ID="@description" Name="说明"></Field>
+			<Field ID="@scope" Name="效果范围（0：无，1：敌单体，2：敌全体，3：己方单体，4：己方全体，5：己方单体（HP 0），6：己方全体（HP 0），7：使用者）"></Field>
+			<Field ID="@occasion" Name="可能使用时（0：平时，1：战斗中，2：菜单中，3：不能使用）"></Field>
+			<Field ID="@animation1_id" Name="使用方的动画 ID"></Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID"></Field>
+			<Field ID="@menu_se" Name="菜单画面使用时的 SE（RPG::AudioFile）"></Field>
+			<Field ID="@common_event_id" Name="公共事件 ID"></Field>
+			<Field ID="@price" Name="价格"></Field>
+			<Field ID="@consumable" Name="是否消耗的真伪值"></Field>
+			<Field ID="@parameter_type" Name="参数（0：无，1：MaxHP，2：MaxSP，3：力量，4：灵巧，5：速度，6：魔力）"></Field>
+			<Field ID="@parameter_points" Name="参数的上升量"></Field>
+			<Field ID="@recover_hp_rate" Name="HP 回复率"></Field>
+			<Field ID="@recover_hp" Name="HP 回复量"></Field>
+			<Field ID="@recover_sp_rate" Name="SP 回复率"></Field>
+			<Field ID="@recover_sp" Name="SP 回复量"></Field>
+			<Field ID="@hit" Name="命中率"></Field>
+			<Field ID="@pdef_f" Name="物理防御 F"></Field>
+			<Field ID="@mdef_f" Name="魔法防御 F"></Field>
+			<Field ID="@variance" Name="分散度"></Field>
+			<Field ID="@element_set" Name="属性。为属性 ID 的数组"></Field>
+			<Field ID="@plus_state_set" Name="附加状态。为状态 ID 的数组"></Field>
+			<Field ID="@minus_state_set" Name="解除状态。为状态 ID 的数组"></Field>
+		</Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
+		<Property Name="Title">武器</Property>
+		<Property Name="FileName">Data\Weapons.rxdata</Property>
+		<Property Name="ClassName">[RPG::Weapon]</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
+			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+		</Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
 		<Property Name="Title">状态</Property>
 		<Property Name="FileName">Data\States.rxdata</Property>
 		<Property Name="ClassName">[RPG::State]</Property>
@@ -459,7 +472,7 @@
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
 		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Armors">
 		<Property Name="Title">防具</Property>
@@ -469,35 +482,35 @@
 			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>z
 		</Property>
-		<Property Name="Layout"><Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout"></Layout></Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="CommonEvents">
 		<Property Name="Title">公共事件</Property>
 		<Property Name="FileName">Data\CommonEvents.rxdata</Property>
 		<Property Name="ClassName">[RPG::CommonEvent]</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@switch_id" Name="开关编号" Editor="NekoKun.ObjectEditor.DecimalEditor" O="NekoKun.RPGMaker.SwitchIDEditor">
-				<Property Name="Condition">@trigger == 0</Property>
-			</Field>
-			<Field ID="@trigger" Name="触发方式" Editor="NekoKun.ObjectEditor.EnumEditor">
-				<Property Name="Source">CommonEventTrigger</Property>
-			</Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-			<Field ID="@list" Name="事件内容" Editor="NekoKun.RPGMaker.EventCommandListbox" O="NekoKun.RPGMaker.EventCommandListEditor">
-				<Property Name="Source">EventCommands</Property>
-			</Field>
+			<Field ID="@id" Name="ID"></Field>
+			<Field ID="@switch_id" Name="开关编号"></Field>
+			<Field ID="@trigger" Name="触发方式"></Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@list" Name="事件内容"></Field>
 		</Property>
-		<Property Name="Layout">
-			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorTableLayout" RowCount="3" ColumnCount="3">
-				<TableCell X="1" Y="1" Width="1/3">名称</TableCell>
-				<TableCell X="2" Y="1" Width="1/3">触发方式</TableCell>
-				<TableCell X="3" Y="1" Width="1/3">开关编号</TableCell>
-				<TableCell X="1" Y="2"><Control ID="@name" /></TableCell>
-				<TableCell X="2" Y="2"><Control ID="@trigger" /></TableCell>
-				<TableCell X="3" Y="2"><Control ID="@switch_id"></Control></TableCell>
-				<TableCell X="1" Y="3" ColumnSpan="3"><Control ID="@list"/></TableCell>
-			</Layout>
+		<Property Name="Views">
+			<View ID="General" Name="常规">
+				<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="3" ColumnCount="3">
+					<TableCell X="1" Y="1" Width="1/3">名称</TableCell>
+					<TableCell X="2" Y="1" Width="1/3">触发方式</TableCell>
+					<TableCell X="3" Y="1" Width="1/3">开关编号</TableCell>
+					<TableCell X="1" Y="2"><Control ID="@name" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
+					<TableCell X="2" Y="2"><Control ID="@trigger" Editor="NekoKun.ObjectEditor.EnumEditor">
+						<Property Name="Source">CommonEventTrigger</Property>
+					</Control></TableCell>
+					<TableCell X="3" Y="2"><Control ID="@switch_id" Editor="NekoKun.ObjectEditor.DecimalEditor"></Control></TableCell>
+					<TableCell X="1" Y="3" ColumnSpan="3"><Control ID="@list" Editor="NekoKun.RPGMaker.EventCommandListbox">
+						<Property Name="Source">EventCommands</Property>
+					</Control></TableCell>
+				</Layout>
+			</View>
 		</Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="System">
@@ -541,11 +554,7 @@
 			<Field ID="@battler_hue" Name="Maker 内部使用的战斗者图像的色相变化值（0..360）" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@edit_map_id" Name="Maker 内部使用的现在编辑的地图 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 		</Property>
-		<Property Name="Layout">
-			<Layout Type="NekoKun.RPGMaker.DatabaseItemEditorSmartLayout">
-
-			</Layout>
-		</Property>
+		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
 	</Component>
 	<Component Name="NekoKun.UIProvider" ID="UI">
 		<Property Name="Menus">
@@ -555,5 +564,5 @@
 				<Item Name="系统选项(&amp;Y)" Type="Component"><Property Name="ID">System</Property></Item>
 			</Menu>
 		</Property>
-	</Component>-->
+	</Component>
 </NekoKunProject>
