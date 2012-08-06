@@ -135,7 +135,34 @@ namespace NekoKun.RPGMaker
             param["Views"] = this.views;
 
             if (this.arrayMode)
-                return new ObjectEditor.ObjectFileEditor(this, new ObjectEditor.ArrayEditor(new ObjectEditor.StructEditor(param, fields)));
+            {
+                var array = new ObjectEditor.ArrayEditor(new ObjectEditor.StructEditor(param, fields));
+                array.ClipboardFormat = "RPGXP SKILL";
+                array.LoadObject = (item) =>
+                {
+                    var ms = new System.IO.MemoryStream(item);
+                    ms.Seek(4, System.IO.SeekOrigin.Begin);
+                    return LoadItem((RubyBindings.RubyMarshal.Load(ms) as List<object>)[0]);
+                };
+                array.DumpObject = (item) =>
+                {
+                    var ms = new System.IO.MemoryStream();
+                    ms.WriteByte(0);
+                    ms.WriteByte(0);
+                    ms.WriteByte(0);
+                    ms.WriteByte(0);
+                    RubyBindings.RubyMarshal.Dump(ms, new List<object>() { this.CreateRubyObject(this.className, item as ObjectEditor.Struct) });
+                    ms.Seek(0, System.IO.SeekOrigin.Begin);
+                    System.IO.BinaryWriter bw = new System.IO.BinaryWriter(ms);
+                    bw.Write((int)ms.Length - 4);
+                    return ms.ToArray();
+                };
+                array.CreateDefaultObject = () =>
+                {
+                    return null;
+                };
+                return new ObjectEditor.ObjectFileEditor(this, array);
+            }
             else
                 return new ObjectEditor.ObjectFileEditor(this, new ObjectEditor.StructEditor(param, fields));
         }

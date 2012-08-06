@@ -63,9 +63,17 @@ namespace NekoKun.ObjectEditor
             }
             set
             {
-                this.orig = value.ToString();
-                this.ori = value;
-                base.SelectedItem = value.ToString();
+                try
+                {
+                    this.orig = value.ToString();
+                    this.ori = value;
+                    base.SelectedItem = value.ToString();
+                }
+                catch {
+                    this.orig = "";
+                    this.ori = null;
+                    this.SelectedIndex = 0; 
+                }
             }
         }
 

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
+    [Serializable]
     public class Struct : Dictionary<StructField, object>
     {
         public override string ToString()

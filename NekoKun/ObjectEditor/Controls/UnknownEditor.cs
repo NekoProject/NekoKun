@@ -27,7 +27,7 @@ namespace NekoKun.ObjectEditor
             set
             {
                 this.obj = value;
-                this.Text = value.ToString();
+                this.Text = (value ?? "").ToString();
             }
         }
 

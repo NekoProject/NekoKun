@@ -5,6 +5,7 @@ using System.Xml;
 
 namespace NekoKun.ObjectEditor
 {
+    [Serializable]
     public class StructField
     {
         public string ID;

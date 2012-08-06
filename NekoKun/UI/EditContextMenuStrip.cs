@@ -193,16 +193,25 @@ namespace NekoKun
                 }
             }
 
-            if (visibled[0] is ToolStripSeparator)
+            while (visibled[0] is ToolStripSeparator)
+            {
                 visibled[0].Visible = false;
+                visibled.RemoveAt(0);
+            }
 
-            if (visibled[visibled.Count - 1] is ToolStripSeparator)
+            while (visibled[visibled.Count - 1] is ToolStripSeparator)
+            {
                 visibled[visibled.Count - 1].Visible = false;
+                visibled.RemoveAt(visibled.Count - 1);
+            }
 
+            int count = visibled.Count;
             for (int i = 0; i < visibled.Count - 1; i++)
             {
                 if (visibled[i] is ToolStripSeparator && visibled[i + 1] is ToolStripSeparator)
+                {
                     visibled[i + 1].Visible = false;
+                }
             }
         }
 

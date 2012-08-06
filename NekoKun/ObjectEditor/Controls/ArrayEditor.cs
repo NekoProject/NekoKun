@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace NekoKun.ObjectEditor
 {
@@ -86,44 +87,72 @@ namespace NekoKun.ObjectEditor
 
         public bool CanCut
         {
-            get { return false; }
+            get { return this.CanCopy && this.CanDelete; }
         }
 
         public bool CanCopy
         {
-            get { return false; }
+            get { return this.list.SelectedItem != null && this.ClipboardFormat != null; }
         }
 
         public bool CanPaste
         {
-            get { return false; }
+            get {
+                if (this.ClipboardFormat == null) return false;
+                return System.Windows.Forms.Clipboard.ContainsData(this.ClipboardFormat);
+            }
         }
 
         public void Cut()
         {
-            throw new NotImplementedException();
+            Copy(); Delete();
         }
 
         public void Copy()
         {
-            throw new NotImplementedException();
+            System.Windows.Forms.DataObject db = new System.Windows.Forms.DataObject();
+            db.SetData(this.ClipboardFormat, this.DumpObject(this.list.SelectedItem));
+            System.Windows.Forms.Clipboard.SetDataObject(db, true, 5, 100);
         }
 
         public void Paste()
         {
-            throw new NotImplementedException();
+            object data = System.Windows.Forms.Clipboard.GetData(this.ClipboardFormat);
+            byte[] buffer;
+            if (data is System.IO.MemoryStream)
+            {
+                System.IO.MemoryStream ms = data as System.IO.MemoryStream;
+                buffer = new byte[ms.Length];
+                ms.Read(buffer, 0, (int)ms.Length);
+                ms.Dispose();
+            }
+            else if (data is byte[])
+            {
+                buffer = data as byte[];
+            }
+            else { return; }
+            this.list.Items[this.list.SelectedIndex] = this.LoadObject(buffer);
+            (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
         }
 
         public bool CanDelete
         {
-            get { return false; }
+            get { return this.list.SelectedItem != null && this.CreateDefaultObject != null; }
         }
 
         public void Delete()
         {
-            this.list.Items[this.list.SelectedIndex] = new ObjectEditor.Struct();
+            this.list.Items[this.list.SelectedIndex] = this.CreateDefaultObject();
             (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
         }
 
+        public CreateDefaultObjectDelegate CreateDefaultObject;
+        public DumpObjectDelegate DumpObject;
+        public LoadObjectDelegate LoadObject;
+        public string ClipboardFormat;
+
+        public delegate object CreateDefaultObjectDelegate();
+        public delegate byte[] DumpObjectDelegate(object obj);
+        public delegate object LoadObjectDelegate(byte[] obj);
     }
 }
