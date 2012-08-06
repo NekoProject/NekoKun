@@ -106,6 +106,7 @@ namespace NekoKun.ObjectEditor
         public void Cut()
         {
             Copy(); Delete();
+
         }
 
         public void Copy()
