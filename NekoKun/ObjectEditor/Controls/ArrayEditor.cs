@@ -13,6 +13,8 @@ namespace NekoKun.ObjectEditor
 
         public ArrayEditor(IObjectEditor Con)
         {
+            if(this.RequestCommit != null) this.RequestCommit.ToString();
+
             con = Con as System.Windows.Forms.Control;
             this.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1MinSize = 100;
@@ -20,6 +22,7 @@ namespace NekoKun.ObjectEditor
             this.SplitterDistance = 150;
             list = new ArrayListbox();
             list.Dock = System.Windows.Forms.DockStyle.Fill;
+            list.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             list.SelectedIndexChanged += new EventHandler(list_SelectedIndexChanged);
             this.Panel1.Controls.Add(list);
             con.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -28,7 +31,36 @@ namespace NekoKun.ObjectEditor
             Con.DirtyChanged += new EventHandler(Con_DirtyChanged);
 
             this.list.ContextMenuStrip = new EditContextMenuStrip(this);
+            this.list.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+            this.list.ContextMenuStrip.Items.Add("更改最大值(&M)...", null, delegate
+            {
+                this.Relength(300);
+            });
         }
+
+        void Relength(int newsize)
+        {
+            if (newsize == this.list.Items.Count)
+                return;
+            else if (newsize > this.list.Items.Count)
+            {
+                int count = newsize - this.list.Items.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    this.list.Items.Add(this.CreateDefaultObject());
+                }
+            }
+            else if (newsize < this.list.Items.Count)
+            {
+                int count = this.list.Items.Count;
+                for (int i = this.list.Items.Count - newsize; i < count; i++)
+                {
+                    this.list.Items.RemoveAt(newsize);
+                }
+            }
+        }
+
+        //Still loving my tree, but losing you.
 
         void Con_DirtyChanged(object sender, EventArgs e)
         {
@@ -53,7 +85,7 @@ namespace NekoKun.ObjectEditor
             {
                 object[] ret = new object[this.list.Items.Count];
                 this.list.Items.CopyTo(ret, 0);
-                if (orig is List<object>)
+                if (orig is List<object>)   
                     return new List<object>(ret);
                 return ret;
             }

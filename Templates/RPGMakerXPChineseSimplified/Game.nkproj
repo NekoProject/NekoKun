@@ -334,27 +334,27 @@
 			<Field ID="@name" Name="名称"></Field>
 			<Field ID="@icon_name" Name="图标"></Field>
 			<Field ID="@description" Name="说明"></Field>
-			<Field ID="@scope" Name="效果范围"></Field>
-			<Field ID="@occasion" Name="可使用的场合"></Field>
-			<Field ID="@animation1_id" Name="使用方的动画 ID"></Field>
-			<Field ID="@animation2_id" Name="对象方的动画 ID"></Field>
-			<Field ID="@menu_se" Name="菜单画面使用时的 SE"></Field>
-			<Field ID="@common_event_id" Name="公共事件 ID"></Field>
-			<Field ID="@sp_cost" Name="消费 SP"></Field>
-			<Field ID="@power" Name="威力"></Field>
-			<Field ID="@atk_f" Name="攻击力 F"></Field>
-			<Field ID="@eva_f" Name="回避 F"></Field>
-			<Field ID="@str_f" Name="力量 F"></Field>
-			<Field ID="@dex_f" Name="灵巧 F"></Field>
-			<Field ID="@agi_f" Name="速度 F"></Field>
-			<Field ID="@int_f" Name="魔力 F"></Field>
-			<Field ID="@hit" Name="命中率"></Field>
-			<Field ID="@pdef_f" Name="物理防御 F"></Field>
-			<Field ID="@mdef_f" Name="魔法防御 F"></Field>
-			<Field ID="@variance" Name="分散度"></Field>
-			<Field ID="@element_set" Name="属性"></Field>
-			<Field ID="@plus_state_set" Name="附加状态"></Field>
-			<Field ID="@minus_state_set" Name="解除状态"></Field>
+			<Field ID="@scope" Name="效果范围">0</Field>
+			<Field ID="@occasion" Name="可使用的场合">0</Field>
+			<Field ID="@animation1_id" Name="使用方的动画 ID">0</Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID">0</Field>
+			<Field ID="@menu_se" Name="菜单画面使用时的 SE" Type="RubyMarshal">BAhvOhNSUEc6OkF1ZGlvRmlsZQg6C0BwaXRjaGlpOgxAdm9sdW1laWk6CkBuYW1lIgA=</Field>
+			<Field ID="@common_event_id" Name="公共事件 ID">0</Field>
+			<Field ID="@sp_cost" Name="消费 SP">0</Field>
+			<Field ID="@power" Name="威力">0</Field>
+			<Field ID="@atk_f" Name="攻击力 F">0</Field>
+			<Field ID="@eva_f" Name="回避 F">0</Field>
+			<Field ID="@str_f" Name="力量 F">0</Field>
+			<Field ID="@dex_f" Name="灵巧 F">0</Field>
+			<Field ID="@agi_f" Name="速度 F">0</Field>
+			<Field ID="@int_f" Name="魔力 F">0</Field>
+			<Field ID="@hit" Name="命中率">0</Field>
+			<Field ID="@pdef_f" Name="物理防御 F">0</Field>
+			<Field ID="@mdef_f" Name="魔法防御 F">0</Field>
+			<Field ID="@variance" Name="分散度">0</Field>
+			<Field ID="@element_set" Name="属性" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@plus_state_set" Name="附加状态" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@minus_state_set" Name="解除状态" Type="RubyMarshal">BAhbAA==</Field>
 		</Property>
 		<Property Name="Views">
 			<View ID="General" Name="常规">

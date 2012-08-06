@@ -159,7 +159,12 @@ namespace NekoKun.RPGMaker
                 };
                 array.CreateDefaultObject = () =>
                 {
-                    return null;
+                    ObjectEditor.Struct obj = new ObjectEditor.Struct();
+                    foreach (var item in this.fields.Values)
+                    {
+                        obj[item] = item.DefaultValue;
+                    }
+                    return obj;
                 };
                 return new ObjectEditor.ObjectFileEditor(this, array);
             }

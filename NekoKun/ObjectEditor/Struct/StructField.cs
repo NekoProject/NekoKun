@@ -10,6 +10,9 @@ namespace NekoKun.ObjectEditor
     {
         public string ID;
         public string Name;
+        protected object defaultValue;
+        protected DefaultValueDelegate defaultProc;
+
         /// <summary>
         /// 根据 XmlNode 创建字段。
         /// </summary>
@@ -18,6 +21,26 @@ namespace NekoKun.ObjectEditor
         {
             ID = field.Attributes["ID"].Value;
             Name = field.Attributes["Name"].Value;
+            if (field.Attributes["Type"] != null)
+            {
+                if (field.Attributes["Type"].Value == "RubyMarshal")
+                {
+                    byte[] bytes = Convert.FromBase64String(field.InnerText);
+                    this.defaultProc = delegate()
+                    {
+                        System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes);
+                        return RubyBindings.RubyMarshal.Load(ms);
+                    };
+                }
+            }
+            else
+            {
+                int def;
+                if (Int32.TryParse(field.InnerText, out def))
+                    this.defaultValue = def;
+                else
+                    this.defaultValue = field.InnerText;
+            }
         }
 
         /// <summary>
@@ -29,5 +52,16 @@ namespace NekoKun.ObjectEditor
             ID = id;
             Name = id;
         }
+
+        public object DefaultValue
+        {
+            get{
+                if (this.defaultProc != null)
+                    return this.defaultProc();
+                return this.defaultValue;
+            }
+        }
+
+        public delegate object DefaultValueDelegate();
     }
 }
