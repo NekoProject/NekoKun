@@ -16,16 +16,10 @@ namespace NekoKun.UI
         private Color selectedForeColor = Color.White;
         protected System.Drawing.Drawing2D.LinearGradientBrush backBrush;
         protected StringFormat stringFormat, stringFormat2;
-        internal System.Windows.Forms.NativeWindow native, native2;
-
         public LynnListView()
         {
             this.OwnerDraw = true;
-            this.HotTracking = false;
-            this.HoverSelection = false;
-
-            native2 = new UI.NativeBorder(this, 0xf /* WM_NCPAINT */, false, false);
-            native = new UI.NativeBorder(this, 0x85 /* WM_NCPAINT */, false, false);
+            this.FullRowSelect = true;
 
             stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
             stringFormat.LineAlignment = StringAlignment.Center;
@@ -38,9 +32,6 @@ namespace NekoKun.UI
 
         protected override void OnResize(EventArgs e)
         {
-            if (this.View == View.Details)
-                this.View = View.Tile;
-
             this.Invalidate();
             base.OnResize(e);
         }
@@ -108,7 +99,7 @@ namespace NekoKun.UI
                         e.Graphics.SetClip(bound);
                         if (this.SmallImageList != null)
                         {
-                            e.Graphics.DrawImage(this.SmallImageList.Images[e.Item.ImageKey], bound.X + 4, bound.Y + (bound.Height - this.SmallImageList.ImageSize.Height) / 2);
+                            e.Graphics.DrawImage(GetImage(e.Item, false), bound.X + 4, bound.Y + (bound.Height - this.SmallImageList.ImageSize.Height) / 2);
                             bound.X += this.SmallImageList.ImageSize.Width + 4;
                             bound.Width -= this.SmallImageList.ImageSize.Width + 4;
                         }
@@ -124,7 +115,7 @@ namespace NekoKun.UI
                         e.Graphics.SetClip(bound);
                         if (this.LargeImageList != null)
                         {
-                            e.Graphics.DrawImage(this.LargeImageList.Images[e.Item.ImageKey], bound.X + (bound.Width - this.LargeImageList.ImageSize.Width) / 2, bound.Y + 4);
+                            e.Graphics.DrawImage(GetImage(e.Item, true), bound.X + (bound.Width - this.LargeImageList.ImageSize.Width) / 2, bound.Y + 4);
                             bound.Y += this.LargeImageList.ImageSize.Height + 4;
                             bound.Height -= this.LargeImageList.ImageSize.Height + 4;
                         }
@@ -135,7 +126,7 @@ namespace NekoKun.UI
                         e.Graphics.SetClip(bound);
                         if (this.SmallImageList != null)
                         {
-                            e.Graphics.DrawImage(this.SmallImageList.Images[e.Item.ImageKey], bound.X + 4, bound.Y + (bound.Height - this.SmallImageList.ImageSize.Height) / 2);
+                            e.Graphics.DrawImage(GetImage(e.Item, false), bound.X + 4, bound.Y + (bound.Height - this.SmallImageList.ImageSize.Height) / 2);
                             bound.X += this.SmallImageList.ImageSize.Width + 4;
                             bound.Width -= this.SmallImageList.ImageSize.Width + 4;
                         }
@@ -145,7 +136,7 @@ namespace NekoKun.UI
                         e.Graphics.SetClip(bound);
                         if (this.LargeImageList != null)
                         {
-                            e.Graphics.DrawImage(this.LargeImageList.Images[e.Item.ImageKey], bound.X + 4, bound.Y + (bound.Height - this.LargeImageList.ImageSize.Height) / 2);
+                            e.Graphics.DrawImage(GetImage(e.Item, true), bound.X + 4, bound.Y + (bound.Height - this.LargeImageList.ImageSize.Height) / 2);
                             bound.X += this.LargeImageList.ImageSize.Width + 4;
                             bound.Width -= this.LargeImageList.ImageSize.Width + 4;
                         }
@@ -162,6 +153,17 @@ namespace NekoKun.UI
                 }
             }
             catch { }
+        }
+
+        protected Image GetImage(ListViewItem item, bool large)
+        {
+            ImageList list = large ? this.LargeImageList : this.SmallImageList;
+            if (item.ImageIndex >= 0)
+                return list.Images[item.ImageIndex];
+            else if (list.Images.ContainsKey(item.ImageKey))
+                return list.Images[item.ImageKey];
+            else
+                return list.Images[0];
         }
 
         protected virtual void DrawText(int id, string str, Font font, Brush fc, Rectangle bounds, StringFormat sf, Graphics g, bool selected)
