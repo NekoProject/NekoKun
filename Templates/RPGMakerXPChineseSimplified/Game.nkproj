@@ -319,18 +319,37 @@
 		<Property Name="Title">角色</Property>
 		<Property Name="FileName">Data\Actors.rxdata</Property>
 		<Property Name="ClassName">[RPG::Actor]</Property>
+		<Property Name="ClipboardFormat">RPGXP ACTOR</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
 		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Classes">
+		<Property Name="Title">Class</Property>
+		<Property Name="FileName">Data\Classes.rxdata</Property>
+		<Property Name="ClassName">[RPG::Class]</Property>
+		<Property Name="ClipboardFormat">RPGXP CLASS</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@position" Name="位置（0：前卫，1：中卫，2：后卫）">0</Field>
+			<Field ID="@weapon_set" Name="包含可装备武器 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@armor_set" Name="包含可装备防具 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@element_ranks" Name="属性有效度。是以属性 ID 为索引的一维数组（Table），其值分 6 级（0：A，1：B，2：C，3：D，4：E，5：F）" Type="RubyMarshal">BAh1OgpUYWJsZRsBAAAAAQAAAAEAAAABAAAAAQAAAAAA</Field>
+			<Field ID="@state_ranks" Name="状态有效度。是以状态 ID 为索引的一维数组（Table），其值分 6 级（0：A，1：B，2：C，3：D，4：E，5：F）" Type="RubyMarshal">BAh1OgpUYWJsZRsBAAAAAQAAAAEAAAABAAAAAQAAAAAA</Field>
+			<Field ID="@learnings" Name="学会的特技。RPG::Class::Learning 的数组" Type="RubyMarshal">BAhbAA==</Field>
+		</Property>
+		<Property Name="Views"></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Skills">
 		<Property Name="Title">技能</Property>
 		<Property Name="FileName">Data\Skills.rxdata</Property>
 		<Property Name="ClassName">[RPG::Skill]</Property>
+		<Property Name="ClipboardFormat">RPGXP SKILL</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID"></Field>
+			<Field ID="@id" Name="ID">0</Field>
 			<Field ID="@name" Name="名称"></Field>
 			<Field ID="@icon_name" Name="图标"></Field>
 			<Field ID="@description" Name="说明"></Field>
@@ -422,78 +441,228 @@
 		</Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Items">
-		<Property Name="Title">物品</Property>
+		<Property Name="Title">Item</Property>
 		<Property Name="FileName">Data\Items.rxdata</Property>
 		<Property Name="ClassName">[RPG::Item]</Property>
+		<Property Name="ClipboardFormat">RPGXP ITEM</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID"></Field>
+			<Field ID="@id" Name="ID">0</Field>
 			<Field ID="@name" Name="名称"></Field>
 			<Field ID="@icon_name" Name="图标图像的文件名"></Field>
 			<Field ID="@description" Name="说明"></Field>
-			<Field ID="@scope" Name="效果范围（0：无，1：敌单体，2：敌全体，3：己方单体，4：己方全体，5：己方单体（HP 0），6：己方全体（HP 0），7：使用者）"></Field>
-			<Field ID="@occasion" Name="可能使用时（0：平时，1：战斗中，2：菜单中，3：不能使用）"></Field>
-			<Field ID="@animation1_id" Name="使用方的动画 ID"></Field>
-			<Field ID="@animation2_id" Name="对象方的动画 ID"></Field>
-			<Field ID="@menu_se" Name="菜单画面使用时的 SE（RPG::AudioFile）"></Field>
-			<Field ID="@common_event_id" Name="公共事件 ID"></Field>
-			<Field ID="@price" Name="价格"></Field>
-			<Field ID="@consumable" Name="是否消耗的真伪值"></Field>
-			<Field ID="@parameter_type" Name="参数（0：无，1：MaxHP，2：MaxSP，3：力量，4：灵巧，5：速度，6：魔力）"></Field>
-			<Field ID="@parameter_points" Name="参数的上升量"></Field>
-			<Field ID="@recover_hp_rate" Name="HP 回复率"></Field>
-			<Field ID="@recover_hp" Name="HP 回复量"></Field>
-			<Field ID="@recover_sp_rate" Name="SP 回复率"></Field>
-			<Field ID="@recover_sp" Name="SP 回复量"></Field>
-			<Field ID="@hit" Name="命中率"></Field>
-			<Field ID="@pdef_f" Name="物理防御 F"></Field>
-			<Field ID="@mdef_f" Name="魔法防御 F"></Field>
-			<Field ID="@variance" Name="分散度"></Field>
-			<Field ID="@element_set" Name="属性。为属性 ID 的数组"></Field>
-			<Field ID="@plus_state_set" Name="附加状态。为状态 ID 的数组"></Field>
-			<Field ID="@minus_state_set" Name="解除状态。为状态 ID 的数组"></Field>
+			<Field ID="@scope" Name="效果范围（0：无，1：敌单体，2：敌全体，3：己方单体，4：己方全体，5：己方单体（HP 0），6：己方全体（HP 0），7：使用者）">0</Field>
+			<Field ID="@occasion" Name="可能使用时（0：平时，1：战斗中，2：菜单中，3：不能使用）">0</Field>
+			<Field ID="@animation1_id" Name="使用方的动画 ID">0</Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID">0</Field>
+			<Field ID="@menu_se" Name="菜单画面使用时的 SE（RPG::AudioFile）" Type="RubyMarshal">BAhvOhNSUEc6OkF1ZGlvRmlsZQg6DEB2b2x1bWVpVToKQG5hbWUiADoLQHBpdGNoaWk=</Field>
+			<Field ID="@common_event_id" Name="公共事件 ID">0</Field>
+			<Field ID="@price" Name="价格">0</Field>
+			<Field ID="@consumable" Name="是否消耗的真伪值" Type="RubyMarshal">BAhU</Field>
+			<Field ID="@parameter_type" Name="参数（0：无，1：MaxHP，2：MaxSP，3：力量，4：灵巧，5：速度，6：魔力）">0</Field>
+			<Field ID="@parameter_points" Name="参数的上升量">0</Field>
+			<Field ID="@recover_hp_rate" Name="HP 回复率">0</Field>
+			<Field ID="@recover_hp" Name="HP 回复量">0</Field>
+			<Field ID="@recover_sp_rate" Name="SP 回复率">0</Field>
+			<Field ID="@recover_sp" Name="SP 回复量">0</Field>
+			<Field ID="@hit" Name="命中率">100</Field>
+			<Field ID="@pdef_f" Name="物理防御 F">0</Field>
+			<Field ID="@mdef_f" Name="魔法防御 F">0</Field>
+			<Field ID="@variance" Name="分散度">0</Field>
+			<Field ID="@element_set" Name="属性。为属性 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@plus_state_set" Name="附加状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@minus_state_set" Name="解除状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
 		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+		<Property Name="Views"></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Weapons">
-		<Property Name="Title">武器</Property>
+		<Property Name="Title">Weapon</Property>
 		<Property Name="FileName">Data\Weapons.rxdata</Property>
 		<Property Name="ClassName">[RPG::Weapon]</Property>
+		<Property Name="ClipboardFormat">RPGXP WEAPON</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@icon_name" Name="图标图像的文件名"></Field>
+			<Field ID="@description" Name="说明"></Field>
+			<Field ID="@animation1_id" Name="攻击方的动画 ID">0</Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID">0</Field>
+			<Field ID="@price" Name="价格">0</Field>
+			<Field ID="@atk" Name="攻击力">0</Field>
+			<Field ID="@pdef" Name="物理防御">0</Field>
+			<Field ID="@mdef" Name="魔法防御">0</Field>
+			<Field ID="@str_plus" Name="力量+">0</Field>
+			<Field ID="@dex_plus" Name="灵巧+">0</Field>
+			<Field ID="@agi_plus" Name="速度+">0</Field>
+			<Field ID="@int_plus" Name="魔力+">0</Field>
+			<Field ID="@element_set" Name="属性。为属性 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@plus_state_set" Name="附加状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@minus_state_set" Name="解除状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
 		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
-	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
-		<Property Name="Title">状态</Property>
-		<Property Name="FileName">Data\States.rxdata</Property>
-		<Property Name="ClassName">[RPG::State]</Property>
-		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>
-		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+		<Property Name="Views"></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Armors">
-		<Property Name="Title">防具</Property>
+		<Property Name="Title">Armor</Property>
 		<Property Name="FileName">Data\Armors.rxdata</Property>
 		<Property Name="ClassName">[RPG::Armor]</Property>
+		<Property Name="ClipboardFormat">RPGXP ARMOR</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
-			<Field ID="@name" Name="名称" Editor="NekoKun.ObjectEditor.SingleTextEditor"></Field>z
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@icon_name" Name="图标图像的文件名"></Field>
+			<Field ID="@description" Name="说明"></Field>
+			<Field ID="@kind" Name="种类（0：盾，1：头部防具，2：身体防具，3：装饰品）">0</Field>
+			<Field ID="@auto_state_id" Name="自动状态的 ID">0</Field>
+			<Field ID="@price" Name="价格">0</Field>
+			<Field ID="@pdef" Name="物理防御">0</Field>
+			<Field ID="@mdef" Name="魔法防御">0</Field>
+			<Field ID="@eva" Name="回避修正">0</Field>
+			<Field ID="@str_plus" Name="力量+">0</Field>
+			<Field ID="@dex_plus" Name="灵巧+">0</Field>
+			<Field ID="@agi_plus" Name="速度+">0</Field>
+			<Field ID="@int_plus" Name="魔力+">0</Field>
+			<Field ID="@guard_element_set" Name="属性防御。为属性 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@guard_state_set" Name="状态防御。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
 		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Enemies">
+		<Property Name="Title">Enemy</Property>
+		<Property Name="FileName">Data\Enemies.rxdata</Property>
+		<Property Name="ClassName">[RPG::Enemy]</Property>
+		<Property Name="ClipboardFormat">RPGXP ENEMY</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@battler_name" Name="战斗者图像的文件名"></Field>
+			<Field ID="@battler_hue" Name="战斗者图像的色相变化值（0..360）">0</Field>
+			<Field ID="@maxhp" Name="MaxHP">500</Field>
+			<Field ID="@maxsp" Name="MaxSP">500</Field>
+			<Field ID="@str" Name="力量">50</Field>
+			<Field ID="@dex" Name="灵巧">50</Field>
+			<Field ID="@agi" Name="速度">50</Field>
+			<Field ID="@int" Name="魔力">50</Field>
+			<Field ID="@atk" Name="攻击力">100</Field>
+			<Field ID="@pdef" Name="物理防御">100</Field>
+			<Field ID="@mdef" Name="魔法防御">100</Field>
+			<Field ID="@eva" Name="回避修正">0</Field>
+			<Field ID="@animation1_id" Name="攻击方的动画 ID">0</Field>
+			<Field ID="@animation2_id" Name="对象方的动画 ID">0</Field>
+			<Field ID="@element_ranks" Name="属性有效度。是以属性 ID 为索引的一维数组（Table），其值分 6 级（0：A，1：B，2：C，3：D，4：E，5：F）" Type="RubyMarshal">BAh1OgpUYWJsZRsBAAAAAQAAAAEAAAABAAAAAQAAAAAA</Field>
+			<Field ID="@state_ranks" Name="状态有效度。是以状态 ID 为索引的一维数组（Table），其值分 6 级（0：A，1：B，2：C，3：D，4：E，5：F）" Type="RubyMarshal">BAh1OgpUYWJsZRsBAAAAAQAAAAEAAAABAAAAAQAAAAAA</Field>
+			<Field ID="@actions" Name="行为。RPG::Enemy::Action 的数组" Type="RubyMarshal">BAhbBm86F1JQRzo6RW5lbXk6OkFjdGlvbg46C0BiYXNpY2kAOhJAY29uZGl0aW9uX2hwaWk6DEByYXRpbmdpCjoWQGNvbmRpdGlvbl90dXJuX2JpBjoKQGtpbmRpADoZQGNvbmRpdGlvbl9zd2l0Y2hfaWRpADoWQGNvbmRpdGlvbl90dXJuX2FpADoVQGNvbmRpdGlvbl9sZXZlbGkGOg5Ac2tpbGxfaWRpBg==</Field>
+			<Field ID="@exp" Name="EXP">0</Field>
+			<Field ID="@gold" Name="金钱">0</Field>
+			<Field ID="@item_id" Name="宝物的物品 ID">0</Field>
+			<Field ID="@weapon_id" Name="宝物的武器 ID">0</Field>
+			<Field ID="@armor_id" Name="宝物的防具 ID">0</Field>
+			<Field ID="@treasure_prob" Name="宝物出现率">100</Field>
+		</Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Troops">
+		<Property Name="Title">Troop</Property>
+		<Property Name="FileName">Data\Troops.rxdata</Property>
+		<Property Name="ClassName">[RPG::Troop]</Property>
+		<Property Name="ClipboardFormat">RPGXP TROOP</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@members" Name="队伍成员。RPG::Troop::Member 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@pages" Name="战斗事件。RPG::Troop::Page 的数组" Type="RubyMarshal">BAhbBm86FVJQRzo6VHJvb3A6OlBhZ2UIOgpAbGlzdFsGbzoWUlBHOjpFdmVudENvbW1hbmQIOhBAcGFyYW1ldGVyc1sAOgxAaW5kZW50aQA6CkBjb2RlaQA6D0Bjb25kaXRpb25vOiBSUEc6OlRyb29wOjpQYWdlOjpDb25kaXRpb24QOg5AYWN0b3JfaWRpBjoMQHR1cm5fYWkAOhBAdHVybl92YWxpZEY6DkBlbmVteV9ocGk3OhJAc3dpdGNoX3ZhbGlkRjoPQHN3aXRjaF9pZGkGOhFAZW5lbXlfaW5kZXhpADoRQGFjdG9yX3ZhbGlkRjoOQGFjdG9yX2hwaTc6DEB0dXJuX2JpADoRQGVuZW15X3ZhbGlkRjoKQHNwYW5pAA==</Field>
+		</Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="States">
+		<Property Name="Title">State</Property>
+		<Property Name="FileName">Data\States.rxdata</Property>
+		<Property Name="ClassName">[RPG::State]</Property>
+		<Property Name="ClipboardFormat">RPGXP STATE</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@animation_id" Name="动画 ID">0</Field>
+			<Field ID="@restriction" Name="限制（0：无，1：不能使用魔法，2：普通攻击敌人，3：普通攻击同伴，4：不行动）">0</Field>
+			<Field ID="@nonresistance" Name="选项「不能抵抗」的真伪值" Type="RubyMarshal">BAhG</Field>
+			<Field ID="@zero_hp" Name="选项「当作 HP 为 0 的状态」的真伪值" Type="RubyMarshal">BAhG</Field>
+			<Field ID="@cant_get_exp" Name="选项「无法获得 EXP」的真伪值" Type="RubyMarshal">BAhG</Field>
+			<Field ID="@cant_evade" Name="选项「不能回避攻击」的真伪值" Type="RubyMarshal">BAhG</Field>
+			<Field ID="@slip_damage" Name="选项「连续伤害」的真伪值" Type="RubyMarshal">BAhG</Field>
+			<Field ID="@rating" Name="额定值（0..10）">5</Field>
+			<Field ID="@hit_rate" Name="命中率 %">100</Field>
+			<Field ID="@maxhp_rate" Name="MaxHP %">100</Field>
+			<Field ID="@maxsp_rate" Name="MaxSP %">100</Field>
+			<Field ID="@str_rate" Name="力量 %">100</Field>
+			<Field ID="@dex_rate" Name="灵巧 %">100</Field>
+			<Field ID="@agi_rate" Name="速度 %">100</Field>
+			<Field ID="@int_rate" Name="魔力 %">100</Field>
+			<Field ID="@atk_rate" Name="攻击力 %">100</Field>
+			<Field ID="@pdef_rate" Name="物理防御 %">100</Field>
+			<Field ID="@mdef_rate" Name="魔法防御 %">100</Field>
+			<Field ID="@eva" Name="回避修正">0</Field>
+			<Field ID="@battle_only" Name="是否战斗结束时解除的真伪值" Type="RubyMarshal">BAhU</Field>
+			<Field ID="@hold_turn" Name="">0</Field>
+			<Field ID="@auto_release_prob" Name="hold_turn 回合经过后 auto_release_prob % 的概率解除">0</Field>
+			<Field ID="@shock_release_prob" Name="受到物理攻击后 shock_release_prob % 的概率解除">0</Field>
+			<Field ID="@guard_element_set" Name="属性防御。为属性 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@plus_state_set" Name="附加状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+			<Field ID="@minus_state_set" Name="解除状态。为状态 ID 的数组" Type="RubyMarshal">BAhbAA==</Field>
+		</Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Animations">
+		<Property Name="Title">Animation</Property>
+		<Property Name="FileName">Data\Animations.rxdata</Property>
+		<Property Name="ClassName">[RPG::Animation]</Property>
+		<Property Name="ClipboardFormat">RPGXP ANIMATION</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@animation_name" Name="动画图像的文件名"></Field>
+			<Field ID="@animation_hue" Name="动画图像的色相变化值（0..360）">0</Field>
+			<Field ID="@position" Name="位置（0：上，1：中，2：下，3：画面）">1</Field>
+			<Field ID="@frame_max" Name="帧数">1</Field>
+			<Field ID="@frames" Name="帧的内容。RPG::Animation::Frame 的数组" Type="RubyMarshal">BAhbBm86GlJQRzo6QW5pbWF0aW9uOjpGcmFtZQc6DkBjZWxsX21heGkAOg9AY2VsbF9kYXRhdToKVGFibGUZAgAAAAAAAAAAAAAAAQAAAAAAAAA=</Field>
+			<Field ID="@timings" Name="SE 与闪烁的时机。RPG::Animation::Timing 的数组" Type="RubyMarshal">BAhbAA==</Field>
+		</Property>
+		<Property Name="Views"></Property>
+	</Component>
+	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Tilesets">
+		<Property Name="Title">Tileset</Property>
+		<Property Name="FileName">Data\Tilesets.rxdata</Property>
+		<Property Name="ClassName">[RPG::Tileset]</Property>
+		<Property Name="ClipboardFormat">RPGXP TILESET</Property>
+		<Property Name="Fields">
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@name" Name="名称"></Field>
+			<Field ID="@tileset_name" Name="图块图像的文件名"></Field>
+			<Field ID="@autotile_names" Name="自动地图元件图像的文件名数组（[0]..[6]）" Type="RubyMarshal">BAhbDCIAQAZABkAGQAZABkAG</Field>
+			<Field ID="@panorama_name" Name="远景图像的文件名"></Field>
+			<Field ID="@panorama_hue" Name="远景图像的色相变化值（0..360）">0</Field>
+			<Field ID="@fog_name" Name="雾图像的文件名"></Field>
+			<Field ID="@fog_hue" Name="雾图像的色相变化值（..360）">0</Field>
+			<Field ID="@fog_opacity" Name="雾的不透明度">64</Field>
+			<Field ID="@fog_blend_type" Name="雾的合成方式">0</Field>
+			<Field ID="@fog_zoom" Name="雾的放大率">200</Field>
+			<Field ID="@fog_sx" Name="雾的 SX（X 方向自动滚动速度）">0</Field>
+			<Field ID="@fog_sy" Name="雾的 SY（Y 方向自动滚动速度）">0</Field>
+			<Field ID="@battleback_name" Name="战斗背景图像的文件名"></Field>
+			<Field ID="@passages" Name="通行表" Type="RubyMarshal">BAh1OgpUYWJsZQIUAwEAAACAAQAAAQAAAAEAAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</Field>
+			<Field ID="@priorities" Name="优先级表" Type="RubyMarshal">BAh1OgpUYWJsZQIUAwEAAACAAQAAAQAAAAEAAACAAQAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</Field>
+			<Field ID="@terrain_tags" Name="地形标志表" Type="RubyMarshal">BAh1OgpUYWJsZQIUAwEAAACAAQAAAQAAAAEAAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</Field>
+		</Property>
+		<Property Name="Views"></Property>
 	</Component>
 	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="CommonEvents">
 		<Property Name="Title">公共事件</Property>
 		<Property Name="FileName">Data\CommonEvents.rxdata</Property>
 		<Property Name="ClassName">[RPG::CommonEvent]</Property>
+		<Property Name="ClipboardFormat">RPGXP COMMONEVENT</Property>
 		<Property Name="Fields">
-			<Field ID="@id" Name="ID"></Field>
-			<Field ID="@switch_id" Name="开关编号"></Field>
-			<Field ID="@trigger" Name="触发方式"></Field>
+			<Field ID="@id" Name="ID">0</Field>
+			<Field ID="@switch_id" Name="开关编号">1</Field>
+			<Field ID="@trigger" Name="触发方式">0</Field>
 			<Field ID="@name" Name="名称"></Field>
-			<Field ID="@list" Name="事件内容"></Field>
+			<Field ID="@list" Name="事件内容" Type="RubyMarshal">BAhbBm86FlJQRzo6RXZlbnRDb21tYW5kCDoQQHBhcmFtZXRlcnNbADoKQGNvZGVpADoMQGluZGVudGkA</Field>
 		</Property>
 		<Property Name="Views">
 			<View ID="General" Name="常规">
@@ -554,7 +723,7 @@
 			<Field ID="@battler_hue" Name="Maker 内部使用的战斗者图像的色相变化值（0..360）" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 			<Field ID="@edit_map_id" Name="Maker 内部使用的现在编辑的地图 ID" Editor="NekoKun.ObjectEditor.DecimalEditor"></Field>
 		</Property>
-		<Property Name="Views"><View ID="General" Name="常规"><Layout Type="NekoKun.ObjectEditor.SmartLayout"></Layout></View></Property>
+		<Property Name="Views"></Property>
 	</Component>
 	<Component Name="NekoKun.UIProvider" ID="UI">
 		<Property Name="Menus">
