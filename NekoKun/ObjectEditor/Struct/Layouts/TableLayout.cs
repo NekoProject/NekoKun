@@ -13,6 +13,7 @@ namespace NekoKun.ObjectEditor
             this.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RowCount = Int32.Parse(param.Attributes["RowCount"].Value);
             this.ColumnCount = Int32.Parse(param.Attributes["ColumnCount"].Value);
+            this.AutoScroll = true;
 
             for (int i = 0; i < this.RowCount; i++)
                 this.RowStyles.Add(new System.Windows.Forms.RowStyle());

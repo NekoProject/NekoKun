@@ -91,6 +91,7 @@
     <Compile Include="ObjectEditor\Controls\ArrayEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ObjectEditor\EditorFactory.cs" />
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
     <Compile Include="Core\DocumentFramework\NavPoint.cs" />
     <Compile Include="Core\DocumentFramework\FileManager.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="ObjectEditor\Struct\Layouts\TableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ObjectEditor\Struct\Layouts\SmartLayout.cs">
+    <Compile Include="ObjectEditor\Struct\Layouts\RawLayout.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommand.cs" />

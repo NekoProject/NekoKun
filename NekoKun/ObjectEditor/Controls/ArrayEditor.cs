@@ -10,7 +10,7 @@ namespace NekoKun.ObjectEditor
         object orig;
         System.Windows.Forms.ListBox list;
         System.Windows.Forms.Control con;
-
+        System.Windows.Forms.ToolStripMenuItem menuRelength;
         public ArrayEditor(IObjectEditor Con)
         {
             if(this.RequestCommit != null) this.RequestCommit.ToString();
@@ -22,7 +22,6 @@ namespace NekoKun.ObjectEditor
             this.SplitterDistance = 150;
             list = new ArrayListbox();
             list.Dock = System.Windows.Forms.DockStyle.Fill;
-            list.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             list.SelectedIndexChanged += new EventHandler(list_SelectedIndexChanged);
             this.Panel1.Controls.Add(list);
             con.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -32,10 +31,16 @@ namespace NekoKun.ObjectEditor
 
             this.list.ContextMenuStrip = new EditContextMenuStrip(this);
             this.list.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
-            this.list.ContextMenuStrip.Items.Add("更改最大值(&M)...", null, delegate
+            this.list.ContextMenuStrip.Items.Add(menuRelength = new System.Windows.Forms.ToolStripMenuItem("更改最大值(&M)...", null, delegate
             {
-                this.Relength(300);
-            });
+                this.Relength(10);
+            }));
+            this.list.ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
+        }
+
+        void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            menuRelength.Enabled = (this.CreateDefaultObject != null);
         }
 
         void Relength(int newsize)
@@ -49,14 +54,18 @@ namespace NekoKun.ObjectEditor
                 {
                     this.list.Items.Add(this.CreateDefaultObject());
                 }
+                if (this.DirtyChanged != null)
+                    this.DirtyChanged(this, null);
             }
             else if (newsize < this.list.Items.Count)
             {
                 int count = this.list.Items.Count;
-                for (int i = this.list.Items.Count - newsize; i < count; i++)
+                for (int i = newsize; i < count; i++)
                 {
                     this.list.Items.RemoveAt(newsize);
                 }
+                if (this.DirtyChanged != null)
+                    this.DirtyChanged(this, null);
             }
         }
 
@@ -138,7 +147,8 @@ namespace NekoKun.ObjectEditor
         public void Cut()
         {
             Copy(); Delete();
-
+            if (this.DirtyChanged != null)
+                this.DirtyChanged(this, null);
         }
 
         public void Copy()
@@ -146,6 +156,8 @@ namespace NekoKun.ObjectEditor
             System.Windows.Forms.DataObject db = new System.Windows.Forms.DataObject();
             db.SetData(this.ClipboardFormat, this.DumpObject(this.list.SelectedItem));
             System.Windows.Forms.Clipboard.SetDataObject(db, true, 5, 100);
+            if (this.DirtyChanged != null)
+                this.DirtyChanged(this, null);
         }
 
         public void Paste()
@@ -166,6 +178,8 @@ namespace NekoKun.ObjectEditor
             else { return; }
             this.list.Items[this.list.SelectedIndex] = this.LoadObject(buffer);
             (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
+            if (this.DirtyChanged != null)
+                this.DirtyChanged(this, null);
         }
 
         public bool CanDelete
@@ -177,6 +191,8 @@ namespace NekoKun.ObjectEditor
         {
             this.list.Items[this.list.SelectedIndex] = this.CreateDefaultObject();
             (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
+            if (this.DirtyChanged != null)
+                this.DirtyChanged(this, null);
         }
 
         public CreateDefaultObjectDelegate CreateDefaultObject;

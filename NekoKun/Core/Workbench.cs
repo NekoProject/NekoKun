@@ -74,6 +74,14 @@ namespace NekoKun
             Program.Logger.ShowEditor();
             Program.Logger.Editor.DockState = DockState.DockBottom;
 
+            foreach (var item in ProjectManager.Components)
+            {
+                AbstractFile file = item.Value as AbstractFile;
+                if (file != null)
+                {
+                    file.ShowEditor();
+                }
+            }
             try
             {
                 var file = (ProjectManager.Components["Scripts"] as AbstractFile);
@@ -81,11 +89,6 @@ namespace NekoKun
                 file.Editor.DockState = DockState.DockLeft;
             }
             catch { }
-
-            (ProjectManager.Components["Skills"] as AbstractFile).ShowEditor();
-            (ProjectManager.Components["CommonEvents"] as AbstractFile).ShowEditor();
-            (ProjectManager.Components["System"] as AbstractFile).ShowEditor();
-
 
             UpdatePendingChanges();
         }

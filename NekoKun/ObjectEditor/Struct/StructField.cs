@@ -47,10 +47,11 @@ namespace NekoKun.ObjectEditor
         /// 根据 ID 创建 Unknown 字段。
         /// </summary>
         /// <param name="id">ID</param>
-        public StructField(string id)
+        public StructField(string id, DefaultValueDelegate defaultValue)
         {
             ID = id;
             Name = id;
+            this.defaultProc = defaultValue;
         }
 
         public object DefaultValue

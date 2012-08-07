@@ -13,6 +13,7 @@ namespace NekoKun.RPGMaker
         protected object contents;
         protected ObjectEditor.StructField idField;
         protected System.Xml.XmlNodeList views;
+        protected string clipboardFormat;
 
         public bool ArrayMode { get { return this.arrayMode; } }
         public Dictionary<string, ObjectEditor.StructField> Fields { get { return this.fields; } }
@@ -33,6 +34,14 @@ namespace NekoKun.RPGMaker
                 this.className = this.className.Substring(1, this.className.Length - 2);
             }
             this.views = (node["Views"] as System.Xml.XmlNodeList);
+            if (node.ContainsKey("ClipboardFormat"))
+            {
+                this.clipboardFormat = (node["ClipboardFormat"] as string);
+            }
+            if (this.clipboardFormat == null)
+            {
+                this.clipboardFormat = this.filename;
+            }
 
             this.fields = new Dictionary<string, NekoKun.ObjectEditor.StructField>();
             var fields = node["Fields"] as System.Xml.XmlNodeList;
@@ -78,7 +87,23 @@ namespace NekoKun.RPGMaker
             foreach (var item in (RubyObj as RubyBindings.RubyObject).Variables)
             {
                 if (!this.fields.ContainsKey(item.Key.GetString()))
-                    this.fields.Add(item.Key.GetString(), new ObjectEditor.StructField(item.Key.GetString()));
+                {
+                    System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                    RubyBindings.RubyMarshal.Dump(ms, item.Value);
+                    byte[] buf = ms.ToArray();
+
+                    this.fields.Add(
+                        item.Key.GetString(), 
+                        new ObjectEditor.StructField(
+                            item.Key.GetString(),
+                            delegate
+                            {
+                                System.IO.MemoryStream ms2 = new System.IO.MemoryStream(buf);
+                                return RubyBindings.RubyMarshal.Load(ms2);
+                            }
+                        )
+                    );
+                }
 
                 var field = this.fields[item.Key.GetString()];
                 dict.Add(field, item.Value);
@@ -137,7 +162,7 @@ namespace NekoKun.RPGMaker
             if (this.arrayMode)
             {
                 var array = new ObjectEditor.ArrayEditor(new ObjectEditor.StructEditor(param, fields));
-                array.ClipboardFormat = "RPGXP SKILL";
+                array.ClipboardFormat = this.clipboardFormat;
                 array.LoadObject = (item) =>
                 {
                     var ms = new System.IO.MemoryStream(item);

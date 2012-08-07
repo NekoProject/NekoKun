@@ -20,10 +20,10 @@ namespace NekoKun.ObjectEditor
             }
 
             this.views = new List<View>();
-            //View rawView = new View();
-            //rawView.Name = "原始视图";
-            //rawView.ID = "Raw";
-            //rawView.Layout = new RawLayout
+            View rawView = new View();
+            rawView.Name = "原始视图";
+            rawView.ID = "Raw";
+            this.views.Add(rawView);
             foreach (System.Xml.XmlNode item in Params["Views"] as System.Xml.XmlNodeList)
             {
                 if (item.Name == "View")
@@ -41,7 +41,12 @@ namespace NekoKun.ObjectEditor
             {
                 var page = new System.Windows.Forms.TabPage(view.Name);
                 page.BackColor = Color.Transparent;
+                page.Padding = new System.Windows.Forms.Padding(5);
                 this.TabPages.Add(page);
+            }
+            if (this.TabCount > 1)
+            {
+                this.SelectedIndex = 1;
             }
             this.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Deselecting);
             this.Selected += new System.Windows.Forms.TabControlEventHandler(StructEditor_Selected);
@@ -62,11 +67,20 @@ namespace NekoKun.ObjectEditor
         {
             if (view.Layout == null)
             {
-                view.Layout = Program.CreateInstanceFromTypeName(
-                    view.LayoutInfo.Attributes["Type"].Value,
-                    view.LayoutInfo,
-                    new CreateControlDelegate(CreateControl)
-                ) as IStructEditorLayout;
+                if (view.LayoutInfo == null)
+                {
+                    StructField[] field = new StructField[this.fields.Values.Count];
+                    this.fields.Values.CopyTo(field, 0);
+                    view.Layout = new RawLayout(field, CreateControl);
+                }
+                else
+                {
+                    view.Layout = Program.CreateInstanceFromTypeName(
+                        view.LayoutInfo.Attributes["Type"].Value,
+                        view.LayoutInfo,
+                        new CreateControlDelegate(CreateControl)
+                    ) as IStructEditorLayout;
+                }
                 this.TabPages[this.views.IndexOf(view)].Controls.Add(view.Layout as System.Windows.Forms.Control);
                 view.IsFresh = false;
             }
