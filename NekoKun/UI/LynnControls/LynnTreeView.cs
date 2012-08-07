@@ -14,9 +14,9 @@ namespace NekoKun.UI
         private Color selectedColor2 = Color.FromArgb(0, 158, 247);
         private Color selectedForeColor = Color.White;
         protected System.Drawing.Drawing2D.LinearGradientBrush backBrush;
-        protected StringFormat stringFormat;
-        protected System.Windows.Forms.VisualStyles.VisualStyleRenderer renderOpened = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Opened);
-        protected System.Windows.Forms.VisualStyles.VisualStyleRenderer renderClosed = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Closed);
+        protected StringFormat stringFormat, stringFormat2;
+        protected System.Windows.Forms.VisualStyles.VisualStyleRenderer renderOpened;
+        protected System.Windows.Forms.VisualStyles.VisualStyleRenderer renderClosed;
 
         public LynnTreeView()
         {
@@ -28,12 +28,10 @@ namespace NekoKun.UI
             stringFormat.LineAlignment = StringAlignment.Center;
             stringFormat.Trimming = StringTrimming.EllipsisCharacter;
             stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat2 = new StringFormat(stringFormat);
+            stringFormat2.Alignment = StringAlignment.Center;
 
             this.DrawMode = TreeViewDrawMode.OwnerDrawAll;
-
-            this.ImageList = new ImageList();
-            this.ImageList.ImageSize = new Size(16, 16);
-            this.ImageList.Images.Add(Properties.Resources.MainIcon);
         }
 
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
@@ -68,7 +66,19 @@ namespace NekoKun.UI
             if (this.ShowPlusMinus && e.Node.Nodes.Count > 0)
             {
                 Rectangle glyphBounds = new Rectangle(textBound.X - this.Indent, textBound.Y, this.Indent, textBound.Height);
-                (e.Node.IsExpanded ? this.renderOpened : this.renderClosed).DrawBackground(e.Graphics, glyphBounds);
+                if (System.Windows.Forms.VisualStyles.VisualStyleRenderer.IsSupported)
+                {
+                    if (this.renderOpened == null)
+                        this.renderOpened = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Opened);
+                    if (this.renderClosed == null)
+                        this.renderClosed = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Opened);
+
+                    (e.Node.IsExpanded ? this.renderOpened : this.renderClosed).DrawBackground(e.Graphics, glyphBounds);
+                }
+                else
+                {
+                    DrawText(-1, e.Node.IsExpanded ? "-" : "+", this.Font, fore, glyphBounds, this.stringFormat2, e.Graphics, this.SelectedNode == e.Node);
+                }
             }
 
             if (this.ImageList != null)
