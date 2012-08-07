@@ -725,6 +725,10 @@
 		</Property>
 		<Property Name="Views"></Property>
 	</Component>
+	<Component Name="NekoKun.RPGMaker.MapInfoFile" ID="MapInfos">
+		<Property Name="FileName">Data\MapInfos.rxdata</Property>
+		<Property Name="FileNameFormat">Data\Map{0:D3}.rxdata</Property>
+	</Component>
 	<Component Name="NekoKun.UIProvider" ID="UI">
 		<Property Name="Menus">
 			<Menu ID="View">

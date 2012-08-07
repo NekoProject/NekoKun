@@ -193,6 +193,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommandProvider.cs" />
+    <Compile Include="RPGMaker\Map\MapFile.cs" />
+    <Compile Include="RPGMaker\Map\MapInfoFile.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />
     <Compile Include="RubyBindings\RObj\RubyExpendObject.cs" />
