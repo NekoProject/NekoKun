@@ -34,8 +34,8 @@
             this.cueLocation = new NekoKun.UI.LynnLabel();
             this.fieldLocation = new NekoKun.UI.LynnTextbox();
             this.browseFolderButton = new NekoKun.UI.LynnButton();
-            this.templateCategory = new System.Windows.Forms.TreeView();
-            this.templateList = new System.Windows.Forms.ListView();
+            this.templateCategory = new NekoKun.UI.LynnTreeView();
+            this.templateList = new NekoKun.UI.LynnListView();
             this.accpetButton = new NekoKun.UI.LynnButton();
             this.cancelButton = new NekoKun.UI.LynnButton();
             this.bigPanel.Panel1.SuspendLayout();

@@ -32,10 +32,12 @@ namespace NekoKun.ObjectEditor
                 {
                     string str = item.Attributes["Width"].Value;
                     
-                    if (str.StartsWith("1/"))
+                    if (str.Contains("/"))
                     {
+                        float up = float.Parse(str.Substring(0, str.IndexOf('/')));
+                        float down = float.Parse(str.Substring(str.IndexOf('/') + 1));
                         this.ColumnStyles[x - 1].SizeType = System.Windows.Forms.SizeType.Percent;
-                        this.ColumnStyles[x - 1].Width = 1.0f / Int32.Parse(str.Substring(2));
+                        this.ColumnStyles[x - 1].Width = up / down;
                     }
                     else
                     {

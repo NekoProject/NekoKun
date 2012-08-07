@@ -380,8 +380,8 @@
 				<Layout Type="NekoKun.ObjectEditor.TableLayout" RowCount="16" ColumnCount="6">
 					<TableCell Y="1" X="1" ColumnSpan="2">名称</TableCell>
 					<TableCell Y="1" X="3" ColumnSpan="2">图标</TableCell>
-					<TableCell Y="1" X="5" Width="1/4">属性</TableCell>
-					<TableCell Y="1" X="6" Width="1/4">状态变化</TableCell>
+					<TableCell Y="1" X="5" Width="2/10">属性</TableCell>
+					<TableCell Y="1" X="6" Width="2/10">状态变化</TableCell>
 					
 					<TableCell Y="2" X="1" ColumnSpan="2"><Control ID="@name" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
 					<TableCell Y="2" X="3" ColumnSpan="2"><Control ID="@icon_name" Editor="NekoKun.ObjectEditor.SingleTextEditor"/></TableCell>
@@ -410,10 +410,10 @@
 					<TableCell Y="10" X="1" ColumnSpan="2"><Control ID="@menu_se" Editor="NekoKun.RPGMaker.AudioFileEditor"/></TableCell>
 					<TableCell Y="10" X="3" ColumnSpan="2"><Control ID="@common_event_id" Editor="NekoKun.ObjectEditor.DecimalEditor"/></TableCell>
 
-					<TableCell Y="11" X="1" Width="1/8">消费 SP</TableCell>
-					<TableCell Y="11" X="2" Width="1/8">威力</TableCell>
-					<TableCell Y="11" X="3" Width="1/8">攻击力 F</TableCell>
-					<TableCell Y="11" X="4" Width="1/8">回避 F</TableCell>
+					<TableCell Y="11" X="1" Width="3/20">消费 SP</TableCell>
+					<TableCell Y="11" X="2" Width="3/20">威力</TableCell>
+					<TableCell Y="11" X="3" Width="3/20">攻击力 F</TableCell>
+					<TableCell Y="11" X="4" Width="3/20">回避 F</TableCell>
 					<TableCell Y="12" X="1"><Control ID="@sp_cost" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
 					<TableCell Y="12" X="2"><Control ID="@power" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>
 					<TableCell Y="12" X="3"><Control ID="@atk_f" Editor="NekoKun.ObjectEditor.DecimalEditor" /></TableCell>

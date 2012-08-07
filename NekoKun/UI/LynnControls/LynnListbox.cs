@@ -115,7 +115,7 @@ namespace NekoKun.UI
 
         protected override void OnResize(EventArgs e)
         {
-            this.Refresh();
+            this.Invalidate();
             base.OnResize(e);
         }
 

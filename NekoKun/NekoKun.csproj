@@ -243,10 +243,16 @@
     <Compile Include="UI\LynnControls\LynnCombobox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LynnControls\LynnListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\LynnControls\LynnNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LynnControls\LynnTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LynnControls\LynnTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LynnControls\NativeBorder.cs">
