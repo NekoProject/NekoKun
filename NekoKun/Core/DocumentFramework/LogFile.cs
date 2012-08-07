@@ -9,7 +9,7 @@ namespace NekoKun
         private string log;
 
         public LogFile()
-            : base(@"\\.\NekoKun\Log")
+            : base(@"\\.\NekoKun\Log", false)
         {
             this.log = "";
         }
