@@ -39,7 +39,7 @@ namespace NekoKun.RPGMaker
                 this.maps.Add(key, map);
 
                 RubyBindings.RubyObject info = item.Value as RubyBindings.RubyObject;
-                map.Title = info["name"] as string;
+                map.Title = info["@name"] as string;
 
                 /*
                     parent_id 
@@ -68,7 +68,7 @@ namespace NekoKun.RPGMaker
 
         public override AbstractEditor CreateEditor()
         {
-            throw new NotImplementedException();
+            return new MapInfoEditor(this);
         }
 
         public override string ToString()

@@ -193,8 +193,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommandProvider.cs" />
+    <Compile Include="RPGMaker\Map\MapEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RPGMaker\Map\MapFile.cs" />
+    <Compile Include="RPGMaker\Map\MapInfoEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RPGMaker\Map\MapInfoFile.cs" />
+    <Compile Include="RPGMaker\Map\TilesetInfo.cs" />
+    <Compile Include="RubyBindings\IRubyUserdefinedDumpObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />
     <Compile Include="RubyBindings\RObj\RubyExpendObject.cs" />
@@ -205,7 +213,7 @@
     <Compile Include="RubyBindings\RObj\RubyObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyStruct.cs" />
     <Compile Include="RubyBindings\RObj\RubySymbol.cs" />
-    <Compile Include="RubyBindings\RObj\RubyTable.cs" />
+    <Compile Include="RubyBindings\RObj\RGSSTable.cs" />
     <Compile Include="RubyBindings\RObj\RubyTone.cs" />
     <Compile Include="RubyBindings\RObj\RubyUserdefinedDumpObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyUserdefinedMarshalDumpObject.cs" />

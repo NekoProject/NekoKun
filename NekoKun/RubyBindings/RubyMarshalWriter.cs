@@ -125,6 +125,10 @@ namespace NekoKun.RubyBindings
                 {
                     this.WriteModule((RubyModule)obj);
                 }
+                else if (obj is IRubyUserdefinedDumpObject)
+                {
+                    this.WriteUsingDump((IRubyUserdefinedDumpObject)obj);
+                }
                 else if (obj is RubyUserdefinedDumpObject)
                 {
                     this.WriteUsingDump((RubyUserdefinedDumpObject)obj);
@@ -154,6 +158,13 @@ namespace NekoKun.RubyBindings
                     throw new ArgumentException("i don't know how to marshal.dump this type: " + obj.GetType().FullName);
                 }
             }
+        }
+
+        private void WriteUsingDump(IRubyUserdefinedDumpObject iRubyUserdefinedDumpObject)
+        {
+            this.m_writer.Write((byte)0x55);
+            this.WriteSymbol(RubySymbol.GetSymbol(iRubyUserdefinedDumpObject.ClassName));
+            this.WriteAnObject(iRubyUserdefinedDumpObject.Dump());
         }
 
         private void WriteUsingMarshalDump(RubyUserdefinedMarshalDumpObject obj)

@@ -127,10 +127,23 @@ namespace NekoKun.RubyBindings
 
         private object ReadUsingLoad()
         {
-            RubyUserdefinedDumpObject obj = new RubyUserdefinedDumpObject();
+            RubySymbol symbol = (RubySymbol)ReadAnObject();
+            byte[] raw = ReadStringValueAsBytes();
+            object obj;
+            switch (symbol.GetString())
+            {
+                case "Table":
+                    obj = new RGSSTable(raw);
+                    break;
+                default:
+                    obj = new RubyUserdefinedDumpObject()
+                    {
+                        ClassName = symbol,
+                        DumpedObject = raw
+                    };
+                    break;
+            }
             AddObject(obj);
-            obj.ClassName = (RubySymbol)ReadAnObject();
-            obj.DumpedObject = ReadStringValueAsBytes();
             return obj;
         }
 

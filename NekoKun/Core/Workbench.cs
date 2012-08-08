@@ -73,20 +73,27 @@ namespace NekoKun
         {
             Program.Logger.ShowEditor();
             Program.Logger.Editor.DockState = DockState.DockBottom;
-
-            foreach (var item in ProjectManager.Components)
+            
+            /*foreach (var item in ProjectManager.Components)
             {
                 AbstractFile file = item.Value as AbstractFile;
                 if (file != null)
                 {
                     file.ShowEditor();
                 }
-            }
+            }*/
             try
             {
                 var file = (ProjectManager.Components["Scripts"] as AbstractFile);
                 file.ShowEditor();
                 file.Editor.DockState = DockState.DockLeft;
+            }
+            catch { }
+            try
+            {
+                var file = (ProjectManager.Components["MapInfos"] as AbstractFile);
+                file.ShowEditor();
+                file.Editor.Show((ProjectManager.Components["Scripts"] as AbstractFile).Editor.Pane, (ProjectManager.Components["Scripts"] as AbstractFile).Editor);
             }
             catch { }
 
