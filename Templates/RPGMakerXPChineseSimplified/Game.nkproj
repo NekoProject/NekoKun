@@ -626,7 +626,7 @@
 		</Property>
 		<Property Name="Views"></Property>
 	</Component>
-	<Component Name="NekoKun.RPGMaker.DatabaseFile" ID="Tilesets">
+	<Component Name="NekoKun.RPGMaker.TilesetFile" ID="Tilesets">
 		<Property Name="Title">Tileset</Property>
 		<Property Name="FileName">Data\Tilesets.rxdata</Property>
 		<Property Name="ClassName">[RPG::Tileset]</Property>
@@ -728,6 +728,7 @@
 	<Component Name="NekoKun.RPGMaker.MapInfoFile" ID="MapInfos">
 		<Property Name="FileName">Data\MapInfos.rxdata</Property>
 		<Property Name="FileNameFormat">Data\Map{0:D3}.rxdata</Property>
+		<Property Name="TilesetProvider">Tilesets</Property>
 	</Component>
 	<Component Name="NekoKun.UIProvider" ID="UI">
 		<Property Name="Menus">

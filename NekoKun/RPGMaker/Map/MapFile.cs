@@ -11,11 +11,13 @@ namespace NekoKun.RPGMaker
         public System.Drawing.Size Size;
         public TilesetInfo tileset;
         public RubyBindings.RGSSTable data;
+        public int TilesetID;
+        public TilesetFile TilesetFile;
 
-        public MapFile(string filename)
+        public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
         {
-            
+            this.TilesetFile = tilesetFile;
         }
 
         protected override void Save()
@@ -33,9 +35,9 @@ namespace NekoKun.RPGMaker
         private void LoadInfo()
         {
             infoLoaded = true;
-            tileset = new TilesetInfo();
 
             RubyBindings.RubyObject raw = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyBindings.RubyObject;
+            this.TilesetID = (int)raw["@tileset_id"] - 1;
             this.data = raw["@data"] as RubyBindings.RGSSTable;
             this.Size = new System.Drawing.Size((int)raw["@width"], (int)raw["@height"]);
         }

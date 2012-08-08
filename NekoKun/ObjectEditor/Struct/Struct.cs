@@ -7,6 +7,8 @@ namespace NekoKun.ObjectEditor
     [Serializable]
     public class Struct : Dictionary<StructField, object>
     {
+        private DictionaryWithDefaultProc<string, object> inner;
+
         public override string ToString()
         {
             foreach (var item in this)
@@ -40,6 +42,41 @@ namespace NekoKun.ObjectEditor
                 {
                     this.Add(key, value);
                 }
+            }
+        }
+
+        public object this[string key]
+        {
+            get
+            {
+                foreach (var item in this.Keys)
+                {
+                    if (item.ID == key)
+                        return this[item];
+                }
+                return null;
+            }
+            set
+            {
+                foreach (var item in this.Keys)
+                {
+                    if (item.ID == key)
+                    {
+                        this[item] = value;
+                        return;
+                    }
+                }
+                throw new ArgumentException();
+            }
+        }
+
+        public DictionaryWithDefaultProc<string, object> Runtime
+        {
+            get
+            {
+                if (this.inner == null)
+                    this.inner = new DictionaryWithDefaultProc<string, object>((string s) => null);
+                return this.inner;
             }
         }
     }

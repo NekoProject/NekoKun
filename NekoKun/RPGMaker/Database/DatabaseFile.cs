@@ -146,7 +146,8 @@ namespace NekoKun.RPGMaker
             obj.ClassName = RubyBindings.RubySymbol.GetSymbol(className);
             foreach (var kv in item)
 	        {
-                obj.Variables[RubyBindings.RubySymbol.GetSymbol(kv.Key.ID)] = kv.Value;
+                if (kv.Key.ID.StartsWith("@"))
+                    obj.Variables[RubyBindings.RubySymbol.GetSymbol(kv.Key.ID)] = kv.Value;
 	        }
             return obj;
         }
