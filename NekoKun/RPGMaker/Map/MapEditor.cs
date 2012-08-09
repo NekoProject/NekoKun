@@ -8,6 +8,9 @@ namespace NekoKun.RPGMaker
     {
         MapFile map;
         TilesetInfo tileset;
+        System.Windows.Forms.VScrollBar barV;
+        System.Windows.Forms.HScrollBar barH;
+
         System.Windows.Forms.Panel panel;
         public MapEditor(MapFile file)
             : base(file)
@@ -16,49 +19,99 @@ namespace NekoKun.RPGMaker
             this.tileset = map.TilesetFile[map.TilesetID];
 
             this.panel = new DoubleBufferedPanel();
-            this.panel.AutoScroll = false;
-            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel.Paint += new System.Windows.Forms.PaintEventHandler(box_Paint);
-            this.panel.Scroll += new System.Windows.Forms.ScrollEventHandler(panel_Scroll);
             this.Controls.Add(this.panel);
+
+            this.barV = new System.Windows.Forms.VScrollBar();
+            this.Controls.Add(this.barV);
+            this.barH = new System.Windows.Forms.HScrollBar();
+            this.Controls.Add(this.barH);
+
+            this.ClientSizeChanged += new EventHandler(MapEditor_Resize);
+            this.Layout += MapEditor_Resize;
+            this.SizeChanged += new EventHandler(MapEditor_Resize);
             this.Resize += new EventHandler(MapEditor_Resize);
-            this.panel.Resize += new EventHandler(panel_Resize);
+            this.barH.Scroll += new System.Windows.Forms.ScrollEventHandler(bar_Scroll);
+            this.barV.Scroll += new System.Windows.Forms.ScrollEventHandler(bar_Scroll);
+
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this_MouseWheel);
             UpdateScrollbars();
         }
 
-        void panel_Resize(object sender, EventArgs e)
+        void this_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            UpdateScrollbars();
+            if (this.barV.Visible == false)
+                return;
+
+            int newValue = this.barV.Value - e.Delta;
+            if (newValue < 0)
+                newValue = 0;
+
+            if (newValue > this.barV.Maximum - this.barV.LargeChange)
+                newValue = this.barV.Maximum - this.barV.LargeChange;
+
+            if (this.barV.Value != newValue)
+            {
+                this.barV.Value = newValue;
+                this.panel.Invalidate();
+            }
+        }
+
+        void bar_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
+        {
+            this.panel.Invalidate();
         }
 
         void MapEditor_Resize(object sender, EventArgs e)
         {
-            UpdateScrollbars();
-        }
+            for (int i = 0; i < 2; i++)
+            {
+                if (this.barV.Visible)
+                    this.panel.Width = this.ClientSize.Width - this.barV.Width;
+                else
+                    this.panel.Width = this.ClientSize.Width;
 
-        void panel_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
-        {
-            if (e.ScrollOrientation == System.Windows.Forms.ScrollOrientation.HorizontalScroll)
-                this.panel.HorizontalScroll.Value = e.NewValue;
-            if (e.ScrollOrientation == System.Windows.Forms.ScrollOrientation.VerticalScroll)
-                this.panel.VerticalScroll.Value = e.NewValue;
+                if (this.barH.Visible)
+                    this.panel.Height = this.ClientSize.Height - this.barH.Height;
+                else
+                    this.panel.Height = this.ClientSize.Height;
+
+                UpdateScrollbars();
+            }
+
+            this.barV.Left = this.panel.Width;
+            this.barV.Top = 0;
+            this.barV.Height = this.panel.Height;
+
+            this.barH.Left = 0;
+            this.barH.Top = this.panel.Height;
+            this.barH.Width = this.panel.Width;
+
+            this.panel.Invalidate();
         }
 
         private void UpdateScrollbars()
         {
-            this.panel.HorizontalScroll.Enabled = true;
-            this.panel.HorizontalScroll.SmallChange = 128;
-            this.panel.HorizontalScroll.LargeChange = this.panel.ClientSize.Width;
-            this.panel.HorizontalScroll.Minimum = 0;
-            this.panel.HorizontalScroll.Maximum = this.tileset.TileSize.Width * this.map.Size.Width;
-            this.panel.HorizontalScroll.Visible = true;
+            int newH = Math.Max(this.tileset.TileSize.Width * this.map.Size.Width, 0);
+            int newV = Math.Max(this.tileset.TileSize.Height * this.map.Size.Height, 0);
+            int test;
+            this.barH.Enabled = true;
+            this.barH.SmallChange = 128;
+            if (this.barH.Value >= (test = Math.Max(newH - this.barH.LargeChange, 0)))
+                this.barH.Value = test;
+            this.barH.LargeChange = this.panel.Width;
+            this.barH.Minimum = 0;
+            this.barH.Maximum = newH;
+            this.barH.Visible = this.barH.Maximum > this.barH.LargeChange;
 
-            this.panel.VerticalScroll.Enabled = true;
-            this.panel.VerticalScroll.SmallChange = 128;
-            this.panel.VerticalScroll.LargeChange = this.panel.ClientSize.Height;
-            this.panel.VerticalScroll.Minimum = 0;
-            this.panel.VerticalScroll.Maximum = this.tileset.TileSize.Height * this.map.Size.Height;
-            this.panel.VerticalScroll.Visible = true;
+            this.barV.Enabled = true;
+            this.barV.SmallChange = 128;
+            if (this.barV.Value >= (test = Math.Max(newV - this.barV.LargeChange, 0)))
+                this.barV.Value = test;
+            this.barV.LargeChange = this.panel.Height;
+            this.barV.Minimum = 0;
+            this.barV.Maximum = newV;
+            this.barV.Visible = this.barV.Maximum > this.barV.LargeChange;
         }
 
         protected override void Dispose(bool disposing)
@@ -69,11 +122,12 @@ namespace NekoKun.RPGMaker
 
         void box_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            int left = this.panel.HorizontalScroll.Value, top = this.panel.VerticalScroll.Value;
-            int x0 = Math.Max(left + e.ClipRectangle.Left / this.tileset.TileSize.Width - 1, 0);
-            int x1 = Math.Min(left + e.ClipRectangle.Right / this.tileset.TileSize.Width + 1, map.Size.Width);
-            int y0 = Math.Max(top + e.ClipRectangle.Top / this.tileset.TileSize.Height - 1, 0);
-            int y1 = Math.Min(top + e.ClipRectangle.Bottom / this.tileset.TileSize.Height + 1, map.Size.Height);
+            int left = this.barH.Value;
+            int top = this.barV.Value;
+            int x0 = Math.Max((left + e.ClipRectangle.Left) / this.tileset.TileSize.Width - 1, 0);
+            int x1 = Math.Min((left + e.ClipRectangle.Right) / this.tileset.TileSize.Width + 1, map.Size.Width);
+            int y0 = Math.Max((top + e.ClipRectangle.Top) / this.tileset.TileSize.Height - 1, 0);
+            int y1 = Math.Min((top + e.ClipRectangle.Bottom) / this.tileset.TileSize.Height + 1, map.Size.Height);
             System.Drawing.Rectangle dest = new System.Drawing.Rectangle();
             dest.Size = this.tileset.TileSize;
             for (int x = x0; x < x1; x++)

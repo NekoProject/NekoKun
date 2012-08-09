@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace NekoKun.RPGMaker
 {
@@ -49,7 +51,46 @@ namespace NekoKun.RPGMaker
                     this.tree.Nodes.Add(item);
             }
 
+            tree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(tree_ItemDrag);
+            tree.AllowDrop = true;
+            tree.DragEnter += new System.Windows.Forms.DragEventHandler(tree_DragEnter);
+            tree.DragDrop += new System.Windows.Forms.DragEventHandler(tree_DragDrop);
             tree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(tree_NodeMouseDoubleClick);
+        }
+
+        void tree_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            System.Windows.Forms.TreeNode NewNode;
+
+            if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
+            {
+                Point pt = ((System.Windows.Forms.TreeView)sender).PointToClient(new Point(e.X, e.Y));
+                if (sender != tree)
+                    return;
+                TreeNode DestinationNode = ((TreeView)sender).GetNodeAt(pt);
+                if (DestinationNode != null)
+                {
+                    NewNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                    if (DestinationNode != NewNode)
+                    {
+                        NewNode.Remove();
+                        DestinationNode.Nodes.Add(NewNode);
+                    }
+                }
+            }
+        }
+
+        void tree_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false) && sender == this.tree)
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.Move;
+            }
+        }
+
+        void tree_ItemDrag(object sender, System.Windows.Forms.ItemDragEventArgs e)
+        {
+            DoDragDrop(e.Item, System.Windows.Forms.DragDropEffects.Move);
         }
 
         void tree_NodeMouseDoubleClick(object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e)

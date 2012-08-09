@@ -89,13 +89,26 @@ namespace NekoKun.RPGMaker
                             {
                                 int pos = info[i] - 1;
                                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(
-                                    pos % 6 * this.TileSize.Width / 2,
-                                    pos / 6 * this.TileSize.Height / 2,
+                                    pos % 6 * (this.TileSize.Width / 2),
+                                    pos / 6 * (this.TileSize.Height / 2),
                                     this.TileSize.Width / 2,
                                     this.TileSize.Height / 2
                                 );
                                 if (rect.IntersectsWith(this.imagesBounds[tileid].Value))
-                                    g.DrawImage(this.images[tileid], i % 2 * this.TileSize.Width / 2, i / 2 * this.TileSize.Height / 2, rect, System.Drawing.GraphicsUnit.Pixel);
+                                {
+                                    System.Drawing.Rectangle rect2 = new System.Drawing.Rectangle(
+                                        i % 2 * (this.TileSize.Width / 2),
+                                        i / 2 * (this.TileSize.Height / 2),
+                                        this.TileSize.Width / 2,
+                                        this.TileSize.Height / 2
+                                    );
+                                    g.DrawImage(
+                                        this.images[tileid], 
+                                        rect2,
+                                        rect, 
+                                        System.Drawing.GraphicsUnit.Pixel
+                                    );
+                                }
                             }
                         }
                     }
