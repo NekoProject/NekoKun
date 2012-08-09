@@ -71,7 +71,7 @@ namespace NekoKun.UI
                     if (this.renderOpened == null)
                         this.renderOpened = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Opened);
                     if (this.renderClosed == null)
-                        this.renderClosed = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Opened);
+                        this.renderClosed = new System.Windows.Forms.VisualStyles.VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView.Glyph.Closed);
 
                     (e.Node.IsExpanded ? this.renderOpened : this.renderClosed).DrawBackground(e.Graphics, glyphBounds);
                 }

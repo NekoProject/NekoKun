@@ -44,6 +44,8 @@ namespace NekoKun.RPGMaker
 
                 RubyBindings.RubyObject info = item.Value as RubyBindings.RubyObject;
                 map.Title = info["@name"] as string;
+                map.ParentID = info["@parent_id"].ToString();
+                map.Order = (int) info["@order"];
                 /*
                     parent_id 
                     The parent map ID.

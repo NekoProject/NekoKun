@@ -13,7 +13,8 @@ namespace NekoKun.RPGMaker
         public RubyBindings.RGSSTable data;
         public int TilesetID;
         public TilesetFile TilesetFile;
-
+        public string ParentID;
+        public int Order;
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
         {
