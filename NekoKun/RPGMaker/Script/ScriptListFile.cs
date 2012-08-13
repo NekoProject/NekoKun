@@ -23,9 +23,23 @@ namespace NekoKun.RPGMaker
                     byte[] bytes;
 
                     var ran = new System.Random();
-                    int id = (int)item[0];
+					int id;
+					
+					if (item[0] is int)
+						id = (int)item[0];
+					else
+					{
+						id = ran.Next(1, 100000000);
+						this.MakeDirty();
+						Program.Logger.Log("唯一 ID 遭到破坏。{0}", item[0].ToString());
+		                Program.Logger.Log("因为脚本文件中存在错误，现已经被修复，因此文件脏了。");
+					}
+						
                     while (containsID(id))
+					{
                         id = ran.Next(1, 100000000);
+						this.MakeDirty();
+					}
 
                     if (item[1] is RubyBindings.RubyExpendObject)
                         title = UnicodeStringFromUTF8Bytes((byte[])((RubyBindings.RubyExpendObject)item[1]).BaseObject);
