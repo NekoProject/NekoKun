@@ -11,6 +11,11 @@ namespace NekoKun
         public UI.LynnListbox list = new UI.LynnListbox();
         private ScriptListFile scriptList;
 
+        private ToolStripMenuItem menuOpen;
+        private ToolStripMenuItem menuInsert;
+        private ToolStripMenuItem menuDelete;
+        private ToolStripMenuItem menuRename;
+
         public ScriptListEditor(ScriptListFile item) : base(item)
         {
             list.Dock = DockStyle.Fill;
@@ -27,31 +32,85 @@ namespace NekoKun
             }
 
             ContextMenuStrip menu = new ContextMenuStrip();
-            (menu.Items.Add("打开(&O)", null, delegate {
+            (menuOpen = menu.Items.Add("打开(&O)", null, delegate {
                 ActionOpenScript();
             }) as ToolStripMenuItem).ShortcutKeyDisplayString = "Enter";
             menu.Items.Add(new ToolStripSeparator());
-            (menu.Items.Add("插入(&I)...", null, delegate
+            (menuInsert = menu.Items.Add("插入(&I)...", null, delegate
             {
                 ActionInsertScript();
             }) as ToolStripMenuItem).ShortcutKeyDisplayString = "Insert";
-            (menu.Items.Add("删除(&D)", null, delegate
+            (menuDelete = menu.Items.Add("删除(&D)", null, delegate
             {
                 ActionDeleteScript();
             }) as ToolStripMenuItem).ShortcutKeyDisplayString = "Delete";
-            (menu.Items.Add("重命名(&R)...", null, delegate
+            (menuRename = menu.Items.Add("重命名(&R)...", null, delegate
             {
                 ActionRenameScript();
             }) as ToolStripMenuItem).ShortcutKeyDisplayString = "F2";
 
             menu.Opening += delegate(object sender, System.ComponentModel.CancelEventArgs args)
             {
-                args.Cancel = (this.list.SelectedItem == null);
+                this.menuOpen.Enabled = this.list.SelectedItem != null;
+                this.menuDelete.Enabled = this.list.SelectedItem != null;
+                this.menuRename.Enabled = this.list.SelectedItem != null;
             };
 
             this.list.ContextMenuStrip = menu;
+            this.list.AllowDrop = true;
+            this.list.MouseMove += new MouseEventHandler(list_MouseMove);
+            this.list.DragEnter += new DragEventHandler(list_DragEnter);
+            this.list.DragDrop += new DragEventHandler(list_DragDrop);
             this.list.KeyDown += new KeyEventHandler(list_KeyDown);
             this.list.DoubleClick += new EventHandler(list_DoubleClick);
+        }
+
+        void list_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && this.list.SelectedItem != null)
+            {
+                DataObject obj = new DataObject(this.File.filename, this.list.SelectedItem);
+                this.list.DoDragDrop(obj, DragDropEffects.Move);
+            }
+        }
+
+        void list_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(this.File.filename, false) && sender == this.list)
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.Move;
+            }
+        }
+
+        void list_DragDrop(object sender, DragEventArgs e)
+        {
+            object newItem;
+
+            if (e.Data.GetDataPresent(this.File.filename, false))
+            {
+                Point pt = ((System.Windows.Forms.ListBox)sender).PointToClient(new Point(e.X, e.Y));
+                if (sender != this.list)
+                    return;
+
+                try
+                {
+                    int id = this.list.IndexFromPoint(pt);
+                    object destItem = this.list.Items[id];
+                    if (destItem != null)
+                    {
+                        newItem = e.Data.GetData(this.File.filename);
+                        if (newItem != destItem)
+                        {
+                            this.list.Items.Remove(newItem);
+                            this.list.Items.Insert(id, newItem);
+                            this.scriptList.scripts.Remove(newItem as ScriptFile);
+                            this.scriptList.scripts.Insert(id, newItem as ScriptFile);
+                            this.File.MakeDirty();
+                        }
+                    }
+                }
+                catch { }
+            }
         }
 
         void list_KeyDown(object sender, KeyEventArgs e)
@@ -132,7 +191,9 @@ namespace NekoKun
             int index = this.list.SelectedIndex;
 
             if (item == null)
-                return;
+            {
+                index = 0;
+            }
 
             ScriptListEditorInsertDialog dialog = new ScriptListEditorInsertDialog(this.scriptList);
             DialogResult result = dialog.ShowDialog(this);
