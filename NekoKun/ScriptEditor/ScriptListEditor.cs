@@ -67,7 +67,7 @@ namespace NekoKun
 
         void list_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && this.list.SelectedItem != null)
+            if (this.list.SelectedItem != null && e.Button == MouseButtons.Right)
             {
                 DataObject obj = new DataObject(this.File.filename, this.list.SelectedItem);
                 this.list.DoDragDrop(obj, DragDropEffects.Move);
