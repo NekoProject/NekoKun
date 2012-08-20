@@ -138,7 +138,7 @@ namespace NekoKun.RPGMaker
                     dest.Y = y * this.tileset.TileSize.Height - top;
                     e.Graphics.SetClip(dest);
                     e.Graphics.Clear(System.Drawing.Color.SteelBlue);
-                    for (int layer = 2; layer < 3; layer++)
+                    for (int layer = 0; layer < 3; layer++)
                     {
                         e.Graphics.DrawImage(
                             this.tileset[this.map.data[x, y, layer]],

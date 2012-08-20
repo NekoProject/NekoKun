@@ -6,14 +6,18 @@ namespace NekoKun.RPGMaker
 {
     public class TilesetInfoVA : TilesetInfo
     {
-        private static byte[][][] autotilesInfo = new byte[][][]
+        private static byte[][][] autotilesInfo = new byte[][][] {
+            new byte[][] { new byte[] { 19, 18, 15, 14 }, new byte[] { 3, 18, 15, 14 }, new byte[] { 19, 4, 15, 14 }, new byte[] { 3, 4, 15, 14 }, new byte[] { 19, 18, 15, 8 }, new byte[] { 3, 18, 15, 8 }, new byte[] { 19, 4, 15, 8 }, new byte[] { 3, 4, 15, 8 }, new byte[] { 19, 18, 7, 14 }, new byte[] { 3, 18, 7, 14 }, new byte[] { 19, 4, 7, 14 }, new byte[] { 3, 4, 7, 14 }, new byte[] { 19, 18, 7, 8 }, new byte[] { 3, 18, 7, 8 }, new byte[] { 19, 4, 7, 8 }, new byte[] { 3, 4, 7, 8 }, new byte[] { 17, 18, 13, 14 }, new byte[] { 17, 4, 13, 14 }, new byte[] { 17, 18, 13, 8 }, new byte[] { 17, 4, 13, 8 }, new byte[] { 11, 10, 15, 14 }, new byte[] { 11, 10, 15, 8 }, new byte[] { 11, 10, 7, 14 }, new byte[] { 11, 10, 7, 8 }, new byte[] { 19, 20, 15, 16 }, new byte[] { 19, 20, 7, 16 }, new byte[] { 3, 20, 15, 16 }, new byte[] { 3, 20, 7, 16 }, new byte[] { 19, 18, 23, 22 }, new byte[] { 3, 18, 23, 22 }, new byte[] { 19, 4, 23, 22 }, new byte[] { 3, 4, 23, 22 }, new byte[] { 17, 20, 13, 16 }, new byte[] { 11, 10, 23, 22 }, new byte[] { 9, 10, 13, 14 }, new byte[] { 9, 10, 13, 8 }, new byte[] { 11, 12, 15, 16 }, new byte[] { 11, 12, 7, 16 }, new byte[] { 19, 20, 23, 24 }, new byte[] { 3, 20, 23, 24 }, new byte[] { 17, 18, 21, 22 }, new byte[] { 17, 4, 21, 22 }, new byte[] { 9, 12, 13, 16 }, new byte[] { 9, 10, 21, 22 }, new byte[] { 17, 20, 21, 24 }, new byte[] { 11, 12, 23, 24 }, new byte[] { 9, 12, 21, 24 }, new byte[] { 1, 2, 5, 6 } }, 
+            new byte[][] { new byte[] { 11, 10, 7, 6 }, new byte[] { 9, 10, 5, 6 }, new byte[] { 3, 2, 7, 6 }, new byte[] { 1, 2, 5, 6 }, new byte[] { 11, 12, 7, 8 }, new byte[] { 9, 12, 5, 8 }, new byte[] { 3, 4, 7, 8 }, new byte[] { 1, 4, 5, 8 }, new byte[] { 11, 10, 15, 14 }, new byte[] { 9, 10, 13, 14 }, new byte[] { 3, 2, 15, 14 }, new byte[] { 1, 2, 13, 14 }, new byte[] { 11, 12, 15, 16 }, new byte[] { 9, 12, 13, 16 }, new byte[] { 3, 4, 15, 16 }, new byte[] { 1, 4, 13, 16 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 } }, 
+            new byte[][] { new byte[] { 3, 2, 7, 6 }, new byte[] { 1, 2, 5, 6 }, new byte[] { 3, 4, 7, 8 }, new byte[] { 1, 4, 5, 8 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 }, new byte[] { 1, 1, 1, 1 } } 
+        };
+
+        private static Int16[][] tileA1Offset = new Int16[][]
         {
-            new byte[][]{ new byte[] {27, 28, 33, 34}, new byte[] { 5, 28, 33, 34}, new byte[] {27,  6, 33, 34}, new byte[] { 5,  6, 33, 34},new byte[] {27, 28, 33, 12}, new byte[] { 5, 28, 33, 12}, new byte[] {27,  6, 33, 12}, new byte[] { 5,  6, 33, 12}}, 
-            new byte[][]{ new byte[] {27, 28, 11, 34}, new byte[] { 5, 28, 11, 34}, new byte[] {27,  6, 11, 34}, new byte[] { 5,  6, 11, 34},new byte[] {27, 28, 11, 12}, new byte[] { 5, 28, 11, 12}, new byte[] {27,  6, 11, 12}, new byte[] { 5,  6, 11, 12}}, 
-            new byte[][]{ new byte[] {25, 26, 31, 32}, new byte[] {25,  6, 31, 32}, new byte[] {25, 26, 31, 12}, new byte[] {25,  6, 31, 12},new byte[] {15, 16, 21, 22}, new byte[] {15, 16, 21, 12}, new byte[] {15, 16, 11, 22}, new byte[] {15, 16, 11, 12}}, 
-            new byte[][]{ new byte[] {29, 30, 35, 36}, new byte[] {29, 30, 11, 36}, new byte[] { 5, 30, 35, 36}, new byte[] { 5, 30, 11, 36},new byte[] {39, 40, 45, 46}, new byte[] { 5, 40, 45, 46}, new byte[] {39,  6, 45, 46}, new byte[] { 5,  6, 45, 46}}, 
-            new byte[][]{ new byte[] {25, 30, 31, 36}, new byte[] {15, 16, 45, 46}, new byte[] {13, 14, 19, 20}, new byte[] {13, 14, 19, 12},new byte[] {17, 18, 23, 24}, new byte[] {17, 18, 11, 24}, new byte[] {41, 42, 47, 48}, new byte[] { 5, 42, 47, 48}}, 
-            new byte[][]{ new byte[] {37, 38, 43, 44}, new byte[] {37,  6, 43, 44}, new byte[] {13, 18, 19, 24}, new byte[] {13, 14, 43, 44},new byte[] {37, 42, 43, 48}, new byte[] {17, 18, 47, 48}, new byte[] {13, 18, 43, 48}, new byte[] { 1,  2,  7,  8}}
+            new Int16[] {0, 0}, new Int16[] {0, 96}, new Int16[] {192, 0}, new Int16[] {192, 96}, 
+            new Int16[] {256, 0}, new Int16[] {448, 0}, new Int16[] {256, 96}, new Int16[] {448, 96}, 
+            new Int16[] {0, 192}, new Int16[] {192, 192}, new Int16[] {0, 288}, new Int16[] {192, 288}, 
+            new Int16[] {256, 192}, new Int16[] {448, 192}, new Int16[] {256, 288}, new Int16[] {448, 288}
         };
 
         public TilesetInfoVA(List<System.Drawing.Image> images)
@@ -53,6 +57,37 @@ namespace NekoKun.RPGMaker
             }
         }
 
+        private void DrawAutotile(int id, int typeid, int imgid, int offx, int offy, System.Drawing.Graphics g)
+        {
+            int subid = id % 48;
+            byte[] info = autotilesInfo[typeid][subid];
+            for (int i = 0; i < 4; i++)
+            {
+                int pos = info[i] - 1;
+                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(
+                    offx + pos % 4 * (this.TileSize.Width / 2),
+                    offy + pos / 4 * (this.TileSize.Height / 2),
+                    this.TileSize.Width / 2,
+                    this.TileSize.Height / 2
+                );
+                if (rect.IntersectsWith(this.imagesBounds[imgid].Value))
+                {
+                    System.Drawing.Rectangle rect2 = new System.Drawing.Rectangle(
+                        i % 2 * (this.TileSize.Width / 2),
+                        i / 2 * (this.TileSize.Height / 2),
+                        this.TileSize.Width / 2,
+                        this.TileSize.Height / 2
+                    );
+                    g.DrawImage(
+                        this.images[imgid],
+                        rect2,
+                        rect,
+                        System.Drawing.GraphicsUnit.Pixel
+                    );
+                }
+            }
+        }
+
         public override System.Drawing.Image this[int id]
         {
             get
@@ -63,62 +98,46 @@ namespace NekoKun.RPGMaker
                 {
                     System.Drawing.Bitmap tile = new System.Drawing.Bitmap(this.TileSize.Width, this.TileSize.Height);
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(tile);
-                    if (1 == 1)
+                    if (id == 0) { }
+                    else if (id < 256) // B
+                        DrawTile(id, 5, g);
+                    else if (id < 512) // C
+                        DrawTile(id - 256, 6, g);
+                    else if (id < 768) // D
+                        DrawTile(id - 512, 7, g);
+                    else if (id < 1024) // E
+                        DrawTile(id - 768, 8, g);
+                    else if (id >= 1536 && id < 1664) // A5
+                        DrawTile(id - 1536, 4, g);
+                    else if (id >= 2048 && id < 2816) //2048-2816    A1,共16个元件,每个元件占48个编号,不同编号含义见样式一,样式三
                     {
-                        if (id == 0) { }
-                        else if (id < 256)
-                            DrawTile(id, 5, g);
-                        else if (id < 512)
-                            DrawTile(id - 256, 6, g);
-                        else if (id < 768)
-                            DrawTile(id - 512, 7, g);
-                        else if (id < 1024)
-                            DrawTile(id - 758, 8, g);
+                        int subid = (id - 2048) / 48;
+                        if (subid >= 5 && subid % 2 == 1)
+                            DrawAutotile((id - 2048) % 48, 2, 0, tileA1Offset[subid][0], tileA1Offset[subid][1], g);
                         else
-                        {
-                            g.DrawString(id.ToString(), System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.White, 0, 0);
-                        }
+                            DrawAutotile((id - 2048) % 48, 0, 0, tileA1Offset[subid][0], tileA1Offset[subid][1], g);
+                    }
+                    else if (id >= 2816 && id < 4352) //2816-4352    A2,共32个元件,每个元件占48个编号,不同编号含义见样式一
+                    {
+                        int subid = (id - 2816) / 48;
+                        DrawAutotile((id - 2816) % 48, 0, 1, (subid % 8) * 64, (subid / 8) * 96, g);
+                    }
+                    else if (id >= 4352 && id < 5888) //4352-5888    A3,共32个元件,每个元件占48个编号,不同编号含义见样式二
+                    {
+                        int subid = (id - 4352) / 48;
+                        DrawAutotile((id - 4352) % 48, 1, 2, (subid % 8) * 64, (subid / 8) * 64, g);
+                    }
+                    else if (id >= 5888 && id < 8192) //5888-8192    A4,共16个元件,每个元件占48个编号,不同编号含义见样式一,样式二
+                    {
+                        int subid = (id - 5888) / 48;
+                        if (subid / 8 % 2 == 1)
+                            DrawAutotile((id - 5888) % 48, 1, 3, (subid % 8) * 64, (subid / 16) * (96 + 64) + 96, g);
+                        else
+                            DrawAutotile((id - 5888) % 48, 0, 3, (subid % 8) * 64, (subid / 16) * (96 + 64), g);
                     }
                     else
                     {
-                        if (id >= 384 && this.images.Count > 1 && this.images[0] != null)
-                        {
-                            
-                        }
-                        else if (id >= 48 && id < 384)
-                        {
-                            int tileid = id / 48 - 1;
-                            if (this.images[tileid + 1] != null)
-                            {
-                                int subid = id % 48;
-                                byte[] info = autotilesInfo[subid / 8][subid % 8];
-                                for (int i = 0; i < 4; i++)
-                                {
-                                    int pos = info[i] - 1;
-                                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(
-                                        pos % 6 * (this.TileSize.Width / 2),
-                                        pos / 6 * (this.TileSize.Height / 2),
-                                        this.TileSize.Width / 2,
-                                        this.TileSize.Height / 2
-                                    );
-                                    if (rect.IntersectsWith(this.imagesBounds[tileid + 1].Value))
-                                    {
-                                        System.Drawing.Rectangle rect2 = new System.Drawing.Rectangle(
-                                            i % 2 * (this.TileSize.Width / 2),
-                                            i / 2 * (this.TileSize.Height / 2),
-                                            this.TileSize.Width / 2,
-                                            this.TileSize.Height / 2
-                                        );
-                                        g.DrawImage(
-                                            this.images[tileid + 1],
-                                            rect2,
-                                            rect,
-                                            System.Drawing.GraphicsUnit.Pixel
-                                        );
-                                    }
-                                }
-                            }
-                        }
+                        g.DrawString(id.ToString(), System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.White, 0, 0);
                     }
                     g.Dispose();
                     this.tiles.Add(id, tile);
