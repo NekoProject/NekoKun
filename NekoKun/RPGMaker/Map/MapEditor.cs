@@ -12,6 +12,7 @@ namespace NekoKun.RPGMaker
         System.Windows.Forms.HScrollBar barH;
 
         System.Windows.Forms.Panel panel;
+        System.Drawing.SolidBrush shadowBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(128, 0, 0, 0));
         public MapEditor(MapFile file)
             : base(file)
         {
@@ -129,6 +130,7 @@ namespace NekoKun.RPGMaker
             int y0 = Math.Max((top + e.ClipRectangle.Top) / this.tileset.TileSize.Height - 1, 0);
             int y1 = Math.Min((top + e.ClipRectangle.Bottom) / this.tileset.TileSize.Height + 1, map.Size.Height);
             System.Drawing.Rectangle dest = new System.Drawing.Rectangle();
+            
             dest.Size = this.tileset.TileSize;
             for (int x = x0; x < x1; x++)
             {
@@ -144,6 +146,24 @@ namespace NekoKun.RPGMaker
                             this.tileset[this.map.data[x, y, layer]],
                             dest.Location
                         );
+
+                        if (this.map.data.ZSize == 4 && layer == 1)
+                        {
+                            int shadowData = this.map.data[x, y, 3];
+                            for (int shadow = 0; shadow < 4; shadow++)
+                            {
+                                if ((shadowData & (1 << shadow)) != 0)
+                                {
+                                    e.Graphics.FillRectangle(
+                                        shadowBrush,
+                                        dest.X + (shadow % 2) * this.tileset.TileSize.Width / 2,
+                                        dest.Y + (shadow / 2) * this.tileset.TileSize.Height / 2,
+                                        this.tileset.TileSize.Width / 2,
+                                        this.tileset.TileSize.Height / 2
+                                    );
+                                }
+                            }
+                        }
                     }
                 }
             }
