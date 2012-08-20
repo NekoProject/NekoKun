@@ -204,8 +204,10 @@
     </Compile>
     <Compile Include="RPGMaker\Map\MapInfoFile.cs" />
     <Compile Include="RPGMaker\Map\TilesetFile.cs" />
+    <Compile Include="RPGMaker\Map\TilesetFileVA.cs" />
     <Compile Include="RPGMaker\Map\TilesetFileXP.cs" />
     <Compile Include="RPGMaker\Map\TilesetInfo.cs" />
+    <Compile Include="RPGMaker\Map\TilesetInfoVA.cs" />
     <Compile Include="RPGMaker\Map\TilesetInfoXP.cs" />
     <Compile Include="RubyBindings\IRubyUserdefinedDumpObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />

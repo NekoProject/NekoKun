@@ -18,6 +18,11 @@ namespace NekoKun.RubyBindings
             get { return baseObject; }
             set { baseObject = value; }
         }
+
+        public static implicit operator string(RubyExpendObject obj)
+        {
+            return obj.BaseObject as string;
+        }
     }
 
 }

@@ -16,7 +16,7 @@ namespace NekoKun.RPGMaker
             List<System.Drawing.Image> images = new List<System.Drawing.Image>();
 
             if (item["@tileset_name"] is string)
-                images.Add(ResourceManager.Caches["Tilesets"][item["@tileset_name"] as string] as System.Drawing.Image);
+                images.Add(ResourceManager.Caches["Graphics/Tilesets"][item["@tileset_name"] as string] as System.Drawing.Image);
             else
                 images.Add(null);
 
@@ -25,7 +25,7 @@ namespace NekoKun.RPGMaker
                 {
                     if (name is string)
                     {
-                        images.Add(ResourceManager.Caches["Autotiles"][name as string] as System.Drawing.Image);
+                        images.Add(ResourceManager.Caches["Graphics/Autotiles"][name as string] as System.Drawing.Image);
                     }
                     else
                     {

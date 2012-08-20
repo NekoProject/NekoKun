@@ -7,14 +7,13 @@ namespace NekoKun
     public static class ResourceManager
     {
         private static List<string> searchPaths = new List<string>();
-        private static Dictionary<string, SyntaxSugarIndexer<string, object>> dict = new Dictionary<string, SyntaxSugarIndexer<string, object>>();
+        private static DictionaryWithDefaultProc<string, SyntaxSugarIndexer<string, object>> dict;
 
         static ResourceManager()
         {
-            searchPaths.Add(@"E:\Yichen Lu\rmxp\RPG Maker XP\RGSS\Standard\");
-            foreach (string item in new string[] {
-                @"Autotiles", @"Tilesets"
-            })
+            //searchPaths.Add(@"E:\Yichen Lu\rmxp\RPG Maker XP\RGSS\Standard\");
+            searchPaths.Add(@"c:\Program Files\Common Files\Enterbrain\RGSS3\RPGVXAce\");
+            dict = new DictionaryWithDefaultProc<string,SyntaxSugarIndexer<string,object>>(delegate(string item)
             {
                 var indexer = new SyntaxSugarIndexer<string, object>(null);
                 indexer.Runtime["Category"] = item;
@@ -23,25 +22,34 @@ namespace NekoKun
                     string[] result;
                     foreach (string path in searchPaths)
                     {
-                        result = System.IO.Directory.GetFiles(
-                            System.IO.Path.Combine(System.IO.Path.Combine(path, "Graphics"), indexer.Runtime["Category"] as string),
-                            filename + ".*"
-                        );
-                        if (result.Length > 0)
-                            return System.Drawing.Image.FromFile(result[0]);
+                        string mypath = System.IO.Path.Combine(path, (indexer.Runtime["Category"] as string).Replace('/', System.IO.Path.DirectorySeparatorChar));
+                        if (System.IO.Directory.Exists(mypath))
+                        {
+                            result = System.IO.Directory.GetFiles(
+                                mypath,
+                                filename + ".*"
+                            );
+                            if (result.Length > 0)
+                                return System.Drawing.Image.FromFile(result[0]);
+                        }
                     }
                     return null;
                 };
-                dict.Add(item, indexer);
-            }
+                return indexer;
+            });
         }
 
-        public static Dictionary<string, SyntaxSugarIndexer<string, object>> Caches
+        public static DictionaryWithDefaultProc<string, SyntaxSugarIndexer<string, object>> Caches
         {
             get
             {
                 return dict;
             }
+        }
+
+        public static List<string> SearchPaths
+        {
+            get { return searchPaths; }
         }
     }
 }

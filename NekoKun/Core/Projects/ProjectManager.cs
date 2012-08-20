@@ -34,7 +34,7 @@ namespace NekoKun
                 projectDir = System.IO.Path.GetDirectoryName(file);
                 projectDocument = new ProjectDocumentFile(file);
                 components = new Dictionary<string, object>();
-
+                ResourceManager.SearchPaths.Add(projectDir);
                 foreach (var item in projectDocument.Components)
                 {
                     if (item.Attributes["ID"] != null)
