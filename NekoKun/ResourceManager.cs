@@ -27,6 +27,13 @@ namespace NekoKun
                         {
                             result = System.IO.Directory.GetFiles(
                                 mypath,
+                                filename
+                            );
+                            if (result.Length > 0)
+                                return System.Drawing.Image.FromFile(result[0]);
+
+                            result = System.IO.Directory.GetFiles(
+                                mypath,
                                 filename + ".*"
                             );
                             if (result.Length > 0)

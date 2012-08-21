@@ -199,6 +199,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommandProvider.cs" />
+    <Compile Include="RPGMaker\Map\Base\MapLayer.cs" />
+    <Compile Include="RPGMaker\Map\Base\MapPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPGMaker\Map\Base\TilePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RPGMaker\Map\MapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,12 +214,15 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RPGMaker\Map\MapInfoFile.cs" />
-    <Compile Include="RPGMaker\Map\TilesetFile.cs" />
-    <Compile Include="RPGMaker\Map\VXAce\TilesetFileVA.cs" />
-    <Compile Include="RPGMaker\Map\XP\TilesetFileXP.cs" />
-    <Compile Include="RPGMaker\Map\TilesetInfo.cs" />
-    <Compile Include="RPGMaker\Map\VXAce\TilesetInfoVA.cs" />
-    <Compile Include="RPGMaker\Map\XP\TilesetInfoXP.cs" />
+    <Compile Include="RPGMaker\Map\Base\MapPanelBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RPGMaker\Map\Tileset\TilesetFile.cs" />
+    <Compile Include="RPGMaker\Map\Tileset\TilesetFileVA.cs" />
+    <Compile Include="RPGMaker\Map\Tileset\TilesetFileXP.cs" />
+    <Compile Include="RPGMaker\Map\Tileset\TilesetInfo.cs" />
+    <Compile Include="RPGMaker\Map\Tileset\TilesetInfoVA.cs" />
+    <Compile Include="RPGMaker\Map\Tileset\TilesetInfoXP.cs" />
     <Compile Include="RubyBindings\IRubyUserdefinedDumpObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />

@@ -10,6 +10,7 @@ namespace NekoKun.RPGMaker
         protected Dictionary<int, System.Drawing.Image> tiles;
         protected List<System.Drawing.Image> images;
         protected List<System.Drawing.Rectangle?> imagesBounds;
+        private MapLayer tilePanelData;
 
         public TilesetInfo(List<System.Drawing.Image> images)
         {
@@ -50,5 +51,16 @@ namespace NekoKun.RPGMaker
                 if (item.Value != null) item.Value.Dispose();
             }
         }
+
+        public MapLayer TilePanelData
+        {
+            get {
+                if (tilePanelData != null)
+                    return tilePanelData;
+                return tilePanelData = BuildTilePanelData();
+            }
+        }
+
+        protected abstract MapLayer BuildTilePanelData();
     }
 }

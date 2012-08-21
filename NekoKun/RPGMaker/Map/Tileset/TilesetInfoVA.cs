@@ -146,5 +146,59 @@ namespace NekoKun.RPGMaker
                 }
             }
         }
+        /*
+         * 突然好想你 你会在哪里
+         * 过得快乐和委屈
+         */
+        protected override MapLayer BuildTilePanelData()
+        {
+            List<int> data = new List<int>();
+            if (this.images[0] != null)
+
+                for (int i = 0; i < 16; i++)
+                    data.Add(2048 + i * 48 + ((i >= 5 && i % 2 == 1) ? 3 : 47));
+
+            if (this.images[1] != null)
+                for (int i = 0; i < 32; i++)
+                    data.Add(2816 + i * 48 + 47);
+
+            if (this.images[2] != null)
+                for (int i = 0; i < 16; i++)
+                    data.Add(4352 + i * 48 + 15);
+
+            if (this.images[3] != null)
+                for (int i = 0; i < 48; i++)
+                    data.Add(5888 + i * 48 + ((i / 8 % 2 == 1) ? 15 : 47));
+
+            if (this.images[4] != null)
+                for (int i = 0; i < 128; i++)
+                    data.Add(1536 + i);
+
+            if (this.images[5] != null)
+                for (int i = 0; i < 256; i++)
+                    data.Add(0 + i);
+
+            if (this.images[6] != null)
+                for (int i = 0; i < 256; i++)
+                    data.Add(256 + i);
+
+            if (this.images[7] != null)
+                for (int i = 0; i < 256; i++)
+                    data.Add(512 + i);
+
+            if (this.images[8] != null)
+                for (int i = 0; i < 256; i++)
+                    data.Add(768 + i);
+
+            MapLayer layer = new MapLayer();
+            layer.Type = MapLayerType.Tile;
+            layer.Data = new int[8, data.Count / 8];
+            for (int i = 0; i < data.Count; i++)
+            {
+                layer.Data[i % 8, i / 8] = data[i];
+            }
+
+            return layer;
+        }
     }
 }

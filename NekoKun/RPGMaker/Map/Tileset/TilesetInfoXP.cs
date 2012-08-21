@@ -85,5 +85,25 @@ namespace NekoKun.RPGMaker
                 }
             }
         }
+
+        protected override MapLayer BuildTilePanelData()
+        {
+            MapLayer layer = new MapLayer();
+            int h = (this.images[0] != null ? this.images[0].Height / this.TileSize.Height : 0);
+
+            layer.Type = MapLayerType.Tile;
+            layer.Data = new int[8, 1 + h];
+            for (int i = 0; i < 8; i++)
+            {
+                layer.Data[i, 0] = 48 * i;
+            }
+
+            for (int i = 0; i < h * 8; i++)
+            {
+                layer.Data[i % 8, i / 8 + 1] = 384 + i;
+            }
+
+            return layer;
+        }
     }
 }

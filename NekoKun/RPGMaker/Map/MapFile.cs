@@ -10,7 +10,7 @@ namespace NekoKun.RPGMaker
         private bool infoLoaded = false;
         public System.Drawing.Size Size;
         public TilesetInfo tileset;
-        public RubyBindings.RGSSTable data;
+        public List<MapLayer> Layers;
         public int TilesetID;
         public TilesetFile TilesetFile;
         public string ParentID;
@@ -41,12 +41,39 @@ namespace NekoKun.RPGMaker
 
         private void LoadInfo()
         {
+            RubyBindings.RGSSTable data;
             infoLoaded = true;
 
             RubyBindings.RubyObject raw = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyBindings.RubyObject;
             this.TilesetID = (int)raw["@tileset_id"] - 1;
-            this.data = raw["@data"] as RubyBindings.RGSSTable;
+            data = raw["@data"] as RubyBindings.RGSSTable;
             this.Size = new System.Drawing.Size((int)raw["@width"], (int)raw["@height"]);
+
+            this.Layers = new List<MapLayer>();
+            for (int z = 0; z < data.ZSize; z++)
+            {
+                MapLayer layer = new MapLayer();
+                layer.Data = new int[this.Size.Width, this.Size.Height];
+                for (int x = 0; x < this.Size.Width; x++)
+                {
+                    for (int y = 0; y < this.Size.Height; y++)
+                    {
+                        layer.Data[x, y] = data[x, y, z];
+                    }
+                }
+                layer.Type = MapLayerType.Tile;
+
+                this.Layers.Add(layer);
+            }
+
+            if (this.Layers.Count == 4)
+            {
+                MapLayer layer = this.Layers[3];
+                this.Layers.Remove(layer);
+                this.Layers.Insert(2, layer);
+
+                layer.Type = MapLayerType.HalfBlockShadow;
+            }
         }
         /*
           @tileset_id = 1
