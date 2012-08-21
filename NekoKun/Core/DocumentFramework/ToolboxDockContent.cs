@@ -11,7 +11,7 @@ namespace NekoKun
 
         public ToolboxDockContent() : base()
         {
-            this.DockAreas = DockAreas.Document | DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
+            this.DockAreas = DockAreas.DockBottom | DockAreas.DockLeft | DockAreas.DockRight | DockAreas.DockTop | DockAreas.Float;
             this.Text = "工具箱";
 
             SetContent(null);

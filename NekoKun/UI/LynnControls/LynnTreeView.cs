@@ -20,12 +20,12 @@ namespace NekoKun.UI
 
         public LynnTreeView()
         {
+            this.FullRowSelect = true;
+            this.LabelEdit = false;
+            this.ShowLines = false;
+
             if (UIManager.Enabled)
             {
-                this.FullRowSelect = true;
-                this.LabelEdit = false;
-                this.ShowLines = false;
-
                 stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
                 stringFormat.LineAlignment = StringAlignment.Center;
                 stringFormat.Trimming = StringTrimming.EllipsisCharacter;

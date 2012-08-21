@@ -63,7 +63,8 @@ namespace NekoKun
 
         void DockPanel_ActiveDocumentChanged(object sender, EventArgs e)
         {
-            this.toolbox.SetContent(this.DockPanel.ActiveDocument as AbstractEditor);
+            if (this.DockPanel.ActiveDocument != this.toolbox)
+                this.toolbox.SetContent(this.DockPanel.ActiveDocument as AbstractEditor);
         }
 
         void Workbench_FormClosing(object sender, FormClosingEventArgs e)

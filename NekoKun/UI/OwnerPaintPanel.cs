@@ -21,7 +21,7 @@ namespace NekoKun.UI
 
         System.Windows.Forms.VScrollBar barV;
         System.Windows.Forms.HScrollBar barH;
-        System.Windows.Forms.Panel panel;
+        protected System.Windows.Forms.Panel panel;
 
         public OwnerPaintPanel()
         {
@@ -260,6 +260,11 @@ namespace NekoKun.UI
                 this.SetStyle(System.Windows.Forms.ControlStyles.ResizeRedraw, true);
                 this.SetStyle(System.Windows.Forms.ControlStyles.UserPaint, true);
             }
+        }
+
+        public void InvalidateContents()
+        {
+            this.panel.Invalidate();
         }
     }
 }
