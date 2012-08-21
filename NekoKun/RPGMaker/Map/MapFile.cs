@@ -15,10 +15,16 @@ namespace NekoKun.RPGMaker
         public TilesetFile TilesetFile;
         public string ParentID;
         public int Order;
+
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
         {
             this.TilesetFile = tilesetFile;
+        }
+
+        public override string ToString()
+        {
+            return this.Title + " (" + base.ToString() + ")";
         }
 
         protected override void Save()

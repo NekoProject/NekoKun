@@ -291,6 +291,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\LynnControls\NativeMethods.cs" />
+    <Compile Include="UI\OwnerPaintPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Scintilla\Scintilla.cs">
       <SubType>Component</SubType>
     </Compile>
