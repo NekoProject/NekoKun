@@ -71,10 +71,18 @@ namespace NekoKun.RPGMaker
                 if (DestinationNode != null)
                 {
                     NewNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                    TreeNode parent = DestinationNode;
+                    while ((parent = parent.Parent) != null)
+                    {
+                        if (parent == NewNode)
+                            return;
+                    }
                     if (DestinationNode != NewNode)
                     {
                         NewNode.Remove();
                         DestinationNode.Nodes.Add(NewNode);
+                        NewNode.EnsureVisible();
+                        this.tree.SelectedNode = NewNode;
                     }
                 }
             }

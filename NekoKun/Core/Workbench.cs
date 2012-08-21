@@ -15,6 +15,8 @@ namespace NekoKun
         private List<AbstractFile> pendingChanges = new List<AbstractFile>();
 
         private static Workbench instance;
+        protected ToolboxDockContent toolbox;
+
         public static Workbench Instance
         {
             get {
@@ -30,6 +32,8 @@ namespace NekoKun
 
         private Workbench()
         {
+            toolbox = new ToolboxDockContent();
+
             this.Icon = NekoKun.Properties.Resources.MainIcon;
 
             DockPanel.Dock = DockStyle.Fill;
@@ -46,6 +50,13 @@ namespace NekoKun
 
             this.Load += new EventHandler(Workbench_Load);
             this.FormClosing += new FormClosingEventHandler(Workbench_FormClosing);
+
+            this.DockPanel.ActiveDocumentChanged += new EventHandler(DockPanel_ActiveDocumentChanged);
+        }
+
+        void DockPanel_ActiveDocumentChanged(object sender, EventArgs e)
+        {
+            this.toolbox.SetContent(this.DockPanel.ActiveDocument as AbstractEditor);
         }
 
         void Workbench_FormClosing(object sender, FormClosingEventArgs e)
@@ -73,7 +84,9 @@ namespace NekoKun
         {
             Program.Logger.ShowEditor();
             Program.Logger.Editor.DockState = DockState.DockBottom;
-            
+
+            this.toolbox.Show(this.DockPanel, DockState.DockLeft);
+
             foreach (var item in ProjectManager.Components)
             {
                 AbstractFile file = item.Value as AbstractFile;
@@ -97,6 +110,9 @@ namespace NekoKun
                 file.Editor.Show((ProjectManager.Components["Scripts"] as AbstractFile).Editor.Pane, (ProjectManager.Components["Scripts"] as AbstractFile).Editor);
             }
             catch { }
+            this.DockPanel.DockLeftPortion = 150;
+            this.DockPanel.DockBottomPortion = 100;
+            this.DockPanel.DockRightPortion = 150;
 
             UpdatePendingChanges();
         }

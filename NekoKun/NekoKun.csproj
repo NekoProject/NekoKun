@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DocumentFramework\IBehavior\IToolboxProvider.cs" />
+    <Compile Include="Core\DocumentFramework\ToolboxDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DictionaryWithDefaultProc.cs" />
     <Compile Include="Core\ArchiveFile.cs" />
     <Compile Include="Core\CLRCodeCompiler.cs" />
@@ -204,11 +208,11 @@
     </Compile>
     <Compile Include="RPGMaker\Map\MapInfoFile.cs" />
     <Compile Include="RPGMaker\Map\TilesetFile.cs" />
-    <Compile Include="RPGMaker\Map\TilesetFileVA.cs" />
-    <Compile Include="RPGMaker\Map\TilesetFileXP.cs" />
+    <Compile Include="RPGMaker\Map\VXAce\TilesetFileVA.cs" />
+    <Compile Include="RPGMaker\Map\XP\TilesetFileXP.cs" />
     <Compile Include="RPGMaker\Map\TilesetInfo.cs" />
-    <Compile Include="RPGMaker\Map\TilesetInfoVA.cs" />
-    <Compile Include="RPGMaker\Map\TilesetInfoXP.cs" />
+    <Compile Include="RPGMaker\Map\VXAce\TilesetInfoVA.cs" />
+    <Compile Include="RPGMaker\Map\XP\TilesetInfoXP.cs" />
     <Compile Include="RubyBindings\IRubyUserdefinedDumpObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />

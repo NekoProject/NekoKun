@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace NekoKun.RPGMaker
+
 {
     public class TilesetInfoVA : TilesetInfo
     {
@@ -109,7 +110,7 @@ namespace NekoKun.RPGMaker
                         DrawTile(id - 768, 8, g);
                     else if (id >= 1536 && id < 1664) // A5
                         DrawTile(id - 1536, 4, g);
-                    else if (id >= 2048 && id < 2816) //2048-2816    A1,共16个元件,每个元件占48个编号,不同编号含义见样式一,样式三
+                    else if (id >= 2048 && id < 2816) // A1
                     {
                         int subid = (id - 2048) / 48;
                         if (subid >= 5 && subid % 2 == 1)
@@ -117,17 +118,17 @@ namespace NekoKun.RPGMaker
                         else
                             DrawAutotile((id - 2048) % 48, 0, 0, tileA1Offset[subid][0], tileA1Offset[subid][1], g);
                     }
-                    else if (id >= 2816 && id < 4352) //2816-4352    A2,共32个元件,每个元件占48个编号,不同编号含义见样式一
+                    else if (id >= 2816 && id < 4352) // A2
                     {
                         int subid = (id - 2816) / 48;
                         DrawAutotile((id - 2816) % 48, 0, 1, (subid % 8) * 64, (subid / 8) * 96, g);
                     }
-                    else if (id >= 4352 && id < 5888) //4352-5888    A3,共32个元件,每个元件占48个编号,不同编号含义见样式二
+                    else if (id >= 4352 && id < 5888) // A3
                     {
                         int subid = (id - 4352) / 48;
                         DrawAutotile((id - 4352) % 48, 1, 2, (subid % 8) * 64, (subid / 8) * 64, g);
                     }
-                    else if (id >= 5888 && id < 8192) //5888-8192    A4,共16个元件,每个元件占48个编号,不同编号含义见样式一,样式二
+                    else if (id >= 5888 && id < 8192) // A4
                     {
                         int subid = (id - 5888) / 48;
                         if (subid / 8 % 2 == 1)

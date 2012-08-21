@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace NekoKun
 {
-    public class ScriptListEditor : AbstractEditor, IDeleteHandler  
+    public class ScriptListEditor : AbstractEditor, IDeleteHandler
     {
         public UI.LynnListbox list = new UI.LynnListbox();
         private ScriptListFile scriptList;

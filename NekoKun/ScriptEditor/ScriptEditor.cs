@@ -7,9 +7,99 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun
 {
-    public class ScriptEditor : AbstractEditor, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler, IFindReplaceHandler
+    public class ScriptEditor : AbstractEditor, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler, IFindReplaceHandler, IToolboxProvider
     {
+        private static System.Windows.Forms.ListBox toolboxControl;
         public NekoKun.UI.Scintilla editor;
+
+        static ScriptEditor()
+        {
+            toolboxControl = new UI.LynnListbox();
+            toolboxControl.Items.AddRange(new string[] { 
+                "class << self; self; end"
+            });
+            toolboxControl.AllowDrop = true;
+            toolboxControl.DragEnter += new DragEventHandler(toolboxControl_DragEnter);
+            toolboxControl.DragDrop += new DragEventHandler(toolboxControl_DragDrop);
+            toolboxControl.MouseMove += new MouseEventHandler(toolboxControl_MouseMove);
+        }
+
+        static void toolboxControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left )
+                if (toolboxControl.SelectedItem != null)
+                {
+                    System.Windows.Forms.DataObject obj = new DataObject();
+                    obj.SetText(toolboxControl.SelectedItem.ToString(), TextDataFormat.UnicodeText);
+                    obj.SetData(typeof(ScriptEditor).FullName + ".toolbox", toolboxControl);
+                    toolboxControl.DoDragDrop(obj, DragDropEffects.Copy | DragDropEffects.Move);
+                }
+        }
+
+        static void toolboxControl_DragDrop(object sender, DragEventArgs e)
+        {
+            string data = null;
+            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.UnicodeText))
+                data = e.Data.GetData(System.Windows.Forms.DataFormats.UnicodeText) as string;
+
+            if (e.Data.GetDataPresent(typeof(ScriptEditor).FullName + ".toolbox"))
+            {
+                object obj = e.Data.GetData(typeof(ScriptEditor).FullName + ".toolbox");
+                if (obj == toolboxControl)
+                {
+                    if (data != null)
+                    {
+                        if (toolboxControl.Items.Contains(data))
+                        {
+                            int id = toolboxControl.IndexFromPoint(toolboxControl.PointToClient(new Point(e.X, e.Y)));
+                            if (id < 0 || id >= toolboxControl.Items.Count)
+                                id = toolboxControl.Items.Count - 1;
+
+                            if ((string)toolboxControl.Items[id] == data)
+                                return;
+
+                            toolboxControl.Items.Remove(data);
+                            toolboxControl.Items.Insert(id, data);
+                            toolboxControl.SelectedItem = data;
+                        }
+                        else
+                        {
+                            toolboxControl.Items.Add(data);
+                            toolboxControl.SelectedItem = data;
+                        }
+                    }
+                }
+                else
+                {
+                    if (data != null && !toolboxControl.Items.Contains(data))
+                    {
+                        toolboxControl.Items.Add(data);
+                        toolboxControl.SelectedItem = data;
+                    }
+                }
+            }
+            else if (data != null && !toolboxControl.Items.Contains(data))
+            {
+                toolboxControl.Items.Add(data);
+                toolboxControl.SelectedItem = data;
+            }
+        }
+
+        static void toolboxControl_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(ScriptEditor).FullName + ".toolbox"))
+            {
+                object obj = e.Data.GetData(typeof(ScriptEditor).FullName + ".toolbox");
+                if (obj == toolboxControl)
+                    e.Effect = DragDropEffects.Move;
+                else
+                    e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.UnicodeText))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
 
         public ScriptEditor(ScriptFile item) : base(item)
         {
@@ -134,6 +224,11 @@ namespace NekoKun
         public void ShowReplaceDialog()
         {
             this.editor.ShowReplaceDialog();
+        }
+
+        public Control ToolboxControl
+        {
+            get { return toolboxControl; }
         }
     }
 }
