@@ -60,24 +60,47 @@ namespace NekoKun.UI
 
                     if ((e.State & DrawItemState.Selected) != DrawItemState.None)
                     {
-                        fore = new SolidBrush(selectedForeColor);
-                        e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(e.Bounds, this.selectedColor1, this.selectedColor2, 90), e.Bounds);
+                        if (UIManager.Enabled)
+                        {
+                            fore = new SolidBrush(selectedForeColor);
+                            e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(e.Bounds, this.selectedColor1, this.selectedColor2, 90), e.Bounds);
+                        }
+                        else
+                        {
+                            fore = SystemBrushes.HighlightText;
+                            e.Graphics.FillRectangle(System.Drawing.SystemBrushes.Highlight, e.Bounds);
+                        }
                     }
                     else
                     {
-                        fore = new SolidBrush(foreColor);
-                        e.Graphics.FillRectangle(e.Index % 2 == 0 ? back : backalt, e.Bounds);
+                        if (UIManager.Enabled)
+                        {
+                            fore = new SolidBrush(foreColor);
+                            e.Graphics.FillRectangle(e.Index % 2 == 0 ? back : backalt, e.Bounds);
+                        }
+                        else
+                        {
+                            fore = SystemBrushes.WindowText;
+                            e.Graphics.FillRectangle(SystemBrushes.Window, e.Bounds);
+                        }
                     }
 
                     if ((e.State & DrawItemState.Focus) != DrawItemState.None)
                     {
-                        Rectangle bound = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 1, e.Bounds.Height - 1);
-                        e.Graphics.DrawRectangle(new Pen(this.selectedColor1), bound);
+                        if (UIManager.Enabled)
+                        {
+                            Rectangle bound = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 1, e.Bounds.Height - 1);
+                            e.Graphics.DrawRectangle(new Pen(this.selectedColor1), bound);
+                        }
+                        else
+                        {
+                            e.DrawFocusRectangle();
+                        }
                     }
 
                     DrawText(e.Index, GetString(e.Index), this.Font, fore, e.Bounds, this.stringFormat, e.Graphics, (e.State & DrawItemState.Selected) != DrawItemState.None);
                 }
-                if (e.Index == this.Items.Count - 1)
+                if (e.Index == this.Items.Count - 1 && UIManager.Enabled)
                 {
                     int count = Math.Max(this.ClientSize.Height / this.ItemHeight - this.Items.Count, 0) + 1;
                     for (int i = this.Items.Count; i < this.Items.Count + count; i++)

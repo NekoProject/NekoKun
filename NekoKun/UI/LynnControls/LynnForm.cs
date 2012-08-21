@@ -50,6 +50,12 @@ namespace NekoKun.UI
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
+            if (!UIManager.Enabled)
+            {
+                base.OnPaintBackground(e);
+                return;
+            }
+
             if (this.ClientRectangle.Width == 0 && this.ClientRectangle.Height == 0)
                 return;
 

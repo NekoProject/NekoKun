@@ -57,7 +57,14 @@ namespace NekoKun
             }
             */
 
-            ToolStripManager.Renderer = new Office2007Renderer();
+            if (UI.UIManager.Enabled)
+            {
+                ToolStripManager.Renderer = new Office2007Renderer();
+            }
+            else
+            {
+                ToolStripManager.RenderMode = ToolStripManagerRenderMode.System;
+            }
 
             WelcomePage welcome = new WelcomePage();
             welcome.ShowDialog();

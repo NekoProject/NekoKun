@@ -33,6 +33,7 @@
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.menuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditUndo = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,7 +93,7 @@
             this.menuDebug});
             this.menuStrip.Location = new System.Drawing.Point(3, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(243, 24);
+            this.menuStrip.Size = new System.Drawing.Size(241, 24);
             this.menuStrip.Stretch = false;
             this.menuStrip.TabIndex = 9;
             this.menuStrip.Text = "menuStrip";
@@ -101,6 +102,7 @@
             // 
             this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuSave,
+            this.menuRestart,
             this.toolStripSeparator1,
             this.menuExit});
             this.menuFile.Name = "menuFile";
@@ -121,6 +123,13 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
+            // 
+            // menuRestart
+            // 
+            this.menuRestart.Name = "menuRestart";
+            this.menuRestart.Size = new System.Drawing.Size(176, 22);
+            this.menuRestart.Text = "关闭工程(&C)";
+            this.menuRestart.Click += new System.EventHandler(this.menuRestart_Click);
             // 
             // menuExit
             // 
@@ -324,9 +333,9 @@
             this.toolSaveAll,
             this.toolStripSeparator5,
             this.toolRun});
-            this.toolStripMain.Location = new System.Drawing.Point(289, 0);
+            this.toolStripMain.Location = new System.Drawing.Point(244, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(64, 25);
+            this.toolStripMain.Size = new System.Drawing.Size(62, 25);
             this.toolStripMain.TabIndex = 7;
             this.toolStripMain.Text = "toolStrip1";
             // 
@@ -466,6 +475,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton toolRun;
         private System.Windows.Forms.ToolStripMenuItem menuEditFindAll;
+        private System.Windows.Forms.ToolStripMenuItem menuRestart;
     }
 }
 

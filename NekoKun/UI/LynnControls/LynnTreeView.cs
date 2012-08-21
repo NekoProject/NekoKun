@@ -20,18 +20,21 @@ namespace NekoKun.UI
 
         public LynnTreeView()
         {
-            this.FullRowSelect = true;
-            this.LabelEdit = false;
-            this.ShowLines = false;
+            if (UIManager.Enabled)
+            {
+                this.FullRowSelect = true;
+                this.LabelEdit = false;
+                this.ShowLines = false;
 
-            stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
-            stringFormat.LineAlignment = StringAlignment.Center;
-            stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-            stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            stringFormat2 = new StringFormat(stringFormat);
-            stringFormat2.Alignment = StringAlignment.Center;
+                stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
+                stringFormat.LineAlignment = StringAlignment.Center;
+                stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+                stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                stringFormat2 = new StringFormat(stringFormat);
+                stringFormat2.Alignment = StringAlignment.Center;
 
-            this.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+                this.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            }
         }
 
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)

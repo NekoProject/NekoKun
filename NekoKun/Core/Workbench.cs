@@ -40,10 +40,17 @@ namespace NekoKun
 
             this.IsMdiContainer = true;
             DockPanel.DocumentStyle = DocumentStyle.DockingWindow;
-            DockPanel.BackColor = Color.FromArgb(191, 219, 255);
-            DockPanel.DockBackColor = Color.FromArgb(191, 219, 255);
             DockPanel.ShowDocumentIcon = true;
-            DockPanel.Skin = new UI.DockingThemeOcean();
+            if (UI.UIManager.Enabled)
+            {
+                DockPanel.Skin = new UI.DockingThemeOcean();
+                DockPanel.BackColor = Color.FromArgb(191, 219, 255);
+                DockPanel.DockBackColor = Color.FromArgb(191, 219, 255);
+            }
+            else
+            {
+                DockPanel.SkinStyle = WeifenLuo.WinFormsUI.Docking.Skins.Style.VisualStudio2005;
+            }
 
             this.Controls.Add(DockPanel);
             InitializeComponent();
@@ -73,7 +80,9 @@ namespace NekoKun
                     case DialogResult.Yes:
                         this.SaveProject();
                         if (this.pendingChanges.Count == 0)
+                        {
                             return;
+                        }
                         break;
                 }
                 e.Cancel = true;
@@ -365,6 +374,11 @@ namespace NekoKun
                 }
                 catch { }
             }
+        }
+
+        private void menuRestart_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
         }
     }
 }

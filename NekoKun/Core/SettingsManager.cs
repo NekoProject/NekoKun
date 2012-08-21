@@ -27,6 +27,15 @@ namespace NekoKun
             get { return helper != null ? helper : (helper = new SettingsHelper()); }
         }
 
+        public static T GetSetting<T>(string key)
+        {
+            if (ProjectSettings != null && ProjectSettings[key] is T)
+                return (T)ProjectSettings[key];
+            if (GlobalSettings != null && GlobalSettings[key] is T)
+                return (T)GlobalSettings[key];
+            return default(T);
+        }
+
         public class SettingsHelper
         {
             internal SettingsHelper() { }

@@ -18,8 +18,6 @@ namespace NekoKun.UI
             //this.ConfigurationManager.Language = "ruby";
 
 			// http://ondineyuga.com/svn/RGE2/Tools/RGESEditor/RGESEditor_lang/EditorScintilla/Scintilla.cs
-			// line number
-			this.Margins[0].Width = 39;
 
 			// fold
 			this.Margins[1].Mask = -33554432; //SC_MASK_FOLDERS

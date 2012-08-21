@@ -15,7 +15,10 @@ namespace NekoKun.UI
 
         public LynnDockContent()
         {
-            this.BackColor = back;
+            if (UIManager.Enabled)
+            {
+                this.BackColor = back;
+            }
             //this.BackgroundImage = backgroundImage;
             //this.BackgroundImageLayout = ImageLayout.Tile;
             this.Font = System.Drawing.SystemFonts.MessageBoxFont;
@@ -35,16 +38,22 @@ namespace NekoKun.UI
                 e.Font = Program.GetMonospaceFont();
             }
             else
-                e.Font = this.Font;
+                e.Font = System.Drawing.SystemFonts.MessageBoxFont;
 
-            if (e is TabPage)
+            if (UIManager.Enabled)
             {
-                e.BackColor = Color.White;
-                //e.BackgroundImage = backgroundImage;
-                //e.BackgroundImageLayout = ImageLayout.Tile;
+                if (e is TabPage)
+                {
+                    if (System.Windows.Forms.VisualStyles.VisualStyleInformation.IsEnabledByUser)
+                        e.BackColor = Color.White;
+                    else
+                        e.BackColor = back;
+                    //e.BackgroundImage = backgroundImage;
+                    //e.BackgroundImageLayout = ImageLayout.Tile;
+                }
+                else if (e is Panel || e is SplitContainer)
+                    e.BackColor = Color.Transparent;// back1;
             }
-            else if (e is Panel || e is SplitContainer)
-                e.BackColor = Color.Transparent;// back1;
 
             if (e.Controls.Count != 0)
                 foreach (Control item in e.Controls)

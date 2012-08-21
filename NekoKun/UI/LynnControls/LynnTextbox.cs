@@ -14,9 +14,13 @@ namespace NekoKun.UI
         public LynnTextbox()
         {
             this.ImeMode = ImeMode.On;
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            native2 = new NativeBorder(this, 0xf /* WM_PAINT */, true, false);
-            native = new NativeBorder(this, 0x85 /* WM_NCPAINT */);
+
+            if (UIManager.Enabled)
+            {
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                native2 = new NativeBorder(this, 0xf /* WM_PAINT */, true, false);
+                native = new NativeBorder(this, 0x85 /* WM_NCPAINT */);
+            }
         }
 
     }

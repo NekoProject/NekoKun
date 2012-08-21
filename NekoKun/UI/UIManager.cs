@@ -21,5 +21,14 @@ namespace NekoKun.UI
          * 僕たちは　そうやって どこまで行くのだろう
          * 
          */
+        static UIManager()
+        {
+            if (!System.Windows.Forms.VisualStyles.VisualStyleInformation.IsEnabledByUser)
+                Enabled = false;
+            else
+                Enabled = true;
+        }
+
+        public static bool Enabled;
     }
 }

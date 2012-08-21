@@ -19,9 +19,12 @@ namespace NekoKun.UI
                 this.Styles[i].Font = this.Font;
             }
             // left margin backcolor
-			this.Styles[33].BackColor = back;
-            this.Margins.FoldMarginColor = back;
-
+            if (UIManager.Enabled)
+            {
+                this.Styles[33].BackColor = back;
+                this.Margins.FoldMarginColor = back;
+            }
+            this.Margins[0].Width = 39;
             this.FoldChanged += new EventHandler<ScintillaNET.FoldChangedEventArgs>(Scintilla_FoldChanged);
             this.ContextMenuStrip = new EditContextMenuStrip(this);
         }

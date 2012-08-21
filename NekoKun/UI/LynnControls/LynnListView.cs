@@ -18,16 +18,19 @@ namespace NekoKun.UI
         protected StringFormat stringFormat, stringFormat2;
         public LynnListView()
         {
-            this.OwnerDraw = true;
             this.FullRowSelect = true;
 
-            stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
-            stringFormat.LineAlignment = StringAlignment.Center;
-            stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-            stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            if (UIManager.Enabled)
+            {
+                this.OwnerDraw = true;
+                stringFormat = new StringFormat(StringFormatFlags.NoClip | StringFormatFlags.NoWrap);
+                stringFormat.LineAlignment = StringAlignment.Center;
+                stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+                stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
 
-            stringFormat2 = new StringFormat(stringFormat);
-            stringFormat2.Alignment = StringAlignment.Center;
+                stringFormat2 = new StringFormat(stringFormat);
+                stringFormat2.Alignment = StringAlignment.Center;
+            }
         }
 
         protected override void OnResize(EventArgs e)

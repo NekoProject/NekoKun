@@ -13,7 +13,8 @@ namespace NekoKun.UI
 
         public LynnNumericUpDown()
         {
-            native = new NativeBorder(this, 0xf /* WM_PAINT */, true, false);
+            if (UIManager.Enabled)
+                native = new NativeBorder(this, 0xf /* WM_PAINT */, true, false);
         }
 
     }
