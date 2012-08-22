@@ -10,6 +10,7 @@ namespace NekoKun.RPGMaker
         protected System.Drawing.Size mapSize;
         protected List<MapLayer> layers;
         protected List<bool> layersVisible;
+        protected int justLayer = -1;
         protected TilesetInfo tileset;
         protected System.Drawing.SolidBrush shadowBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(128, 0, 0, 0));
         protected float zoom;
@@ -27,6 +28,15 @@ namespace NekoKun.RPGMaker
             this.mapSize = new System.Drawing.Size(layers[0].Data.GetLength(0), layers[0].Data.GetLength(1));
             this.Zoom = 1.0f;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this_Paint);
+        }
+
+        public int JustLayer
+        {
+            get { return this.justLayer; }
+            set {
+                this.justLayer = value;
+                this.InvalidateContents();
+            }
         }
 
         public List<bool> LayersVisible
@@ -62,39 +72,60 @@ namespace NekoKun.RPGMaker
             dest.Y = y * size.Height - this.ScrollOffsetY;
             g.SetClip(dest);
             g.Clear(System.Drawing.Color.SteelBlue);
-            int id = 0;
-            foreach (var item in this.layers)
-            {
-                if (this.layersVisible[id])
-                {
-                    if (item.Type == MapLayerType.Tile)
-                    {
-                        g.DrawImage(
-                            this.tileset[item.Data[x, y]],
-                            dest
-                        );
 
-                    }
-                    else if (item.Type == MapLayerType.HalfBlockShadow)
+            if (this.justLayer == -1)
+            {
+                int id = 0;
+                foreach (var item in this.layers)
+                {
+                    if (this.layersVisible[id])
+                        PaintTileInternal(item, dest, x, y, g);
+
+                    id += 1;
+                }
+            }
+            else
+            {
+                int id = 0;
+                foreach (var item in this.layers)
+                {
+                    if (this.layersVisible[id] && id != this.justLayer)
+                        PaintTileInternal(item, dest, x, y, g);
+
+                    id += 1;
+                }
+                g.FillRectangle(shadowBrush, dest);
+                if (this.layersVisible[this.justLayer])
+                    PaintTileInternal(this.layers[this.justLayer], dest, x, y, g);
+            }
+        }
+
+        private void PaintTileInternal(MapLayer item, System.Drawing.Rectangle dest, int x, int y, System.Drawing.Graphics g)
+        {
+            if (item.Type == MapLayerType.Tile)
+            {
+                g.DrawImage(
+                    this.tileset[item.Data[x, y]],
+                    dest
+                );
+
+            }
+            else if (item.Type == MapLayerType.HalfBlockShadow)
+            {
+                int shadowData = item.Data[x, y];
+                for (int shadow = 0; shadow < 4; shadow++)
+                {
+                    if ((shadowData & (1 << shadow)) != 0)
                     {
-                        int shadowData = item.Data[x, y];
-                        for (int shadow = 0; shadow < 4; shadow++)
-                        {
-                            if ((shadowData & (1 << shadow)) != 0)
-                            {
-                                g.FillRectangle(
-                                    shadowBrush,
-                                    dest.X + (shadow % 2) * size.Width / 2,
-                                    dest.Y + (shadow / 2) * size.Height / 2,
-                                    size.Width / 2,
-                                    size.Height / 2
-                                );
-                            }
-                        }
+                        g.FillRectangle(
+                            shadowBrush,
+                            dest.X + (shadow % 2) * size.Width / 2,
+                            dest.Y + (shadow / 2) * size.Height / 2,
+                            size.Width / 2,
+                            size.Height / 2
+                        );
                     }
                 }
-
-                id += 1;
             }
         }
 

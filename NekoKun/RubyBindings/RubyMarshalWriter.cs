@@ -162,9 +162,9 @@ namespace NekoKun.RubyBindings
 
         private void WriteUsingDump(IRubyUserdefinedDumpObject iRubyUserdefinedDumpObject)
         {
-            this.m_writer.Write((byte)0x55);
+            this.m_writer.Write((byte)0x75);
             this.WriteSymbol(RubySymbol.GetSymbol(iRubyUserdefinedDumpObject.ClassName));
-            this.WriteAnObject(iRubyUserdefinedDumpObject.Dump());
+            this.WriteStringValue(iRubyUserdefinedDumpObject.Dump());
         }
 
         private void WriteUsingMarshalDump(RubyUserdefinedMarshalDumpObject obj)

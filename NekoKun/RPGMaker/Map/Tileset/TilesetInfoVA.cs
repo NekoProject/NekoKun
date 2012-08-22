@@ -192,10 +192,10 @@ namespace NekoKun.RPGMaker
 
             MapLayer layer = new MapLayer();
             layer.Type = MapLayerType.Tile;
-            layer.Data = new int[8, data.Count / 8];
+            layer.Data = new short[8, data.Count / 8];
             for (int i = 0; i < data.Count; i++)
             {
-                layer.Data[i % 8, i / 8] = data[i];
+                layer.Data[i % 8, i / 8] = (short)data[i];
             }
 
             return layer;

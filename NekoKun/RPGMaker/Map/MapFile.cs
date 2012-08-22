@@ -15,6 +15,7 @@ namespace NekoKun.RPGMaker
         public TilesetFile TilesetFile;
         public string ParentID;
         public int Order;
+        public RubyBindings.RubyObject raw;
 
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
@@ -29,13 +30,40 @@ namespace NekoKun.RPGMaker
 
         protected override void Save()
         {
-            throw new NotImplementedException();
+            if (!this.infoLoaded)
+                return;
+
+            RubyBindings.RGSSTable table = new NekoKun.RubyBindings.RGSSTable(this.Size.Width, this.Size.Height, this.Layers.Count);
+            List<MapLayer> truth = new List<MapLayer>(this.Layers);
+            if (truth.Count == 4)
+            {
+                MapLayer layer = truth[2];
+                truth.Remove(layer);
+                truth.Add(layer);
+            }
+            for (int z = 0; z < truth.Count; z++)
+            {
+                for (int x = 0; x < this.Size.Width; x++)
+                {
+                    for (int y = 0; y < this.Size.Height; y++)
+                    {
+                        table[x, y, z] = truth[z].Data[x, y];
+                    }
+                }
+            }
+            raw["@data"] = table;
+
+            using (var fs = new System.IO.FileStream(this.filename, System.IO.FileMode.Create, System.IO.FileAccess.Write))
+            {
+                RubyBindings.RubyMarshal.Dump(fs, raw);
+            }
         }
 
         public override AbstractEditor CreateEditor()
         {
             if (!infoLoaded)
                 LoadInfo();
+
             return new MapEditor(this);
         }
 
@@ -44,7 +72,7 @@ namespace NekoKun.RPGMaker
             RubyBindings.RGSSTable data;
             infoLoaded = true;
 
-            RubyBindings.RubyObject raw = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyBindings.RubyObject;
+            raw = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyBindings.RubyObject;
             this.TilesetID = (int)raw["@tileset_id"] - 1;
             data = raw["@data"] as RubyBindings.RGSSTable;
             this.Size = new System.Drawing.Size((int)raw["@width"], (int)raw["@height"]);
@@ -53,7 +81,7 @@ namespace NekoKun.RPGMaker
             for (int z = 0; z < data.ZSize; z++)
             {
                 MapLayer layer = new MapLayer();
-                layer.Data = new int[this.Size.Width, this.Size.Height];
+                layer.Data = new short[this.Size.Width, this.Size.Height];
                 for (int x = 0; x < this.Size.Width; x++)
                 {
                     for (int y = 0; y < this.Size.Height; y++)
@@ -74,6 +102,8 @@ namespace NekoKun.RPGMaker
 
                 layer.Type = MapLayerType.HalfBlockShadow;
             }
+
+            raw["@data"] = null;
         }
         /*
           @tileset_id = 1

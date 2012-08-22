@@ -29,9 +29,9 @@ namespace NekoKun.RPGMaker
 
         public class TileSelectedArgs : EventArgs
         {
-            public int TileID;
+            public short TileID;
 
-            public TileSelectedArgs(int tileID)
+            public TileSelectedArgs(short tileID)
                 : base()
             {
                 TileID = tileID;

@@ -7,7 +7,7 @@ namespace NekoKun.RPGMaker
     public class MapLayer
     {
         public MapLayerType Type;
-        public int[,] Data;
+        public short[,] Data;
     }
 
     public enum MapLayerType

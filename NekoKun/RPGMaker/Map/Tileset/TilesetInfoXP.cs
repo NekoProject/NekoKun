@@ -92,15 +92,15 @@ namespace NekoKun.RPGMaker
             int h = (this.images[0] != null ? this.images[0].Height / this.TileSize.Height : 0);
 
             layer.Type = MapLayerType.Tile;
-            layer.Data = new int[8, 1 + h];
+            layer.Data = new short[8, 1 + h];
             for (int i = 0; i < 8; i++)
             {
-                layer.Data[i, 0] = 48 * i;
+                layer.Data[i, 0] = (short)(48 * i);
             }
 
             for (int i = 0; i < h * 8; i++)
             {
-                layer.Data[i % 8, i / 8 + 1] = 384 + i;
+                layer.Data[i % 8, i / 8 + 1] = (short)(384 + i);
             }
 
             return layer;
