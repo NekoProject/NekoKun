@@ -9,7 +9,7 @@ namespace NekoKun.RPGMaker
         public event EventHandler<TileSelectedArgs> TileSelected;
 
         public TilePanel(TilesetInfo tileset)
-            : base(new List<MapLayer>(new MapLayer[] { tileset.TilePanelData }), tileset)
+            : base(tileset.TilePanelData, tileset)
         {
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(TilePanel_MouseDown);
         }

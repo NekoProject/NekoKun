@@ -102,20 +102,20 @@ namespace NekoKun.RPGMaker
 
         private void PaintTileInternal(MapLayer item, System.Drawing.Rectangle dest, int x, int y, System.Drawing.Graphics g)
         {
+            short data = item.Data[x, y];
             if (item.Type == MapLayerType.Tile)
             {
                 g.DrawImage(
-                    this.tileset[item.Data[x, y]],
+                    this.tileset[data],
                     dest
                 );
 
             }
             else if (item.Type == MapLayerType.HalfBlockShadow)
             {
-                int shadowData = item.Data[x, y];
                 for (int shadow = 0; shadow < 4; shadow++)
                 {
-                    if ((shadowData & (1 << shadow)) != 0)
+                    if ((data & (1 << shadow)) != 0)
                     {
                         g.FillRectangle(
                             shadowBrush,
@@ -125,6 +125,27 @@ namespace NekoKun.RPGMaker
                             size.Height / 2
                         );
                     }
+                }
+            }
+            else if (item.Type == MapLayerType.TilesetLabel)
+            {
+                if (data == -1)
+                    return;
+
+                if (data == -2)
+                {
+                    g.FillRectangle(System.Drawing.Brushes.Black, dest);
+                    return;
+                }
+
+                if (data >= 0 && item.Storage.ContainsKey(data.ToString()))
+                {
+                    g.FillRectangle(System.Drawing.Brushes.Black, dest);
+                    string s = item.Storage[data.ToString()] as string;
+                    System.Drawing.StringFormat sf = new System.Drawing.StringFormat();
+                    sf.LineAlignment = System.Drawing.StringAlignment.Center;
+                    sf.Alignment = System.Drawing.StringAlignment.Center;
+                    g.DrawString(s, this.Font, System.Drawing.Brushes.White, dest, sf); 
                 }
             }
         }

@@ -99,7 +99,9 @@ namespace NekoKun.RPGMaker
                 {
                     System.Drawing.Bitmap tile = new System.Drawing.Bitmap(this.TileSize.Width, this.TileSize.Height);
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(tile);
-                    if (id == 0) { }
+                    if (id == 0) {
+                        //g.DrawString(id.ToString(), System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.White, 0, 0);
+                    }
                     else if (id < 256) // B
                         DrawTile(id, 5, g);
                     else if (id < 512) // C
@@ -150,55 +152,148 @@ namespace NekoKun.RPGMaker
          * 突然好想你 你会在哪里
          * 过得快乐和委屈
          */
-        protected override MapLayer BuildTilePanelData()
-        {
-            List<int> data = new List<int>();
-            if (this.images[0] != null)
 
+        private void AddTimes(int it, int count, List<int> data)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                data.Add(it);
+            }
+        }
+
+        protected override List<MapLayer> BuildTilePanelData()
+        {
+            var ret = new List<MapLayer>();
+            List<int> data = new List<int>();
+            List<int> data2 = new List<int>();
+            if (this.images[0] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 16; i++)
                     data.Add(2048 + i * 48 + ((i >= 5 && i % 2 == 1) ? 3 : 47));
 
+                data2.Add(0);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 16, data2);
+            }
+
             if (this.images[1] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 32; i++)
                     data.Add(2816 + i * 48 + 47);
 
+                data2.Add(1);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 32, data2);
+            }
+
             if (this.images[2] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 16; i++)
                     data.Add(4352 + i * 48 + 15);
 
+                data2.Add(2);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 16, data2);
+            }
+
             if (this.images[3] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 48; i++)
                     data.Add(5888 + i * 48 + ((i / 8 % 2 == 1) ? 15 : 47));
 
+                data2.Add(3);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 48, data2);
+            }
+
             if (this.images[4] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 128; i++)
                     data.Add(1536 + i);
 
+                data2.Add(4);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 128, data2);
+            }
+
             if (this.images[5] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 256; i++)
                     data.Add(0 + i);
 
+                data2.Add(5);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 256, data2);
+            }
+
             if (this.images[6] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 256; i++)
                     data.Add(256 + i);
 
+                data2.Add(6);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 256, data2);
+            }
+
             if (this.images[7] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 256; i++)
                     data.Add(512 + i);
 
+                data2.Add(7);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 256, data2);
+            }
+
             if (this.images[8] != null)
+            {
+                AddTimes(0, 8, data);
                 for (int i = 0; i < 256; i++)
                     data.Add(768 + i);
 
-            MapLayer layer = new MapLayer();
+                data2.Add(8);
+                AddTimes(-2, 7, data2);
+                AddTimes(-1, 256, data2);
+            }
+
+            MapLayer layer;
+            layer = new MapLayer();
             layer.Type = MapLayerType.Tile;
             layer.Data = new short[8, data.Count / 8];
             for (int i = 0; i < data.Count; i++)
             {
                 layer.Data[i % 8, i / 8] = (short)data[i];
             }
+            ret.Add(layer);
 
-            return layer;
+            layer = new MapLayer();
+            layer.Type = MapLayerType.TilesetLabel;
+            layer.Data = new short[8, data2.Count / 8];
+            for (int i = 0; i < data2.Count; i++)
+            {
+                layer.Data[i % 8, i / 8] = (short)data2[i];
+            }
+            ret.Add(layer);
+            layer.Storage["0"] = "A1";
+            layer.Storage["1"] = "A2";
+            layer.Storage["2"] = "A3";
+            layer.Storage["3"] = "A4";
+            layer.Storage["4"] = "A5";
+            layer.Storage["5"] = "B";
+            layer.Storage["6"] = "C";
+            layer.Storage["7"] = "D";
+            layer.Storage["8"] = "E";
+
+            return ret;
         }
     }
 }

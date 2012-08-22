@@ -234,9 +234,10 @@ namespace NekoKun.RubyBindings
             return expendobject;
         }
 
-        private RubyExpendObject ReadExpendObject()
+        private object ReadExpendObject()
         {
             RubyExpendObject expendobject = new RubyExpendObject();
+            int id = m_objects.Count;
             AddObject(expendobject);
             expendobject.BaseObject = ReadAnObject();
             if (expendobject.BaseObject is RubyExpendObject)
@@ -248,6 +249,11 @@ namespace NekoKun.RubyBindings
             for (int i = 0; i < expendobjectcount; i++)
             {
                 expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
+            }
+            if (expendobject.BaseObject is string && expendobject.Variables.Count == 1 && expendobject["E"] != null && (bool)(expendobject["E"]) == true)
+            {
+                m_objects[id] = expendobject.BaseObject;
+                return expendobject.BaseObject;
             }
             return expendobject;
         }

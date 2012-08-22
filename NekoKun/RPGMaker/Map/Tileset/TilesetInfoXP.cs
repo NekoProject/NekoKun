@@ -86,7 +86,7 @@ namespace NekoKun.RPGMaker
             }
         }
 
-        protected override MapLayer BuildTilePanelData()
+        protected override List<MapLayer> BuildTilePanelData()
         {
             MapLayer layer = new MapLayer();
             int h = (this.images[0] != null ? this.images[0].Height / this.TileSize.Height : 0);
@@ -102,8 +102,9 @@ namespace NekoKun.RPGMaker
             {
                 layer.Data[i % 8, i / 8 + 1] = (short)(384 + i);
             }
-
-            return layer;
+            var ret = new List<MapLayer>();
+            ret.Add(layer);
+            return ret;
         }
     }
 }

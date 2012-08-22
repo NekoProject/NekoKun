@@ -17,7 +17,7 @@ namespace NekoKun.RPGMaker
         List<System.Windows.Forms.ToolStripButton> buttonLayers;
 
         public short TileID = 0;
-        public int LayerID = 0;
+        public int LayerID = -1;
 
         public MapEditor(MapFile file)
             : base(file)
@@ -28,6 +28,8 @@ namespace NekoKun.RPGMaker
             mapPanel = new MapPanel(map.Layers, tileset);
             mapPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Controls.Add(mapPanel);
+            this.KeyPreview = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(MapEditor_KeyDown);
 
             this.mapPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(mapPanel_MouseDown);
             this.mapPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(mapPanel_MouseMove);
@@ -54,7 +56,7 @@ namespace NekoKun.RPGMaker
             for (int i = 0; i < this.map.Layers.Count; i++)
 			{
                 var laybtn = new System.Windows.Forms.ToolStripButton();
-                laybtn.Text = string.Format("{0}", i);
+                laybtn.Text = string.Format("{0}", i + 1);
                 laybtn.Tag = i;
                 laybtn.Click += new EventHandler(laybtn_Click);
                 if (this.map.Layers[i].Type == MapLayerType.HalfBlockShadow)
@@ -70,23 +72,50 @@ namespace NekoKun.RPGMaker
             this.toolboxPanel.Controls.Add(toolstrip);
         }
 
+        void MapEditor_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode >= System.Windows.Forms.Keys.D1 && e.KeyCode <= System.Windows.Forms.Keys.D9)
+            {
+                int id = e.KeyCode - System.Windows.Forms.Keys.D1;
+                if (id >= 0 && id < this.buttonLayers.Count)
+                    laybtn_Click(this.buttonLayers[id], null);
+            }
+        }
+
         void laybtn_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.ToolStripButton button = sender as System.Windows.Forms.ToolStripButton;
             int id = (int)button.Tag;
 
-            foreach (var item in this.buttonLayers)
-                item.Checked = item == button;
+            if (LayerID != id)
+            {
+                foreach (var item in this.buttonLayers)
+                    item.Checked = item == button;
 
-            this.mapPanel.JustLayer = id;
-            this.mapPanel.InvalidateContents();
+                this.mapPanel.JustLayer = id;
+                this.mapPanel.InvalidateContents();
 
-            LayerID = id;
+                LayerID = id;
+            }
+            else
+            {
+                foreach (var item in this.buttonLayers)
+                    item.Checked = false;
+
+                this.mapPanel.JustLayer = -1;
+                this.mapPanel.InvalidateContents();
+                LayerID = -1;
+            }
         }
 
         void tilePanel_TileSelected(object sender, TilePanel.TileSelectedArgs e)
         {
-            TileID = e.TileID;
+            SetSelectedTile(e.TileID);
+        }
+
+        void SetSelectedTile(short id)
+        {
+            TileID = id;
             this.buttonSelected.Image = this.tileset[TileID];
         }
 
@@ -98,6 +127,9 @@ namespace NekoKun.RPGMaker
 
         void MouseDrawCell(int x, int y)
         {
+            if (LayerID == -1)
+                return;
+
             System.Drawing.Point pt = mapPanel.PointToMapPoint(x, y);
             if (mapPanel.MapPointValid(pt))
             {
@@ -107,10 +139,25 @@ namespace NekoKun.RPGMaker
             }
         }
 
+        void MousePickCell(int x, int y)
+        {
+            if (LayerID == -1)
+                return;
+
+            System.Drawing.Point pt = mapPanel.PointToMapPoint(x, y);
+            if (mapPanel.MapPointValid(pt))
+            {
+                SetSelectedTile(this.map.Layers[LayerID].Data[pt.X, pt.Y]);
+            }
+        }
+
         void mapPanel_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
                 MouseDrawCell(e.X, e.Y);
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                MousePickCell(e.X, e.Y);
 
             /*
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
