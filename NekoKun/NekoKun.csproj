@@ -96,6 +96,12 @@
     <Compile Include="ObjectEditor\Controls\ArrayEditor.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ObjectEditor\Controls\MultilineTextEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ObjectEditor\Controls\ComplexTextEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ObjectEditor\EditorFactory.cs" />
     <Compile Include="ObjectEditor\IObjectEditor.cs" />
     <Compile Include="Core\DocumentFramework\NavPoint.cs" />
