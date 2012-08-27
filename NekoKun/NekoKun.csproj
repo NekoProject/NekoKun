@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.CommandLineEntries.cs" />
+    <Compile Include="Core\CommandLineParser.cs" />
     <Compile Include="Core\DocumentFramework\IBehavior\IToolboxProvider.cs" />
     <Compile Include="Core\DocumentFramework\ToolboxDockContent.cs">
       <SubType>Form</SubType>

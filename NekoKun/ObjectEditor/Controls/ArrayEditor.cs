@@ -10,7 +10,8 @@ namespace NekoKun.ObjectEditor
         object orig;
         System.Windows.Forms.ListBox list;
         System.Windows.Forms.Control con;
-        System.Windows.Forms.ToolStripMenuItem menuRelength;
+        System.Windows.Forms.NumericUpDown menuResizeTextbox;
+        System.Windows.Forms.ToolStripMenuItem menuResize;
         public ArrayEditor(IObjectEditor Con)
         {
             if(this.RequestCommit != null) this.RequestCommit.ToString();
@@ -28,19 +29,36 @@ namespace NekoKun.ObjectEditor
             this.Panel2.Controls.Add(con);
 
             Con.DirtyChanged += new EventHandler(Con_DirtyChanged);
+            menuResizeTextbox = new System.Windows.Forms.NumericUpDown();
+            menuResize = new System.Windows.Forms.ToolStripMenuItem();
+            menuResize.Text = "更改最大值(&M)";
+            menuResizeTextbox.Font = this.Font;
+            menuResizeTextbox.UpDownAlign = System.Windows.Forms.LeftRightAlignment.Left;
+            menuResizeTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            menuResizeTextbox.Cursor = System.Windows.Forms.Cursors.Default;
+            var host = new System.Windows.Forms.ToolStripControlHost(menuResizeTextbox);
+            menuResize.DropDownItems.Add(host);
+            var dd = (menuResize.DropDown as System.Windows.Forms.ToolStripDropDownMenu);
+            dd.ShowImageMargin = false;
+            dd.BackColor = System.Drawing.SystemColors.Window;
 
             this.list.ContextMenuStrip = new EditContextMenuStrip(this);
             this.list.ContextMenuStrip.Items.Add(new System.Windows.Forms.ToolStripSeparator());
-            this.list.ContextMenuStrip.Items.Add(menuRelength = new System.Windows.Forms.ToolStripMenuItem("更改最大值(&M)...", null, delegate
-            {
-                this.Relength(10);
-            }));
+            this.list.ContextMenuStrip.Items.Add(menuResize);
             this.list.ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
+
+            menuResizeTextbox.ValueChanged += new EventHandler(menuResizeTextbox_ValueChanged);
+        }
+
+        void menuResizeTextbox_ValueChanged(object sender, EventArgs e)
+        {
+            this.Relength((int)menuResizeTextbox.Value);
         }
 
         void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            menuRelength.Enabled = (this.CreateDefaultObject != null);
+            menuResize.Enabled = (this.CreateDefaultObject != null);
+            menuResizeTextbox.Value = this.list.Items.Count;
         }
 
         void Relength(int newsize)

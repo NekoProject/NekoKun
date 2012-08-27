@@ -7,15 +7,23 @@ using System.Drawing;
 
 namespace NekoKun
 {
-    static class Program
+    public static partial class Program
     {
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         /// 
         [STAThread]
-        static void Main()
+        public static void Main(string[] args)
         {
+            //if (args.Length > 0)
+            //{
+                Core.CommandLineParser parser = new NekoKun.Core.CommandLineParser(typeof(Program.CommandLineEntries));
+                
+            //    return;
+            //}
+            return;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);

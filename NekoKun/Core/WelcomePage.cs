@@ -60,7 +60,7 @@ namespace NekoKun
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.AddExtension = true;
-                dialog.AutoUpgradeEnabled = true;
+                //dialog.AutoUpgradeEnabled = true;
                 dialog.CheckFileExists = true;
                 dialog.CheckPathExists = true;
                 dialog.DefaultExt = "nkproj";

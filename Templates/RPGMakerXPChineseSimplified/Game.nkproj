@@ -626,7 +626,7 @@
 		</Property>
 		<Property Name="Views"></Property>
 	</Component>
-	<Component Name="NekoKun.RPGMaker.TilesetFile" ID="Tilesets">
+	<Component Name="NekoKun.RPGMaker.TilesetFileXP" ID="Tilesets">
 		<Property Name="Title">Tileset</Property>
 		<Property Name="FileName">Data\Tilesets.rxdata</Property>
 		<Property Name="ClassName">[RPG::Tileset]</Property>
