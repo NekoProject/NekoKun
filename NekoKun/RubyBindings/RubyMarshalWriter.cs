@@ -73,25 +73,10 @@ namespace NekoKun.RubyBindings
                     this.WriteSymbol((RubySymbol)obj);
                 }
             }
-            else if (obj is byte[])
-            {
-                this.m_objects.Add(obj);
-                this.WriteString((byte[])obj);
-            }
             else if (obj is string)
             {
                 this.m_objects.Add(obj);
                 this.WriteString((string)obj);
-            }
-            else if (obj is double)
-            {
-                this.m_objects.Add(obj);
-                this.WriteFloat((double)obj);
-            }
-            else if (obj is float)
-            {
-                this.m_objects.Add(obj);
-                this.WriteFloat((double)obj);
             }
             else if (this.m_objects.Contains(obj))
             {
@@ -101,7 +86,19 @@ namespace NekoKun.RubyBindings
             else
             {
                 this.m_objects.Add(obj);
-                if (obj is List<object>)
+                if (obj is byte[])
+                {
+                    this.WriteString((byte[])obj);
+                }
+                else if (obj is double)
+                {
+                    this.WriteFloat((double)obj);
+                }
+                else if (obj is float)
+                {
+                    this.WriteFloat((double)obj);
+                }
+                else if (obj is List<object>)
                 {
                     this.WriteArray((List<object>)obj);
                 }

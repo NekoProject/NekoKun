@@ -379,7 +379,10 @@ namespace NekoKun
 
         private void menuRestart_Click(object sender, EventArgs e)
         {
-            Application.Restart();
+            this.Close();
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(Application.ExecutablePath, "/Editor");
+            info.UseShellExecute = false;
+            System.Diagnostics.Process.Start(info);
         }
     }
 }

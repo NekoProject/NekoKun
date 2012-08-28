@@ -13,99 +13,82 @@ namespace NekoKun
         /// 应用程序的主入口点。
         /// </summary>
         /// 
+        public static bool UseStandardError;
+        
         [STAThread]
         public static void Main(string[] args)
         {
-            //if (args.Length > 0)
-            //{
-                Core.CommandLineParser parser = new NekoKun.Core.CommandLineParser(typeof(Program.CommandLineEntries));
-                
-            //    return;
-            //}
-            return;
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             System.AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            /*
-            try
-            {
-                ProjectPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-                while (true)
-                {
-                    string path = (System.IO.Path.Combine(System.IO.Path.Combine(ProjectPath, @"Game"), "Game.exe"));
-                    if (System.IO.File.Exists(path))
-                    {
-                        ProjectPath = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(path));
-                        break;
-                    }
-                    ProjectPath = System.IO.Directory.GetParent(ProjectPath).FullName;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("可以给我一个工程目录吃吗？", "NekoKun", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                ProjectManager.OpenProject(
-                    System.IO.Path.Combine(
-                        ProjectPath,
-                        "Game.nkproj"
-                    )
-                );
-            }
-            catch (Exception e)
-            {
-                Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
-            }
-            */
-
             if (UI.UIManager.Enabled)
-            {
                 ToolStripManager.Renderer = new Office2007Renderer();
-            }
             else
-            {
                 ToolStripManager.RenderMode = ToolStripManagerRenderMode.System;
-            }
 
-            WelcomePage welcome = new WelcomePage();
-            welcome.ShowDialog();
-            if (welcome.DialogResult == DialogResult.OK)
-            {
-                string result = welcome.Result;
-                try
-                {
-                    ProjectManager.OpenProject(result);
-                }
-                catch (Exception e)
-                {
-                    Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
-                    return;
-                }
-                Application.Run(Workbench.Instance);
-            }
+            Core.CommandLineParser parser = new NekoKun.Core.CommandLineParser(typeof(Program.CommandLineEntries));
+            parser.ParseAndExecute(args);
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Application_ThreadException(sender, new System.Threading.ThreadExceptionEventArgs(e.ExceptionObject as Exception));
+            UnhandledError(e.ExceptionObject);
+            if (e.IsTerminating)
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + ExceptionMessage(e.Exception));
+            UnhandledError(e.Exception);
+        }
+
+        public static void UnhandledError(Object e)
+        {
+            string str = ExceptionMessage(e);
+
+            if (UseStandardError)
+            {
+                System.Console.Error.WriteLine();
+                System.Console.Error.WriteLine(new string('=', System.Console.WindowWidth - 1));
+                ConsoleColor orig = System.Console.ForegroundColor;
+                System.Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.Error.WriteLine("Unhandled Exception occured in NekoKun");
+                System.Console.ForegroundColor = orig;
+                System.Console.Error.WriteLine(new string('=', System.Console.WindowWidth - 1));
+                System.Console.Error.WriteLine(str);
+                System.Console.Error.WriteLine();
+                System.Console.Error.WriteLine(new string('=', System.Console.WindowWidth - 1));
+            }
+            else
+                MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + str, "Unhandled Exception occured in NekoKun",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void ShowError(string message)
+        {
+            if (UseStandardError)
+            {
+                System.Console.Error.WriteLine();
+                System.Console.Error.WriteLine(message);
+            }
+            else
+                MessageBox.Show(message, "NekoKun",  MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static string ExceptionMessage(Exception e)
         {
-            return (e.InnerException != null ? (ExceptionMessage(e.InnerException) + "\n\n") : "") + String.Format("{0}\n类型: {1}\n来源: {2}\n堆栈: \n {3}", e.Message, e.GetType().FullName, e.Source, e.StackTrace);
+            return (e.InnerException != null ? (ExceptionMessage(e.InnerException) + "\n\n") : "") + String.Format("{0}\n类型: {1}\n来源: {2}\n堆栈: \n{3}", e.Message, e.GetType().FullName, e.Source, e.StackTrace);
         }
+
+        public static string ExceptionMessage(Object e)
+        {
+            if (e is Exception) return ExceptionMessage(e as Exception);
+            Exception myE = new Exception(e.ToString());
+            myE.Data.Add("exception object", e);
+            return ExceptionMessage(myE);
+        }
+
         public static LogFile Logger = new LogFile();
 
         public static object CreateInstanceFromTypeName(string typeName, params object[] param)

@@ -2,7 +2,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>C:\Windows\System32\cmd.exe</StartProgram>
-    <StartArguments>/k pushd ..\..\..\NekoKun\bin\Debug</StartArguments>
+    <StartArguments>/k pushd ..\..\..\NekoKun\bin\Debug &amp; set PATH=%cd%\..\..\..\NekoKun\bin\Debug\;%PATH% &amp; doskey nk=%cd%\..\..\..\NekoKun\bin\Debug\NekoKun $*</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>

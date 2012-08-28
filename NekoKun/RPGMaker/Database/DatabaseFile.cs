@@ -59,18 +59,20 @@ namespace NekoKun.RPGMaker
 
         protected void Load()
         {
-            Object obj = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open));
-            if (!this.arrayMode)
+            using (var fs = new System.IO.FileStream(this.filename, System.IO.FileMode.Open))
             {
-                this.contents = LoadItem(obj);
-            }
-            else
-            {
-                var objl = obj as List<object>;
-                objl.RemoveAt(0);
-                this.contents = new List<object>(Array.ConvertAll<Object, ObjectEditor.Struct>(objl.ToArray(), LoadItem));
-            }
-                
+                Object obj = RubyBindings.RubyMarshal.Load(fs);
+                if (!this.arrayMode)
+                {
+                    this.contents = LoadItem(obj);
+                }
+                else
+                {
+                    var objl = obj as List<object>;
+                    objl.RemoveAt(0);
+                    this.contents = new List<object>(Array.ConvertAll<Object, ObjectEditor.Struct>(objl.ToArray(), LoadItem));
+                }
+            }   
         }
 
         protected ObjectEditor.Struct LoadItem(object RubyObj)
