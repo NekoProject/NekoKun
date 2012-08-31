@@ -236,10 +236,13 @@
     <Compile Include="RubyBindings\RObj\RubyClass.cs" />
     <Compile Include="RubyBindings\RObj\RubyExpendObject.cs" />
     <Compile Include="RubyBindings\RObj\RubyExtendedObject.cs" />
+    <Compile Include="RubyBindings\RObj\RubyFloat.cs" />
     <Compile Include="RubyBindings\RObj\RubyHash.cs" />
     <Compile Include="RubyBindings\RObj\RubyModule.cs" />
     <Compile Include="RubyBindings\RObj\RubyNil.cs" />
     <Compile Include="RubyBindings\RObj\RubyObject.cs" />
+    <Compile Include="RubyBindings\RObj\RubyRegexp.cs" />
+    <Compile Include="RubyBindings\RObj\RubyString.cs" />
     <Compile Include="RubyBindings\RObj\RubyStruct.cs" />
     <Compile Include="RubyBindings\RObj\RubySymbol.cs" />
     <Compile Include="RubyBindings\RObj\RGSSTable.cs" />
