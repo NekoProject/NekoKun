@@ -71,7 +71,7 @@ namespace NekoKun
                     object mar;
                     using (System.IO.FileStream file = new System.IO.FileStream(result, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                     {
-                        mar = RubyBindings.RubyMarshal.Load(file);
+                        mar = RubyBindings.RubyMarshal.Load(file, true);
                     }
                     using (System.IO.FileStream file = new System.IO.FileStream(result + ".output", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
                     {

@@ -44,14 +44,8 @@ namespace NekoKun.RubyBindings
 
         public object this[string key]
         {
-            get { return this[RubySymbol.GetSymbol(key)]; }
-            set { this[RubySymbol.GetSymbol(key)] = value; }
-        }
-
-        public object this[RubyString key]
-        {
-            get { return this[RubySymbol.GetSymbol(key)]; }
-            set { this[RubySymbol.GetSymbol(key)] = value; }
+            get { return variables[RubySymbol.GetSymbol(key)]; }
+            set { variables[RubySymbol.GetSymbol(key)] = value; }
         }
     }
 }

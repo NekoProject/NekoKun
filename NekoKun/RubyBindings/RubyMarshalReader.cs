@@ -12,6 +12,7 @@ namespace NekoKun.RubyBindings
         private BinaryReader m_reader;
         private List<object> m_objects;
         private List<RubySymbol> m_symbols;
+        private bool treatStringAsBytes = false;
 
         public RubyMarshalReader(Stream input)
         {
@@ -26,7 +27,13 @@ namespace NekoKun.RubyBindings
             this.m_stream = input;
             this.m_objects = new List<object>();
             this.m_symbols = new List<RubySymbol>();
-            this.m_reader = new BinaryReader(m_stream, Encoding.ASCII);
+            this.m_reader = new BinaryReader(m_stream);
+        }
+
+        public bool TreatStringAsBytes
+        {
+            get { return treatStringAsBytes; }
+            set { treatStringAsBytes = value; }
         }
 
         public object Load()
@@ -222,7 +229,7 @@ namespace NekoKun.RubyBindings
         private RubyExpendObject ReadExpendObjectBase()
         {
             RubyExpendObject expendobject = new RubyExpendObject();
-            expendobject.ClassName = (RubySymbol)ReadAnObject();
+            expendobject.ClassName = ReadSymbol();
             expendobject.BaseObject = ReadAnObject();
             return expendobject;
         }
@@ -232,71 +239,18 @@ namespace NekoKun.RubyBindings
             RubyExpendObject expendobject = new RubyExpendObject();
             int id = m_objects.Count;
             AddObject(expendobject);
-            int type = m_reader.PeekChar();
-            switch (type)
+            expendobject.BaseObject = ReadAnObject();
+            if (expendobject.BaseObject is RubyExpendObject)
             {
-                case 0x22: // " String
-                    m_reader.ReadByte();
-                    RubyString str = ReadString(false);
-                    expendobject.BaseObject = str;
-                    break;
-
-                case 0x3a: // : Symbol
-                    m_reader.ReadByte();
-                    RubySymbol symbol = RubySymbol.GetSymbol(ReadString(false));
-                    if (!m_symbols.Contains(symbol))
-                        m_symbols.Add(symbol);
-                    expendobject.BaseObject = symbol;
-                    break;
-
-                case 0x2f: // / Regexp
-                    m_reader.ReadByte();
-                    expendobject.BaseObject = ReadRegex(false);
-                    break;
-
-                case 0x43: // C Expend Object w/o attributes
-                    m_reader.ReadByte();
-                    var bas = ReadExpendObjectBase();
-                    expendobject.BaseObject = bas.BaseObject;
-                    expendobject.ClassName = bas.ClassName;
-                    break;
-
-                default:
-                    expendobject.BaseObject = ReadAnObject();
-                    break;
+                expendobject.ClassName = (expendobject.BaseObject as RubyExpendObject).ClassName;
+                expendobject.BaseObject = (expendobject.BaseObject as RubyExpendObject).BaseObject;
             }
             int expendobjectcount = ReadInt32();
             for (int i = 0; i < expendobjectcount; i++)
             {
                 expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
             }
-
-            Encoding e = null;
-            if (expendobject["E"] is bool)
-            {
-                if ((bool)(expendobject["E"]) == true)
-                    e = Encoding.UTF8;
-                else
-                    e = Encoding.Default;
-
-                expendobject.Variables.Remove(RubySymbol.GetSymbol("E"));
-            }
-            if (expendobject["encoding"] != null && expendobject["encoding"] is RubyString)
-            {
-                e = Encoding.GetEncoding((expendobject["encoding"] as RubyString).Text);
-
-                expendobject.Variables.Remove(RubySymbol.GetSymbol("encoding"));
-            }
-            if (e != null)
-            {
-                if (expendobject.BaseObject is RubyString)
-                    (expendobject.BaseObject as RubyString).Encoding = e;
-                else if (expendobject.BaseObject is RubyRegexp)
-                    (expendobject.BaseObject as RubyRegexp).Pattern.Encoding = e;
-                else if (expendobject.BaseObject is RubySymbol)
-                    (expendobject.BaseObject as RubySymbol).GetRubyString().Encoding = e;
-            }
-            if (expendobject.Variables.Count == 0 && (expendobject.BaseObject is RubyString || expendobject.BaseObject is RubyRegexp || expendobject.BaseObject is RubySymbol))
+            if (expendobject.BaseObject is string && expendobject.Variables.Count == 1 && expendobject["E"] != null && (bool)(expendobject["E"]) == true)
             {
                 m_objects[id] = expendobject.BaseObject;
                 return expendobject.BaseObject;
@@ -317,18 +271,29 @@ namespace NekoKun.RubyBindings
             return robj;
         }
 
-        private RubyRegexp ReadRegex()
+        private Regex ReadRegex()
         {
-            return ReadRegex(true);
-        }
-
-        private RubyRegexp ReadRegex(bool count)
-        {
-            RubyString ptn = ReadString();
-            int opt = m_reader.ReadByte();
-            RubyRegexp exp = new RubyRegexp(ptn, (RubyRegexpOptions)opt);
-            if (count) AddObject(exp);
-            return exp;
+            string regexPattern = ReadStringValue();
+            int regexOptionsRuby = m_reader.ReadByte();
+            RegexOptions regexOptions = RegexOptions.None;
+            if (regexOptionsRuby >= 4)
+            {
+                regexOptions |= RegexOptions.Multiline;
+                regexOptionsRuby -= 4;
+            }
+            if (regexOptionsRuby >= 2)
+            {
+                regexOptions |= RegexOptions.IgnorePatternWhitespace;
+                regexOptionsRuby -= 2;
+            }
+            if (regexOptionsRuby >= 1)
+            {
+                regexOptions |= RegexOptions.IgnoreCase;
+                regexOptionsRuby -= 1;
+            }
+            Regex regex = new Regex(regexPattern, regexOptions);
+            AddObject(regex);
+            return regex;
         }
 
         private RubyHash ReadHash(bool hasDefaultValue)
@@ -365,7 +330,7 @@ namespace NekoKun.RubyBindings
             return symbol;
         }
 
-        private RubyFloat ReadFloat()
+        private double ReadFloat()
         {
             string floatstr = ReadStringValue();
             double floatobj;
@@ -383,32 +348,27 @@ namespace NekoKun.RubyBindings
                 }
                 floatobj = Convert.ToDouble(floatstr);
             }
-            var fobj = new RubyFloat(floatobj);
-            AddObject(fobj);
-            return fobj;
+            AddObject(floatobj);
+            return floatobj;
         }
 
-        private RubyString ReadString()
+        private object ReadString()
         {
-            return ReadString(true);
-        }
-
-        private RubyString ReadString(bool count)
-        {
-            RubyString str = new RubyString(ReadStringValueAsBytes());
-            if (str.Raw.Length > 2 && str.Raw[0] == 120 && str.Raw[1] == 156)
-                str.Encoding = null;
+            object str;
+            if (!TreatStringAsBytes)
+                str = ReadStringValue();
             else
-                str.Encoding = Encoding.UTF8;
-
-            if (count) AddObject(str);
+                str = ReadStringValueAsBytes();
+            AddObject(str);
             return str;
         }
 
         public string ReadStringValue()
         {
             int count = ReadInt32();
-            return Encoding.UTF8.GetString(m_reader.ReadBytes(count));
+            byte[] bytes = m_reader.ReadBytes(count);
+            byte[] buffer = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, bytes);
+            return Encoding.Unicode.GetString(buffer);
         }
 
         public byte[] ReadStringValueAsBytes()

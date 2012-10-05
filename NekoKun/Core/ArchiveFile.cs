@@ -15,10 +15,10 @@ namespace NekoKun
             : base(filename, false)
         {
             FileStream fs = new FileStream(filename,  FileMode.Open, FileAccess.Read);
-            manifest = RubyBindings.RubyMarshal.Load(fs) as string;
+            manifest = RubyBindings.RubyMarshal.Load(fs, false) as string;
             contents = new Dictionary<string, byte[]>();
             files = new List<string> (Array.ConvertAll<object, string>(
-                (RubyBindings.RubyMarshal.Load(fs) as List<object>).ToArray(),
+                (RubyBindings.RubyMarshal.Load(fs, false) as List<object>).ToArray(),
                 (object o) => {
                     contents.Add(o.ToString(), null);
                     return o.ToString();
@@ -57,16 +57,16 @@ namespace NekoKun
         private void LoadData()
         {
             FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            RubyBindings.RubyMarshal.Load(fs);
-            RubyBindings.RubyMarshal.Load(fs);
-            byte[] buffer = Ionic.Zlib.ZlibStream.UncompressBuffer((RubyBindings.RubyMarshal.Load(fs) as RubyBindings.RubyString).Raw);
+            RubyBindings.RubyMarshal.Load(fs, false);
+            RubyBindings.RubyMarshal.Load(fs, false);
+            byte[] buffer = Ionic.Zlib.ZlibStream.UncompressBuffer(RubyBindings.RubyMarshal.Load(fs, true) as byte[]);
             MemoryStream ms = new MemoryStream(buffer, false);
-            Dictionary<object, object> con = RubyBindings.RubyMarshal.Load(ms) as Dictionary<object, object>;
+            Dictionary<object, object> con = RubyBindings.RubyMarshal.Load(ms, true) as Dictionary<object, object>;
             fs.Close();
             foreach (var item in con)
             {
-                string key = (item.Key as RubyBindings.RubyString).Text;
-                this.contents[key] = (item.Value as RubyBindings.RubyString).Raw;
+                string key = System.Text.Encoding.UTF8.GetString(item.Key as byte[]);
+                this.contents[key] = item.Value as byte[];
             }
         }
 
