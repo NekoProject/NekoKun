@@ -37,6 +37,12 @@ namespace NekoKun.FuzzyData
             get { return extmodules ?? (extmodules = new List<FuzzyModule>()); }
         }
 
+        public virtual Encoding Encoding
+        {
+            get;
+            set;
+        }
+
         public class FuzzyObjectInstanceVariableProxy
         {
             FuzzyObject obj;

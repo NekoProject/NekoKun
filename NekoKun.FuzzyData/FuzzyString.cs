@@ -91,7 +91,7 @@ namespace NekoKun.FuzzyData
             get { return Encoding.Default.GetString(this.raw); }
         }
 
-        public Encoding Encoding
+        public override Encoding Encoding
         {
             get
             {

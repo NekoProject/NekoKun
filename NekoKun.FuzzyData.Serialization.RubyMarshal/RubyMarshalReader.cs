@@ -10,32 +10,392 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
     {
         private Stream m_stream;
         private BinaryReader m_reader;
-        private List<object> m_objects;
-        private List<FuzzySymbol> m_symbols;
+        private Dictionary<int, object> m_objects;
+        private Dictionary<int, FuzzySymbol> m_symbols;
+        private Dictionary<object, object> m_compat_tbl;
+        private Converter<object, object> m_proc;
 
         public RubyMarshalReader(Stream input)
         {
             if (input == null)
             {
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException("instance of IO needed");
             }
             if (!input.CanRead)
             {
-                throw new ArgumentException("stream cannot read");
+                throw new ArgumentException("instance of IO needed");
             }
             this.m_stream = input;
-            this.m_objects = new List<object>();
-            this.m_symbols = new List<FuzzySymbol>();
+            this.m_objects = new Dictionary<int, object>();
+            this.m_symbols = new Dictionary<int, FuzzySymbol>();
+            this.m_proc = null;
+            this.m_compat_tbl = new Dictionary<object, object>();
             this.m_reader = new BinaryReader(m_stream, Encoding.ASCII);
         }
 
         public object Load()
         {
-            this.m_reader.Read();
-            this.m_reader.Read();
-            return ReadAnObject();
+            int major = ReadByte();
+            int minor = ReadByte();
+            if (major != RubyMarshal.MarshalMajor || minor > RubyMarshal.MarshalMinor) {
+                throw new InvalidDataException(string.Format("incompatible marshal file format (can't be read)\n\tformat version {0}.{1} required; {2}.{3} given", RubyMarshal.MarshalMajor, RubyMarshal.MarshalMinor, major, minor));
+            }
+            return ReadObject();
         }
 
+        /// <summary>
+        /// static int r_byte(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public int ReadByte()
+        {
+            return this.m_stream.ReadByte();
+        }
+
+        /// <summary>
+        /// static long r_long(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public int ReadLong()
+        {
+            sbyte num = m_reader.ReadSByte();
+            if (num <= -5)
+                return num + 5;
+            if (num < 0)
+            {
+                int output = 0;
+                for (int i = 0; i < -num; i++)
+                {
+                    output += (0xff - m_reader.ReadByte()) << (8 * i);
+                }
+                return (-output - 1);
+            }
+            if (num == 0)
+                return 0;
+            if (num <= 4)
+            {
+                int output = 0;
+                for (int i = 0; i < num; i++)
+                {
+                    output += m_reader.ReadByte() << (8 * i);
+                }
+                return output;
+            }
+            return (num - 5);
+        }
+
+        /// <summary>
+        /// static VALUE r_bytes0(long len, struct load_arg *arg)
+        /// </summary>
+        /// <param name="len"></param>
+        /// <returns></returns>
+        public byte[] ReadBytes0(int len)
+        {
+            return this.m_reader.ReadBytes(len);
+        }
+
+        /// <summary>
+        /// #define r_bytes(arg) r_bytes0(r_long(arg), (arg))
+        /// </summary>
+        /// <returns></returns>
+        public byte[] ReadBytes()
+        {
+            return ReadBytes0(ReadLong());
+        }
+
+        /// <summary>
+        /// static ID r_symlink(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public FuzzySymbol ReadSymbolLink()
+        {
+            int num = ReadLong();
+            if (num >= this.m_symbols.Count)
+                throw new InvalidDataException("bad symbol");
+            return this.m_symbols[num];
+        }
+
+        /// <summary>
+        /// static ID r_symreal(struct load_arg *arg, int ivar)
+        /// </summary>
+        /// <param name="ivar"></param>
+        /// <returns></returns>
+        public FuzzySymbol ReadSymbolReal(bool ivar)
+        {
+            byte[] s = ReadBytes();
+            int n = m_symbols.Count;
+            FuzzySymbol id;
+            Encoding idx = Encoding.UTF8;
+            m_symbols.Add(n, null);
+            if (ivar)
+            {
+                int num = ReadLong();
+                while (num-- > 0)
+                {
+                    id = ReadSymbol();
+                    idx = GetEncoding(id, ReadObject());
+                }
+            }
+            FuzzyString str = new FuzzyString(s, idx);
+            id = FuzzySymbol.GetSymbol(str);
+            m_symbols[n] = id;
+            return id;
+        }
+        /// <summary>
+        /// static int id2encidx(ID id, VALUE val)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public Encoding GetEncoding(FuzzySymbol id, object val)
+        {
+            if (id == RubyMarshal.IDs.encoding)
+            {
+                return Encoding.GetEncoding(((FuzzyString)val).Text);
+            }
+            else if (id == RubyMarshal.IDs.E)
+            {
+                if ((val is bool) && ((bool)val == false))
+                    return null;
+                if ((val is bool) && ((bool)val == true))
+                    return Encoding.UTF8;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// static ID r_symbol(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public FuzzySymbol ReadSymbol()
+        {
+            int type;
+            bool ivar = false;
+            again:
+            switch (type = ReadByte())
+            {
+                case RubyMarshal.Types.InstanceVariable:
+                    ivar = true;
+                    goto again;
+                case RubyMarshal.Types.Symbol:
+                    return ReadSymbolReal(ivar);
+                case RubyMarshal.Types.SymbolLink:
+                    if (ivar)
+                        throw new InvalidDataException("dump format error (symlink with encoding)");
+                    return ReadSymbolLink();
+                default:
+                    throw new InvalidDataException(String.Format("dump format error for symbol(0x{0:X2})", type));
+            }
+        }
+        /// <summary>
+        /// static VALUE r_unique(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public FuzzySymbol ReadUnique()
+        {
+            return ReadSymbol();
+        }
+
+        /// <summary>
+        /// static VALUE r_string(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public FuzzyString ReadString()
+        {
+            return new FuzzyString(ReadBytes());
+        }
+
+        /// <summary>
+        /// static VALUE r_entry0(VALUE v, st_index_t num, struct load_arg *arg)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public object Entry0(object v, int num)
+        {
+            object real_obj = null;
+            if (this.m_compat_tbl.TryGetValue(v, out real_obj))
+            {
+                if (this.m_objects.ContainsKey(num))
+                    this.m_objects[num] = real_obj;
+                else
+                    this.m_objects.Add(num, real_obj);
+            }
+            else
+            {
+                if (this.m_objects.ContainsKey(num))
+                    this.m_objects[num] = v;
+                else
+                    this.m_objects.Add(num, v);
+            }
+            return v;
+        }
+
+        /// <summary>
+        /// #define r_entry(v, arg) r_entry0((v), (arg)->data->num_entries, (arg))
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public object Entry(object v)
+        {
+            return Entry0(v, m_objects.Count);
+        }
+
+        /// <summary>
+        /// static VALUE r_leave(VALUE v, struct load_arg *arg)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public object Leave(object v)
+        {
+            object data;
+            if (this.m_compat_tbl.TryGetValue(v, out data))
+            {
+                object real_obj = data;
+                object key = v;
+                // TODO: 实现 MarshalCompat
+                // if (st_lookup(compat_allocator_tbl, (st_data_t)allocator, &data)) {
+                //   marshal_compat_t *compat = (marshal_compat_t*)data;
+                //   compat->loader(real_obj, v);
+                // }
+                this.m_compat_tbl.Remove(key);
+                v = real_obj;
+            }
+            if (this.m_proc != null)
+            {
+                v = this.m_proc(v);
+            }
+            return v;
+        }
+
+        /// <summary>
+        /// static void r_ivar(VALUE obj, int *has_encoding, struct load_arg *arg)
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="has_encoding"></param>
+        public void ReadInstanceVariable(object obj, ref bool has_encoding)
+        {
+            int len = ReadLong();
+            FuzzyObject fobj = obj as FuzzyObject;
+            if (len > 0)
+            {
+                do
+                {
+                    FuzzySymbol id = ReadSymbol();
+                    object val = ReadObject();
+                    Encoding idx = GetEncoding(id, val);
+                    if (idx != null)
+                    {
+                        if (fobj != null)
+                            fobj.Encoding = idx;
+                        has_encoding = true;
+                    }
+                    else
+                    {
+                        if (fobj != null)
+                            fobj.InstanceVariable[id] = val;
+                    }
+                } while (--len > 0);
+            }
+        }
+
+        /// <summary>
+        /// static VALUE append_extmod(VALUE obj, VALUE extmod)
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="extmod"></param>
+        /// <returns></returns>
+        public object AppendExtendedModule(object obj, List<FuzzyModule> extmod)
+        {
+            FuzzyObject fobj = obj as FuzzyObject;
+            if (fobj != null)
+                fobj.ExtendModules.AddRange(extmod);
+            return obj;
+        }
+
+        /// <summary>
+        /// static VALUE r_object(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public object ReadObject()
+        {
+            bool ivp = false;
+            return ReadObject0(false, ref ivp, null);
+        }
+
+        public object ReadObject0(ref bool ivp, List<FuzzyModule> extmod)
+        {
+            return ReadObject0(true, ref ivp, extmod);
+        }
+
+        public object ReadObject0(List<FuzzyModule> extmod)
+        {
+            bool ivp = false;
+            return ReadObject0(false, ref ivp, extmod);
+        }
+
+        /// <summary>
+        /// static VALUE r_object0(struct load_arg *arg, int *ivp, VALUE extmod)
+        /// </summary>
+        /// <param name="hasivp"></param>
+        /// <param name="ivp"></param>
+        /// <param name="extmod"></param>
+        /// <returns></returns>
+        public object ReadObject0(bool hasivp, ref bool ivp, List<FuzzyModule> extmod)
+        {
+            object v = null;
+            int type = ReadByte();
+            int id;
+            object link;
+            switch (type)
+            {
+                case RubyMarshal.Types.Link:
+                    id = ReadLong();
+                    if (!this.m_objects.TryGetValue(id, out link))
+                    {
+                        throw new InvalidDataException("dump format error (unlinked)");
+                    }
+                    v = link;
+                    if (this.m_proc != null)
+                        v = this.m_proc(v);
+                    break;
+                case RubyMarshal.Types.InstanceVariable:
+                    {
+                        bool ivar = true;
+                        v = ReadObject0(ref ivar, extmod);
+                        bool hasenc = false;
+                        if (ivar) ReadInstanceVariable(v, ref hasenc);
+                    }
+                    break;
+                case RubyMarshal.Types.Extended:
+                    {
+                        FuzzyModule m = FuzzyModule.GetModule(ReadUnique());
+                        if (extmod == null)
+                            extmod = new List<FuzzyModule>();
+                        extmod.Add(m);
+                        v = ReadObject0(extmod);
+                        FuzzyObject fobj = v as FuzzyObject;
+                        if (fobj != null)
+                        {
+                            fobj.ExtendModules.AddRange(extmod);
+                        }
+                    }
+                    break;
+                default:
+                    throw new InvalidDataException(string.Format("dump format error(0x{0:X2})", type));
+            }
+            return v;
+        }
+
+        /*
+static VALUE r_object(struct load_arg *arg)
+{
+    return r_object0(arg, 0, Qnil);
+}
+*/
+
+
+        /*
         public void AddObject(object Object)
         {
             this.m_objects.Add(Object);
@@ -425,30 +785,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 
         public int ReadInt32()
         {
-            sbyte num = m_reader.ReadSByte();
-            if (num <= -5)
-                return num + 5;
-            if (num < 0)
-            {
-                int output = 0;
-                for (int i = 0; i < -num; i++)
-                {
-                    output += (0xff - m_reader.ReadByte()) << (8*i);
-                }
-                return (-output - 1);
-            }
-            if (num == 0)
-                return 0;
-            if (num <= 4)
-            {
-                int output = 0;
-                for (int i = 0; i < num; i++)
-                {
-                    output += m_reader.ReadByte() << (8*i);
-                }
-                return output;
-            }
-            return (num - 5);
+            
         }
+        */
     }
 }
