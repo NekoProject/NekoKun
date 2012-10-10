@@ -15,7 +15,7 @@ namespace NekoKun.RPGMaker
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                List<object> scripts = RubyBindings.RubyMarshal.Load(scriptFile, true) as List<object>;
+                List<object> scripts = RubyBindings.RubyMarshal.Load(scriptFile) as List<object>;
 
                 foreach (List<object> item in scripts)
                 {

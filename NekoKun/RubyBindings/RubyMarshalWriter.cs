@@ -39,6 +39,11 @@ namespace NekoKun.RubyBindings
 
         public void WriteAnObject(object obj)
         {
+            WriteAnObject(obj, true);
+        }
+
+        public void WriteAnObject(object obj, bool count)
+        {
             if (obj is int)
             {
                 int num = (int)obj;
@@ -62,41 +67,46 @@ namespace NekoKun.RubyBindings
             }
             else if (obj is RubySymbol)
             {
-                if (this.m_symbols.Contains((RubySymbol)obj))
-                {
-                    this.m_writer.Write((byte)0x3b);
-                    this.WriteInt32(this.m_symbols.IndexOf((RubySymbol)obj));
-                }
-                else
-                {
-                    this.m_symbols.Add((RubySymbol)obj);
-                    this.WriteSymbol((RubySymbol)obj);
-                }
-            }
-            else if (obj is string)
-            {
-                this.m_objects.Add(obj);
-                this.WriteString((string)obj);
+                this.WriteSymbol((RubySymbol)obj);
             }
             else if (this.m_objects.Contains(obj))
             {
                 this.m_writer.Write((byte)0x40);
                 this.WriteInt32(this.m_objects.IndexOf(obj));
+            }   
+            else if (obj is string)
+            {
+                RubyString str = new RubyString(obj as string);
+                if (count) this.m_objects.Add(str);
+                this.WriteString(str);
             }
             else
             {
-                this.m_objects.Add(obj);
-                if (obj is byte[])
+                if (count) this.m_objects.Add(obj);
+                if (obj is RubyString)
                 {
-                    this.WriteString((byte[])obj);
+                    if ((obj as RubyString).Encoding != null)
+                    {
+                        RubyExpendObject ooo = new RubyExpendObject();
+                        ooo.BaseObject = obj;
+                        this.WriteExpendObject(ooo);
+                    }
+                    else
+                    {
+                        this.WriteString((RubyString)obj);
+                    }
+                }
+                else if (obj is RubyFloat)
+                {
+                    this.WriteFloat((RubyFloat)obj);
                 }
                 else if (obj is double)
                 {
-                    this.WriteFloat((double)obj);
+                    this.WriteFloat(new RubyFloat((double)obj));
                 }
                 else if (obj is float)
                 {
-                    this.WriteFloat((double)obj);
+                    this.WriteFloat(new RubyFloat((double)obj));
                 }
                 else if (obj is List<object>)
                 {
@@ -106,9 +116,18 @@ namespace NekoKun.RubyBindings
                 {
                     this.WriteHash((RubyHash)obj);
                 }
-                else if (obj is Regex)
+                else if (obj is RubyRegexp)
                 {
-                    this.WriteRegex((Regex)obj);
+                    if ((obj as RubyRegexp).Pattern.Encoding != null)
+                    {
+                        RubyExpendObject ooo = new RubyExpendObject();
+                        ooo.BaseObject = obj;
+                        this.WriteExpendObject(ooo);
+                    }
+                    else
+                    {
+                        this.WriteRegex((RubyRegexp)obj);
+                    }
                 }
                 else if (obj is RubyBignum)
                 {
@@ -180,24 +199,54 @@ namespace NekoKun.RubyBindings
 
         private void WriteExpendObject(RubyExpendObject obj)
         {
+            if (obj.BaseObject is RubySymbol || obj.BaseObject is RubyString || obj.BaseObject is RubyRegexp)
+            {
+                Encoding e = null;
+                if (obj.BaseObject is RubySymbol)
+                    e = (obj.BaseObject as RubySymbol).GetRubyString().Encoding;
+                if (obj.BaseObject is RubyString)
+                    e = (obj.BaseObject as RubyString).Encoding;
+                if (obj.BaseObject is RubyRegexp)
+                    e = (obj.BaseObject as RubyRegexp).Pattern.Encoding;
+
+                if (e == Encoding.UTF8)
+                    obj["E"] = true;
+                else if (e == null)
+                    obj["E"] = false;
+                else
+                    obj["encoding"] = new RubyString(System.Text.Encoding.ASCII.GetBytes(e.WebName));
+            }
+
             if (obj.Variables.Count == 0)
             {
                 this.m_writer.Write((byte)0x43);
                 this.WriteSymbol(obj.ClassName);
-                this.WriteAnObject(obj.BaseObject);
+                this.WriteAnObject(obj.BaseObject, false);
             }
             else
             {
                 this.m_writer.Write((byte)0x49);
-                if (obj.ClassName == null)
-                {
-                    this.WriteAnObject(obj.BaseObject);
-                }
-                else
+                if (obj.ClassName != null)
                 {
                     this.m_writer.Write((byte)0x43);
                     this.WriteSymbol(obj.ClassName);
-                    this.WriteAnObject(obj.BaseObject);
+                }
+                if (obj.BaseObject is RubyString)
+                {
+                    this.WriteString(obj.BaseObject as RubyString);
+                }
+                else if (obj.BaseObject is RubySymbol)
+                {
+                    this.m_writer.Write((byte)0x3a);
+                    this.WriteStringValue((obj.BaseObject as RubySymbol).GetRubyString().Raw);
+                }
+                else if (obj.BaseObject is RubyRegexp)
+                {
+                    this.WriteRegex(obj.BaseObject as RubyRegexp);
+                }
+                else
+                {
+                    this.WriteAnObject(obj.BaseObject, false);
                 }
                 this.WriteInt32(obj.Variables.Count);
                 foreach (KeyValuePair<RubySymbol, object> item in obj.Variables)
@@ -290,19 +339,16 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteRegex(Regex value)
+        private void WriteRegex(RubyRegexp value)
         {
             this.m_writer.Write((byte)0x2f);
-            this.WriteStringValue(value.ToString());
-            byte options = 0;
-            if ((value.Options & RegexOptions.IgnoreCase) != RegexOptions.None) options += 1;
-            if ((value.Options & RegexOptions.IgnorePatternWhitespace) != RegexOptions.None) options += 2;
-            if ((value.Options & RegexOptions.Multiline) != RegexOptions.None) options += 4;
-            this.m_writer.Write(options);
+            this.WriteStringValue(value.Pattern.Raw);
+            this.m_writer.Write((byte)value.Options);
         }
 
-        private void WriteFloat(double value)
+        private void WriteFloat(RubyFloat v)
         {
+            double value = v.Value;
             this.m_writer.Write((byte)0x66);
             if (double.IsInfinity(value))
             {
@@ -351,16 +397,10 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteString(byte[] bytes)
+        private void WriteString(RubyString value)
         {
             this.m_writer.Write((byte)0x22);
-            this.WriteStringValue(bytes);
-        }
-
-        private void WriteString(string value)
-        {
-            this.m_writer.Write((byte)0x22);
-            this.WriteStringValue(value);
+            this.WriteStringValue(value.Raw);
         }
 
         private void WriteStringValue(string value)
@@ -387,8 +427,17 @@ namespace NekoKun.RubyBindings
             else
             {
                 this.m_symbols.Add(value);
-                this.m_writer.Write((byte)0x3a);
-                this.WriteStringValue(value.GetString());
+                if (value.GetRubyString() != null)
+                {
+                    RubyExpendObject ooo = new RubyExpendObject();
+                    ooo.BaseObject = value;
+                    this.WriteExpendObject(ooo);
+                }
+                else
+                {
+                    this.m_writer.Write((byte)0x3a);
+                    this.WriteStringValue(value.GetString());
+                }
             }
         }
 

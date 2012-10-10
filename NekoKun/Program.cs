@@ -29,14 +29,20 @@ namespace NekoKun
                 ToolStripManager.RenderMode = ToolStripManagerRenderMode.System;
 
             Core.CommandLineParser parser = new NekoKun.Core.CommandLineParser(typeof(Program.CommandLineEntries));
-            parser.ParseAndExecute(args);
+            if (args.Length == 0)
+            {
+                //CommandLineEntries.Editor(null);
+                CommandLineEntries.ReMarshal(new string[] { @"c:\users\Yichen\abc" });
+            }
+            else
+                parser.ParseAndExecute(args);
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             UnhandledError(e.ExceptionObject);
-            if (e.IsTerminating)
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            //if (e.IsTerminating)
+            //    System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
