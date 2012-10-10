@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyNil
+    public class FuzzyNil : FuzzyObject
     {
-        private static RubyNil instance;
+        private static FuzzyNil instance;
 
-        private RubyNil() { }
+        private FuzzyNil() { this.ClassName = FuzzySymbol.GetSymbol("NilClass"); }
 
         public override string ToString()
         {
             return "Ruby::Nil";
         }
 
-        public static RubyNil Instance {
+        public static FuzzyNil Instance {
             get {
                 if (instance == null)
-                    instance = new RubyNil();
+                    instance = new FuzzyNil();
                 return instance; 
             }
         }

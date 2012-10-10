@@ -32,9 +32,9 @@ namespace NekoKun.RPGMaker
             }
         }
 
-        public string FormatParams(NekoKun.RubyBindings.RubyObject ev)
+        public string FormatParams(NekoKun.FuzzyData.FuzzyObject ev)
         {
-            object o = ev["@parameters"];
+            object o = ev.InstanceVariable["@parameters"];
             if (o == null)
                 return this.Group.Provider.Format.ParseFormat(this.Format, null);
 

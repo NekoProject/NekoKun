@@ -22,9 +22,9 @@ namespace NekoKun.RPGMaker
                     {
                         images.Add(ResourceManager.Caches["Graphics/Tilesets"][name as string] as System.Drawing.Image);
                     }
-                    else if (name is RubyBindings.RubyExpendObject)
+                    else if (name is FuzzyData.FuzzyExpendObject)
                     {
-                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as RubyBindings.RubyExpendObject)] as System.Drawing.Image);
+                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as FuzzyData.FuzzyExpendObject)] as System.Drawing.Image);
                     }
                     else
                     {

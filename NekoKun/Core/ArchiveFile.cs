@@ -15,10 +15,10 @@ namespace NekoKun
             : base(filename, false)
         {
             FileStream fs = new FileStream(filename,  FileMode.Open, FileAccess.Read);
-            manifest = RubyBindings.RubyMarshal.Load(fs) as string;
+            manifest = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs) as string;
             contents = new Dictionary<string, byte[]>();
             files = new List<string> (Array.ConvertAll<object, string>(
-                (RubyBindings.RubyMarshal.Load(fs) as List<object>).ToArray(),
+                (NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs) as List<object>).ToArray(),
                 (object o) => {
                     contents.Add(o.ToString(), null);
                     return o.ToString();
@@ -57,16 +57,16 @@ namespace NekoKun
         private void LoadData()
         {
             FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
-            RubyBindings.RubyMarshal.Load(fs);
-            RubyBindings.RubyMarshal.Load(fs);
-            byte[] buffer = Ionic.Zlib.ZlibStream.UncompressBuffer((RubyBindings.RubyMarshal.Load(fs) as RubyBindings.RubyString).Raw);
+            NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs);
+            NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs);
+            byte[] buffer = Ionic.Zlib.ZlibStream.UncompressBuffer((NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs) as FuzzyData.FuzzyString).Raw);
             MemoryStream ms = new MemoryStream(buffer, false);
-            Dictionary<object, object> con = RubyBindings.RubyMarshal.Load(ms) as Dictionary<object, object>;
+            Dictionary<object, object> con = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms) as Dictionary<object, object>;
             fs.Close();
             foreach (var item in con)
             {
-                string key = (item.Key as RubyBindings.RubyString).Text;
-                this.contents[key] = (item.Value as RubyBindings.RubyString).Raw;
+                string key = (item.Key as FuzzyData.FuzzyString).Text;
+                this.contents[key] = (item.Value as FuzzyData.FuzzyString).Raw;
             }
         }
 

@@ -2,35 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyModule
+    public class FuzzyModule: FuzzyObject
     {
         private string name;
-        private RubySymbol symbol;
-        private static Dictionary<string, RubyModule> modules = new Dictionary<string, RubyModule>();
+        private FuzzySymbol symbol;
+        private static Dictionary<string, FuzzyModule> modules = new Dictionary<string, FuzzyModule>();
 
-        protected RubyModule(string s)
+        protected FuzzyModule(string s)
         {
             this.name = s;
-            this.symbol = RubySymbol.GetSymbol(s);
+            this.symbol = FuzzySymbol.GetSymbol(s);
+            this.ClassName = FuzzySymbol.GetSymbol("Module");
             modules.Add(s, this);
         }
 
-        public static Dictionary<string, RubyModule> GetModules()
+        public static Dictionary<string, FuzzyModule> GetModules()
         {
             return modules;
         }
 
-        public static RubyModule GetModule(RubySymbol s)
+        public static FuzzyModule GetModule(FuzzySymbol s)
         {
             return GetModule(s.GetString());
         }
 
-        public static RubyModule GetModule(string s)
+        public static FuzzyModule GetModule(string s)
         {
             if (modules.ContainsKey(s)) return modules[s];
-            return new RubyModule(s);
+            return new FuzzyModule(s);
         }
 
         public override string ToString()
@@ -43,7 +44,7 @@ namespace NekoKun.RubyBindings
             get { return this.name; }
         }
 
-        public RubySymbol Symbol
+        public FuzzySymbol Symbol
         {
             get { return this.symbol; }
         }

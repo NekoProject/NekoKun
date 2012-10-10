@@ -29,7 +29,7 @@ namespace NekoKun.ObjectEditor
                     this.defaultProc = delegate()
                     {
                         System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes);
-                        return RubyBindings.RubyMarshal.Load(ms);
+                        return NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms);
                     };
                 }
             }

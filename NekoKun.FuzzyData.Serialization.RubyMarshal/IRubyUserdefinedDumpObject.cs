@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
     public interface IRubyUserdefinedDumpObject
     {

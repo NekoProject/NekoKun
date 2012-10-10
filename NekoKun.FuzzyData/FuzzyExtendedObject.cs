@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyExtendedObject
+    public class FuzzyExtendedObject
     {
         private object baseObject;
-        private RubyModule extendedModule;
+        private FuzzyModule extendedModule;
 
         public override string ToString()
         {
@@ -20,7 +20,7 @@ namespace NekoKun.RubyBindings
             set { baseObject = value; }
         }
 
-        public RubyModule ExtendedModule
+        public FuzzyModule ExtendedModule
         {
             get { return extendedModule; }
             set { this.extendedModule = value; }

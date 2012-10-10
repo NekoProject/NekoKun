@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyTone
+    public class RGSSTone
     {
         int red, green, blue, gray;
 
-        public RubyTone(int Red, int Green, int Blue) : this(Red, Green, Blue, 0) { }
+        public RGSSTone(int Red, int Green, int Blue) : this(Red, Green, Blue, 0) { }
 
-        public RubyTone(int Red, int Green, int Blue, int Gray)
+        public RGSSTone(int Red, int Green, int Blue, int Gray)
         {
             red = Red;
             green = Green;

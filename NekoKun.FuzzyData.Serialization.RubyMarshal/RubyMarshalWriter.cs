@@ -4,14 +4,14 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
     class RubyMarshalWriter
     {
         private Stream m_stream;
         private BinaryWriter m_writer;
         private List<object> m_objects;
-        private List<RubySymbol> m_symbols;
+        private List<FuzzySymbol> m_symbols;
 
         public RubyMarshalWriter(Stream output)
         {
@@ -25,7 +25,7 @@ namespace NekoKun.RubyBindings
             }
             this.m_stream = output;
             this.m_objects = new List<object>();
-            this.m_symbols = new List<RubySymbol>();
+            this.m_symbols = new List<FuzzySymbol>();
             this.m_writer = new BinaryWriter(m_stream);
         }
 
@@ -53,7 +53,7 @@ namespace NekoKun.RubyBindings
                 }
             }
 
-            if (obj == null || obj is RubyNil)
+            if (obj == null || obj is FuzzyNil)
             {
                 this.m_writer.Write((byte)0x30);
             }
@@ -65,9 +65,9 @@ namespace NekoKun.RubyBindings
             {
                 this.WriteFixnum((int)obj);
             }
-            else if (obj is RubySymbol)
+            else if (obj is FuzzySymbol)
             {
-                this.WriteSymbol((RubySymbol)obj);
+                this.WriteSymbol((FuzzySymbol)obj);
             }
             else if (this.m_objects.Contains(obj))
             {
@@ -76,98 +76,98 @@ namespace NekoKun.RubyBindings
             }   
             else if (obj is string)
             {
-                RubyString str = new RubyString(obj as string);
+                FuzzyString str = new FuzzyString(obj as string);
                 if (count) this.m_objects.Add(str);
                 this.WriteString(str);
             }
             else
             {
                 if (count) this.m_objects.Add(obj);
-                if (obj is RubyString)
+                if (obj is FuzzyString)
                 {
-                    if ((obj as RubyString).Encoding != null)
+                    if ((obj as FuzzyString).Encoding != null)
                     {
-                        RubyExpendObject ooo = new RubyExpendObject();
+                        FuzzyExpendObject ooo = new FuzzyExpendObject();
                         ooo.BaseObject = obj;
                         this.WriteExpendObject(ooo);
                     }
                     else
                     {
-                        this.WriteString((RubyString)obj);
+                        this.WriteString((FuzzyString)obj);
                     }
                 }
-                else if (obj is RubyFloat)
+                else if (obj is FuzzyFloat)
                 {
-                    this.WriteFloat((RubyFloat)obj);
+                    this.WriteFloat((FuzzyFloat)obj);
                 }
                 else if (obj is double)
                 {
-                    this.WriteFloat(new RubyFloat((double)obj));
+                    this.WriteFloat(new FuzzyFloat((double)obj));
                 }
                 else if (obj is float)
                 {
-                    this.WriteFloat(new RubyFloat((double)obj));
+                    this.WriteFloat(new FuzzyFloat((double)obj));
                 }
                 else if (obj is List<object>)
                 {
                     this.WriteArray((List<object>)obj);
                 }
-                else if (obj is RubyHash)
+                else if (obj is FuzzyHash)
                 {
-                    this.WriteHash((RubyHash)obj);
+                    this.WriteHash((FuzzyHash)obj);
                 }
-                else if (obj is RubyRegexp)
+                else if (obj is FuzzyRegexp)
                 {
-                    if ((obj as RubyRegexp).Pattern.Encoding != null)
+                    if ((obj as FuzzyRegexp).Pattern.Encoding != null)
                     {
-                        RubyExpendObject ooo = new RubyExpendObject();
+                        FuzzyExpendObject ooo = new FuzzyExpendObject();
                         ooo.BaseObject = obj;
                         this.WriteExpendObject(ooo);
                     }
                     else
                     {
-                        this.WriteRegex((RubyRegexp)obj);
+                        this.WriteRegex((FuzzyRegexp)obj);
                     }
                 }
-                else if (obj is RubyBignum)
+                else if (obj is FuzzyBignum)
                 {
-                    this.WriteBignum((RubyBignum)obj);
+                    this.WriteBignum((FuzzyBignum)obj);
                 }
-                else if (obj is RubyClass)
+                else if (obj is FuzzyClass)
                 {
-                    this.WriteClass((RubyClass)obj);
+                    this.WriteClass((FuzzyClass)obj);
                 }
-                else if (obj is RubyModule)
+                else if (obj is FuzzyModule)
                 {
-                    this.WriteModule((RubyModule)obj);
+                    this.WriteModule((FuzzyModule)obj);
                 }
                 else if (obj is IRubyUserdefinedDumpObject)
                 {
                     this.WriteUsingDump((IRubyUserdefinedDumpObject)obj);
                 }
-                else if (obj is RubyUserdefinedDumpObject)
+                else if (obj is FuzzyUserdefinedDumpObject)
                 {
-                    this.WriteUsingDump((RubyUserdefinedDumpObject)obj);
+                    this.WriteUsingDump((FuzzyUserdefinedDumpObject)obj);
                 }
-                else if (obj is RubyUserdefinedMarshalDumpObject)
+                else if (obj is FuzzyUserdefinedMarshalDumpObject)
                 {
-                    this.WriteUsingMarshalDump((RubyUserdefinedMarshalDumpObject)obj);
+                    this.WriteUsingMarshalDump((FuzzyUserdefinedMarshalDumpObject)obj);
                 }
-                else if (obj is RubyExtendedObject)
+                else if (obj is FuzzyExtendedObject)
                 {
-                    this.WriteExtendedObject((RubyExtendedObject)obj);
+                    this.WriteExtendedObject((FuzzyExtendedObject)obj);
                 }
-                else if (obj is RubyExpendObject)
+                else if (obj is FuzzyExpendObject)
                 {
-                    this.WriteExpendObject((RubyExpendObject)obj);
+                    this.WriteExpendObject((FuzzyExpendObject)obj);
                 }
-                else if (obj is RubyStruct)
+                else if (obj is FuzzyStruct)
                 {
-                    this.WriteStruct((RubyStruct)obj);
+                    this.WriteStruct((FuzzyStruct)obj);
                 }
-                else if (obj is RubyObject)
+                else if (obj is FuzzyObject)
                 {
-                    this.WriteObject((RubyObject)obj);
+                    this.WriteObject((FuzzyObject)obj);
                 }
                 else
                 {
@@ -179,45 +179,45 @@ namespace NekoKun.RubyBindings
         private void WriteUsingDump(IRubyUserdefinedDumpObject iRubyUserdefinedDumpObject)
         {
             this.m_writer.Write((byte)0x75);
-            this.WriteSymbol(RubySymbol.GetSymbol(iRubyUserdefinedDumpObject.ClassName));
+            this.WriteSymbol(FuzzySymbol.GetSymbol(iRubyUserdefinedDumpObject.ClassName));
             this.WriteStringValue(iRubyUserdefinedDumpObject.Dump());
         }
 
-        private void WriteUsingMarshalDump(RubyUserdefinedMarshalDumpObject obj)
+        private void WriteUsingMarshalDump(FuzzyUserdefinedMarshalDumpObject obj)
         {
             this.m_writer.Write((byte)0x55);
             this.WriteSymbol(obj.ClassName);
             this.WriteAnObject(obj.DumpedObject);
         }
 
-        private void WriteUsingDump(RubyUserdefinedDumpObject obj)
+        private void WriteUsingDump(FuzzyUserdefinedDumpObject obj)
         {
             this.m_writer.Write((byte)0x75);
             this.WriteSymbol(obj.ClassName);
             this.WriteStringValue(obj.DumpedObject as byte[]);
         }
 
-        private void WriteExpendObject(RubyExpendObject obj)
+        private void WriteExpendObject(FuzzyExpendObject obj)
         {
-            if (obj.BaseObject is RubySymbol || obj.BaseObject is RubyString || obj.BaseObject is RubyRegexp)
+            if (obj.BaseObject is FuzzySymbol || obj.BaseObject is FuzzyString || obj.BaseObject is FuzzyRegexp)
             {
                 Encoding e = null;
-                if (obj.BaseObject is RubySymbol)
-                    e = (obj.BaseObject as RubySymbol).GetRubyString().Encoding;
-                if (obj.BaseObject is RubyString)
-                    e = (obj.BaseObject as RubyString).Encoding;
-                if (obj.BaseObject is RubyRegexp)
-                    e = (obj.BaseObject as RubyRegexp).Pattern.Encoding;
+                if (obj.BaseObject is FuzzySymbol)
+                    e = (obj.BaseObject as FuzzySymbol).GetRubyString().Encoding;
+                if (obj.BaseObject is FuzzyString)
+                    e = (obj.BaseObject as FuzzyString).Encoding;
+                if (obj.BaseObject is FuzzyRegexp)
+                    e = (obj.BaseObject as FuzzyRegexp).Pattern.Encoding;
 
                 if (e == Encoding.UTF8)
-                    obj["E"] = true;
+                    obj.InstanceVariable["E"] = true;
                 else if (e == null)
-                    obj["E"] = false;
+                    obj.InstanceVariable["E"] = false;
                 else
-                    obj["encoding"] = new RubyString(System.Text.Encoding.ASCII.GetBytes(e.WebName));
+                    obj.InstanceVariable["encoding"] = new FuzzyString(System.Text.Encoding.ASCII.GetBytes(e.WebName));
             }
 
-            if (obj.Variables.Count == 0)
+            if (obj.InstanceVariables.Count == 0)
             {
                 this.m_writer.Write((byte)0x43);
                 this.WriteSymbol(obj.ClassName);
@@ -231,25 +231,25 @@ namespace NekoKun.RubyBindings
                     this.m_writer.Write((byte)0x43);
                     this.WriteSymbol(obj.ClassName);
                 }
-                if (obj.BaseObject is RubyString)
+                if (obj.BaseObject is FuzzyString)
                 {
-                    this.WriteString(obj.BaseObject as RubyString);
+                    this.WriteString(obj.BaseObject as FuzzyString);
                 }
-                else if (obj.BaseObject is RubySymbol)
+                else if (obj.BaseObject is FuzzySymbol)
                 {
                     this.m_writer.Write((byte)0x3a);
-                    this.WriteStringValue((obj.BaseObject as RubySymbol).GetRubyString().Raw);
+                    this.WriteStringValue((obj.BaseObject as FuzzySymbol).GetRubyString().Raw);
                 }
-                else if (obj.BaseObject is RubyRegexp)
+                else if (obj.BaseObject is FuzzyRegexp)
                 {
-                    this.WriteRegex(obj.BaseObject as RubyRegexp);
+                    this.WriteRegex(obj.BaseObject as FuzzyRegexp);
                 }
                 else
                 {
                     this.WriteAnObject(obj.BaseObject, false);
                 }
-                this.WriteInt32(obj.Variables.Count);
-                foreach (KeyValuePair<RubySymbol, object> item in obj.Variables)
+                this.WriteInt32(obj.InstanceVariables.Count);
+                foreach (KeyValuePair<FuzzySymbol, object> item in obj.InstanceVariables)
                 {
                     this.WriteSymbol(item.Key);
                     this.WriteAnObject(item.Value);
@@ -257,56 +257,56 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteObject(RubyObject obj)
+        private void WriteObject(FuzzyObject obj)
         {
             this.m_writer.Write((byte)0x6f);
             this.WriteSymbol(obj.ClassName);
-            this.WriteInt32(obj.Variables.Count);
-            foreach (KeyValuePair<RubySymbol, object> item in obj.Variables)
+            this.WriteInt32(obj.InstanceVariables.Count);
+            foreach (KeyValuePair<FuzzySymbol, object> item in obj.InstanceVariables)
             {
                 this.WriteSymbol(item.Key);
                 this.WriteAnObject(item.Value);
             }
         }
 
-        private void WriteStruct(RubyStruct obj)
+        private void WriteStruct(FuzzyStruct obj)
         {
             this.m_writer.Write((byte)0x53);
             this.WriteSymbol(obj.ClassName);
-            this.WriteInt32(obj.Variables.Count);
-            foreach (KeyValuePair<RubySymbol, object> item in obj.Variables)
+            this.WriteInt32(obj.InstanceVariables.Count);
+            foreach (KeyValuePair<FuzzySymbol, object> item in obj.InstanceVariables)
             {
                 this.WriteSymbol(item.Key);
                 this.WriteAnObject(item.Value);
             }
         }
 
-        private void WriteExtendedObject(RubyExtendedObject obj)
+        private void WriteExtendedObject(FuzzyExtendedObject obj)
         {
             this.m_writer.Write((byte)0x65);
             this.WriteSymbol(obj.ExtendedModule.Symbol);
             this.WriteAnObject(obj.BaseObject);
         }
 
-        private void WriteModule(RubyModule obj)
+        private void WriteModule(FuzzyModule obj)
         {
             this.m_writer.Write((byte)0x6d);
             this.WriteStringValue(obj.ToString());
         }
 
-        private void WriteClass(RubyClass obj)
+        private void WriteClass(FuzzyClass obj)
         {
             this.m_writer.Write((byte)0x63);
             this.WriteStringValue(obj.ToString());
         }
 
-        private void WriteBignum(RubyBignum value)
+        private void WriteBignum(FuzzyBignum value)
         {
             this.m_writer.Write((byte)0x6c);
             this.WriteBignumValue(value);
         }
 
-        private void WriteBignumValue(RubyBignum value)
+        private void WriteBignumValue(FuzzyBignum value)
         {
             char ch;
             if (value.Sign > 0)
@@ -339,14 +339,14 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteRegex(RubyRegexp value)
+        private void WriteRegex(FuzzyRegexp value)
         {
             this.m_writer.Write((byte)0x2f);
             this.WriteStringValue(value.Pattern.Raw);
             this.m_writer.Write((byte)value.Options);
         }
 
-        private void WriteFloat(RubyFloat v)
+        private void WriteFloat(FuzzyFloat v)
         {
             double value = v.Value;
             this.m_writer.Write((byte)0x66);
@@ -371,7 +371,7 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteHash(RubyHash value)
+        private void WriteHash(FuzzyHash value)
         {
             char ch = (value.DefaultValue != null) ? '}' : '{';
             this.m_writer.Write((byte)ch);
@@ -397,7 +397,7 @@ namespace NekoKun.RubyBindings
             }
         }
 
-        private void WriteString(RubyString value)
+        private void WriteString(FuzzyString value)
         {
             this.m_writer.Write((byte)0x22);
             this.WriteStringValue(value.Raw);
@@ -417,7 +417,7 @@ namespace NekoKun.RubyBindings
             this.m_writer.Write(value);
         }
 
-        private void WriteSymbol(RubySymbol value)
+        private void WriteSymbol(FuzzySymbol value)
         {
             if (this.m_symbols.Contains(value))
             {
@@ -429,7 +429,7 @@ namespace NekoKun.RubyBindings
                 this.m_symbols.Add(value);
                 if (value.GetRubyString() != null)
                 {
-                    RubyExpendObject ooo = new RubyExpendObject();
+                    FuzzyExpendObject ooo = new FuzzyExpendObject();
                     ooo.BaseObject = value;
                     this.WriteExpendObject(ooo);
                 }

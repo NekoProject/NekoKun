@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyExpendObject : RubyObject
+    public class FuzzyExpendObject : FuzzyObject
     {
         private object baseObject;
 
@@ -19,7 +19,7 @@ namespace NekoKun.RubyBindings
             set { baseObject = value; }
         }
 
-        public static implicit operator string(RubyExpendObject obj)
+        public static implicit operator string(FuzzyExpendObject obj)
         {
             return obj.BaseObject as string;
         }

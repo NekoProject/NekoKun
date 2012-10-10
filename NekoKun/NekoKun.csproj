@@ -231,27 +231,8 @@
     <Compile Include="RPGMaker\Map\Tileset\TilesetInfo.cs" />
     <Compile Include="RPGMaker\Map\Tileset\TilesetInfoVA.cs" />
     <Compile Include="RPGMaker\Map\Tileset\TilesetInfoXP.cs" />
-    <Compile Include="RubyBindings\IRubyUserdefinedDumpObject.cs" />
-    <Compile Include="RubyBindings\RObj\RubyBignum.cs" />
-    <Compile Include="RubyBindings\RObj\RubyClass.cs" />
-    <Compile Include="RubyBindings\RObj\RubyExpendObject.cs" />
-    <Compile Include="RubyBindings\RObj\RubyExtendedObject.cs" />
-    <Compile Include="RubyBindings\RObj\RubyFloat.cs" />
-    <Compile Include="RubyBindings\RObj\RubyHash.cs" />
-    <Compile Include="RubyBindings\RObj\RubyModule.cs" />
-    <Compile Include="RubyBindings\RObj\RubyNil.cs" />
-    <Compile Include="RubyBindings\RObj\RubyObject.cs" />
-    <Compile Include="RubyBindings\RObj\RubyRegexp.cs" />
-    <Compile Include="RubyBindings\RObj\RubyString.cs" />
-    <Compile Include="RubyBindings\RObj\RubyStruct.cs" />
-    <Compile Include="RubyBindings\RObj\RubySymbol.cs" />
-    <Compile Include="RubyBindings\RObj\RGSSTable.cs" />
-    <Compile Include="RubyBindings\RObj\RubyTone.cs" />
-    <Compile Include="RubyBindings\RObj\RubyUserdefinedDumpObject.cs" />
-    <Compile Include="RubyBindings\RObj\RubyUserdefinedMarshalDumpObject.cs" />
-    <Compile Include="RubyBindings\RubyMarshal.cs" />
-    <Compile Include="RubyBindings\RubyMarshalReader.cs" />
-    <Compile Include="RubyBindings\RubyMarshalWriter.cs" />
+    <Compile Include="RPGMaker\RGSSTable.cs" />
+    <Compile Include="RPGMaker\RGSSTone.cs" />
     <Compile Include="RPGMaker\Script\ScriptFile.cs" />
     <Compile Include="RPGMaker\Script\ScriptListFile.cs" />
     <Compile Include="ScriptEditor\Virtual\VirtualScriptFile.cs" />
@@ -355,6 +336,14 @@
     <ProjectReference Include="..\DockPanel_Src\WinFormsUI\WinFormsUI.csproj">
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WinFormsUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.FuzzyData.Serialization.RubyMarshal\NekoKun.FuzzyData.Serialization.RubyMarshal.csproj">
+      <Project>{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}</Project>
+      <Name>NekoKun.FuzzyData.Serialization.RubyMarshal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.FuzzyData\NekoKun.FuzzyData.csproj">
+      <Project>{3516D3C7-F112-4763-9F2D-0B17991C12FF}</Project>
+      <Name>NekoKun.FuzzyData</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">
       <Project>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</Project>

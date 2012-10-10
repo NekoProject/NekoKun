@@ -21,9 +21,9 @@ namespace NekoKun.RPGMaker
 
             this.TilesetFile = ProjectManager.Components[node["TilesetProvider"].ToString()] as TilesetFile;
 
-            RubyBindings.RubyHash mapHash = RubyBindings.RubyMarshal.Load(
+            FuzzyData.FuzzyHash mapHash = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(
                 new System.IO.FileStream(this.filename,  System.IO.FileMode.Open, System.IO.FileAccess.Read)
-            ) as RubyBindings.RubyHash;
+            ) as FuzzyData.FuzzyHash;
             foreach (var item in mapHash)
 	        {
                 string key = null;
@@ -42,10 +42,10 @@ namespace NekoKun.RPGMaker
                 }
                 this.maps.Add(key, map);
 
-                RubyBindings.RubyObject info = item.Value as RubyBindings.RubyObject;
-                map.Title = (info["@name"] is RubyBindings.RubyExpendObject) ? ((RubyBindings.RubyExpendObject)info["@name"]) : (info["@name"] as string);
-                map.ParentID = info["@parent_id"].ToString();
-                map.Order = (int) info["@order"];
+                FuzzyData.FuzzyObject info = item.Value as FuzzyData.FuzzyObject;
+                map.Title = (info.InstanceVariable["@name"] is FuzzyData.FuzzyExpendObject) ? ((FuzzyData.FuzzyExpendObject)info.InstanceVariable["@name"]) : (info.InstanceVariable["@name"] as string);
+                map.ParentID = info.InstanceVariable["@parent_id"].ToString();
+                map.Order = (int)info.InstanceVariable["@order"];
                 /*
                     parent_id 
                     The parent map ID.

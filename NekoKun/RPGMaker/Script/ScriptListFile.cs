@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NekoKun.RubyBindings;
+using NekoKun.FuzzyData;
 
 namespace NekoKun.RPGMaker
 {
@@ -15,7 +15,7 @@ namespace NekoKun.RPGMaker
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                List<object> scripts = RubyBindings.RubyMarshal.Load(scriptFile) as List<object>;
+                List<object> scripts = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(scriptFile) as List<object>;
 
                 foreach (List<object> item in scripts)
                 {
@@ -41,13 +41,13 @@ namespace NekoKun.RPGMaker
 						this.MakeDirty();
 					}
 
-                    if (item[1] is RubyBindings.RubyExpendObject)
-                        title = UnicodeStringFromUTF8Bytes((byte[])((RubyBindings.RubyExpendObject)item[1]).BaseObject);
+                    if (item[1] is FuzzyData.FuzzyExpendObject)
+                        title = UnicodeStringFromUTF8Bytes((byte[])((FuzzyData.FuzzyExpendObject)item[1]).BaseObject);
                     else
                         title = UnicodeStringFromUTF8Bytes((byte[])item[1]);
 
-                    if (item[2] is RubyBindings.RubyExpendObject)
-                        bytes = (byte[])((RubyBindings.RubyExpendObject)item[2]).BaseObject;
+                    if (item[2] is FuzzyData.FuzzyExpendObject)
+                        bytes = (byte[])((FuzzyData.FuzzyExpendObject)item[2]).BaseObject;
                     else
                         bytes = (byte[])item[2];
 
@@ -93,30 +93,30 @@ namespace NekoKun.RPGMaker
                     item.Editor.Commit();
             }
 
-            RubyBindings.RubyExpendObject obj;
+            FuzzyData.FuzzyExpendObject obj;
             foreach (ScriptFile item in this.scripts)
             {
                 List<object> rawItem = new List<object>();
                 rawItem.Add(item.ID);
 
-                obj = new RubyExpendObject();
+                obj = new FuzzyExpendObject();
                 obj.BaseObject = UTF8BytesFromUnicodeString(item.Title);
-                obj.Variables[RubySymbol.GetSymbol("E")] = true;
+                obj.InstanceVariables[FuzzySymbol.GetSymbol("E")] = true;
                 rawItem.Add(obj);
 
-                obj = new RubyExpendObject();
+                obj = new FuzzyExpendObject();
                 obj.BaseObject = Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code));
                 if (((byte[])obj.BaseObject).Length == 0)
                 {
                     obj.BaseObject = new byte[] { 120, 156, 3, 0, 0, 0, 0, 1 };
                 }
-                obj.Variables[RubySymbol.GetSymbol("E")] = true;
+                obj.InstanceVariables[FuzzySymbol.GetSymbol("E")] = true;
                 rawItem.Add(obj);
 
                 rawFile.Add(rawItem);
             }
             System.IO.FileStream file = System.IO.File.OpenWrite(this.filename);
-            RubyMarshal.Dump(file, rawFile);
+            NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(file, rawFile);
             file.Close();
         }
 

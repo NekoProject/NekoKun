@@ -4,14 +4,14 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
     class RubyMarshalReader
     {
         private Stream m_stream;
         private BinaryReader m_reader;
         private List<object> m_objects;
-        private List<RubySymbol> m_symbols;
+        private List<FuzzySymbol> m_symbols;
 
         public RubyMarshalReader(Stream input)
         {
@@ -25,7 +25,7 @@ namespace NekoKun.RubyBindings
             }
             this.m_stream = input;
             this.m_objects = new List<object>();
-            this.m_symbols = new List<RubySymbol>();
+            this.m_symbols = new List<FuzzySymbol>();
             this.m_reader = new BinaryReader(m_stream, Encoding.ASCII);
         }
 
@@ -43,6 +43,12 @@ namespace NekoKun.RubyBindings
 
         public object ReadAnObject()
         {
+            bool p = false;
+            return ReadAnObject(ref p);
+        }
+
+        public object ReadAnObject(ref bool hasiv)
+        {
             byte id = m_reader.ReadByte();
             switch (id)
             {
@@ -53,7 +59,7 @@ namespace NekoKun.RubyBindings
                     return m_symbols[ReadInt32()];
 
                 case 0x30: // 0 NilClass
-                    return RubyNil.Instance;
+                    return FuzzyNil.Instance;
 
                 case 0x54: // T TrueClass
                     return true;
@@ -120,16 +126,16 @@ namespace NekoKun.RubyBindings
 
         private object ReadUsingLoad()
         {
-            RubySymbol symbol = (RubySymbol)ReadAnObject();
+            FuzzySymbol symbol = (FuzzySymbol)ReadAnObject();
             byte[] raw = ReadStringValueAsBytes();
             object obj;
             switch (symbol.GetString())
             {
-                case "Table":
-                    obj = new RGSSTable(raw);
-                    break;
+                //case "Table":
+                //    obj = new RGSSTable(raw);
+                //    break;
                 default:
-                    obj = new RubyUserdefinedDumpObject()
+                    obj = new FuzzyUserdefinedDumpObject()
                     {
                         ClassName = symbol,
                         DumpedObject = raw
@@ -142,50 +148,50 @@ namespace NekoKun.RubyBindings
 
         private object ReadUsingMarshalLoad()
         {
-            RubyUserdefinedMarshalDumpObject obj = new RubyUserdefinedMarshalDumpObject();
+            FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
             AddObject(obj);
-            obj.ClassName = (RubySymbol)ReadAnObject();
+            obj.ClassName = (FuzzySymbol)ReadAnObject();
             obj.DumpedObject = ReadAnObject();
             return obj;
         }
 
-        private RubyClass ReadClass()
+        private FuzzyClass ReadClass()
         {
-            RubyClass obj = RubyClass.GetClass(ReadStringValue());
+            FuzzyClass obj = FuzzyClass.GetClass(ReadStringValue());
             AddObject(obj);
             return obj;
         }
 
-        private RubyModule ReadModule()
+        private FuzzyModule ReadModule()
         {
-            RubyModule module = RubyModule.GetModule(ReadStringValue());
+            FuzzyModule module = FuzzyModule.GetModule(ReadStringValue());
             AddObject(module);
             return module;
         }
 
-        private RubyExtendedObject ReadExtendedObject()
+        private FuzzyExtendedObject ReadExtendedObject()
         {
-            RubyExtendedObject extObj = new RubyExtendedObject();
+            FuzzyExtendedObject extObj = new FuzzyExtendedObject();
             AddObject(extObj);
-            extObj.ExtendedModule = RubyModule.GetModule(((RubySymbol)ReadAnObject()).GetString());
+            extObj.ExtendedModule = FuzzyModule.GetModule(((FuzzySymbol)ReadAnObject()).GetString());
             extObj.BaseObject = ReadAnObject();
             return extObj;
         }
 
-        private RubyStruct ReadStruct()
+        private FuzzyStruct ReadStruct()
         {
-            RubyStruct sobj = new RubyStruct();
+            FuzzyStruct sobj = new FuzzyStruct();
             AddObject(sobj);
-            sobj.ClassName = (RubySymbol)ReadAnObject();
+            sobj.ClassName = (FuzzySymbol)ReadAnObject();
             int sobjcount = ReadInt32();
             for (int i = 0; i < sobjcount; i++)
             {
-                sobj[(RubySymbol)ReadAnObject()] = ReadAnObject();
+                sobj.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
             }
             return sobj;
         }
 
-        private RubyBignum ReadBignum()
+        private FuzzyBignum ReadBignum()
         {
             int sign = 0;
             switch (m_reader.ReadByte())
@@ -214,22 +220,22 @@ namespace NekoKun.RubyBindings
             {
                 data[index] = m_reader.ReadUInt16();
             }
-            RubyBignum bignum = new RubyBignum(sign, data);
+            FuzzyBignum bignum = new FuzzyBignum(sign, data);
             this.AddObject(bignum);
             return bignum;
         }
 
-        private RubyExpendObject ReadExpendObjectBase()
+        private FuzzyExpendObject ReadExpendObjectBase()
         {
-            RubyExpendObject expendobject = new RubyExpendObject();
-            expendobject.ClassName = (RubySymbol)ReadAnObject();
+            FuzzyExpendObject expendobject = new FuzzyExpendObject();
+            expendobject.ClassName = (FuzzySymbol)ReadAnObject();
             expendobject.BaseObject = ReadAnObject();
             return expendobject;
         }
 
         private object ReadExpendObject()
         {
-            RubyExpendObject expendobject = new RubyExpendObject();
+            FuzzyExpendObject expendobject = new FuzzyExpendObject();
             int id = m_objects.Count;
             AddObject(expendobject);
             int type = m_reader.PeekChar();
@@ -237,13 +243,13 @@ namespace NekoKun.RubyBindings
             {
                 case 0x22: // " String
                     m_reader.ReadByte();
-                    RubyString str = ReadString(false);
+                    FuzzyString str = ReadString(false);
                     expendobject.BaseObject = str;
                     break;
 
                 case 0x3a: // : Symbol
                     m_reader.ReadByte();
-                    RubySymbol symbol = RubySymbol.GetSymbol(ReadString(false));
+                    FuzzySymbol symbol = FuzzySymbol.GetSymbol(ReadString(false));
                     if (!m_symbols.Contains(symbol))
                         m_symbols.Add(symbol);
                     expendobject.BaseObject = symbol;
@@ -268,35 +274,35 @@ namespace NekoKun.RubyBindings
             int expendobjectcount = ReadInt32();
             for (int i = 0; i < expendobjectcount; i++)
             {
-                expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
+                expendobject.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
             }
 
             Encoding e = null;
-            if (expendobject["E"] is bool)
+            if (expendobject.InstanceVariable["E"] is bool)
             {
-                if ((bool)(expendobject["E"]) == true)
+                if ((bool)(expendobject.InstanceVariable["E"]) == true)
                     e = Encoding.UTF8;
                 else
                     e = Encoding.Default;
 
-                expendobject.Variables.Remove(RubySymbol.GetSymbol("E"));
+                expendobject.InstanceVariables.Remove(FuzzySymbol.GetSymbol("E"));
             }
-            if (expendobject["encoding"] != null && expendobject["encoding"] is RubyString)
+            if (expendobject.InstanceVariable["encoding"] != null && expendobject.InstanceVariable["encoding"] is FuzzyString)
             {
-                e = Encoding.GetEncoding((expendobject["encoding"] as RubyString).Text);
+                e = Encoding.GetEncoding((expendobject.InstanceVariable["encoding"] as FuzzyString).Text);
 
-                expendobject.Variables.Remove(RubySymbol.GetSymbol("encoding"));
+                expendobject.InstanceVariables.Remove(FuzzySymbol.GetSymbol("encoding"));
             }
             if (e != null)
             {
-                if (expendobject.BaseObject is RubyString)
-                    (expendobject.BaseObject as RubyString).Encoding = e;
-                else if (expendobject.BaseObject is RubyRegexp)
-                    (expendobject.BaseObject as RubyRegexp).Pattern.Encoding = e;
-                else if (expendobject.BaseObject is RubySymbol)
-                    (expendobject.BaseObject as RubySymbol).GetRubyString().Encoding = e;
+                if (expendobject.BaseObject is FuzzyString)
+                    (expendobject.BaseObject as FuzzyString).Encoding = e;
+                else if (expendobject.BaseObject is FuzzyRegexp)
+                    (expendobject.BaseObject as FuzzyRegexp).Pattern.Encoding = e;
+                else if (expendobject.BaseObject is FuzzySymbol)
+                    (expendobject.BaseObject as FuzzySymbol).GetRubyString().Encoding = e;
             }
-            if (expendobject.Variables.Count == 0 && (expendobject.BaseObject is RubyString || expendobject.BaseObject is RubyRegexp || expendobject.BaseObject is RubySymbol))
+            if (expendobject.InstanceVariables.Count == 0 && (expendobject.BaseObject is FuzzyString || expendobject.BaseObject is FuzzyRegexp || expendobject.BaseObject is FuzzySymbol))
             {
                 m_objects[id] = expendobject.BaseObject;
                 return expendobject.BaseObject;
@@ -304,36 +310,36 @@ namespace NekoKun.RubyBindings
             return expendobject;
         }
 
-        private RubyObject ReadObject()
+        private FuzzyObject ReadObject()
         {
-            RubyObject robj = new RubyObject();
+            FuzzyObject robj = new FuzzyObject();
             AddObject(robj);
-            robj.ClassName = (RubySymbol)ReadAnObject();
+            robj.ClassName = (FuzzySymbol)ReadAnObject();
             int robjcount = ReadInt32();
             for (int i = 0; i < robjcount; i++)
             {
-                robj[(RubySymbol)ReadAnObject()] = ReadAnObject();
+                robj.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
             }
             return robj;
         }
 
-        private RubyRegexp ReadRegex()
+        private FuzzyRegexp ReadRegex()
         {
             return ReadRegex(true);
         }
 
-        private RubyRegexp ReadRegex(bool count)
+        private FuzzyRegexp ReadRegex(bool count)
         {
-            RubyString ptn = ReadString();
+            FuzzyString ptn = ReadString();
             int opt = m_reader.ReadByte();
-            RubyRegexp exp = new RubyRegexp(ptn, (RubyRegexpOptions)opt);
+            FuzzyRegexp exp = new FuzzyRegexp(ptn, (FuzzyRegexpOptions)opt);
             if (count) AddObject(exp);
             return exp;
         }
 
-        private RubyHash ReadHash(bool hasDefaultValue)
+        private FuzzyHash ReadHash(bool hasDefaultValue)
         {
-            RubyHash hash = new RubyHash();
+            FuzzyHash hash = new FuzzyHash();
             AddObject(hash);
             int hashcount = ReadInt32();
             for (int i = 0; i < hashcount; i++)
@@ -357,15 +363,15 @@ namespace NekoKun.RubyBindings
             return array;
         }
 
-        private RubySymbol ReadSymbol()
+        private FuzzySymbol ReadSymbol()
         {
-            RubySymbol symbol = RubySymbol.GetSymbol(ReadStringValue());
+            FuzzySymbol symbol = FuzzySymbol.GetSymbol(ReadStringValue());
             if (!m_symbols.Contains(symbol))
                 m_symbols.Add(symbol);
             return symbol;
         }
 
-        private RubyFloat ReadFloat()
+        private FuzzyFloat ReadFloat()
         {
             string floatstr = ReadStringValue();
             double floatobj;
@@ -383,19 +389,19 @@ namespace NekoKun.RubyBindings
                 }
                 floatobj = Convert.ToDouble(floatstr);
             }
-            var fobj = new RubyFloat(floatobj);
+            var fobj = new FuzzyFloat(floatobj);
             AddObject(fobj);
             return fobj;
         }
 
-        private RubyString ReadString()
+        private FuzzyString ReadString()
         {
             return ReadString(true);
         }
 
-        private RubyString ReadString(bool count)
+        private FuzzyString ReadString(bool count)
         {
-            RubyString str = new RubyString(ReadStringValueAsBytes());
+            FuzzyString str = new FuzzyString(ReadStringValueAsBytes());
             if (str.Raw.Length > 2 && str.Raw[0] == 120 && str.Raw[1] == 156)
                 str.Encoding = null;
             else

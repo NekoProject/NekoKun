@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
     public static class RubyMarshal
     {

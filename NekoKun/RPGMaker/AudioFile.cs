@@ -13,20 +13,20 @@ namespace NekoKun.RPGMaker
             this.Pitch = 100;
         }
 
-        public AudioFile(RubyBindings.RubyObject obj)
+        public AudioFile(FuzzyData.FuzzyObject obj)
         {
-            this.Name = (obj["@name"] as string) ?? "";
-            this.Volume = Int32.Parse((obj["@volume"] ?? 100).ToString());
-            this.Pitch = Int32.Parse((obj["@pitch"] ?? 100).ToString());
+            this.Name = (obj.InstanceVariable["@name"] as string) ?? "";
+            this.Volume = Int32.Parse((obj.InstanceVariable["@volume"] ?? 100).ToString());
+            this.Pitch = Int32.Parse((obj.InstanceVariable["@pitch"] ?? 100).ToString());
         }
 
-        public RubyBindings.RubyObject ToRubyObject()
+        public FuzzyData.FuzzyObject ToRubyObject()
         {
-            RubyBindings.RubyObject obj = new NekoKun.RubyBindings.RubyObject();
-            obj.ClassName = RubyBindings.RubySymbol.GetSymbol("RPG::AudioFile");
-            obj["@name"] = this.Name;
-            obj["@volume"] = this.Volume;
-            obj["@pitch"] = this.Pitch;
+            FuzzyData.FuzzyObject obj = new NekoKun.FuzzyData.FuzzyObject();
+            obj.ClassName = FuzzyData.FuzzySymbol.GetSymbol("RPG::AudioFile");
+            obj.InstanceVariable["@name"] = this.Name;
+            obj.InstanceVariable["@volume"] = this.Volume;
+            obj.InstanceVariable["@pitch"] = this.Pitch;
             return obj;
         }
 

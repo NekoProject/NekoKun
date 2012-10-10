@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyString
+    public class FuzzyString : FuzzyObject
     {
         protected byte[] raw = null;
         protected System.Text.Encoding encoding = null;
@@ -12,25 +12,28 @@ namespace NekoKun.RubyBindings
         protected bool setByText = false;
         protected bool setByRaw = false;
 
-        public RubyString(string unicodeText)
+        public FuzzyString(string unicodeText)
         {
             this.encoding = Encoding.Unicode;
             this.str = unicodeText;
             this.setByText = true;
+            this.ClassName = FuzzySymbol.GetSymbol("String");
         }
 
-        public RubyString(byte[] raw)
+        public FuzzyString(byte[] raw)
         {
             this.raw = raw;
             this.encoding = null;
             this.setByRaw = true;
+            this.ClassName = FuzzySymbol.GetSymbol("String");
         }
 
-        public RubyString(byte[] raw, Encoding encoding)
+        public FuzzyString(byte[] raw, Encoding encoding)
         {
             this.raw = raw;
             this.encoding = encoding;
             this.setByRaw = true;
+            this.ClassName = FuzzySymbol.GetSymbol("String");
         }
 
         public byte[] Raw
@@ -99,6 +102,11 @@ namespace NekoKun.RubyBindings
                 this.Text.ToString();
                 this.encoding = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return this.Text;
         }
     }
 }

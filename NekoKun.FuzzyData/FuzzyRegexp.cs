@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyRegexp
+    public class FuzzyRegexp : FuzzyObject
     {
-        public RubyRegexpOptions Options;
-        public RubyString Pattern;
+        public FuzzyRegexpOptions Options;
+        public FuzzyString Pattern;
 
-        public RubyRegexp(RubyString Pattern, RubyRegexpOptions Options)
+        public FuzzyRegexp(FuzzyString Pattern, FuzzyRegexpOptions Options)
         {
             this.Pattern = Pattern;
             this.Options = Options;
+            this.ClassName = FuzzySymbol.GetSymbol("Regexp");
         }
     }
 
     [Flags]
-    public enum RubyRegexpOptions
+    public enum FuzzyRegexpOptions
     {
         None = 0,   // #define ONIG_OPTION_NONE               0U
         IgnoreCase = 1,   // #define ONIG_OPTION_IGNORECASE         1U

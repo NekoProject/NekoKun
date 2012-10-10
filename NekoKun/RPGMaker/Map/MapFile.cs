@@ -15,7 +15,7 @@ namespace NekoKun.RPGMaker
         public TilesetFile TilesetFile;
         public string ParentID;
         public int Order;
-        public RubyBindings.RubyObject raw;
+        public FuzzyData.FuzzyObject raw;
 
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
@@ -33,7 +33,7 @@ namespace NekoKun.RPGMaker
             if (!this.infoLoaded)
                 return;
 
-            RubyBindings.RGSSTable table = new NekoKun.RubyBindings.RGSSTable(this.Size.Width, this.Size.Height, this.Layers.Count);
+            FuzzyData.RGSSTable table = new NekoKun.FuzzyData.RGSSTable(this.Size.Width, this.Size.Height, this.Layers.Count);
             List<MapLayer> truth = new List<MapLayer>(this.Layers);
             if (truth.Count == 4)
             {
@@ -51,11 +51,11 @@ namespace NekoKun.RPGMaker
                     }
                 }
             }
-            raw["@data"] = table;
+            raw.InstanceVariable["@data"] = table;
 
             using (var fs = new System.IO.FileStream(this.filename, System.IO.FileMode.Create, System.IO.FileAccess.Write))
             {
-                RubyBindings.RubyMarshal.Dump(fs, raw);
+                NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(fs, raw);
             }
         }
 
@@ -69,13 +69,13 @@ namespace NekoKun.RPGMaker
 
         private void LoadInfo()
         {
-            RubyBindings.RGSSTable data;
+            FuzzyData.RGSSTable data;
             infoLoaded = true;
 
-            raw = RubyBindings.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyBindings.RubyObject;
-            this.TilesetID = (int)raw["@tileset_id"] - 1;
-            data = raw["@data"] as RubyBindings.RGSSTable;
-            this.Size = new System.Drawing.Size((int)raw["@width"], (int)raw["@height"]);
+            raw = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as FuzzyData.FuzzyObject;
+            this.TilesetID = (int)raw.InstanceVariable["@tileset_id"] - 1;
+            data = raw.InstanceVariable["@data"] as FuzzyData.RGSSTable;
+            this.Size = new System.Drawing.Size((int)raw.InstanceVariable["@width"], (int)raw.InstanceVariable["@height"]);
 
             this.Layers = new List<MapLayer>();
             for (int z = 0; z < data.ZSize; z++)
@@ -103,7 +103,7 @@ namespace NekoKun.RPGMaker
                 layer.Type = MapLayerType.HalfBlockShadow;
             }
 
-            raw["@data"] = null;
+            raw.InstanceVariable["@data"] = null;
         }
         /*
           @tileset_id = 1

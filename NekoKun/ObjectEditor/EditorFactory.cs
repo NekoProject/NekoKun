@@ -14,9 +14,9 @@ namespace NekoKun.ObjectEditor
             if (value is Decimal || value is int || value is Int32 || value is Int64 || value is float || value is double || value is byte || value is sbyte)
                 return typeof(DecimalEditor).FullName;
 
-            if (value is RubyBindings.RubyObject)
+            if (value is FuzzyData.FuzzyObject)
             {
-                RubyBindings.RubyObject obj = value as RubyBindings.RubyObject;
+                FuzzyData.FuzzyObject obj = value as FuzzyData.FuzzyObject;
                 if (obj.ClassName.GetString() == "RPG::AudioFile")
                     return typeof(RPGMaker.AudioFileEditor).FullName;
             }

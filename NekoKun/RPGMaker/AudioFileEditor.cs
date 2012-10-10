@@ -6,7 +6,7 @@ namespace NekoKun.RPGMaker
 {
     public class AudioFileEditor: UI.LynnButton, IObjectEditor
     {
-        protected RubyBindings.RubyObject orig;
+        protected FuzzyData.FuzzyObject orig;
         protected bool changed;
         protected AudioFile audioFile;
 
@@ -45,9 +45,9 @@ namespace NekoKun.RPGMaker
             }
             set
             {
-                orig = value as RubyBindings.RubyObject;
+                orig = value as FuzzyData.FuzzyObject;
                 changed = false;
-                RubyBindings.RubyObject obj = orig;
+                FuzzyData.FuzzyObject obj = orig;
                 if (obj != null)
                     this.audioFile = new AudioFile(obj);
                 else

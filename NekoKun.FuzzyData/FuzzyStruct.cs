@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RubyStruct : RubyObject
+    public class FuzzyStruct : FuzzyObject
     {
+        
     }
 }

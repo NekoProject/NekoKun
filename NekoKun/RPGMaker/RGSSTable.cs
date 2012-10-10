@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.RubyBindings
+namespace NekoKun.FuzzyData
 {
-    public class RGSSTable : IRubyUserdefinedDumpObject
+    public class RGSSTable : NekoKun.FuzzyData.Serialization.RubyMarshal.IRubyUserdefinedDumpObject
     { 
         protected short[, ,] value;
         protected byte dimensions;
