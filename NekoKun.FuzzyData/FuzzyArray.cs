@@ -33,6 +33,16 @@ namespace NekoKun.FuzzyData
             return list.GetEnumerator();
         }
 
+        public static implicit operator List<object>(FuzzyArray that)
+        {
+            return that.list;
+        }
+
+        public static implicit operator FuzzyArray(List<object> that)
+        {
+            return new FuzzyArray(that);
+        }
+
         public FuzzyArray()
         {
             list = new List<object>();
@@ -100,6 +110,32 @@ namespace NekoKun.FuzzyData
         public List<TOutput> Map<TOutput>(Converter<object, TOutput> converter) { return list.ConvertAll<TOutput>(converter); }
         public List<TOutput> Collect<TOutput>(Converter<object, TOutput> converter) { return list.ConvertAll<TOutput>(converter); }
         public void Each(Action<object> action) { Array.ForEach<object>(this.ToArray(), action); }
+        public void Push(object item) { 
+            list.Add(item); 
+        }
+        public void Push(params object[] items)
+        {
+            list.AddRange(items);
+        }
+        public object Pop() {
+            object obj = list[list.Count - 1];
+            list.RemoveAt(list.Count - 1);
+            return obj;
+        }
+        public object Shift()
+        {
+            object obj = list[0];
+            list.RemoveAt(0);
+            return obj;
+        }
+        public void Unshift(object item)
+        {
+            list.Insert(0, item);
+        }
+        public void Unshift(params object[] items)
+        {
+            list.InsertRange(0, items);
+        }
 
         internal class FuzzyArrayDebugView
         {

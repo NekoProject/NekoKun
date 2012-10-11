@@ -37,7 +37,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         {
             int major = ReadByte();
             int minor = ReadByte();
-            if (major != RubyMarshal.MarshalMajor || minor > RubyMarshal.MarshalMinor) {
+            if (major != RubyMarshal.MarshalMajor || minor > RubyMarshal.MarshalMinor)
+            {
                 throw new InvalidDataException(string.Format("incompatible marshal file format (can't be read)\n\tformat version {0}.{1} required; {2}.{3} given", RubyMarshal.MarshalMajor, RubyMarshal.MarshalMinor, major, minor));
             }
             return ReadObject();
@@ -171,7 +172,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         {
             int type;
             bool ivar = false;
-            again:
+        again:
             switch (type = ReadByte())
             {
                 case RubyMarshal.Types.InstanceVariable:
@@ -203,6 +204,17 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         public FuzzyString ReadString()
         {
             return new FuzzyString(ReadBytes());
+        }
+
+        /// <summary>
+        /// static st_index_t r_prepare(struct load_arg *arg)
+        /// </summary>
+        /// <returns></returns>
+        public int Prepare()
+        {
+            int idx = this.m_objects.Count;
+            this.m_objects.Add(idx, null);
+            return idx;
         }
 
         /// <summary>
@@ -298,6 +310,11 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 } while (--len > 0);
             }
         }
+        public void ReadInstanceVariable(object obj)
+        {
+            bool e = false;
+            ReadInstanceVariable(obj, ref e);
+        }
 
         /// <summary>
         /// static VALUE append_extmod(VALUE obj, VALUE extmod)
@@ -381,412 +398,295 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                         }
                     }
                     break;
+                case RubyMarshal.Types.UserClass:
+                    {
+                        FuzzyClass c = FuzzyClass.GetClass(ReadUnique());
+
+                        v = ReadObject0(extmod);
+                        if (v is FuzzyObject)
+                            (v as FuzzyObject).ClassName = c.Symbol;
+                    }
+                    break;
+                case RubyMarshal.Types.Nil:
+                    v = FuzzyNil.Instance;
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.True:
+                    v = true;
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.False:
+                    v = false;
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.Fixnum:
+                    v = ReadLong();
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.Float:
+                    {
+                        double d;
+                        FuzzyString fstr = ReadString();
+                        string str = fstr.Text;
+
+                        if (str == "inf")
+                            d = double.PositiveInfinity;
+                        else if (str == "-inf")
+                            d = double.NegativeInfinity;
+                        else if (str == "nan")
+                            d = double.NaN;
+                        else
+                        {
+                            if (str.Contains("\0"))
+                            {
+                                str = str.Remove(str.IndexOf("\0"));
+                            }
+                            d = Convert.ToDouble(str);
+                        }
+                        v = new FuzzyFloat(d);
+                        v = Entry(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Bignum:
+                    {
+                        int sign = 0;
+                        switch (ReadByte())
+                        {
+                            case 0x2b:
+                                sign = 1;
+                                break;
+
+                            case 0x2d:
+                                sign = -1;
+                                break;
+
+                            default:
+                                sign = 0;
+                                break;
+                        }
+                        int num3 = ReadLong();
+                        int index = num3 / 2;
+                        int num5 = (num3 + 1) / 2;
+                        uint[] data = new uint[num5];
+                        for (int i = 0; i < index; i++)
+                        {
+                            data[i] = m_reader.ReadUInt32();
+                        }
+                        if (index != num5)
+                        {
+                            data[index] = m_reader.ReadUInt16();
+                        }
+                        v = new FuzzyBignum(sign, data);
+                        v = Entry(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.String:
+                    v = Entry(ReadString());
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.Regexp:
+                    {
+                        FuzzyString str = ReadString();
+                        int options = ReadByte();
+                        bool has_encoding = false;
+                        int idx = Prepare();
+                        if (hasivp)
+                        {
+                            ReadInstanceVariable(str, ref has_encoding);
+                            ivp = false;
+                        }
+                        if (!has_encoding)
+                        {
+                            // TODO: 1.8 compatibility; remove escapes undefined in 1.8
+                            /*
+                            char *ptr = RSTRING_PTR(str), *dst = ptr, *src = ptr;
+                            long len = RSTRING_LEN(str);
+                            long bs = 0;
+                            for (; len-- > 0; *dst++ = *src++) {
+                                switch (*src) {
+                                    case '\\': bs++; break;
+                                    case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
+                                    case 'm': case 'o': case 'p': case 'q': case 'u': case 'y':
+                                    case 'E': case 'F': case 'H': case 'I': case 'J': case 'K':
+                                    case 'L': case 'N': case 'O': case 'P': case 'Q': case 'R':
+                                    case 'S': case 'T': case 'U': case 'V': case 'X': case 'Y':
+                                    if (bs & 1) --dst;
+                                    default: bs = 0; break;
+                                }
+                            }
+                            rb_str_set_len(str, dst - ptr);
+                            */
+                        }
+                        v = Entry0(new FuzzyRegexp(str, (FuzzyRegexpOptions)options), idx);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Array:
+                    {
+                        int len = ReadLong();
+                        FuzzyArray ary = new FuzzyArray();
+                        v = ary;
+                        v = Entry(v);
+                        while (len-- > 0)
+                        {
+                            ary.Push(ReadObject());
+                        }
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Hash:
+                case RubyMarshal.Types.HashWithDefault:
+                    {
+                        int len = ReadLong();
+                        FuzzyHash hash = new FuzzyHash();
+                        v = hash;
+                        v = Entry(v);
+                        while (len-- > 0)
+                        {
+                            object key = ReadObject();
+                            object value = ReadObject();
+                            hash.Add(key, value);
+                        }
+                        if (type == RubyMarshal.Types.HashWithDefault)
+                        {
+                            hash.DefaultValue = ReadObject();
+                        }
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Struct:
+                    {
+                        int idx = Prepare();
+                        FuzzyStruct obj = new FuzzyStruct();
+                        FuzzySymbol klass = ReadUnique();
+                        obj.ClassName = klass;
+                        int len = ReadLong();
+                        v = obj;
+                        v = Entry0(v, idx);
+                        while (len-- > 0)
+                        {
+                            FuzzySymbol key = ReadSymbol();
+                            object value = ReadObject();
+                            obj.InstanceVariable[key] = value;
+                        }
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.UserDefined:
+                    {
+                        FuzzySymbol klass = ReadUnique();
+                        FuzzyString data = ReadString();
+                        if (hasivp)
+                        {
+                            ReadInstanceVariable(data);
+                            ivp = false;
+                        }
+                        FuzzyUserdefinedDumpObject obj = new FuzzyUserdefinedDumpObject();
+                        obj.ClassName = klass;
+                        obj.DumpedObject = data.Raw;
+                        v = obj;
+                        v = Entry(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.UserMarshal:
+                    {
+                        FuzzySymbol klass = ReadUnique();
+                        FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
+                        v = obj;
+                        if (extmod != null)
+                        {
+                            AppendExtendedModule(obj, extmod);
+                        }
+                        v = Entry(v);
+                        object data = ReadObject();
+                        obj.ClassName = klass;
+                        obj.DumpedObject = data;
+                        v = Leave(v);
+                        if (extmod != null)
+                        {
+                            extmod.Clear();
+                        }
+                    }
+                    break;
+                case RubyMarshal.Types.Object:
+                    {
+                        int idx = Prepare();
+                        FuzzyObject obj = new FuzzyObject();
+                        FuzzySymbol klass = ReadUnique();
+                        obj.ClassName = klass;
+                        v = obj;
+                        v = Entry0(v, idx);
+                        ReadInstanceVariable(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Class:
+                    {
+                        FuzzyString str = ReadString();
+                        v = FuzzyClass.GetClass(FuzzySymbol.GetSymbol(str));
+                        v = Entry(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Module:
+                    {
+                        FuzzyString str = ReadString();
+                        v = FuzzyModule.GetModule(FuzzySymbol.GetSymbol(str));
+                        v = Entry(v);
+                        v = Leave(v);
+                    }
+                    break;
+                case RubyMarshal.Types.Symbol:
+                    if (hasivp)
+                    {
+                        v = ReadSymbolReal(ivp);
+                        ivp = false;
+                    }
+                    else
+                    {
+                        v = ReadSymbolReal(false);
+                    }
+                    v = Leave(v);
+                    break;
+                case RubyMarshal.Types.SymbolLink:
+                    v = ReadSymbolLink();
+                    break;
+                case RubyMarshal.Types.Data:
+                /*  TODO: Data Support
+                    {
+                        VALUE klass = path2class(r_unique(arg));
+                        VALUE oldclass = 0;
+
+                        v = obj_alloc_by_klass(klass, arg, &oldclass);
+                        if (!RB_TYPE_P(v, T_DATA)) {
+                            rb_raise(rb_eArgError, "dump format error");
+                        }
+                        v = r_entry(v, arg);
+                        if (!rb_respond_to(v, s_load_data)) {
+                            rb_raise(rb_eTypeError, "class %s needs to have instance method `_load_data'", rb_class2name(klass));
+                        }
+                        rb_funcall(v, s_load_data, 1, r_object0(arg, 0, extmod));
+                        check_load_arg(arg, s_load_data);
+                        v = r_leave(v, arg);
+                    }
+                 */
+                case RubyMarshal.Types.ModuleOld:
+                /*
+                    TODO: ModuleOld Support
+                    {
+                        volatile VALUE str = r_bytes(arg);
+                        v = rb_path_to_class(str);
+                        v = r_entry(v, arg);
+                        v = r_leave(v, arg);
+                    }
+                 */
                 default:
                     throw new InvalidDataException(string.Format("dump format error(0x{0:X2})", type));
             }
             return v;
         }
-
-        /*
-static VALUE r_object(struct load_arg *arg)
-{
-    return r_object0(arg, 0, Qnil);
-}
-*/
-
-
-        /*
-        public void AddObject(object Object)
-        {
-            this.m_objects.Add(Object);
-        }
-
-        public object ReadAnObject()
-        {
-            bool p = false;
-            return ReadAnObject(ref p);
-        }
-
-        public object ReadAnObject(ref bool hasiv)
-        {
-            byte id = m_reader.ReadByte();
-            switch (id)
-            {
-                case 0x40: // @ Object Reference
-                    return m_objects[ReadInt32()];
-
-                case 0x3b: // ; Symbol Reference
-                    return m_symbols[ReadInt32()];
-
-                case 0x30: // 0 NilClass
-                    return FuzzyNil.Instance;
-
-                case 0x54: // T TrueClass
-                    return true;
-
-                case 0x46: // F FalseClass
-                    return false;
-
-                case 0x69: // i Fixnum
-                    return ReadInt32();
-
-                case 0x66: // f Float
-                    return ReadFloat();
-
-                case 0x22: // " String
-                    return ReadString();
-
-                case 0x3a: // : Symbol
-                    return ReadSymbol();
-
-                case 0x5b: // [ Array
-                    return ReadArray();
-
-                case 0x7b: // { Hash
-                case 0x7d: // } Hash w/ default value
-                    return ReadHash(id == 0x7d);
-
-                case 0x2f: // / Regexp
-                    return ReadRegex();
-
-                case 0x6f: // o Object
-                    return ReadObject();
-
-                case 0x43: // C Expend Object w/o attributes
-                    return ReadExpendObjectBase();
-
-                case 0x49: // I Expend Object
-                    return ReadExpendObject();
-
-                case 0x6c: // l Bignum
-                    return ReadBignum();
-
-                case 0x53: // S Struct
-                    return ReadStruct();
-
-                case 0x65: // e Extended Object
-                    return ReadExtendedObject();
-
-                case 0x6d: // m Module
-                    return ReadModule();
-
-                case 0x63: // c Class
-                    return ReadClass();
-
-                case 0x55: // U
-                    return ReadUsingMarshalLoad();
-
-                case 0x75: // u
-                    return ReadUsingLoad();
-
-                default:
-                    throw new NotImplementedException("not implemented type identifier: " + id.ToString());
-            }
-        }
-
-        private object ReadUsingLoad()
-        {
-            FuzzySymbol symbol = (FuzzySymbol)ReadAnObject();
-            byte[] raw = ReadStringValueAsBytes();
-            object obj;
-            switch (symbol.GetString())
-            {
-                //case "Table":
-                //    obj = new RGSSTable(raw);
-                //    break;
-                default:
-                    obj = new FuzzyUserdefinedDumpObject()
-                    {
-                        ClassName = symbol,
-                        DumpedObject = raw
-                    };
-                    break;
-            }
-            AddObject(obj);
-            return obj;
-        }
-
-        private object ReadUsingMarshalLoad()
-        {
-            FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
-            AddObject(obj);
-            obj.ClassName = (FuzzySymbol)ReadAnObject();
-            obj.DumpedObject = ReadAnObject();
-            return obj;
-        }
-
-        private FuzzyClass ReadClass()
-        {
-            FuzzyClass obj = FuzzyClass.GetClass(ReadStringValue());
-            AddObject(obj);
-            return obj;
-        }
-
-        private FuzzyModule ReadModule()
-        {
-            FuzzyModule module = FuzzyModule.GetModule(ReadStringValue());
-            AddObject(module);
-            return module;
-        }
-
-        private FuzzyExtendedObject ReadExtendedObject()
-        {
-            FuzzyExtendedObject extObj = new FuzzyExtendedObject();
-            AddObject(extObj);
-            extObj.ExtendedModule = FuzzyModule.GetModule(((FuzzySymbol)ReadAnObject()).GetString());
-            extObj.BaseObject = ReadAnObject();
-            return extObj;
-        }
-
-        private FuzzyStruct ReadStruct()
-        {
-            FuzzyStruct sobj = new FuzzyStruct();
-            AddObject(sobj);
-            sobj.ClassName = (FuzzySymbol)ReadAnObject();
-            int sobjcount = ReadInt32();
-            for (int i = 0; i < sobjcount; i++)
-            {
-                sobj.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
-            }
-            return sobj;
-        }
-
-        private FuzzyBignum ReadBignum()
-        {
-            int sign = 0;
-            switch (m_reader.ReadByte())
-            {
-                case 0x2b:
-                    sign = 1;
-                    break;
-
-                case 0x2d:
-                    sign = -1;
-                    break;
-
-                default:
-                    sign = 0;
-                    break;
-            }
-            int num3 = ReadInt32();
-            int index = num3 / 2;
-            int num5 = (num3 + 1) / 2;
-            uint[] data = new uint[num5];
-            for (int i = 0; i < index; i++)
-            {
-                data[i] = m_reader.ReadUInt32();
-            }
-            if (index != num5)
-            {
-                data[index] = m_reader.ReadUInt16();
-            }
-            FuzzyBignum bignum = new FuzzyBignum(sign, data);
-            this.AddObject(bignum);
-            return bignum;
-        }
-
-        private FuzzyExpendObject ReadExpendObjectBase()
-        {
-            FuzzyExpendObject expendobject = new FuzzyExpendObject();
-            expendobject.ClassName = (FuzzySymbol)ReadAnObject();
-            expendobject.BaseObject = ReadAnObject();
-            return expendobject;
-        }
-
-        private object ReadExpendObject()
-        {
-            FuzzyExpendObject expendobject = new FuzzyExpendObject();
-            int id = m_objects.Count;
-            AddObject(expendobject);
-            int type = m_reader.PeekChar();
-            switch (type)
-            {
-                case 0x22: // " String
-                    m_reader.ReadByte();
-                    FuzzyString str = ReadString(false);
-                    expendobject.BaseObject = str;
-                    break;
-
-                case 0x3a: // : Symbol
-                    m_reader.ReadByte();
-                    FuzzySymbol symbol = FuzzySymbol.GetSymbol(ReadString(false));
-                    if (!m_symbols.Contains(symbol))
-                        m_symbols.Add(symbol);
-                    expendobject.BaseObject = symbol;
-                    break;
-
-                case 0x2f: // / Regexp
-                    m_reader.ReadByte();
-                    expendobject.BaseObject = ReadRegex(false);
-                    break;
-
-                case 0x43: // C Expend Object w/o attributes
-                    m_reader.ReadByte();
-                    var bas = ReadExpendObjectBase();
-                    expendobject.BaseObject = bas.BaseObject;
-                    expendobject.ClassName = bas.ClassName;
-                    break;
-
-                default:
-                    expendobject.BaseObject = ReadAnObject();
-                    break;
-            }
-            int expendobjectcount = ReadInt32();
-            for (int i = 0; i < expendobjectcount; i++)
-            {
-                expendobject.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
-            }
-
-            Encoding e = null;
-            if (expendobject.InstanceVariable["E"] is bool)
-            {
-                if ((bool)(expendobject.InstanceVariable["E"]) == true)
-                    e = Encoding.UTF8;
-                else
-                    e = Encoding.Default;
-
-                expendobject.InstanceVariables.Remove(FuzzySymbol.GetSymbol("E"));
-            }
-            if (expendobject.InstanceVariable["encoding"] != null && expendobject.InstanceVariable["encoding"] is FuzzyString)
-            {
-                e = Encoding.GetEncoding((expendobject.InstanceVariable["encoding"] as FuzzyString).Text);
-
-                expendobject.InstanceVariables.Remove(FuzzySymbol.GetSymbol("encoding"));
-            }
-            if (e != null)
-            {
-                if (expendobject.BaseObject is FuzzyString)
-                    (expendobject.BaseObject as FuzzyString).Encoding = e;
-                else if (expendobject.BaseObject is FuzzyRegexp)
-                    (expendobject.BaseObject as FuzzyRegexp).Pattern.Encoding = e;
-                else if (expendobject.BaseObject is FuzzySymbol)
-                    (expendobject.BaseObject as FuzzySymbol).GetRubyString().Encoding = e;
-            }
-            if (expendobject.InstanceVariables.Count == 0 && (expendobject.BaseObject is FuzzyString || expendobject.BaseObject is FuzzyRegexp || expendobject.BaseObject is FuzzySymbol))
-            {
-                m_objects[id] = expendobject.BaseObject;
-                return expendobject.BaseObject;
-            }
-            return expendobject;
-        }
-
-        private FuzzyObject ReadObject()
-        {
-            FuzzyObject robj = new FuzzyObject();
-            AddObject(robj);
-            robj.ClassName = (FuzzySymbol)ReadAnObject();
-            int robjcount = ReadInt32();
-            for (int i = 0; i < robjcount; i++)
-            {
-                robj.InstanceVariable[(FuzzySymbol)ReadAnObject()] = ReadAnObject();
-            }
-            return robj;
-        }
-
-        private FuzzyRegexp ReadRegex()
-        {
-            return ReadRegex(true);
-        }
-
-        private FuzzyRegexp ReadRegex(bool count)
-        {
-            FuzzyString ptn = ReadString();
-            int opt = m_reader.ReadByte();
-            FuzzyRegexp exp = new FuzzyRegexp(ptn, (FuzzyRegexpOptions)opt);
-            if (count) AddObject(exp);
-            return exp;
-        }
-
-        private FuzzyHash ReadHash(bool hasDefaultValue)
-        {
-            FuzzyHash hash = new FuzzyHash();
-            AddObject(hash);
-            int hashcount = ReadInt32();
-            for (int i = 0; i < hashcount; i++)
-            {
-                hash[ReadAnObject()] = ReadAnObject();
-            }
-            if (hasDefaultValue)
-                hash.DefaultValue = ReadAnObject();
-            return hash;
-        }
-
-        private List<object> ReadArray()
-        {
-            List<object> array = new List<object>();
-            AddObject(array);
-            int arraycount = ReadInt32();
-            for (int i = 0; i < arraycount; i++)
-            {
-                array.Add(ReadAnObject());
-            }
-            return array;
-        }
-
-        private FuzzySymbol ReadSymbol()
-        {
-            FuzzySymbol symbol = FuzzySymbol.GetSymbol(ReadStringValue());
-            if (!m_symbols.Contains(symbol))
-                m_symbols.Add(symbol);
-            return symbol;
-        }
-
-        private FuzzyFloat ReadFloat()
-        {
-            string floatstr = ReadStringValue();
-            double floatobj;
-            if (floatstr == "inf")
-                floatobj = double.PositiveInfinity;
-            else if (floatstr == "-inf")
-                floatobj = double.NegativeInfinity;
-            else if (floatstr == "nan")
-                floatobj = double.NaN;
-            else
-            {
-                if (floatstr.Contains("\0"))
-                {
-                    floatstr = floatstr.Remove(floatstr.IndexOf("\0"));
-                }
-                floatobj = Convert.ToDouble(floatstr);
-            }
-            var fobj = new FuzzyFloat(floatobj);
-            AddObject(fobj);
-            return fobj;
-        }
-
-        private FuzzyString ReadString()
-        {
-            return ReadString(true);
-        }
-
-        private FuzzyString ReadString(bool count)
-        {
-            FuzzyString str = new FuzzyString(ReadStringValueAsBytes());
-            if (str.Raw.Length > 2 && str.Raw[0] == 120 && str.Raw[1] == 156)
-                str.Encoding = null;
-            else
-                str.Encoding = Encoding.UTF8;
-
-            if (count) AddObject(str);
-            return str;
-        }
-
-        public string ReadStringValue()
-        {
-            int count = ReadInt32();
-            return Encoding.UTF8.GetString(m_reader.ReadBytes(count));
-        }
-
-        public byte[] ReadStringValueAsBytes()
-        {
-            int count = ReadInt32();
-            return m_reader.ReadBytes(count);
-        }
-
-        public int ReadInt32()
-        {
-            
-        }
-        */
     }
 }

@@ -14,7 +14,7 @@ namespace NekoKun.ObjectEditor
             foreach (var item in this)
             {
                 if (item.Key.ID == "@name")
-                    return (item.Value as string) ?? "";
+                    return (item.Value as string) ?? (item.Value is FuzzyData.FuzzyString ? (item.Value as FuzzyData.FuzzyString).Text : "");
             }
             return base.ToString();
         }

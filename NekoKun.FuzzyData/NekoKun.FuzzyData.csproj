@@ -39,8 +39,6 @@
     <Compile Include="FuzzyArray.cs" />
     <Compile Include="FuzzyBignum.cs" />
     <Compile Include="FuzzyClass.cs" />
-    <Compile Include="FuzzyExpendObject.cs" />
-    <Compile Include="FuzzyExtendedObject.cs" />
     <Compile Include="FuzzyFloat.cs" />
     <Compile Include="FuzzyHash.cs" />
     <Compile Include="FuzzyModule.cs" />

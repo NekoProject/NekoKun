@@ -15,6 +15,18 @@ namespace NekoKun.FuzzyData
             this.Options = Options;
             this.ClassName = FuzzySymbol.GetSymbol("Regexp");
         }
+
+        public override Encoding Encoding
+        {
+            get
+            {
+                return this.Pattern.Encoding;
+            }
+            set
+            {
+                this.Pattern.Encoding = value;
+            }
+        }
     }
 
     [Flags]

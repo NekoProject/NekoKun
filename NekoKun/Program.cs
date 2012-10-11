@@ -31,8 +31,8 @@ namespace NekoKun
             Core.CommandLineParser parser = new NekoKun.Core.CommandLineParser(typeof(Program.CommandLineEntries));
             if (args.Length == 0)
             {
-                //CommandLineEntries.Editor(null);
-                CommandLineEntries.ReMarshal(new string[] { @"c:\users\Yichen\abc" });
+                CommandLineEntries.Editor(null);
+                //CommandLineEntries.ReMarshal(new string[] { @"c:\users\Yichen\abc" });
             }
             else
                 parser.ParseAndExecute(args);

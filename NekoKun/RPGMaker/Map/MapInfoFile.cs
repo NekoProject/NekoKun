@@ -43,7 +43,7 @@ namespace NekoKun.RPGMaker
                 this.maps.Add(key, map);
 
                 FuzzyData.FuzzyObject info = item.Value as FuzzyData.FuzzyObject;
-                map.Title = (info.InstanceVariable["@name"] is FuzzyData.FuzzyExpendObject) ? ((FuzzyData.FuzzyExpendObject)info.InstanceVariable["@name"]) : (info.InstanceVariable["@name"] as string);
+                map.Title = (info.InstanceVariable["@name"] as FuzzyData.FuzzyString).Text;
                 map.ParentID = info.InstanceVariable["@parent_id"].ToString();
                 map.Order = (int)info.InstanceVariable["@order"];
                 /*

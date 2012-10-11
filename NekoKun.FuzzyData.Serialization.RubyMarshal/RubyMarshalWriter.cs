@@ -196,7 +196,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             this.WriteSymbol(obj.ClassName);
             this.WriteStringValue(obj.DumpedObject as byte[]);
         }
-
+        class FuzzyExpendObject : FuzzyObject { public object BaseObject;}
         private void WriteExpendObject(FuzzyExpendObject obj)
         {
             if (obj.BaseObject is FuzzySymbol || obj.BaseObject is FuzzyString || obj.BaseObject is FuzzyRegexp)
@@ -280,7 +280,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 this.WriteAnObject(item.Value);
             }
         }
-
+        class FuzzyExtendedObject : FuzzyObject { public object BaseObject; public FuzzyModule ExtendedModule;}
         private void WriteExtendedObject(FuzzyExtendedObject obj)
         {
             this.m_writer.Write((byte)0x65);

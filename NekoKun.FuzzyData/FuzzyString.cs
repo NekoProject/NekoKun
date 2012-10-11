@@ -4,8 +4,51 @@ using System.Text;
 
 namespace NekoKun.FuzzyData
 {
+    [System.Diagnostics.DebuggerTypeProxy(typeof(FuzzyStringDebugView))]
     public class FuzzyString : FuzzyObject
     {
+        internal class FuzzyStringDebugView
+        {
+            internal FuzzyString str;
+
+            public FuzzyStringDebugView(FuzzyString str)
+            {
+                this.str = str;
+            }
+
+            public string Text
+            {
+                get { return str.Text; }
+            }
+
+            public Encoding Encoding
+            {
+                get { return str.Encoding; }
+            }
+
+            public FuzzySymbol ClassName
+            {
+                get { return str.ClassName; }
+            }
+
+            [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)]
+            public KeyValuePair<FuzzySymbol, object>[] Keys
+            {
+                get
+                {
+                    KeyValuePair<FuzzySymbol, object>[] keys = new KeyValuePair<FuzzySymbol, object>[str.InstanceVariables.Count];
+
+                    int i = 0;
+                    foreach (KeyValuePair<FuzzySymbol, object> key in str.InstanceVariables)
+                    {
+                        keys[i] = key;
+                        i++;
+                    }
+                    return keys;
+                }
+            }
+        }
+
         protected byte[] raw = null;
         protected System.Text.Encoding encoding = null;
         protected string str = null;
@@ -34,6 +77,19 @@ namespace NekoKun.FuzzyData
             this.encoding = encoding;
             this.setByRaw = true;
             this.ClassName = FuzzySymbol.GetSymbol("String");
+        }
+
+        public FuzzyString ForceEncoding(Encoding encoding)
+        {
+            this.Encoding = encoding;
+            return this;
+        }
+
+        public FuzzyString Encode(Encoding encoding)
+        {
+            this.Text = this.Text;
+            this.Encoding = encoding;
+            return this;
         }
 
         public byte[] Raw

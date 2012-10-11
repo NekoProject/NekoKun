@@ -68,7 +68,7 @@ namespace NekoKun.RPGMaker
                 }
                 else
                 {
-                    var objl = obj as List<object>;
+                    var objl = obj as FuzzyData.FuzzyArray;
                     objl.RemoveAt(0);
                     this.contents = new List<object>(Array.ConvertAll<Object, ObjectEditor.Struct>(objl.ToArray(), LoadItem));
                 }
@@ -79,10 +79,6 @@ namespace NekoKun.RPGMaker
         {
             if (RubyObj is FuzzyData.FuzzyNil)
                 return new ObjectEditor.Struct();
-            if (RubyObj is FuzzyData.FuzzyExpendObject)
-                return LoadItem((RubyObj as FuzzyData.FuzzyExpendObject).BaseObject);
-            if (RubyObj is FuzzyData.FuzzyExtendedObject)
-                return LoadItem((RubyObj as FuzzyData.FuzzyExtendedObject).BaseObject);
 
             ObjectEditor.Struct dict = new NekoKun.ObjectEditor.Struct();
 
@@ -119,8 +115,7 @@ namespace NekoKun.RPGMaker
             object dump;
             if (this.ArrayMode)
             {
-                
-                var list = new List<object>();
+                var list = new FuzzyData.FuzzyArray();
                 list.Add(FuzzyData.FuzzyNil.Instance);
                 foreach (var item in this.contents as List<object>)
                 {

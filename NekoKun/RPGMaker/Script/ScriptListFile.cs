@@ -15,9 +15,9 @@ namespace NekoKun.RPGMaker
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                List<object> scripts = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(scriptFile) as List<object>;
+                FuzzyArray scripts = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(scriptFile) as FuzzyArray;
 
-                foreach (List<object> item in scripts)
+                foreach (FuzzyArray item in scripts)
                 {
                     string title;
                     byte[] bytes;
@@ -41,15 +41,8 @@ namespace NekoKun.RPGMaker
 						this.MakeDirty();
 					}
 
-                    if (item[1] is FuzzyData.FuzzyExpendObject)
-                        title = UnicodeStringFromUTF8Bytes((byte[])((FuzzyData.FuzzyExpendObject)item[1]).BaseObject);
-                    else
-                        title = UnicodeStringFromUTF8Bytes((byte[])item[1]);
-
-                    if (item[2] is FuzzyData.FuzzyExpendObject)
-                        bytes = (byte[])((FuzzyData.FuzzyExpendObject)item[2]).BaseObject;
-                    else
-                        bytes = (byte[])item[2];
+                    title = (item[1] as FuzzyString).ForceEncoding(Encoding.UTF8).Text;
+                    bytes = (item[2] as FuzzyString).Raw;
 
                     byte[] inflated = Ionic.Zlib.ZlibStream.UncompressBuffer(bytes);
                     string code = "";
@@ -86,33 +79,24 @@ namespace NekoKun.RPGMaker
 
         protected override void Save()
         {
-            List<object> rawFile = new List<object>();
+            FuzzyArray rawFile = new FuzzyArray();
             foreach (ScriptFile item in this.scripts)
             {
                 if (item.Editor != null)
                     item.Editor.Commit();
             }
 
-            FuzzyData.FuzzyExpendObject obj;
             foreach (ScriptFile item in this.scripts)
             {
-                List<object> rawItem = new List<object>();
+                FuzzyArray rawItem = new FuzzyArray();
                 rawItem.Add(item.ID);
-
-                obj = new FuzzyExpendObject();
-                obj.BaseObject = UTF8BytesFromUnicodeString(item.Title);
-                obj.InstanceVariables[FuzzySymbol.GetSymbol("E")] = true;
-                rawItem.Add(obj);
-
-                obj = new FuzzyExpendObject();
-                obj.BaseObject = Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code));
-                if (((byte[])obj.BaseObject).Length == 0)
+                rawItem.Add(new FuzzyString(item.Title).Encode(Encoding.UTF8));
+                byte[] code = Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code));
+                if (code.Length == 0)
                 {
-                    obj.BaseObject = new byte[] { 120, 156, 3, 0, 0, 0, 0, 1 };
+                    code = new byte[] { 120, 156, 3, 0, 0, 0, 0, 1 };
                 }
-                obj.InstanceVariables[FuzzySymbol.GetSymbol("E")] = true;
-                rawItem.Add(obj);
-
+                rawItem.Add(new FuzzyString(code));
                 rawFile.Add(rawItem);
             }
             System.IO.FileStream file = System.IO.File.OpenWrite(this.filename);

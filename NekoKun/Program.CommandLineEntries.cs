@@ -10,6 +10,8 @@ namespace NekoKun
         {
             internal static string ParseOneFile(string[] argf)
             {
+                if (argf == null)
+                    return null;
                 if (argf.Length == 1)
                 {
                     try

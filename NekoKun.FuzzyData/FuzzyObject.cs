@@ -3,9 +3,41 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace NekoKun.FuzzyData
-{
+{ 
+    [System.Diagnostics.DebuggerTypeProxy(typeof(FuzzyObjectDebugView))]
     public class FuzzyObject
     {
+        internal class FuzzyObjectDebugView
+        {
+            internal FuzzyObject obj;
+
+            public FuzzyObjectDebugView(FuzzyObject obj)
+            {
+                this.obj = obj;
+            }
+
+            public FuzzySymbol ClassName
+            {
+                get { return obj.ClassName; }
+            }
+
+            [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)]
+            public KeyValuePair<FuzzySymbol, object>[] Keys
+            {
+                get
+                {
+                    KeyValuePair<FuzzySymbol, object>[] keys = new KeyValuePair<FuzzySymbol, object>[obj.InstanceVariables.Count];
+
+                    int i = 0;
+                    foreach (KeyValuePair<FuzzySymbol, object> key in obj.InstanceVariables)
+                    {
+                        keys[i] = key;
+                        i++;
+                    }
+                    return keys;
+                }
+            }
+        }
         private FuzzySymbol className;
         private Dictionary<FuzzySymbol, object> variables;
         private FuzzyObjectInstanceVariableProxy variableproxy;

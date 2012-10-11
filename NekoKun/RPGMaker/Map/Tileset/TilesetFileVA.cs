@@ -15,16 +15,16 @@ namespace NekoKun.RPGMaker
         {
             List<System.Drawing.Image> images = new List<System.Drawing.Image>();
 
-            if (item["@tileset_names"] is List<object>)
-                foreach (object name in item["@tileset_names"] as List<object>)
+            if (item["@tileset_names"] is FuzzyData.FuzzyArray)
+                foreach (object name in item["@tileset_names"] as FuzzyData.FuzzyArray)
                 {
                     if (name is string)
                     {
                         images.Add(ResourceManager.Caches["Graphics/Tilesets"][name as string] as System.Drawing.Image);
                     }
-                    else if (name is FuzzyData.FuzzyExpendObject)
+                    else if (name is FuzzyData.FuzzyString)
                     {
-                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as FuzzyData.FuzzyExpendObject)] as System.Drawing.Image);
+                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as FuzzyData.FuzzyString).Text] as System.Drawing.Image);
                     }
                     else
                     {

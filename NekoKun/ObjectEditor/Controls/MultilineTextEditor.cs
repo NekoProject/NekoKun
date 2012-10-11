@@ -27,17 +27,25 @@ namespace NekoKun.ObjectEditor
             if (this.RequestCommit != null)
                 this.RequestCommit(this, null);
         }
+        protected object supp;
 
         public object SelectedItem
         {
             get
             {
-                return this.Text;
+                if (supp is FuzzyData.FuzzyString)
+                    return new FuzzyData.FuzzyString(this.Text).Encode((supp as FuzzyData.FuzzyString).Encoding);
+                else
+                    return this.Text;
             }
             set
             {
                 supply = true;
-                this.Text = value as string;
+                supp = value;
+                if (supp is FuzzyData.FuzzyString)
+                    this.Text = (value as FuzzyData.FuzzyString).Text;
+                else
+                    this.Text = value as string;
                 supply = false;
             }
         }
