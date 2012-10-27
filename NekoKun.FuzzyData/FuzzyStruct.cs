@@ -6,6 +6,10 @@ namespace NekoKun.FuzzyData
 {
     public class FuzzyStruct : FuzzyObject
     {
-        
+        public FuzzyStruct()
+            : base()
+        {
+            this.ClassName = FuzzySymbol.GetSymbol("Struct");
+        }
     }
 }

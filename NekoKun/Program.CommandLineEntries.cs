@@ -75,7 +75,7 @@ namespace NekoKun
                     {
                         mar = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(file);
                     }
-                    using (System.IO.FileStream file = new System.IO.FileStream(result + ".output", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
+                    using (System.IO.FileStream file = new System.IO.FileStream(result + ".output", System.IO.FileMode.Create, System.IO.FileAccess.Write))
                     {
                         NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(file, mar);
                     }

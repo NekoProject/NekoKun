@@ -257,12 +257,12 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             FuzzyObject fobj = obj as FuzzyObject;
             if (fobj != null)
             {
-                FuzzyClass klass = FuzzyClass.GetClass(fobj.ClassName);
+                FuzzyClass klass = fobj.Class;
                 WriteExtended(klass, true);
                 if (klass != super)
                 {
                     WriteByte(RubyMarshal.Types.UserClass);
-                    WriteUnique(klass.ClassName);
+                    WriteUnique(klass.Symbol);
                 }
             }
             else
@@ -303,7 +303,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             }
 
             WriteSymbol(RubyMarshal.IDs.encoding);
-            WriteObject(FuzzySymbol.GetSymbol(encidx.EncodingName));
+            WriteObject(FuzzySymbol.GetSymbol(encidx.BodyName));
             
         } 
 
@@ -487,14 +487,14 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 else if (obj is FuzzyString)
                 {
                     FuzzyString v = (FuzzyString) obj;
-                    WriteUserClass(obj, v.Class);
+                    WriteUserClass(obj, FuzzyClass.GetClass("String"));
                     WriteByte(RubyMarshal.Types.String);
                     WriteBytes(v.Raw);
                 }
                 else if (obj is FuzzyRegexp)
                 {
                     FuzzyRegexp v = (FuzzyRegexp) obj;
-                    WriteUserClass(obj, v.Class);
+                    WriteUserClass(obj, FuzzyClass.GetClass("Regexp"));
                     WriteByte(RubyMarshal.Types.Regexp);
                     WriteBytes(v.Pattern.Raw);
                     WriteByte((byte)v.Options);
@@ -502,7 +502,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 else if (obj is FuzzyArray)
                 {
                     FuzzyArray v = (FuzzyArray) obj;
-                    WriteUserClass(obj, v.Class);
+                    WriteUserClass(obj, FuzzyClass.GetClass("Array"));
                     WriteByte(RubyMarshal.Types.Array);
                     WriteLong(v.Length);
                     for (int i = 0; i < v.Count; i++)
@@ -511,7 +511,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 else if (obj is FuzzyHash)
                 {
                     FuzzyHash v = (FuzzyHash) obj;
-                    WriteUserClass(obj, v.Class);
+                    WriteUserClass(obj, FuzzyClass.GetClass("Hash"));
                     WriteByte(v.DefaultValue != null ? RubyMarshal.Types.HashWithDefault : RubyMarshal.Types.Hash);
                     WriteLong(v.Length);
                     foreach (KeyValuePair<object, object> item in v)
@@ -524,7 +524,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 else if (obj is FuzzyStruct)
                 {
                     FuzzyStruct v = (FuzzyStruct) obj;
-                    WriteUserClass(obj, v.Class);
+                    WriteUserClass(obj, FuzzyClass.GetClass("Struct"));
                     WriteLong(v.InstanceVariables.Count);
                     foreach (KeyValuePair<FuzzySymbol, object> item in v.InstanceVariables)
 	                {

@@ -97,7 +97,7 @@ namespace NekoKun.FuzzyData
             get {
                 if (this.setByRaw)
                     return this.raw;
-                else if (this.encoding != Encoding.Default)
+                else if (this.encoding !=  null)
                 {
                     this.setByText = false;
                     this.setByRaw = true;
