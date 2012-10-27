@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.FuzzyData
 {
-    public class RGSSTable : NekoKun.FuzzyData.Serialization.RubyMarshal.IRubyUserdefinedDumpObject
+    public class RGSSTable : FuzzyObject, NekoKun.FuzzyData.Serialization.RubyMarshal.IRubyUserdefinedDumpObject
     { 
         protected short[, ,] value;
         protected byte dimensions;
@@ -22,6 +22,8 @@ namespace NekoKun.FuzzyData
         {
             this.dimensions = dimensions;
             value = new short[xsize, ysize, zsize];
+        
+            this.ClassName = FuzzySymbol.GetSymbol("Table");
         }
 
         public int XSize
@@ -101,11 +103,5 @@ namespace NekoKun.FuzzyData
             w.Close();
             return s.ToArray();
         }
-
-        public string ClassName
-        {
-            get { return "Table"; }
-        }
-
     }
 }

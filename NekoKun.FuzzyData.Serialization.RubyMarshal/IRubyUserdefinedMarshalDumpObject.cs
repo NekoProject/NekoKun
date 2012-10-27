@@ -4,8 +4,8 @@ using System.Text;
 
 namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
-    public interface IRubyUserdefinedDumpObject
+    public interface IRubyUserdefinedMarshalDumpObject
     {
-        byte[] Dump();
+        object Dump();
     }
 }

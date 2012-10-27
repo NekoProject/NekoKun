@@ -48,6 +48,8 @@ namespace NekoKun.FuzzyData
 
         public IEqualityComparer<Object> Comparer { get { return dict.Comparer; } }
         public int Count { get { return dict.Count; } }
+        public int Size { get { return dict.Count; } }
+        public int Length { get { return dict.Count; } }
         public Dictionary<Object, Object>.KeyCollection Keys { get { return dict.Keys; } }
         public Dictionary<Object, Object>.ValueCollection Values { get { return dict.Values; } }
         public void Add(Object key, Object value) { dict.Add(key, value); }

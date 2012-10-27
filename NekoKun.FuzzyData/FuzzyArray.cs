@@ -60,6 +60,8 @@ namespace NekoKun.FuzzyData
         }
         public int Capacity { get { return list.Capacity; } set { list.Capacity = value; } }
         public int Count { get { return list.Count; } }
+        public int Size { get { return list.Count; } }
+        public int Length { get { return list.Count; } }
         public void Add(object item) { list.Add(item); }
         public void AddRange(IEnumerable<object> collection) { list.AddRange(collection); }
         public System.Collections.ObjectModel.ReadOnlyCollection<object> AsReadOnly() { return list.AsReadOnly(); }

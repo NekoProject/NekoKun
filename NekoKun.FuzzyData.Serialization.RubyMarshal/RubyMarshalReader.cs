@@ -157,7 +157,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             else if (id == RubyMarshal.IDs.E)
             {
                 if ((val is bool) && ((bool)val == false))
-                    return null;
+                    return Encoding.Default;
                 if ((val is bool) && ((bool)val == true))
                     return Encoding.UTF8;
             }
@@ -203,7 +203,17 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// <returns></returns>
         public FuzzyString ReadString()
         {
-            return new FuzzyString(ReadBytes());
+            byte[] raw = ReadBytes();
+            FuzzyString v = new FuzzyString(raw);
+            // TODO: detecting encoding
+            if ((raw.Length > 2) && (raw[0] == 120) && (raw[1] == 156))
+            {
+                v.Encoding = Encoding.Default;
+                // special treatment for zlib
+            }
+            else
+                v.Encoding = Encoding.UTF8;
+            return v;
         }
 
         /// <summary>
@@ -597,9 +607,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                         FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
                         v = obj;
                         if (extmod != null)
-                        {
                             AppendExtendedModule(obj, extmod);
-                        }
                         v = Entry(v);
                         object data = ReadObject();
                         obj.ClassName = klass;

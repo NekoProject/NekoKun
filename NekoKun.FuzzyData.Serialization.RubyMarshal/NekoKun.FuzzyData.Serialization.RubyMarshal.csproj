@@ -36,11 +36,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RubyUserdefinedDumpObject.cs" />
+    <Compile Include="RubyUserdefinedMarshalDumpObject.cs" />
     <Compile Include="IRubyUserdefinedDumpObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubyMarshal.cs" />
     <Compile Include="RubyMarshalReader.cs" />
     <Compile Include="RubyMarshalWriter.cs" />
+    <Compile Include="IRubyUserdefinedMarshalDumpObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NekoKun.FuzzyData\NekoKun.FuzzyData.csproj">

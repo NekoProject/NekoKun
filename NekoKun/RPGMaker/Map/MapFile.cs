@@ -74,7 +74,7 @@ namespace NekoKun.RPGMaker
 
             raw = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as FuzzyData.FuzzyObject;
             this.TilesetID = (int)raw.InstanceVariable["@tileset_id"] - 1;
-            var j = raw.InstanceVariable["@data"] as FuzzyData.FuzzyUserdefinedDumpObject;
+            var j = raw.InstanceVariable["@data"] as NekoKun.FuzzyData.Serialization.RubyMarshal.FuzzyUserdefinedDumpObject;
             data = new FuzzyData.RGSSTable(j.DumpedObject as byte[]);
             this.Size = new System.Drawing.Size((int)raw.InstanceVariable["@width"], (int)raw.InstanceVariable["@height"]);
 

@@ -18,6 +18,14 @@ namespace NekoKun
         [STAThread]
         public static void Main(string[] args)
         {
+            /*
+            using (var f = new System.IO.FileStream(@"c:\\a.txt", FileMode.Create))
+            {
+                var sym = FuzzyData.FuzzySymbol.GetSymbol("seiran7");
+                FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(f, sym);
+            }
+            return;
+            */
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
@@ -68,7 +76,8 @@ namespace NekoKun
                 System.Console.Error.WriteLine(new string('=', System.Console.WindowWidth - 1));
             }
             else
-                MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + str, "Unhandled Exception occured in NekoKun",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("休斯顿，我们遇到了一个问题……\n\n" + str, "Unhandled Exception occured in NekoKun",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                new Core.UnhandledExceptionDialog(ForceException(e)).ShowDialog();
         }
 
         public static void ShowError(string message)
@@ -89,10 +98,15 @@ namespace NekoKun
 
         public static string ExceptionMessage(Object e)
         {
-            if (e is Exception) return ExceptionMessage(e as Exception);
+            return ExceptionMessage(ForceException(e));
+        }
+
+        public static Exception ForceException(object e)
+        {
+            if (e is Exception) return (Exception) e;
             Exception myE = new Exception(e.ToString());
             myE.Data.Add("exception object", e);
-            return ExceptionMessage(myE);
+            return myE;
         }
 
         public static LogFile Logger = new LogFile();

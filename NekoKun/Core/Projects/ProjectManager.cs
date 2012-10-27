@@ -75,7 +75,8 @@ namespace NekoKun
             {
                 Clean();
                 Program.Logger.Log(Program.ExceptionMessage(e));
-                throw e;
+                CannotOpenProjectException j = new CannotOpenProjectException(string.Format("Error when opening {0}", file), e);
+                throw j;
             }
         }
 
@@ -95,5 +96,24 @@ namespace NekoKun
 
             return System.IO.Path.Combine(dir, "Game.nkproj");
         }
+    }
+
+    [global::System.Serializable]
+    public class CannotOpenProjectException : Exception
+    {
+        //
+        // For guidelines regarding the creation of new exception types, see
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
+        // and
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
+        //
+
+        public CannotOpenProjectException() { }
+        public CannotOpenProjectException(string message) : base(message) { }
+        public CannotOpenProjectException(string message, Exception inner) : base(message, inner) { }
+        protected CannotOpenProjectException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }

@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
-    public class FuzzyUserdefinedDumpObject : FuzzyObject
+    public class FuzzyUserdefinedDumpObject : FuzzyObject, IRubyUserdefinedDumpObject
     {
-        private object dumpedObject;
+        private byte[] dumpedObject;
 
         public override string ToString()
         {
             return "#<" + this.ClassName.ToString() + ", dumped object: " + this.dumpedObject.ToString() + ">";
         }
 
-        public object DumpedObject
+        public byte[] DumpedObject
         {
             get { return dumpedObject; }
             set { dumpedObject = value; }
+        }
+
+        public byte[] Dump()
+        {
+            return this.dumpedObject;
         }
     }
 }

@@ -48,8 +48,6 @@
     <Compile Include="FuzzyString.cs" />
     <Compile Include="FuzzyStruct.cs" />
     <Compile Include="FuzzySymbol.cs" />
-    <Compile Include="FuzzyUserdefinedDumpObject.cs" />
-    <Compile Include="FuzzyUserdefinedMarshalDumpObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

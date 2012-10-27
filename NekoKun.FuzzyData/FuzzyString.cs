@@ -66,7 +66,7 @@ namespace NekoKun.FuzzyData
         public FuzzyString(byte[] raw)
         {
             this.raw = raw;
-            this.encoding = null;
+            this.encoding = Encoding.Default;
             this.setByRaw = true;
             this.ClassName = FuzzySymbol.GetSymbol("String");
         }
@@ -97,7 +97,7 @@ namespace NekoKun.FuzzyData
             get {
                 if (this.setByRaw)
                     return this.raw;
-                else if (this.encoding != null)
+                else if (this.encoding != Encoding.Default)
                 {
                     this.setByText = false;
                     this.setByRaw = true;
@@ -120,7 +120,7 @@ namespace NekoKun.FuzzyData
             {
                 if (this.setByText)
                     return this.str;
-                else if (this.encoding != null)
+                else if (this.encoding != Encoding.Default)
                 {
                     this.setByRaw = false;
                     this.setByText = true;

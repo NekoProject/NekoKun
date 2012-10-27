@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 {
-    public class FuzzyUserdefinedMarshalDumpObject : FuzzyObject
+    public class FuzzyUserdefinedMarshalDumpObject : FuzzyObject, IRubyUserdefinedMarshalDumpObject
     {
         private object dumpedObject;
 
@@ -17,6 +17,11 @@ namespace NekoKun.FuzzyData
         {
             get { return dumpedObject; }
             set { dumpedObject = value; }
+        }
+
+        public object Dump()
+        {
+            return this.dumpedObject;
         }
     }
 }

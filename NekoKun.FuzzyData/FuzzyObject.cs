@@ -50,8 +50,13 @@ namespace NekoKun.FuzzyData
 
         public virtual FuzzySymbol ClassName
         {
-            get { return this.className; }
+            get { return this.className ?? (this.className = FuzzySymbol.GetSymbol("Object")); }
             set { this.className = value; }
+        }
+
+        public FuzzyClass Class
+        {
+            get { return FuzzyClass.GetClass(this.ClassName); }
         }
 
         public Dictionary<FuzzySymbol, object> InstanceVariables
