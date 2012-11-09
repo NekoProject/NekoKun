@@ -6,10 +6,10 @@ namespace NekoKun.ObjectEditor
 {
     public class ObjectFileEditor : AbstractEditor
     {
-        public ObjectFileEditor(ObjectFile file, IObjectEditor editor)
+        public ObjectFileEditor(ObjectFile file, AbstractObjectEditor editor)
             : base(file)
         {
-            System.Windows.Forms.Control ed = editor as System.Windows.Forms.Control;
+            System.Windows.Forms.Control ed = editor.Control;
             ed.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Controls.Add(ed);
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+/*
 namespace NekoKun.RPGMaker
 {
     public class EventCommandListbox : UI.LynnListbox, IObjectEditor
@@ -171,3 +171,4 @@ namespace NekoKun.RPGMaker
         public void Commit() { }
     }
 }
+*/

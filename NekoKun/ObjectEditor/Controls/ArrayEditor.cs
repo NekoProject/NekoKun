@@ -5,34 +5,34 @@ using System.Runtime.InteropServices;
 
 namespace NekoKun.ObjectEditor
 {
-    public class ArrayEditor : System.Windows.Forms.SplitContainer, IObjectEditor, IClipboardHandler, IDeleteHandler
+    public class ArrayEditor : AbstractObjectEditor, IClipboardHandler, IDeleteHandler
     {
-        object orig;
+        System.Windows.Forms.SplitContainer split = new System.Windows.Forms.SplitContainer();
         System.Windows.Forms.ListBox list;
-        System.Windows.Forms.Control con;
+        AbstractObjectEditor con;
         System.Windows.Forms.NumericUpDown menuResizeTextbox;
         System.Windows.Forms.ToolStripMenuItem menuResize;
-        public ArrayEditor(IObjectEditor Con)
-        {
-            if(this.RequestCommit != null) this.RequestCommit.ToString();
 
-            con = Con as System.Windows.Forms.Control;
-            this.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1MinSize = 100;
-            this.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.SplitterDistance = 150;
+        public ArrayEditor(AbstractObjectEditor Con)
+            : base(null)
+        {
+            con = Con;
+            split.Dock = System.Windows.Forms.DockStyle.Fill;
+            split.Panel1MinSize = 100;
+            split.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            split.SplitterDistance = 150;
             list = new ArrayListbox();
             list.Dock = System.Windows.Forms.DockStyle.Fill;
             list.SelectedIndexChanged += new EventHandler(list_SelectedIndexChanged);
-            this.Panel1.Controls.Add(list);
-            con.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel2.Controls.Add(con);
+            split.Panel1.Controls.Add(list);
+            con.Control.Dock = System.Windows.Forms.DockStyle.Fill;
+            split.Panel2.Controls.Add(con.Control);
 
             Con.DirtyChanged += new EventHandler(Con_DirtyChanged);
             menuResizeTextbox = new System.Windows.Forms.NumericUpDown();
             menuResize = new System.Windows.Forms.ToolStripMenuItem();
             menuResize.Text = "更改最大值(&M)";
-            menuResizeTextbox.Font = this.Font;
+            menuResizeTextbox.Font = split.Font;
             menuResizeTextbox.UpDownAlign = System.Windows.Forms.LeftRightAlignment.Left;
             menuResizeTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             menuResizeTextbox.Cursor = System.Windows.Forms.Cursors.Default;
@@ -72,8 +72,7 @@ namespace NekoKun.ObjectEditor
                 {
                     this.list.Items.Add(this.CreateDefaultObject());
                 }
-                if (this.DirtyChanged != null)
-                    this.DirtyChanged(this, null);
+                MakeDirty();
             }
             else if (newsize < this.list.Items.Count)
             {
@@ -82,8 +81,7 @@ namespace NekoKun.ObjectEditor
                 {
                     this.list.Items.RemoveAt(newsize);
                 }
-                if (this.DirtyChanged != null)
-                    this.DirtyChanged(this, null);
+                MakeDirty();
             }
         }
 
@@ -91,50 +89,38 @@ namespace NekoKun.ObjectEditor
 
         void Con_DirtyChanged(object sender, EventArgs e)
         {
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(sender, e);
+            MakeDirty();
         }
+
+        int lastIndex = -1;
 
         void list_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (con != null)
-                (con as IObjectEditor).SelectedItem = list.SelectedItem;
-        }
-
-        public void Commit()
-        {
-            (con as IObjectEditor).Commit();
-        }
-
-        public object SelectedItem
-        {
-            get
+            if (lastIndex >= 0)
             {
-                object[] ret = new object[this.list.Items.Count];
-                this.list.Items.CopyTo(ret, 0);
-                if (orig is List<object>)   
-                    return new List<object>(ret);
-                return ret;
+                int id = lastIndex;
+                lastIndex = -1;
+                try
+                {
+                    list.Items[id] = con.SelectedItem;
+                }
+                catch { }
             }
-            set
-            {
-                orig = value;
-                this.list.Items.Clear();
-                if (orig is List<object>)
-                    foreach (var item in (orig as System.Collections.IEnumerable))
-	                {
-                        this.list.Items.Add(item);
-	                }
-                else
-                    this.list.Items.AddRange(orig as object[]);
 
-                this.list.SelectedIndex = 0;
-            }
+            lastIndex = list.SelectedIndex;
+            if (list.SelectedItem != null)
+                con.SelectedItem = list.SelectedItem;
         }
 
-        public event EventHandler DirtyChanged;
-
-        public event EventHandler RequestCommit;
+        public override void Commit()
+        {
+            object[] ret = new object[this.list.Items.Count];
+            this.list.Items.CopyTo(ret, 0);
+            if (selectedItem is List<object>)
+                selectedItem = new List<object>(ret);
+            else
+                selectedItem = ret;
+        }
 
         public class ArrayListbox : UI.LynnListbox
         {
@@ -165,8 +151,7 @@ namespace NekoKun.ObjectEditor
         public void Cut()
         {
             Copy(); Delete();
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(this, null);
+            MakeDirty();
         }
 
         public void Copy()
@@ -174,8 +159,6 @@ namespace NekoKun.ObjectEditor
             System.Windows.Forms.DataObject db = new System.Windows.Forms.DataObject();
             db.SetData(this.ClipboardFormat, this.DumpObject(this.list.SelectedItem));
             System.Windows.Forms.Clipboard.SetDataObject(db, true, 5, 100);
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(this, null);
         }
 
         public void Paste()
@@ -194,10 +177,10 @@ namespace NekoKun.ObjectEditor
                 buffer = data as byte[];
             }
             else { return; }
+            this.lastIndex = -1;
             this.list.Items[this.list.SelectedIndex] = this.LoadObject(buffer);
-            (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(this, null);
+            con.SelectedItem = this.list.Items[this.list.SelectedIndex];
+            MakeDirty();
         }
 
         public bool CanDelete
@@ -207,10 +190,10 @@ namespace NekoKun.ObjectEditor
 
         public void Delete()
         {
+            this.lastIndex = -1;
             this.list.Items[this.list.SelectedIndex] = this.CreateDefaultObject();
-            (con as IObjectEditor).SelectedItem = this.list.Items[this.list.SelectedIndex];
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(this, null);
+            con.SelectedItem = this.list.Items[this.list.SelectedIndex];
+            MakeDirty();
         }
 
         public CreateDefaultObjectDelegate CreateDefaultObject;
@@ -221,5 +204,25 @@ namespace NekoKun.ObjectEditor
         public delegate object CreateDefaultObjectDelegate();
         public delegate byte[] DumpObjectDelegate(object obj);
         public delegate object LoadObjectDelegate(byte[] obj);
+
+        protected override void InitControl()
+        {
+            this.list.Items.Clear();
+            if (selectedItem is List<object>)
+                foreach (var item in (selectedItem as System.Collections.IEnumerable))
+                {
+                    this.list.Items.Add(item);
+                }
+            else
+                this.list.Items.AddRange(selectedItem as object[]);
+
+            lastIndex = -1;
+            this.list.SelectedIndex = 0;
+        }
+
+        public override System.Windows.Forms.Control Control
+        {
+            get { return this.split; }
+        }
     }
 }

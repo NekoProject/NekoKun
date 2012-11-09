@@ -29,6 +29,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             DockPane ActiveDocumentPane { get; }
         }
 
+        [System.Diagnostics.DebuggerNonUserCode]
         private class FocusManagerImpl : Component, IContentFocusManager, IFocusManager
         {
             private class HookEventArgs : EventArgs

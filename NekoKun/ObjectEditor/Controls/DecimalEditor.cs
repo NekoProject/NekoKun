@@ -4,54 +4,37 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class DecimalEditor : UI.LynnNumericUpDown, IObjectEditor
+    public class DecimalEditor : AbstractObjectEditor
     {
-        protected decimal orig;
-        protected object ori;
+        System.Windows.Forms.NumericUpDown control;
 
         public DecimalEditor(Dictionary<string, object> Params)
+            : base(Params)
         {
-            if (DirtyChanged != null) DirtyChanged.ToString();
-
-            this.Maximum = int.MaxValue;
-            this.Minimum = int.MinValue;
-            this.ValueChanged += new EventHandler(DecimalEditor_ValueChanged);
+            control = new NekoKun.UI.LynnNumericUpDown();
+            control.ValueChanged += new EventHandler(control_ModifiedChanged);
         }
 
-        void DecimalEditor_ValueChanged(object sender, EventArgs e)
+        void control_ModifiedChanged(object sender, EventArgs e)
         {
-            this.Commit();
+            MakeDirty();
         }
 
-        public void Commit()
+        public override void Commit()
         {
-            if (this.RequestCommit != null && orig != this.Value)
-                this.RequestCommit(this, null);
+            this.selectedItem = Convert.ChangeType(control.Value, selectedItem.GetType());
         }
 
-        public object SelectedItem
+        protected override void InitControl()
         {
-            get
-            {
-                if (ori == null)
-                    return (Int32)this.Value;
-                return Convert.ChangeType(this.Value, ori.GetType());
-            }
-            set
-            {
-                this.orig = this.Value;
-                this.ori = value;
-                this.Value = Convert.ToDecimal(value ?? 0);
-            }
+            control.ValueChanged -= new EventHandler(control_ModifiedChanged);
+            control.Value = Convert.ToDecimal(selectedItem);
+            control.ValueChanged += new EventHandler(control_ModifiedChanged);
         }
 
-        public event EventHandler RequestCommit;
-
-        #region IObjectEditor 成员
-
-
-        public event EventHandler DirtyChanged;
-
-        #endregion
+        public override System.Windows.Forms.Control Control
+        {
+            get { return control; }
+        }
     }
 }

@@ -4,100 +4,37 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class MultilineTextEditor: UI.LynnTextbox, IObjectEditor, IUndoHandler, IClipboardHandler, ISelectAllHandler, IDeleteHandler
+    public class MultilineTextEditor : AbstractObjectEditor
     {
-        protected bool supply;
+        System.Windows.Forms.TextBox control;
 
         public MultilineTextEditor(Dictionary<string, object> Params)
+            : base(Params)
         {
-            this.Multiline = true;
-            this.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ContextMenuStrip = new EditContextMenuStrip(this);
-            this.TextChanged += new EventHandler(MultilineTextEditor_TextChanged);
-            if (DirtyChanged != null) DirtyChanged.ToString();
+            control = new NekoKun.UI.LynnTextbox();
+            control.Multiline = true;
+            control.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            control.ModifiedChanged += new EventHandler(control_ModifiedChanged);
         }
 
-        void MultilineTextEditor_TextChanged(object sender, EventArgs e)
+        void control_ModifiedChanged(object sender, EventArgs e)
         {
-            if (!supply) this.Commit();
+            MakeDirty();
         }
 
-        public void Commit()
+        public override void Commit()
         {
-            if (this.RequestCommit != null)
-                this.RequestCommit(this, null);
-        }
-        protected object supp;
-
-        public object SelectedItem
-        {
-            get
-            {
-                if (supp is FuzzyData.FuzzyString)
-                    return new FuzzyData.FuzzyString(this.Text).Encode((supp as FuzzyData.FuzzyString).Encoding);
-                else
-                    return this.Text;
-            }
-            set
-            {
-                supply = true;
-                supp = value;
-                if (supp is FuzzyData.FuzzyString)
-                    this.Text = (value as FuzzyData.FuzzyString).Text;
-                else
-                    this.Text = value as string;
-                supply = false;
-            }
+            this.selectedItem = new FuzzyData.FuzzyString(control.Text);
         }
 
-        public event EventHandler RequestCommit;
-
-        #region IObjectEditor 成员
-
-
-        public event EventHandler DirtyChanged;
-
-        #endregion
-
-        public bool CanRedo
+        protected override void InitControl()
         {
-            get { return false; }
+            control.Text = (selectedItem as FuzzyData.FuzzyString).Text;
         }
 
-        public void Redo()
+        public override System.Windows.Forms.Control Control
         {
-            throw new NotImplementedException();
+            get { return control; }
         }
-
-        public bool CanCut
-        {
-            get { return !this.ReadOnly && this.SelectionLength != 0; }
-        }
-
-        public bool CanCopy
-        {
-            get { return this.SelectionLength != 0; }
-        }
-
-        public bool CanPaste
-        {
-            get { return !this.ReadOnly && System.Windows.Forms.Clipboard.ContainsText(); }
-        }
-
-        public bool CanSelectAll
-        {
-            get { return !(this.SelectionStart == 0 && this.SelectionLength == this.Text.Length) && this.Text.Length > 0; }
-        }
-
-        public bool CanDelete
-        {
-            get { return !this.ReadOnly && this.Text.Length > 0; }
-        }
-
-        public void Delete()
-        {
-            this.Text = "";
-        }
-
     }
 }

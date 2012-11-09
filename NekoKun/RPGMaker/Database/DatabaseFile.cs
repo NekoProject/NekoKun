@@ -165,7 +165,7 @@ namespace NekoKun.RPGMaker
                 {
                     var ms = new System.IO.MemoryStream(item);
                     ms.Seek(4, System.IO.SeekOrigin.Begin);
-                    return LoadItem((NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms) as List<object>)[0]);
+                    return LoadItem((NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms) as FuzzyData.FuzzyArray)[0]);
                 };
                 array.DumpObject = (item) =>
                 {
@@ -174,7 +174,7 @@ namespace NekoKun.RPGMaker
                     ms.WriteByte(0);
                     ms.WriteByte(0);
                     ms.WriteByte(0);
-                    NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(ms, new List<object>() { this.CreateRubyObject(this.className, item as ObjectEditor.Struct) });
+                    NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(ms, new FuzzyData.FuzzyArray(new List<object>() { this.CreateRubyObject(this.className, item as ObjectEditor.Struct) }));
                     ms.Seek(0, System.IO.SeekOrigin.Begin);
                     System.IO.BinaryWriter bw = new System.IO.BinaryWriter(ms);
                     bw.Write((int)ms.Length - 4);

@@ -6,12 +6,13 @@ using System.Drawing;
 
 namespace NekoKun.ObjectEditor
 {
-    public class StructEditor : UI.LynnTabControl, IObjectEditor
+    public class StructEditor : AbstractObjectEditor
     {
         protected List<View> views;
-        protected Struct selectedItem;
+        protected new Struct selectedItem;
         protected Dictionary<string, StructField> fields;
-        public StructEditor(Dictionary<string, object> Params, StructField[] fields)
+        protected UI.LynnTabControl tab = new NekoKun.UI.LynnTabControl();
+        public StructEditor(Dictionary<string, object> Params, StructField[] fields): base(null)
         {
             this.fields = new Dictionary<string, StructField>();
             foreach (var field in fields)
@@ -36,20 +37,20 @@ namespace NekoKun.ObjectEditor
                 }
             }
 
-            this.TabPages.Clear();
+            tab.TabPages.Clear();
             foreach (View view in views)
             {
                 var page = new System.Windows.Forms.TabPage(view.Name);
                 page.BackColor = Color.Transparent;
                 page.Padding = new System.Windows.Forms.Padding(5);
-                this.TabPages.Add(page);
+                tab.TabPages.Add(page);
             }
-            if (this.TabCount > 1)
+            if (tab.TabCount > 1)
             {
-                this.SelectedIndex = 1;
+                tab.SelectedIndex = 1;
             }
-            this.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Deselecting);
-            this.Selected += new System.Windows.Forms.TabControlEventHandler(StructEditor_Selected);
+            tab.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(StructEditor_Deselecting);
+            tab.Selected += new System.Windows.Forms.TabControlEventHandler(StructEditor_Selected);
 
         }
 
@@ -60,7 +61,7 @@ namespace NekoKun.ObjectEditor
 
         void StructEditor_Selected(object sender, System.Windows.Forms.TabControlEventArgs e)
         {
-            UpdateView(this.views[this.SelectedIndex]);
+            UpdateView(this.views[tab.SelectedIndex]);
         }
 
         void UpdateView(View view)
@@ -81,17 +82,14 @@ namespace NekoKun.ObjectEditor
                         new CreateControlDelegate(CreateControl)
                     ) as IStructEditorLayout;
                 }
-                this.TabPages[this.views.IndexOf(view)].Controls.Add(view.Layout as System.Windows.Forms.Control);
+                tab.TabPages[this.views.IndexOf(view)].Controls.Add(view.Layout as System.Windows.Forms.Control);
                 view.IsFresh = false;
             }
             if (view.IsFresh == false)
             {
                 foreach (var item in view.Editors)
                 {
-                    var editor = item.Value;
-                    editor.RequestCommit -= new EventHandler(editor_RequestCommit);
-                    editor.SelectedItem = this.selectedItem[view.EditorsR[item.Value]];
-                    editor.RequestCommit += new EventHandler(editor_RequestCommit);
+                    item.Value.SelectedItem = this.selectedItem[view.EditorsR[item.Value]];
                 }
                 view.IsFresh = true;
             }
@@ -101,16 +99,15 @@ namespace NekoKun.ObjectEditor
         {
             if (node.Name == "Control")
             {
-                IObjectEditor editor = Program.CreateInstanceFromTypeName(
+                AbstractObjectEditor editor = Program.CreateInstanceFromTypeName(
                     node.Attributes["Editor"].Value,
                     Program.BuildParameterDictionary(node)
-                ) as IObjectEditor;
-                editor.RequestCommit += new EventHandler(editor_RequestCommit);
+                ) as AbstractObjectEditor;
                 editor.DirtyChanged += new EventHandler(editor_DirtyChanged);
                 StructField item = this.fields[node.Attributes["ID"].Value];
-                this.views[this.SelectedIndex].Editors.Add(item, editor);
-                this.views[this.SelectedIndex].EditorsR.Add(editor, item);
-                return editor as System.Windows.Forms.Control;
+                this.views[tab.SelectedIndex].Editors.Add(item, editor);
+                this.views[tab.SelectedIndex].EditorsR.Add(editor, item);
+                return editor.Control;
             }
             else if (node.Name == "Layout")
             {
@@ -124,66 +121,26 @@ namespace NekoKun.ObjectEditor
             return null;
         }
 
-        void editor_RequestCommit(object sender, EventArgs e)
+        public override void Commit()
         {
-            IObjectEditor editor = sender as IObjectEditor;
-            var l1 = this.selectedItem[this.views[this.SelectedIndex].EditorsR[sender as IObjectEditor]];
-            var l2 = editor.SelectedItem;
-
-            if ((l1 ==null && l2 != null) || ((l1 as IComparable == null || l1.GetType() == l2.GetType()) ? !l1.Equals(l2) : (l1 as IComparable).CompareTo(l2) != 0))
+            foreach (var item in this.views[tab.SelectedIndex].Editors)
             {
-                if (this.DirtyChanged != null)
-                    this.DirtyChanged(sender, null);
-                this.selectedItem[this.views[this.SelectedIndex].EditorsR[sender as IObjectEditor]] = editor.SelectedItem;
+                item.Value.Commit();
+                this.selectedItem[this.views[tab.SelectedIndex].EditorsR[item.Value]] = item.Value.SelectedItem;
             }
 
             foreach (var view in this.views)
             {
-                if (view != this.views[this.SelectedIndex])
+                if (view != this.views[tab.SelectedIndex])
                     view.IsFresh = false;
             }
-        }
 
-        public void Commit()
-        {
-            foreach (var item in this.views[this.SelectedIndex].Editors)
-            {
-                item.Value.Commit();
-            }
         }
 
         void editor_DirtyChanged(object sender, EventArgs e)
         {
-            if (this.DirtyChanged != null)
-                this.DirtyChanged(sender, null);
+            MakeDirty();
         }
-
-
-        public object SelectedItem
-        {
-            get{
-                return this.selectedItem;
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                if (this.selectedItem != null)
-                {
-                    this.Commit();
-                }
-                this.selectedItem = value as Struct;
-                foreach (var view in this.views)
-                {
-                    view.IsFresh = false;
-                }
-                UpdateView(this.views[this.SelectedIndex]);
-            }
-        }
-
-        public event EventHandler DirtyChanged;
-
-        public event EventHandler RequestCommit;
 
         protected class View
         {
@@ -192,8 +149,23 @@ namespace NekoKun.ObjectEditor
             public bool IsFresh;
             public System.Xml.XmlNode LayoutInfo;
             public IStructEditorLayout Layout;
-            public Dictionary<StructField, IObjectEditor> Editors = new Dictionary<StructField,IObjectEditor>();
-            public Dictionary<IObjectEditor, StructField> EditorsR = new Dictionary<IObjectEditor,StructField>();
+            public Dictionary<StructField, AbstractObjectEditor> Editors = new Dictionary<StructField, AbstractObjectEditor>();
+            public Dictionary<AbstractObjectEditor, StructField> EditorsR = new Dictionary<AbstractObjectEditor, StructField>();
+        }
+
+        protected override void InitControl()
+        {
+            this.selectedItem = (Struct)base.selectedItem;
+            foreach (var view in this.views)
+            {
+                view.IsFresh = false;
+            }
+            UpdateView(this.views[tab.SelectedIndex]);
+        }
+
+        public override Control Control
+        {
+            get { return this.tab; }
         }
     }
 }

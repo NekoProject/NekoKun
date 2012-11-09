@@ -3568,7 +3568,7 @@ namespace ScintillaNET
 
 
         /// <summary>
-        ///     Occurs when the value of the <see cref="Modified"> property has changed.
+        ///     Occurs when the value of the <see cref="Modified" /> property has changed.
         /// </summary>
         [Category("Property Changed"), Description("Occurs when the value of the Modified property changes.")]
         public event EventHandler ModifiedChanged

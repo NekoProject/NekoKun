@@ -61,6 +61,7 @@ namespace NekoKun.FuzzyData
             this.str = unicodeText;
             this.setByText = true;
             this.ClassName = FuzzySymbol.GetSymbol("String");
+            this.Encoding = Encoding.UTF8;
         }
 
         public FuzzyString(byte[] raw)

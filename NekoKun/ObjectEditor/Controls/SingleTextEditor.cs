@@ -4,99 +4,41 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class SingleTextEditor: UI.LynnTextbox, IObjectEditor, IUndoHandler, IClipboardHandler, ISelectAllHandler, IDeleteHandler
+    public class SingleTextEditor : AbstractObjectEditor
     {
-        protected bool supply;
-        
+        System.Windows.Forms.TextBox control;
+
         public SingleTextEditor(Dictionary<string, object> Params)
+            : base(Params)
         {
-            this.ContextMenuStrip = new EditContextMenuStrip(this);
-            this.TextChanged += new EventHandler(SingleTextEditor_TextChanged);
-            if (DirtyChanged != null) DirtyChanged.ToString();
+            control = new NekoKun.UI.LynnTextbox();
+            control.ModifiedChanged += new EventHandler(control_ModifiedChanged);
         }
 
-        void SingleTextEditor_TextChanged(object sender, EventArgs e)
+        void control_ModifiedChanged(object sender, EventArgs e)
         {
-            if (!supply) this.Commit();
+            MakeDirty();
         }
 
-        public void Commit()
+        public override void Commit()
         {
-            if (this.RequestCommit != null)
-                this.RequestCommit(this, null);
+            if (selectedItem is FuzzyData.FuzzyString)
+                this.selectedItem = new FuzzyData.FuzzyString(control.Text);
+            else if (selectedItem is string)
+                this.selectedItem = control.Text;
         }
 
-        protected object supp;
-        
-        public object SelectedItem
+        protected override void InitControl()
         {
-            get
-            {
-                if (supp is FuzzyData.FuzzyString)
-                    return new FuzzyData.FuzzyString(this.Text).Encode((supp as FuzzyData.FuzzyString).Encoding);
-                else
-                    return this.Text;
-            }
-            set
-            {
-                supply = true;
-                supp = value;
-                if (supp is FuzzyData.FuzzyString)
-                    this.Text = (value as FuzzyData.FuzzyString).Text;
-                else
-                    this.Text = value as string;
-                supply = false;
-            }
+            if (selectedItem is FuzzyData.FuzzyString)
+                control.Text = (selectedItem as FuzzyData.FuzzyString).Text;
+            else if (selectedItem is string)
+                control.Text = selectedItem as string;
         }
 
-        public event EventHandler RequestCommit;
-
-        #region IObjectEditor 成员
-
-
-        public event EventHandler DirtyChanged;
-
-        #endregion
-
-        public bool CanRedo
+        public override System.Windows.Forms.Control Control
         {
-            get { return false; }
+            get { return control; }
         }
-
-        public void Redo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanCut
-        {
-            get { return !this.ReadOnly && this.SelectionLength != 0; }
-        }
-
-        public bool CanCopy
-        {
-            get { return this.SelectionLength != 0; }
-        }
-
-        public bool CanPaste
-        {
-            get { return !this.ReadOnly && System.Windows.Forms.Clipboard.ContainsText(); }
-        }
-
-        public bool CanSelectAll
-        {
-            get { return !(this.SelectionStart == 0 && this.SelectionLength == this.Text.Length) && this.Text.Length > 0; }
-        }
-
-        public bool CanDelete
-        {
-            get { return !this.ReadOnly && this.Text.Length > 0; }
-        }
-
-        public void Delete()
-        {
-            this.Text = "";
-        }
-
     }
 }

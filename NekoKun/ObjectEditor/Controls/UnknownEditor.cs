@@ -4,40 +4,24 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class UnknownEditor : UI.LynnLabel, IObjectEditor
+    public class UnknownEditor : AbstractObjectEditor
     {
-        private Object obj;
+        System.Windows.Forms.Label control;
+
         public UnknownEditor(Dictionary<string, object> Params)
+            : base(Params)
         {
-            if (RequestCommit != null) RequestCommit.ToString();
-            if (DirtyChanged != null) DirtyChanged.ToString();
+            control = new System.Windows.Forms.Label();
         }
 
-        public void Commit()
+        protected override void InitControl()
         {
-
+            control.Text = selectedItem.ToString();
         }
 
-        public object SelectedItem
+        public override System.Windows.Forms.Control Control
         {
-            get
-            {
-                return this.obj;
-            }
-            set
-            {
-                this.obj = value;
-                this.Text = (value ?? "").ToString();
-            }
+            get { return control; }
         }
-
-        public event EventHandler RequestCommit;
-
-        #region IObjectEditor 成员
-
-
-        public event EventHandler DirtyChanged;
-
-        #endregion
     }
 }

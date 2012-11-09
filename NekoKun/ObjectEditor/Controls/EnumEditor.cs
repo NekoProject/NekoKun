@@ -4,80 +4,67 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class EnumEditor : UI.LynnCombobox, IObjectEditor
+    public class EnumEditor : AbstractObjectEditor
     {
-        protected string orig;
-        protected object ori;
         protected Enum enu;
+        protected System.Windows.Forms.ComboBox control;
 
-        public EnumEditor(Dictionary<string, object> Params)
+        public EnumEditor(Dictionary<string, object> Params) : base(Params)
         {
-            if (DirtyChanged != null) DirtyChanged.ToString();
-
             this.enu = (ProjectManager.Components["Enums"] as EnumProvider).Enums[Params["Source"] as string];
-
-            this.Items.AddRange(this.enu.GetKeys());
-
-            this.DropDownHeight = this.ItemHeight * 20;
-            this.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-
-            this.SelectedIndexChanged += new EventHandler(EnumEditor_SelectedIndexChanged);
+            control = new EnumCombobox(enu);
+            control.Items.AddRange(this.enu.GetKeys());
+            control.DropDownHeight = control.ItemHeight * 20;
+            control.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            control.SelectedIndexChanged += new EventHandler(EnumEditor_SelectedIndexChanged);
         }
 
         void EnumEditor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Commit();
+            this.MakeDirty();
         }
 
-        public void Commit()
+        private class EnumCombobox : UI.LynnCombobox
         {
-            if (this.RequestCommit != null && orig != (base.SelectedItem as string))
-                this.RequestCommit(this, null);
-        }
+            private Enum enu;
 
-        protected override string GetString(int id)
-        {
-            return this.enu[this.Items[id] as string];
-        }
-
-        public new object SelectedItem
-        {
-            get
+            public EnumCombobox(Enum enu)
             {
-                if (ori == null)
-                {
-                    int result;
-                    if (Int32.TryParse(base.SelectedItem == null ? "" : base.SelectedItem as string, out result))
-                    {
-                        return result;
-                    }
-                    else
-                    {
-                        return base.SelectedItem as string;
-                    }
-                }
-                if (ori is string)
-                    return base.SelectedItem as string;
-                else
-                    return Int32.Parse(base.SelectedItem == null ? "" : base.SelectedItem as string);
+                this.enu = enu;
             }
-            set
+
+            protected override string GetString(int id)
             {
-                try
-                {
-                    this.orig = value.ToString();
-                    this.ori = value;
-                    base.SelectedItem = value.ToString();
-                }
-                catch {
-                    this.orig = "";
-                    this.ori = null;
-                    this.SelectedIndex = 0; 
-                }
+                return this.enu[this.Items[id] as string];
             }
         }
 
-        public event EventHandler RequestCommit;
-        public event EventHandler DirtyChanged;
+
+        public override void Commit()
+        {
+            if (selectedItem is string)
+                selectedItem = control.SelectedItem as string;
+            else
+                selectedItem = Int32.Parse(control.SelectedItem == null ? "" : control.SelectedItem as string);
+        }
+
+        protected override void InitControl()
+        {
+            control.SelectedIndexChanged -= new EventHandler(EnumEditor_SelectedIndexChanged);
+            try
+            {
+                control.SelectedItem = selectedItem.ToString();
+            }
+            catch
+            {
+                control.SelectedIndex = 0;
+            }
+            control.SelectedIndexChanged += new EventHandler(EnumEditor_SelectedIndexChanged);
+        }
+
+        public override System.Windows.Forms.Control Control
+        {
+            get { return this.control; }
+        }
     }
 }

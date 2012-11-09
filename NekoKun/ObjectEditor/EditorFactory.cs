@@ -8,17 +8,17 @@ namespace NekoKun.ObjectEditor
     {
         public static string CreateFromDefaultValue(object value)
         {
-            if (value is string)
+            if (value is FuzzyData.FuzzyString || value is string)
                 return typeof(SingleTextEditor).FullName;
 
-            if (value is Decimal || value is int || value is Int32 || value is Int64 || value is float || value is double || value is byte || value is sbyte)
+            if (value is int)
                 return typeof(DecimalEditor).FullName;
 
             if (value is FuzzyData.FuzzyObject)
             {
                 FuzzyData.FuzzyObject obj = value as FuzzyData.FuzzyObject;
-                if (obj.ClassName.GetString() == "RPG::AudioFile")
-                    return typeof(RPGMaker.AudioFileEditor).FullName;
+                //if (obj.ClassName.GetString() == "RPG::AudioFile")
+                //    return typeof(RPGMaker.AudioFileEditor).FullName;
             }
 
             return typeof(UnknownEditor).FullName;

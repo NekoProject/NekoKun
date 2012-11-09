@@ -484,10 +484,14 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                         }
                     }
                 }
-                else if (obj is FuzzyString)
+                else if (obj is FuzzyString || obj is string)
                 {
-                    FuzzyString v = (FuzzyString) obj;
-                    WriteUserClass(obj, FuzzyClass.GetClass("String"));
+                    FuzzyString v;
+                    if (obj is string)
+                        v = new FuzzyString(obj as string);
+                    else
+                        v = (FuzzyString)obj;
+                    WriteUserClass(v, FuzzyClass.GetClass("String"));
                     WriteByte(RubyMarshal.Types.String);
                     WriteBytes(v.Raw);
                 }
@@ -499,10 +503,14 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     WriteBytes(v.Pattern.Raw);
                     WriteByte((byte)v.Options);
                 }
-                else if (obj is FuzzyArray)
+                else if (obj is FuzzyArray || obj is List<object>)
                 {
-                    FuzzyArray v = (FuzzyArray) obj;
-                    WriteUserClass(obj, FuzzyClass.GetClass("Array"));
+                    FuzzyArray v;
+                    if (obj is List<object>)
+                        v = new FuzzyArray(obj as List<object>);
+                    else
+                        v = (FuzzyArray)obj;
+                    WriteUserClass(v, FuzzyClass.GetClass("Array"));
                     WriteByte(RubyMarshal.Types.Array);
                     WriteLong(v.Length);
                     for (int i = 0; i < v.Count; i++)

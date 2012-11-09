@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+/*
 namespace NekoKun.RPGMaker
 {
     public class AudioFileEditor: UI.LynnButton, IObjectEditor
@@ -66,3 +66,4 @@ namespace NekoKun.RPGMaker
     }
 }
 
+*/

@@ -104,16 +104,13 @@
       <DependentUpon>CreateProjectWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectEditor\Controls\ArrayEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Controls\MultilineTextEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Controls\ComplexTextEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\EditorFactory.cs" />
-    <Compile Include="ObjectEditor\IObjectEditor.cs" />
+    <Compile Include="ObjectEditor\AbstractObjectEditor.cs" />
     <Compile Include="Core\DocumentFramework\NavPoint.cs" />
     <Compile Include="Core\DocumentFramework\FileManager.cs" />
     <Compile Include="Core\DocumentFramework\IBehavior\IClipboardHandler.cs" />
@@ -127,16 +124,12 @@
     </Compile>
     <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
     <Compile Include="ObjectEditor\Controls\SingleTextEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Controls\DecimalEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Controls\UnknownEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Controls\EnumEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\ObjectFile.cs" />
     <Compile Include="ObjectEditor\Struct\Layouts\IStructEditorLayout.cs" />
@@ -201,11 +194,9 @@
     <Compile Include="ResourceManager.cs" />
     <Compile Include="RPGMaker\AudioFile.cs" />
     <Compile Include="RPGMaker\AudioFileEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\Database\DatabaseFile.cs" />
     <Compile Include="ObjectEditor\Struct\StructEditor.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Struct\Layouts\TableLayout.cs">
       <SubType>Component</SubType>
@@ -216,7 +207,6 @@
     <Compile Include="RPGMaker\EventCommand\EventCommand.cs" />
     <Compile Include="RPGMaker\EventCommand\EventCommandGroup.cs" />
     <Compile Include="RPGMaker\EventCommand\EventCommandListbox.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommandProvider.cs" />
     <Compile Include="RPGMaker\Map\Base\MapLayer.cs" />

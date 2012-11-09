@@ -4,55 +4,36 @@ using System.Text;
 
 namespace NekoKun.ObjectEditor
 {
-    public class ComplexTextEditor: UI.RubyScintilla, IObjectEditor
+    public class ComplexTextEditor : AbstractObjectEditor
     {
-        protected bool supply;
+        UI.Scintilla control;
 
         public ComplexTextEditor(Dictionary<string, object> Params)
+            : base(Params)
         {
-            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ContextMenuStrip = new EditContextMenuStrip(this);
-            this.TextChanged += new EventHandler(ComplexTextEditor_TextChanged);
-            if (DirtyChanged != null) DirtyChanged.ToString();
+            control = new UI.Scintilla();
+            control.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            control.ModifiedChanged += new EventHandler(control_ModifiedChanged);
         }
 
-        void ComplexTextEditor_TextChanged(object sender, EventArgs e)
+        void control_ModifiedChanged(object sender, EventArgs e)
         {
-            if (!supply) this.Commit();
+            MakeDirty();
         }
 
-        public void Commit()
+        public override void Commit()
         {
-            if (this.RequestCommit != null)
-                this.RequestCommit(this, null);
+            this.selectedItem = new FuzzyData.FuzzyString(control.Text);
         }
 
-        protected object supp;
-
-        public object SelectedItem
+        protected override void InitControl()
         {
-            get
-            {
-                if (supp is FuzzyData.FuzzyString)
-                    return new FuzzyData.FuzzyString(this.Text).Encode((supp as FuzzyData.FuzzyString).Encoding);
-                else
-                    return this.Text;
-            }
-            set
-            {
-                supply = true;
-                supp = value;
-                if (supp is FuzzyData.FuzzyString)
-                    this.Text = (value as FuzzyData.FuzzyString).Text;
-                else
-                    this.Text = value as string;
-                supply = false;
-            }
+            control.Text = (selectedItem as FuzzyData.FuzzyString).Text;
         }
-        public event EventHandler RequestCommit;
 
-        public event EventHandler DirtyChanged;
-
-
+        public override System.Windows.Forms.Control Control
+        {
+            get { return control; }
+        }
     }
 }
