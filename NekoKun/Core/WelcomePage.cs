@@ -23,6 +23,28 @@ namespace NekoKun
             this.listbox.MouseMove += new MouseEventHandler(listbox_MouseMove);
             this.listbox.MouseClick += new MouseEventHandler(listbox_MouseClick);
             this.listbox.KeyDown += new KeyEventHandler(listbox_KeyDown);
+            this.listbox.AllowDrop = true;
+            this.listbox.DragEnter += new DragEventHandler(listbox_DragEnter);
+            this.listbox.DragDrop += new DragEventHandler(listbox_DragDrop);
+        }
+
+        void listbox_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop))
+            {
+                try
+                {
+                    string[] files = e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop) as string[];
+                    SetResult(files[0]);
+                }
+                catch { }
+            }
+        }
+
+        void listbox_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
         }
 
         private void ReloadListbox()
