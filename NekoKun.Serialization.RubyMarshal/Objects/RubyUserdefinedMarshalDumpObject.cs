@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NekoKun.Serialization.RubyMarshal
 {
-    public class RubyUserdefinedMarshalDumpObject : RubyObject, IRubyUserdefinedMarshalDumpObject
+    public class FuzzyUserdefinedMarshalDumpObject : RubyObject, IRubyUserdefinedMarshalDumpObject
     {
         private object dumpedObject;
 

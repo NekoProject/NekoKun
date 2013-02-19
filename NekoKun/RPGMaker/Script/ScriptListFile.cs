@@ -23,37 +23,48 @@ namespace NekoKun.RPGMaker
                     byte[] bytes;
 
                     var ran = new System.Random();
-					int id;
-					
-					if (item[0] is int)
-						id = (int)item[0];
-					else
-					{
-						id = ran.Next(1, 100000000);
-						this.MakeDirty();
-						Program.Logger.Log("唯一 ID 遭到破坏。{0}", item[0].ToString());
-		                Program.Logger.Log("因为脚本文件中存在错误，现已经被修复，因此文件脏了。");
-					}
-						
-                    while (containsID(id))
-					{
+                    int id;
+
+                    if (item[0] is int)
+                        id = (int)item[0];
+                    else
+                    {
                         id = ran.Next(1, 100000000);
-						this.MakeDirty();
-					}
+                        this.MakeDirty();
+                        Program.Logger.Log("唯一 ID 遭到破坏。{0}", item[0].ToString());
+                    }
+
+                    while (containsID(id))
+                    {
+                        id = ran.Next(1, 100000000);
+                        this.MakeDirty();
+                    }
 
                     title = (item[1] as RubyString).ForceEncoding(Encoding.UTF8).Text;
                     bytes = (item[2] as RubyString).Raw;
-
-                    byte[] inflated = Ionic.Zlib.ZlibStream.UncompressBuffer(bytes);
+                    
                     string code = "";
-
-                    if (inflated.Length > 0) code = System.Text.Encoding.UTF8.GetString(inflated);
+                    try
+                    {
+                        byte[] inflated = Ionic.Zlib.ZlibStream.UncompressBuffer(bytes);
+                        if (inflated != null && inflated.Length > 0)
+                            code = System.Text.Encoding.UTF8.GetString(inflated);
+                    }
+                    catch
+                    {
+                        Program.Logger.Log("无法读取脚本“{0}：{1}”，文件可能已损坏，此页已加载为残存物十六进制堆存。", item[0].ToString(), title);
+                        code = "=begin" + System.Environment.NewLine + Program.BuildHexDump(bytes) + System.Environment.NewLine + "=end";
+                        this.MakeDirty();
+                    }
 
                     this.scripts.Add(new ScriptFile(this, code, title, id));
                 }
 
                 scriptFile.Close();
             }
+
+            if (this.isDirty)
+                Program.Logger.Log("因为脚本文件中存在错误，且采取了一定措施解决/缓解此矛盾，因此产生了未保存的更改。");
         }
 
         public ScriptListFile(Dictionary<string, object> node)

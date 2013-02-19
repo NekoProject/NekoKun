@@ -205,14 +205,20 @@ namespace NekoKun.Serialization.RubyMarshal
         {
             byte[] raw = ReadBytes();
             RubyString v = new RubyString(raw);
-            // TODO: detecting encoding
-            if ((raw.Length > 2) && (raw[0] == 120) && (raw[1] == 156))
+
+            var decoder = Encoding.UTF8.GetDecoder();
+            
+            decoder.Fallback = System.Text.DecoderFallback.ExceptionFallback;
+            try
+            {
+                decoder.GetCharCount(raw, 0, raw.Length);
+                v.Encoding = Encoding.UTF8;
+            }
+            catch
             {
                 v.Encoding = Encoding.Default;
-                // special treatment for zlib
             }
-            else
-                v.Encoding = Encoding.UTF8;
+
             return v;
         }
 
@@ -604,7 +610,7 @@ namespace NekoKun.Serialization.RubyMarshal
                 case RubyMarshal.Types.UserMarshal:
                     {
                         RubySymbol klass = ReadUnique();
-                        RubyUserdefinedMarshalDumpObject obj = new RubyUserdefinedMarshalDumpObject();
+                        FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
                         v = obj;
                         if (extmod != null)
                             AppendExtendedModule(obj, extmod);

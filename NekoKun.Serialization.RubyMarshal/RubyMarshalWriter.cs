@@ -690,9 +690,9 @@ namespace NekoKun.Serialization.RubyMarshal
                 {
                     this.WriteUsingDump((FuzzyUserdefinedDumpObject)obj);
                 }
-                else if (obj is RubyUserdefinedMarshalDumpObject)
+                else if (obj is FuzzyUserdefinedMarshalDumpObject)
                 {
-                    this.WriteUsingMarshalDump((RubyUserdefinedMarshalDumpObject)obj);
+                    this.WriteUsingMarshalDump((FuzzyUserdefinedMarshalDumpObject)obj);
                 }
                 else if (obj is FuzzyExtendedObject)
                 {
@@ -724,7 +724,7 @@ namespace NekoKun.Serialization.RubyMarshal
             this.WriteStringValue(iRubyUserdefinedDumpObject.Dump());
         }
 
-        private void WriteUsingMarshalDump(RubyUserdefinedMarshalDumpObject obj)
+        private void WriteUsingMarshalDump(FuzzyUserdefinedMarshalDumpObject obj)
         {
             this.m_writer.Write((byte)0x55);
             this.WriteSymbol(obj.ClassName);
