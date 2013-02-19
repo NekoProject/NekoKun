@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -15,16 +16,16 @@ namespace NekoKun.RPGMaker
         {
             List<System.Drawing.Image> images = new List<System.Drawing.Image>();
 
-            if (item["@tileset_names"] is FuzzyData.FuzzyArray)
-                foreach (object name in item["@tileset_names"] as FuzzyData.FuzzyArray)
+            if (item["@tileset_names"] is RubyArray)
+                foreach (object name in item["@tileset_names"] as RubyArray)
                 {
                     if (name is string)
                     {
                         images.Add(ResourceManager.Caches["Graphics/Tilesets"][name as string] as System.Drawing.Image);
                     }
-                    else if (name is FuzzyData.FuzzyString)
+                    else if (name is RubyString)
                     {
-                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as FuzzyData.FuzzyString).Text] as System.Drawing.Image);
+                        images.Add(ResourceManager.Caches["Graphics/Tilesets"][(name as RubyString).Text] as System.Drawing.Image);
                     }
                     else
                     {

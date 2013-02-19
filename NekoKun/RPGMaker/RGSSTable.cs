@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.RPGMaker
 {
-    public class RGSSTable : FuzzyObject, NekoKun.FuzzyData.Serialization.RubyMarshal.IRubyUserdefinedDumpObject
+    public class RGSSTable : RubyObject, IRubyUserdefinedDumpObject
     { 
         protected short[, ,] value;
         protected byte dimensions;
@@ -23,7 +24,7 @@ namespace NekoKun.FuzzyData
             this.dimensions = dimensions;
             value = new short[xsize, ysize, zsize];
         
-            this.ClassName = FuzzySymbol.GetSymbol("Table");
+            this.ClassName = RubySymbol.GetSymbol("Table");
         }
 
         public int XSize

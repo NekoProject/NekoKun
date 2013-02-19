@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -17,21 +18,21 @@ namespace NekoKun.RPGMaker
 
             if (item["@tileset_name"] is string)
                 images.Add(ResourceManager.Caches["Graphics/Tilesets"][item["@tileset_name"] as string] as System.Drawing.Image);
-            else if (item["@tileset_name"] is FuzzyData.FuzzyString)
-                images.Add(ResourceManager.Caches["Graphics/Tilesets"][(item["@tileset_name"] as FuzzyData.FuzzyString).Text] as System.Drawing.Image);
+            else if (item["@tileset_name"] is RubyString)
+                images.Add(ResourceManager.Caches["Graphics/Tilesets"][(item["@tileset_name"] as RubyString).Text] as System.Drawing.Image);
             else
                 images.Add(null);
 
-            if (item["@autotile_names"] is FuzzyData.FuzzyArray)
-                foreach (object name in item["@autotile_names"] as FuzzyData.FuzzyArray)
+            if (item["@autotile_names"] is RubyArray)
+                foreach (object name in item["@autotile_names"] as RubyArray)
                 {
                     if (name is string)
                     {
                         images.Add(ResourceManager.Caches["Graphics/Autotiles"][name as string] as System.Drawing.Image);
                     }
-                    else if (name is FuzzyData.FuzzyString)
+                    else if (name is RubyString)
                     {
-                        images.Add(ResourceManager.Caches["Graphics/Autotiles"][(name as FuzzyData.FuzzyString).Text] as System.Drawing.Image);
+                        images.Add(ResourceManager.Caches["Graphics/Autotiles"][(name as RubyString).Text] as System.Drawing.Image);
                     }
                     else
                     {

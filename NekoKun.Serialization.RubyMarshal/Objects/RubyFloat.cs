@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
-    public class FuzzyFloat: FuzzyObject
+    public class RubyFloat: RubyObject
     {
         public double Value;
 
-        public FuzzyFloat(double value)
+        public RubyFloat(double value)
         {
             Value = value;
-            this.ClassName = FuzzySymbol.GetSymbol("Float");
+            this.ClassName = RubySymbol.GetSymbol("Float");
         }
 
-        public FuzzyFloat(float value)
+        public RubyFloat(float value)
         {
             Value = value;
-            this.ClassName = FuzzySymbol.GetSymbol("Float");
+            this.ClassName = RubySymbol.GetSymbol("Float");
         }
 
         public override string ToString()

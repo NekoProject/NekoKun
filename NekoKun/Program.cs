@@ -21,7 +21,7 @@ namespace NekoKun
             /*
             using (var f = new System.IO.FileStream(@"c:\\a.txt", FileMode.Create))
             {
-                var sym = FuzzyData.FuzzySymbol.GetSymbol("seiran7");
+                var sym = RubySymbol.GetSymbol("seiran7");
                 FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(f, sym);
             }
             return;

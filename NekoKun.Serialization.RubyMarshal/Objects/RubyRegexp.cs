@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
-    public class FuzzyRegexp : FuzzyObject
+    public class RubyRegexp : RubyObject
     {
-        public FuzzyRegexpOptions Options;
-        public FuzzyString Pattern;
+        public RubyRegexpOptions Options;
+        public RubyString Pattern;
 
-        public FuzzyRegexp(FuzzyString Pattern, FuzzyRegexpOptions Options)
+        public RubyRegexp(RubyString Pattern, RubyRegexpOptions Options)
         {
             this.Pattern = Pattern;
             this.Options = Options;
-            this.ClassName = FuzzySymbol.GetSymbol("Regexp");
+            this.ClassName = RubySymbol.GetSymbol("Regexp");
         }
 
         public override Encoding Encoding
@@ -30,7 +30,7 @@ namespace NekoKun.FuzzyData
     }
 
     [Flags]
-    public enum FuzzyRegexpOptions
+    public enum RubyRegexpOptions
     {
         None = 0,   // #define ONIG_OPTION_NONE               0U
         IgnoreCase = 1,   // #define ONIG_OPTION_IGNORECASE         1U

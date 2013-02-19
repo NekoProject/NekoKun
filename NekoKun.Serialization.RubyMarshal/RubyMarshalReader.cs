@@ -4,14 +4,14 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace NekoKun.FuzzyData.Serialization.RubyMarshal
+namespace NekoKun.Serialization.RubyMarshal
 {
     class RubyMarshalReader
     {
         private Stream m_stream;
         private BinaryReader m_reader;
         private Dictionary<int, object> m_objects;
-        private Dictionary<int, FuzzySymbol> m_symbols;
+        private Dictionary<int, RubySymbol> m_symbols;
         private Dictionary<object, object> m_compat_tbl;
         private Converter<object, object> m_proc;
 
@@ -27,7 +27,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             }
             this.m_stream = input;
             this.m_objects = new Dictionary<int, object>();
-            this.m_symbols = new Dictionary<int, FuzzySymbol>();
+            this.m_symbols = new Dictionary<int, RubySymbol>();
             this.m_proc = null;
             this.m_compat_tbl = new Dictionary<object, object>();
             this.m_reader = new BinaryReader(m_stream, Encoding.ASCII);
@@ -108,7 +108,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// static ID r_symlink(struct load_arg *arg)
         /// </summary>
         /// <returns></returns>
-        public FuzzySymbol ReadSymbolLink()
+        public RubySymbol ReadSymbolLink()
         {
             int num = ReadLong();
             if (num >= this.m_symbols.Count)
@@ -121,11 +121,11 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// </summary>
         /// <param name="ivar"></param>
         /// <returns></returns>
-        public FuzzySymbol ReadSymbolReal(bool ivar)
+        public RubySymbol ReadSymbolReal(bool ivar)
         {
             byte[] s = ReadBytes();
             int n = m_symbols.Count;
-            FuzzySymbol id;
+            RubySymbol id;
             Encoding idx = Encoding.UTF8;
             m_symbols.Add(n, null);
             if (ivar)
@@ -137,8 +137,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     idx = GetEncoding(id, ReadObject());
                 }
             }
-            FuzzyString str = new FuzzyString(s, idx);
-            id = FuzzySymbol.GetSymbol(str);
+            RubyString str = new RubyString(s, idx);
+            id = RubySymbol.GetSymbol(str);
             m_symbols[n] = id;
             return id;
         }
@@ -148,11 +148,11 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// <param name="id"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public Encoding GetEncoding(FuzzySymbol id, object val)
+        public Encoding GetEncoding(RubySymbol id, object val)
         {
             if (id == RubyMarshal.IDs.encoding)
             {
-                return Encoding.GetEncoding(((FuzzyString)val).Text);
+                return Encoding.GetEncoding(((RubyString)val).Text);
             }
             else if (id == RubyMarshal.IDs.E)
             {
@@ -168,7 +168,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// static ID r_symbol(struct load_arg *arg)
         /// </summary>
         /// <returns></returns>
-        public FuzzySymbol ReadSymbol()
+        public RubySymbol ReadSymbol()
         {
             int type;
             bool ivar = false;
@@ -192,7 +192,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// static VALUE r_unique(struct load_arg *arg)
         /// </summary>
         /// <returns></returns>
-        public FuzzySymbol ReadUnique()
+        public RubySymbol ReadUnique()
         {
             return ReadSymbol();
         }
@@ -201,10 +201,10 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// static VALUE r_string(struct load_arg *arg)
         /// </summary>
         /// <returns></returns>
-        public FuzzyString ReadString()
+        public RubyString ReadString()
         {
             byte[] raw = ReadBytes();
-            FuzzyString v = new FuzzyString(raw);
+            RubyString v = new RubyString(raw);
             // TODO: detecting encoding
             if ((raw.Length > 2) && (raw[0] == 120) && (raw[1] == 156))
             {
@@ -298,12 +298,12 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         public void ReadInstanceVariable(object obj, ref bool has_encoding)
         {
             int len = ReadLong();
-            FuzzyObject fobj = obj as FuzzyObject;
+            RubyObject fobj = obj as RubyObject;
             if (len > 0)
             {
                 do
                 {
-                    FuzzySymbol id = ReadSymbol();
+                    RubySymbol id = ReadSymbol();
                     object val = ReadObject();
                     Encoding idx = GetEncoding(id, val);
                     if (idx != null)
@@ -332,9 +332,9 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// <param name="obj"></param>
         /// <param name="extmod"></param>
         /// <returns></returns>
-        public object AppendExtendedModule(object obj, List<FuzzyModule> extmod)
+        public object AppendExtendedModule(object obj, List<RubyModule> extmod)
         {
-            FuzzyObject fobj = obj as FuzzyObject;
+            RubyObject fobj = obj as RubyObject;
             if (fobj != null)
                 fobj.ExtendModules.AddRange(extmod);
             return obj;
@@ -350,12 +350,12 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
             return ReadObject0(false, ref ivp, null);
         }
 
-        public object ReadObject0(ref bool ivp, List<FuzzyModule> extmod)
+        public object ReadObject0(ref bool ivp, List<RubyModule> extmod)
         {
             return ReadObject0(true, ref ivp, extmod);
         }
 
-        public object ReadObject0(List<FuzzyModule> extmod)
+        public object ReadObject0(List<RubyModule> extmod)
         {
             bool ivp = false;
             return ReadObject0(false, ref ivp, extmod);
@@ -368,7 +368,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
         /// <param name="ivp"></param>
         /// <param name="extmod"></param>
         /// <returns></returns>
-        public object ReadObject0(bool hasivp, ref bool ivp, List<FuzzyModule> extmod)
+        public object ReadObject0(bool hasivp, ref bool ivp, List<RubyModule> extmod)
         {
             object v = null;
             int type = ReadByte();
@@ -396,12 +396,12 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.Extended:
                     {
-                        FuzzyModule m = FuzzyModule.GetModule(ReadUnique());
+                        RubyModule m = RubyModule.GetModule(ReadUnique());
                         if (extmod == null)
-                            extmod = new List<FuzzyModule>();
+                            extmod = new List<RubyModule>();
                         extmod.Add(m);
                         v = ReadObject0(extmod);
-                        FuzzyObject fobj = v as FuzzyObject;
+                        RubyObject fobj = v as RubyObject;
                         if (fobj != null)
                         {
                             fobj.ExtendModules.AddRange(extmod);
@@ -410,15 +410,15 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.UserClass:
                     {
-                        FuzzyClass c = FuzzyClass.GetClass(ReadUnique());
+                        RubyClass c = RubyClass.GetClass(ReadUnique());
 
                         v = ReadObject0(extmod);
-                        if (v is FuzzyObject)
-                            (v as FuzzyObject).ClassName = c.Symbol;
+                        if (v is RubyObject)
+                            (v as RubyObject).ClassName = c.Symbol;
                     }
                     break;
                 case RubyMarshal.Types.Nil:
-                    v = FuzzyNil.Instance;
+                    v = RubyNil.Instance;
                     v = Leave(v);
                     break;
                 case RubyMarshal.Types.True:
@@ -436,7 +436,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 case RubyMarshal.Types.Float:
                     {
                         double d;
-                        FuzzyString fstr = ReadString();
+                        RubyString fstr = ReadString();
                         string str = fstr.Text;
 
                         if (str == "inf")
@@ -453,7 +453,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                             }
                             d = Convert.ToDouble(str);
                         }
-                        v = new FuzzyFloat(d);
+                        v = new RubyFloat(d);
                         v = Entry(v);
                         v = Leave(v);
                     }
@@ -487,7 +487,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                         {
                             data[index] = m_reader.ReadUInt16();
                         }
-                        v = new FuzzyBignum(sign, data);
+                        v = new RubyBignum(sign, data);
                         v = Entry(v);
                         v = Leave(v);
                     }
@@ -498,7 +498,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.Regexp:
                     {
-                        FuzzyString str = ReadString();
+                        RubyString str = ReadString();
                         int options = ReadByte();
                         bool has_encoding = false;
                         int idx = Prepare();
@@ -529,14 +529,14 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                             rb_str_set_len(str, dst - ptr);
                             */
                         }
-                        v = Entry0(new FuzzyRegexp(str, (FuzzyRegexpOptions)options), idx);
+                        v = Entry0(new RubyRegexp(str, (RubyRegexpOptions)options), idx);
                         v = Leave(v);
                     }
                     break;
                 case RubyMarshal.Types.Array:
                     {
                         int len = ReadLong();
-                        FuzzyArray ary = new FuzzyArray();
+                        RubyArray ary = new RubyArray();
                         v = ary;
                         v = Entry(v);
                         while (len-- > 0)
@@ -550,7 +550,7 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 case RubyMarshal.Types.HashWithDefault:
                     {
                         int len = ReadLong();
-                        FuzzyHash hash = new FuzzyHash();
+                        RubyHash hash = new RubyHash();
                         v = hash;
                         v = Entry(v);
                         while (len-- > 0)
@@ -569,15 +569,15 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 case RubyMarshal.Types.Struct:
                     {
                         int idx = Prepare();
-                        FuzzyStruct obj = new FuzzyStruct();
-                        FuzzySymbol klass = ReadUnique();
+                        RubyStruct obj = new RubyStruct();
+                        RubySymbol klass = ReadUnique();
                         obj.ClassName = klass;
                         int len = ReadLong();
                         v = obj;
                         v = Entry0(v, idx);
                         while (len-- > 0)
                         {
-                            FuzzySymbol key = ReadSymbol();
+                            RubySymbol key = ReadSymbol();
                             object value = ReadObject();
                             obj.InstanceVariable[key] = value;
                         }
@@ -586,14 +586,14 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.UserDefined:
                     {
-                        FuzzySymbol klass = ReadUnique();
-                        FuzzyString data = ReadString();
+                        RubySymbol klass = ReadUnique();
+                        RubyString data = ReadString();
                         if (hasivp)
                         {
                             ReadInstanceVariable(data);
                             ivp = false;
                         }
-                        FuzzyUserdefinedDumpObject obj = new FuzzyUserdefinedDumpObject();
+                        RubyUserdefinedDumpObject obj = new RubyUserdefinedDumpObject();
                         obj.ClassName = klass;
                         obj.DumpedObject = data.Raw;
                         v = obj;
@@ -603,8 +603,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.UserMarshal:
                     {
-                        FuzzySymbol klass = ReadUnique();
-                        FuzzyUserdefinedMarshalDumpObject obj = new FuzzyUserdefinedMarshalDumpObject();
+                        RubySymbol klass = ReadUnique();
+                        RubyUserdefinedMarshalDumpObject obj = new RubyUserdefinedMarshalDumpObject();
                         v = obj;
                         if (extmod != null)
                             AppendExtendedModule(obj, extmod);
@@ -622,8 +622,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                 case RubyMarshal.Types.Object:
                     {
                         int idx = Prepare();
-                        FuzzyObject obj = new FuzzyObject();
-                        FuzzySymbol klass = ReadUnique();
+                        RubyObject obj = new RubyObject();
+                        RubySymbol klass = ReadUnique();
                         obj.ClassName = klass;
                         v = obj;
                         v = Entry0(v, idx);
@@ -633,16 +633,16 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
                     break;
                 case RubyMarshal.Types.Class:
                     {
-                        FuzzyString str = ReadString();
-                        v = FuzzyClass.GetClass(FuzzySymbol.GetSymbol(str));
+                        RubyString str = ReadString();
+                        v = RubyClass.GetClass(RubySymbol.GetSymbol(str));
                         v = Entry(v);
                         v = Leave(v);
                     }
                     break;
                 case RubyMarshal.Types.Module:
                     {
-                        FuzzyString str = ReadString();
-                        v = FuzzyModule.GetModule(FuzzySymbol.GetSymbol(str));
+                        RubyString str = ReadString();
+                        v = RubyModule.GetModule(RubySymbol.GetSymbol(str));
                         v = Entry(v);
                         v = Leave(v);
                     }

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
-    [System.Diagnostics.DebuggerTypeProxy(typeof(FuzzyStringDebugView))]
-    public class FuzzyString : FuzzyObject
+    [System.Diagnostics.DebuggerTypeProxy(typeof(RubyStringDebugView))]
+    public class RubyString : RubyObject
     {
-        internal class FuzzyStringDebugView
+        internal class RubyStringDebugView
         {
-            internal FuzzyString str;
+            internal RubyString str;
 
-            public FuzzyStringDebugView(FuzzyString str)
+            public RubyStringDebugView(RubyString str)
             {
                 this.str = str;
             }
@@ -26,20 +26,20 @@ namespace NekoKun.FuzzyData
                 get { return str.Encoding; }
             }
 
-            public FuzzySymbol ClassName
+            public RubySymbol ClassName
             {
                 get { return str.ClassName; }
             }
 
             [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)]
-            public KeyValuePair<FuzzySymbol, object>[] Keys
+            public KeyValuePair<RubySymbol, object>[] Keys
             {
                 get
                 {
-                    KeyValuePair<FuzzySymbol, object>[] keys = new KeyValuePair<FuzzySymbol, object>[str.InstanceVariables.Count];
+                    KeyValuePair<RubySymbol, object>[] keys = new KeyValuePair<RubySymbol, object>[str.InstanceVariables.Count];
 
                     int i = 0;
-                    foreach (KeyValuePair<FuzzySymbol, object> key in str.InstanceVariables)
+                    foreach (KeyValuePair<RubySymbol, object> key in str.InstanceVariables)
                     {
                         keys[i] = key;
                         i++;
@@ -55,38 +55,38 @@ namespace NekoKun.FuzzyData
         protected bool setByText = false;
         protected bool setByRaw = false;
 
-        public FuzzyString(string unicodeText)
+        public RubyString(string unicodeText)
         {
             this.encoding = Encoding.Unicode;
             this.str = unicodeText;
             this.setByText = true;
-            this.ClassName = FuzzySymbol.GetSymbol("String");
+            this.ClassName = RubySymbol.GetSymbol("String");
             this.Encoding = Encoding.UTF8;
         }
 
-        public FuzzyString(byte[] raw)
+        public RubyString(byte[] raw)
         {
             this.raw = raw;
             this.encoding = Encoding.Default;
             this.setByRaw = true;
-            this.ClassName = FuzzySymbol.GetSymbol("String");
+            this.ClassName = RubySymbol.GetSymbol("String");
         }
 
-        public FuzzyString(byte[] raw, Encoding encoding)
+        public RubyString(byte[] raw, Encoding encoding)
         {
             this.raw = raw;
             this.encoding = encoding;
             this.setByRaw = true;
-            this.ClassName = FuzzySymbol.GetSymbol("String");
+            this.ClassName = RubySymbol.GetSymbol("String");
         }
 
-        public FuzzyString ForceEncoding(Encoding encoding)
+        public RubyString ForceEncoding(Encoding encoding)
         {
             this.Encoding = encoding;
             return this;
         }
 
-        public FuzzyString Encode(Encoding encoding)
+        public RubyString Encode(Encoding encoding)
         {
             this.Text = this.Text;
             this.Encoding = encoding;

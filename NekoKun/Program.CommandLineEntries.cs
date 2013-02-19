@@ -73,11 +73,11 @@ namespace NekoKun
                     object mar;
                     using (System.IO.FileStream file = new System.IO.FileStream(result, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                     {
-                        mar = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(file);
+                        mar = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(file);
                     }
                     using (System.IO.FileStream file = new System.IO.FileStream(result + ".output", System.IO.FileMode.Create, System.IO.FileAccess.Write))
                     {
-                        NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(file, mar);
+                        NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(file, mar);
                     }
                     Program.ShowError("成功处理文件：" + result);
                 }

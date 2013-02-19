@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -21,9 +22,9 @@ namespace NekoKun.RPGMaker
 
             this.TilesetFile = ProjectManager.Components[node["TilesetProvider"].ToString()] as TilesetFile;
 
-            FuzzyData.FuzzyHash mapHash = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(
+            RubyHash mapHash = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(
                 new System.IO.FileStream(this.filename,  System.IO.FileMode.Open, System.IO.FileAccess.Read)
-            ) as FuzzyData.FuzzyHash;
+            ) as RubyHash;
             foreach (var item in mapHash)
 	        {
                 string key = null;
@@ -42,8 +43,8 @@ namespace NekoKun.RPGMaker
                 }
                 this.maps.Add(key, map);
 
-                FuzzyData.FuzzyObject info = item.Value as FuzzyData.FuzzyObject;
-                map.Title = (info.InstanceVariable["@name"] as FuzzyData.FuzzyString).Text;
+                RubyObject info = item.Value as RubyObject;
+                map.Title = (info.InstanceVariable["@name"] as RubyString).Text;
                 map.ParentID = info.InstanceVariable["@parent_id"].ToString();
                 map.Order = (int)info.InstanceVariable["@order"];
                 /*

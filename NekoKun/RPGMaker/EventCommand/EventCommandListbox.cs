@@ -42,7 +42,7 @@ namespace NekoKun.RPGMaker
                 {
                     System.Drawing.Color color = cmd == null ? System.Drawing.Color.Black : cmd.Group.ForeColor;
                     sb.Append(String.Format("[color=#{0:x2}{1:x2}{2:x2}]", color.R, color.G, color.B));
-                    string drawing = cmd == null ? strUnknown : cmd.FormatParams(this.Items[id] as FuzzyData.FuzzyObject);
+                    string drawing = cmd == null ? strUnknown : cmd.FormatParams(this.Items[id] as RubyObject);
                     sb.Append(drawing.Replace("{hide}", "[color=white]").Replace("{/hide}", "[/color]"));
                     sb.Append("[/color]");
                 }
@@ -96,7 +96,7 @@ namespace NekoKun.RPGMaker
                 drawing = strUnknown;
             else
             {
-                drawing = cmd.FormatParams(this.Items[id] as FuzzyData.FuzzyObject);
+                drawing = cmd.FormatParams(this.Items[id] as RubyObject);
             }
 
             string draw;
@@ -128,7 +128,7 @@ namespace NekoKun.RPGMaker
 
         protected string GetCode(int id)
         {
-            return (this.Items[id] as FuzzyData.FuzzyObject).InstanceVariable["@code"].ToString();
+            return (this.Items[id] as RubyObject).InstanceVariable["@code"].ToString();
         }
 
         protected EventCommand GetCodeCommand(int id)
@@ -146,7 +146,7 @@ namespace NekoKun.RPGMaker
 
         protected int GetIndent(int id)
         {
-            object o = (this.Items[id] as FuzzyData.FuzzyObject).InstanceVariable["@indent"];
+            object o = (this.Items[id] as RubyObject).InstanceVariable["@indent"];
             if (o == null)
                 return 0;
             else

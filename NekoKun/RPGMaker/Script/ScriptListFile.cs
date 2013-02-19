@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NekoKun.FuzzyData;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -15,9 +15,9 @@ namespace NekoKun.RPGMaker
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                FuzzyArray scripts = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(scriptFile) as FuzzyArray;
+                RubyArray scripts = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(scriptFile) as RubyArray;
 
-                foreach (FuzzyArray item in scripts)
+                foreach (RubyArray item in scripts)
                 {
                     string title;
                     byte[] bytes;
@@ -41,8 +41,8 @@ namespace NekoKun.RPGMaker
 						this.MakeDirty();
 					}
 
-                    title = (item[1] as FuzzyString).ForceEncoding(Encoding.UTF8).Text;
-                    bytes = (item[2] as FuzzyString).Raw;
+                    title = (item[1] as RubyString).ForceEncoding(Encoding.UTF8).Text;
+                    bytes = (item[2] as RubyString).Raw;
 
                     byte[] inflated = Ionic.Zlib.ZlibStream.UncompressBuffer(bytes);
                     string code = "";
@@ -79,7 +79,7 @@ namespace NekoKun.RPGMaker
 
         protected override void Save()
         {
-            FuzzyArray rawFile = new FuzzyArray();
+            RubyArray rawFile = new RubyArray();
             foreach (ScriptFile item in this.scripts)
             {
                 if (item.Editor != null)
@@ -88,19 +88,19 @@ namespace NekoKun.RPGMaker
 
             foreach (ScriptFile item in this.scripts)
             {
-                FuzzyArray rawItem = new FuzzyArray();
+                RubyArray rawItem = new RubyArray();
                 rawItem.Add(item.ID);
-                rawItem.Add(new FuzzyString(item.Title).Encode(Encoding.UTF8));
+                rawItem.Add(new RubyString(item.Title).Encode(Encoding.UTF8));
                 byte[] code = Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code));
                 if (code.Length == 0)
                 {
                     code = new byte[] { 120, 156, 3, 0, 0, 0, 0, 1 };
                 }
-                rawItem.Add(new FuzzyString(code));
+                rawItem.Add(new RubyString(code));
                 rawFile.Add(rawItem);
             }
             System.IO.FileStream file = System.IO.File.OpenWrite(this.filename);
-            NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(file, rawFile);
+            NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(file, rawFile);
             file.Close();
         }
 

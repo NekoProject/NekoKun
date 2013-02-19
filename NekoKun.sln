@@ -7,18 +7,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET", "ScintillaNE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKun", "NekoKun\NekoKun.csproj", "{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zlib DLL", "Zlib\Zlib DLL.csproj", "{9816BA86-9250-4C00-A912-25F07F8677D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ionic.Zlib", "Zlib\Ionic.Zlib.csproj", "{9816BA86-9250-4C00-A912-25F07F8677D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKunConsole", "NekoKunConsole\NekoKunConsole.csproj", "{FB411E4E-6D62-41AB-B2D6-B4E818A6189E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKun.FuzzyData", "NekoKun.FuzzyData\NekoKun.FuzzyData.csproj", "{3516D3C7-F112-4763-9F2D-0B17991C12FF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{DC80FF22-2F4F-481B-9653-2F9CDCB0D21F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKun.FuzzyData.Serialization.RubyMarshal", "NekoKun.FuzzyData.Serialization.RubyMarshal\NekoKun.FuzzyData.Serialization.RubyMarshal.csproj", "{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3B08BC94-57FF-4F6E-B4C6-2BA9D49BBEA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entry", "Entry", "{1697B355-AC14-409F-B527-237CF96011D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper", "Helper", "{B70F9E72-1958-471E-85F4-902E4DB14237}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoKun.Serialization.RubyMarshal", "NekoKun.Serialization.RubyMarshal\NekoKun.Serialization.RubyMarshal.csproj", "{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = NekoKun.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +54,6 @@ Global
 		{FB411E4E-6D62-41AB-B2D6-B4E818A6189E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB411E4E-6D62-41AB-B2D6-B4E818A6189E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB411E4E-6D62-41AB-B2D6-B4E818A6189E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3516D3C7-F112-4763-9F2D-0B17991C12FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3516D3C7-F112-4763-9F2D-0B17991C12FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3516D3C7-F112-4763-9F2D-0B17991C12FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3516D3C7-F112-4763-9F2D-0B17991C12FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,5 +61,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB} = {DC80FF22-2F4F-481B-9653-2F9CDCB0D21F}
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {DC80FF22-2F4F-481B-9653-2F9CDCB0D21F}
+		{9816BA86-9250-4C00-A912-25F07F8677D1} = {3B08BC94-57FF-4F6E-B4C6-2BA9D49BBEA1}
+		{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9} = {3B08BC94-57FF-4F6E-B4C6-2BA9D49BBEA1}
+		{36CE77D0-D0E1-412B-AAD4-5AA95A9DABD0} = {1697B355-AC14-409F-B527-237CF96011D2}
+		{FB411E4E-6D62-41AB-B2D6-B4E818A6189E} = {B70F9E72-1958-471E-85F4-902E4DB14237}
 	EndGlobalSection
 EndGlobal

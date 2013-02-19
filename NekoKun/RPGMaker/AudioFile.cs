@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -13,17 +14,17 @@ namespace NekoKun.RPGMaker
             this.Pitch = 100;
         }
 
-        public AudioFile(FuzzyData.FuzzyObject obj)
+        public AudioFile(RubyObject obj)
         {
             this.Name = (obj.InstanceVariable["@name"] as string) ?? "";
             this.Volume = Int32.Parse((obj.InstanceVariable["@volume"] ?? 100).ToString());
             this.Pitch = Int32.Parse((obj.InstanceVariable["@pitch"] ?? 100).ToString());
         }
 
-        public FuzzyData.FuzzyObject ToRubyObject()
+        public RubyObject ToRubyObject()
         {
-            FuzzyData.FuzzyObject obj = new NekoKun.FuzzyData.FuzzyObject();
-            obj.ClassName = FuzzyData.FuzzySymbol.GetSymbol("RPG::AudioFile");
+            RubyObject obj = new RubyObject();
+            obj.ClassName = RubySymbol.GetSymbol("RPG::AudioFile");
             obj.InstanceVariable["@name"] = this.Name;
             obj.InstanceVariable["@volume"] = this.Volume;
             obj.InstanceVariable["@pitch"] = this.Pitch;

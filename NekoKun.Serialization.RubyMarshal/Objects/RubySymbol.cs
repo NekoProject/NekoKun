@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
-    public class FuzzySymbol : FuzzyObject
+    public class RubySymbol : RubyObject
     {
         private string name;
-        private static Dictionary<string, FuzzySymbol> symbols = new Dictionary<string, FuzzySymbol>();
-        internal static FuzzySymbol SymbolClassName;
-        internal FuzzyString rubyString;
+        private static Dictionary<string, RubySymbol> symbols = new Dictionary<string, RubySymbol>();
+        internal static RubySymbol SymbolClassName;
+        internal RubyString rubyString;
 
-        protected FuzzySymbol(string s)
+        protected RubySymbol(string s)
         {
             this.name = s;
             symbols.Add(s, this);
         }
 
-        internal FuzzySymbol(float nul)
+        internal RubySymbol(float nul)
         {
             this.name = "Symbol";
             symbols.Add("Symbol", this);
         }
 
-        public override FuzzySymbol ClassName
+        public override RubySymbol ClassName
         {
             get
             {
@@ -35,32 +35,32 @@ namespace NekoKun.FuzzyData
             }
         }
 
-        static FuzzySymbol()
+        static RubySymbol()
         {
-            FuzzySymbol.SymbolClassName = new FuzzySymbol(0.0f);
+            RubySymbol.SymbolClassName = new RubySymbol(0.0f);
         }
 
-        public static Dictionary<string, FuzzySymbol> GetSymbols()
+        public static Dictionary<string, RubySymbol> GetSymbols()
         {
             return symbols;
         }
 
-        public static FuzzySymbol GetSymbol(string s)
+        public static RubySymbol GetSymbol(string s)
         {
             if (symbols.ContainsKey(s)) return symbols[s];
-            return new FuzzySymbol(s);
+            return new RubySymbol(s);
         }
 
-        public static FuzzySymbol GetSymbol(FuzzyString str)
+        public static RubySymbol GetSymbol(RubyString str)
         {
             string s = str.Text;
             if (symbols.ContainsKey(s)) return symbols[s];
-            FuzzySymbol sym = new FuzzySymbol(s);
+            RubySymbol sym = new RubySymbol(s);
             sym.rubyString = str;
             return sym;
         }
 
-        public FuzzyString GetRubyString()
+        public RubyString GetRubyString()
         {
             return this.rubyString;
         }
@@ -80,14 +80,14 @@ namespace NekoKun.FuzzyData
             get { return this.name; }
         }
 
-        public FuzzyClass GetClass()
+        public RubyClass GetClass()
         {
-            return FuzzyClass.GetClass(this);
+            return RubyClass.GetClass(this);
         }
 
-        public FuzzyModule GetModule()
+        public RubyModule GetModule()
         {
-            return FuzzyModule.GetModule(this);
+            return RubyModule.GetModule(this);
         }
     }
 }

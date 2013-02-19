@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -61,14 +62,14 @@ namespace NekoKun.RPGMaker
         {
             using (var fs = new System.IO.FileStream(this.filename, System.IO.FileMode.Open))
             {
-                Object obj = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(fs);
+                Object obj = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(fs);
                 if (!this.arrayMode)
                 {
                     this.contents = LoadItem(obj);
                 }
                 else
                 {
-                    var objl = obj as FuzzyData.FuzzyArray;
+                    var objl = obj as RubyArray;
                     objl.RemoveAt(0);
                     this.contents = new List<object>(Array.ConvertAll<Object, ObjectEditor.Struct>(objl.ToArray(), LoadItem));
                 }
@@ -77,17 +78,17 @@ namespace NekoKun.RPGMaker
 
         protected ObjectEditor.Struct LoadItem(object RubyObj)
         {
-            if (RubyObj is FuzzyData.FuzzyNil)
+            if (RubyObj is RubyNil)
                 return new ObjectEditor.Struct();
 
             ObjectEditor.Struct dict = new NekoKun.ObjectEditor.Struct();
 
-            foreach (var item in (RubyObj as FuzzyData.FuzzyObject).InstanceVariables)
+            foreach (var item in (RubyObj as RubyObject).InstanceVariables)
             {
                 if (!this.fields.ContainsKey(item.Key.GetString()))
                 {
                     System.IO.MemoryStream ms = new System.IO.MemoryStream();
-                    NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(ms, item.Value);
+                    NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(ms, item.Value);
                     byte[] buf = ms.ToArray();
 
                     this.fields.Add(
@@ -97,7 +98,7 @@ namespace NekoKun.RPGMaker
                             delegate
                             {
                                 System.IO.MemoryStream ms2 = new System.IO.MemoryStream(buf);
-                                return NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms2);
+                                return NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(ms2);
                             }
                         )
                     );
@@ -115,13 +116,13 @@ namespace NekoKun.RPGMaker
             object dump;
             if (this.ArrayMode)
             {
-                var list = new FuzzyData.FuzzyArray();
-                list.Add(FuzzyData.FuzzyNil.Instance);
+                var list = new RubyArray();
+                list.Add(RubyNil.Instance);
                 foreach (var item in this.contents as List<object>)
                 {
                     var obj = CreateRubyObject(this.className, item as ObjectEditor.Struct);
                     if (this.idField != null)
-                        obj.InstanceVariables[FuzzyData.FuzzySymbol.GetSymbol(idField.ID)] = list.Count + 1;
+                        obj.InstanceVariables[RubySymbol.GetSymbol(idField.ID)] = list.Count + 1;
 
                     list.Add(obj);
                 }
@@ -133,18 +134,18 @@ namespace NekoKun.RPGMaker
             }
 
             var file = new System.IO.FileStream(this.filename, System.IO.FileMode.Create, System.IO.FileAccess.Write);
-            NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(file, dump);
+            NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(file, dump);
             file.Close();
         }
 
-        private FuzzyData.FuzzyObject CreateRubyObject(string className, ObjectEditor.Struct item)
+        private RubyObject CreateRubyObject(string className, ObjectEditor.Struct item)
         {
-            FuzzyData.FuzzyObject obj = new NekoKun.FuzzyData.FuzzyObject();
-            obj.ClassName = FuzzyData.FuzzySymbol.GetSymbol(className);
+            RubyObject obj = new RubyObject();
+            obj.ClassName = RubySymbol.GetSymbol(className);
             foreach (var kv in item)
 	        {
                 if (kv.Key.ID.StartsWith("@"))
-                    obj.InstanceVariables[FuzzyData.FuzzySymbol.GetSymbol(kv.Key.ID)] = kv.Value;
+                    obj.InstanceVariables[RubySymbol.GetSymbol(kv.Key.ID)] = kv.Value;
 	        }
             return obj;
         }
@@ -165,7 +166,7 @@ namespace NekoKun.RPGMaker
                 {
                     var ms = new System.IO.MemoryStream(item);
                     ms.Seek(4, System.IO.SeekOrigin.Begin);
-                    return LoadItem((NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(ms) as FuzzyData.FuzzyArray)[0]);
+                    return LoadItem((NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(ms) as RubyArray)[0]);
                 };
                 array.DumpObject = (item) =>
                 {
@@ -174,7 +175,7 @@ namespace NekoKun.RPGMaker
                     ms.WriteByte(0);
                     ms.WriteByte(0);
                     ms.WriteByte(0);
-                    NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(ms, new FuzzyData.FuzzyArray(new List<object>() { this.CreateRubyObject(this.className, item as ObjectEditor.Struct) }));
+                    NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(ms, new RubyArray(new List<object>() { this.CreateRubyObject(this.className, item as ObjectEditor.Struct) }));
                     ms.Seek(0, System.IO.SeekOrigin.Begin);
                     System.IO.BinaryWriter bw = new System.IO.BinaryWriter(ms);
                     bw.Write((int)ms.Length - 4);

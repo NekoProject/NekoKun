@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -32,7 +33,7 @@ namespace NekoKun.RPGMaker
             }
         }
 
-        public string FormatParams(NekoKun.FuzzyData.FuzzyObject ev)
+        public string FormatParams(RubyObject ev)
         {
             object o = ev.InstanceVariable["@parameters"];
             if (o == null)

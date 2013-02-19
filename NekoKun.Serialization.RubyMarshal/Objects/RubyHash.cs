@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
     [Serializable]
-    [System.Diagnostics.DebuggerDisplay("FuzzyHash: Count = {Count}")]
-    [System.Diagnostics.DebuggerTypeProxy(typeof(FuzzyHashDebugView))]
-    public class FuzzyHash : FuzzyObject, IEnumerable<KeyValuePair<object, object>>
+    [System.Diagnostics.DebuggerDisplay("RubyHash: Count = {Count}")]
+    [System.Diagnostics.DebuggerTypeProxy(typeof(RubyHashDebugView))]
+    public class RubyHash : RubyObject, IEnumerable<KeyValuePair<object, object>>
     {
         private Dictionary<object, object> dict = new Dictionary<object, object>();
         private object defaultValue;
 
-        public FuzzyHash()
+        public RubyHash()
             : this(null)
         { }
 
-        public FuzzyHash(object DefaultValue)
+        public RubyHash(object DefaultValue)
             : base()
         {
             this.defaultValue = DefaultValue;
-            this.ClassName = FuzzySymbol.GetSymbol("Hash");
+            this.ClassName = RubySymbol.GetSymbol("Hash");
         }
 
         public object DefaultValue
@@ -71,10 +71,10 @@ namespace NekoKun.FuzzyData
         }
 
 
-        internal class FuzzyHashDebugView
+        internal class RubyHashDebugView
         {
-            private FuzzyHash hashtable;
-            public FuzzyHashDebugView(FuzzyHash hashtable)
+            private RubyHash hashtable;
+            public RubyHashDebugView(RubyHash hashtable)
             {
                 this.hashtable = hashtable;
             }

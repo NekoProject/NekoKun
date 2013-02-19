@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
     [Serializable]
-    [System.Diagnostics.DebuggerDisplay("FuzzyArray: Count = {Count}")]
-    [System.Diagnostics.DebuggerTypeProxy(typeof(FuzzyArrayDebugView))]
-    public class FuzzyArray : FuzzyObject, IEnumerable<object>, System.Collections.IEnumerable
+    [System.Diagnostics.DebuggerDisplay("RubyArray: Count = {Count}")]
+    [System.Diagnostics.DebuggerTypeProxy(typeof(RubyArrayDebugView))]
+    public class RubyArray : RubyObject, IEnumerable<object>, System.Collections.IEnumerable
     {
         private List<object> list;
 
@@ -33,30 +33,30 @@ namespace NekoKun.FuzzyData
             return list.GetEnumerator();
         }
 
-        public static implicit operator List<object>(FuzzyArray that)
+        public static implicit operator List<object>(RubyArray that)
         {
             return that.list;
         }
 
-        public static implicit operator FuzzyArray(List<object> that)
+        public static implicit operator RubyArray(List<object> that)
         {
-            return new FuzzyArray(that);
+            return new RubyArray(that);
         }
 
-        public FuzzyArray()
+        public RubyArray()
         {
             list = new List<object>();
-            this.ClassName = FuzzySymbol.GetSymbol("Array");
+            this.ClassName = RubySymbol.GetSymbol("Array");
         }
-        public FuzzyArray(IEnumerable<object> collection)
+        public RubyArray(IEnumerable<object> collection)
         {
             list = new List<object>(collection);
-            this.ClassName = FuzzySymbol.GetSymbol("Array");
+            this.ClassName = RubySymbol.GetSymbol("Array");
         }
-        public FuzzyArray(int capacity)
+        public RubyArray(int capacity)
         {
             list = new List<object>(capacity);
-            this.ClassName = FuzzySymbol.GetSymbol("Array");
+            this.ClassName = RubySymbol.GetSymbol("Array");
         }
         public int Capacity { get { return list.Capacity; } set { list.Capacity = value; } }
         public int Count { get { return list.Count; } }
@@ -139,10 +139,10 @@ namespace NekoKun.FuzzyData
             list.InsertRange(0, items);
         }
 
-        internal class FuzzyArrayDebugView
+        internal class RubyArrayDebugView
         {
-            private FuzzyArray hashtable;
-            public FuzzyArrayDebugView(FuzzyArray hashtable)
+            private RubyArray hashtable;
+            public RubyArrayDebugView(RubyArray hashtable)
             {
                 this.hashtable = hashtable;
             }

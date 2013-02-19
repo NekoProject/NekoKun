@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace NekoKun.FuzzyData.Serialization.RubyMarshal
+namespace NekoKun.Serialization.RubyMarshal
 {
     public static class RubyMarshal
     {
@@ -12,8 +12,8 @@ namespace NekoKun.FuzzyData.Serialization.RubyMarshal
 
         public abstract class IDs
         {
-            public static FuzzySymbol encoding = FuzzySymbol.GetSymbol("encoding");
-            public static FuzzySymbol E = FuzzySymbol.GetSymbol("E");   
+            public static RubySymbol encoding = RubySymbol.GetSymbol("encoding");
+            public static RubySymbol E = RubySymbol.GetSymbol("E");   
         }
 
         public abstract class Types

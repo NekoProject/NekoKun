@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.FuzzyData.Serialization.RubyMarshal
+namespace NekoKun.Serialization.RubyMarshal
 {
-    public class FuzzyUserdefinedMarshalDumpObject : FuzzyObject, IRubyUserdefinedMarshalDumpObject
+    public class RubyUserdefinedMarshalDumpObject : RubyObject, IRubyUserdefinedMarshalDumpObject
     {
         private object dumpedObject;
 

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列属性集
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("NekoKun.FuzzyData")]
+[assembly: AssemblyTitle("NekoKun.Serialization.RubyMarshal")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Blue Snow Studio")]
-[assembly: AssemblyProduct("NekoKun.FuzzyData")]
-[assembly: AssemblyCopyright("Copyright © Blue Snow Studio 2012")]
+[assembly: AssemblyCompany("Yeechan Lu")]
+[assembly: AssemblyProduct("NekoKun.Serialization.RubyMarshal")]
+[assembly: AssemblyCopyright("Copyright © Yeechan Lu 2012-2013; ruby - Copyright (C) 1993-2011 Yukihiro Matsumoto")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("941c4fa7-e4aa-423d-8cc9-c51592b9620b")]
+[assembly: Guid("d677a982-3cd7-4026-9e16-6234cabc9499")]
 
 // 程序集的版本信息由下面四个值组成:
 //

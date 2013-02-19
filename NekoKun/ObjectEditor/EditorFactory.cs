@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.ObjectEditor
 {
@@ -8,15 +9,15 @@ namespace NekoKun.ObjectEditor
     {
         public static string CreateFromDefaultValue(object value)
         {
-            if (value is FuzzyData.FuzzyString || value is string)
+            if (value is RubyString || value is string)
                 return typeof(SingleTextEditor).FullName;
 
             if (value is int)
                 return typeof(DecimalEditor).FullName;
 
-            if (value is FuzzyData.FuzzyObject)
+            if (value is RubyObject)
             {
-                FuzzyData.FuzzyObject obj = value as FuzzyData.FuzzyObject;
+                RubyObject obj = value as RubyObject;
                 //if (obj.ClassName.GetString() == "RPG::AudioFile")
                 //    return typeof(RPGMaker.AudioFileEditor).FullName;
             }

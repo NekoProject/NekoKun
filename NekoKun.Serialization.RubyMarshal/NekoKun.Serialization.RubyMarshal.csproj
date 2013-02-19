@@ -8,8 +8,8 @@
     <ProjectGuid>{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NekoKun.FuzzyData.Serialization.RubyMarshal</RootNamespace>
-    <AssemblyName>NekoKun.FuzzyData.Serialization.RubyMarshal</AssemblyName>
+    <RootNamespace>NekoKun.Serialization.RubyMarshal</RootNamespace>
+    <AssemblyName>NekoKun.Serialization.RubyMarshal</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,20 +36,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RubyUserdefinedDumpObject.cs" />
-    <Compile Include="RubyUserdefinedMarshalDumpObject.cs" />
-    <Compile Include="IRubyUserdefinedDumpObject.cs" />
+    <Compile Include="Objects\RubyArray.cs" />
+    <Compile Include="Objects\RubyBignum.cs" />
+    <Compile Include="Objects\RubyClass.cs" />
+    <Compile Include="Objects\RubyFloat.cs" />
+    <Compile Include="Objects\RubyHash.cs" />
+    <Compile Include="Objects\RubyModule.cs" />
+    <Compile Include="Objects\RubyNil.cs" />
+    <Compile Include="Objects\RubyObject.cs" />
+    <Compile Include="Objects\RubyRegexp.cs" />
+    <Compile Include="Objects\RubyString.cs" />
+    <Compile Include="Objects\RubyStruct.cs" />
+    <Compile Include="Objects\RubySymbol.cs" />
+    <Compile Include="Objects\RubyUserdefinedDumpObject.cs" />
+    <Compile Include="Objects\RubyUserdefinedMarshalDumpObject.cs" />
+    <Compile Include="Objects\IRubyUserdefinedDumpObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubyMarshal.cs" />
     <Compile Include="RubyMarshalReader.cs" />
     <Compile Include="RubyMarshalWriter.cs" />
-    <Compile Include="IRubyUserdefinedMarshalDumpObject.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NekoKun.FuzzyData\NekoKun.FuzzyData.csproj">
-      <Project>{3516D3C7-F112-4763-9F2D-0B17991C12FF}</Project>
-      <Name>NekoKun.FuzzyData</Name>
-    </ProjectReference>
+    <Compile Include="Objects\IRubyUserdefinedMarshalDumpObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -339,19 +339,15 @@
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NekoKun.FuzzyData.Serialization.RubyMarshal\NekoKun.FuzzyData.Serialization.RubyMarshal.csproj">
+    <ProjectReference Include="..\NekoKun.Serialization.RubyMarshal\NekoKun.Serialization.RubyMarshal.csproj">
       <Project>{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}</Project>
-      <Name>NekoKun.FuzzyData.Serialization.RubyMarshal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NekoKun.FuzzyData\NekoKun.FuzzyData.csproj">
-      <Project>{3516D3C7-F112-4763-9F2D-0B17991C12FF}</Project>
-      <Name>NekoKun.FuzzyData</Name>
+      <Name>NekoKun.Serialization.RubyMarshal</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">
       <Project>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</Project>
       <Name>ScintillaNET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zlib\Zlib DLL.csproj">
+    <ProjectReference Include="..\Zlib\Ionic.Zlib.csproj">
       <Project>{9816BA86-9250-4C00-A912-25F07F8677D1}</Project>
       <Name>Zlib DLL</Name>
     </ProjectReference>

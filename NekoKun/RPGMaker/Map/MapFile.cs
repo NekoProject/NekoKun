@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.RPGMaker
 {
@@ -15,7 +16,7 @@ namespace NekoKun.RPGMaker
         public TilesetFile TilesetFile;
         public string ParentID;
         public int Order;
-        public FuzzyData.FuzzyObject raw;
+        public RubyObject raw;
 
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
@@ -33,7 +34,7 @@ namespace NekoKun.RPGMaker
             if (!this.infoLoaded)
                 return;
 
-            FuzzyData.RGSSTable table = new NekoKun.FuzzyData.RGSSTable(this.Size.Width, this.Size.Height, this.Layers.Count);
+            RGSSTable table = new RGSSTable(this.Size.Width, this.Size.Height, this.Layers.Count);
             List<MapLayer> truth = new List<MapLayer>(this.Layers);
             if (truth.Count == 4)
             {
@@ -55,7 +56,7 @@ namespace NekoKun.RPGMaker
 
             using (var fs = new System.IO.FileStream(this.filename, System.IO.FileMode.Create, System.IO.FileAccess.Write))
             {
-                NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Dump(fs, raw);
+                NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(fs, raw);
             }
         }
 
@@ -69,13 +70,13 @@ namespace NekoKun.RPGMaker
 
         private void LoadInfo()
         {
-            FuzzyData.RGSSTable data;
+            RGSSTable data;
             infoLoaded = true;
 
-            raw = NekoKun.FuzzyData.Serialization.RubyMarshal.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as FuzzyData.FuzzyObject;
+            raw = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(new System.IO.FileStream(this.filename, System.IO.FileMode.Open, System.IO.FileAccess.Read)) as RubyObject;
             this.TilesetID = (int)raw.InstanceVariable["@tileset_id"] - 1;
-            var j = raw.InstanceVariable["@data"] as NekoKun.FuzzyData.Serialization.RubyMarshal.FuzzyUserdefinedDumpObject;
-            data = new FuzzyData.RGSSTable(j.DumpedObject as byte[]);
+            var j = raw.InstanceVariable["@data"] as NekoKun.Serialization.RubyMarshal.RubyUserdefinedDumpObject;
+            data = new RGSSTable(j.DumpedObject as byte[]);
             this.Size = new System.Drawing.Size((int)raw.InstanceVariable["@width"], (int)raw.InstanceVariable["@height"]);
 
             this.Layers = new List<MapLayer>();

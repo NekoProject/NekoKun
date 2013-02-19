@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NekoKun.Serialization.RubyMarshal;
 
 namespace NekoKun.ObjectEditor
 {
@@ -22,16 +23,16 @@ namespace NekoKun.ObjectEditor
 
         public override void Commit()
         {
-            if (selectedItem is FuzzyData.FuzzyString)
-                this.selectedItem = new FuzzyData.FuzzyString(control.Text);
+            if (selectedItem is RubyString)
+                this.selectedItem = new RubyString(control.Text);
             else if (selectedItem is string)
                 this.selectedItem = control.Text;
         }
 
         protected override void InitControl()
         {
-            if (selectedItem is FuzzyData.FuzzyString)
-                control.Text = (selectedItem as FuzzyData.FuzzyString).Text;
+            if (selectedItem is RubyString)
+                control.Text = (selectedItem as RubyString).Text;
             else if (selectedItem is string)
                 control.Text = selectedItem as string;
         }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 
-namespace NekoKun.FuzzyData
+namespace NekoKun.Serialization.RubyMarshal
 {
     //disassembled from Microsoft.Scripting.Math.RubyBignum @ Microsoft.Dynamic, Version=1.0.0.0
 
     [Serializable]
-    public sealed class FuzzyBignum : FuzzyObject, IFormattable, IComparable, IConvertible, IEquatable<FuzzyBignum>
+    public sealed class RubyBignum : RubyObject, IFormattable, IComparable, IConvertible, IEquatable<RubyBignum>
     {
         // Fields
         private const ulong Base = 0x100000000L;
@@ -17,12 +17,12 @@ namespace NekoKun.FuzzyData
         private readonly uint[] data;
         private const int DecimalScaleFactorMask = 0xff0000;
         private const int DecimalSignMask = -2147483648;
-        public static readonly FuzzyBignum One = new FuzzyBignum(1, new uint[] { 1 });
+        public static readonly RubyBignum One = new RubyBignum(1, new uint[] { 1 });
         private readonly short sign;
-        public static readonly FuzzyBignum Zero = new FuzzyBignum(0, new uint[0]);
+        public static readonly RubyBignum Zero = new RubyBignum(0, new uint[0]);
 
         // Methods
-        public FuzzyBignum(FuzzyBignum copy)
+        public RubyBignum(RubyBignum copy)
         {
             if (object.ReferenceEquals(copy, null))
             {
@@ -30,15 +30,15 @@ namespace NekoKun.FuzzyData
             }
             this.sign = copy.sign;
             this.data = copy.data;
-            this.ClassName = FuzzySymbol.GetSymbol("Bignum");
+            this.ClassName = RubySymbol.GetSymbol("Bignum");
         }
 
-        public FuzzyBignum(byte[] bytes)
+        public RubyBignum(byte[] bytes)
             : this(Create(bytes))
         {
         }
 
-        public FuzzyBignum(int sign, params uint[] data)
+        public RubyBignum(int sign, params uint[] data)
         {
             ContractUtils.RequiresNotNull(data, "data");
             ContractUtils.Requires((sign >= -1) && (sign <= 1), "sign");
@@ -46,10 +46,10 @@ namespace NekoKun.FuzzyData
             ContractUtils.Requires((length == 0) || (sign != 0), "sign");
             this.data = data;
             this.sign = (length == 0) ? ((short)0) : ((short)sign);
-            this.ClassName = FuzzySymbol.GetSymbol("Bignum");
+            this.ClassName = RubySymbol.GetSymbol("Bignum");
         }
 
-        public FuzzyBignum Abs()
+        public RubyBignum Abs()
         {
             if (this.sign == -1)
             {
@@ -58,7 +58,7 @@ namespace NekoKun.FuzzyData
             return this;
         }
 
-        public static FuzzyBignum Add(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Add(RubyBignum x, RubyBignum y)
         {
             return (x + y);
         }
@@ -197,17 +197,17 @@ namespace NekoKun.FuzzyData
             return true;
         }
 
-        public static FuzzyBignum BitwiseAnd(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum BitwiseAnd(RubyBignum x, RubyBignum y)
         {
             return (x & y);
         }
 
-        public static FuzzyBignum BitwiseOr(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum BitwiseOr(RubyBignum x, RubyBignum y)
         {
             return (x | y);
         }
 
-        public static int Compare(FuzzyBignum x, FuzzyBignum y)
+        public static int Compare(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -255,7 +255,7 @@ namespace NekoKun.FuzzyData
             {
                 return 1;
             }
-            FuzzyBignum objA = obj as FuzzyBignum;
+            RubyBignum objA = obj as RubyBignum;
             if (object.ReferenceEquals(objA, null))
             {
                 throw new ArgumentException("expected integer");
@@ -270,7 +270,7 @@ namespace NekoKun.FuzzyData
             return destinationArray;
         }
 
-        public static FuzzyBignum Create(decimal v)
+        public static RubyBignum Create(decimal v)
         {
             int[] bits = decimal.GetBits(decimal.Truncate(v));
             int num = 3;
@@ -292,10 +292,10 @@ namespace NekoKun.FuzzyData
             {
                 data[2] = (uint)bits[2];
             }
-            return new FuzzyBignum(((bits[3] & -2147483648) != 0) ? -1 : 1, data);
+            return new RubyBignum(((bits[3] & -2147483648) != 0) ? -1 : 1, data);
         }
 
-        public static FuzzyBignum Create(double v)
+        public static RubyBignum Create(double v)
         {
             if (double.IsNaN(v) || double.IsInfinity(v))
             {
@@ -310,12 +310,12 @@ namespace NekoKun.FuzzyData
                 {
                     return Zero;
                 }
-                FuzzyBignum integer = Negative(bytes) ? Negate(One) : One;
+                RubyBignum integer = Negative(bytes) ? Negate(One) : One;
                 return (integer << (num2 - 0x3ff));
             }
             int num3 = Exponent(bytes);
             num |= (ulong)0x10000000000000L;
-            FuzzyBignum integer2 = Create(num);
+            RubyBignum integer2 = Create(num);
             integer2 = (num3 > 0x433) ? (integer2 << (num3 - 0x433)) : (integer2 >> (0x433 - num3));
             if (!Negative(bytes))
             {
@@ -324,7 +324,7 @@ namespace NekoKun.FuzzyData
             return (integer2 * -1);
         }
 
-        public static FuzzyBignum Create(int v)
+        public static RubyBignum Create(int v)
         {
             if (v == 0)
             {
@@ -336,12 +336,12 @@ namespace NekoKun.FuzzyData
             }
             if (v < 0)
             {
-                return new FuzzyBignum(-1, new uint[] { (uint) -v });
+                return new RubyBignum(-1, new uint[] { (uint) -v });
             }
-            return new FuzzyBignum(1, new uint[] { (uint) v });
+            return new RubyBignum(1, new uint[] { (uint) v });
         }
 
-        public static FuzzyBignum Create(long v)
+        public static RubyBignum Create(long v)
         {
             ulong num;
             int sign = 1;
@@ -354,11 +354,11 @@ namespace NekoKun.FuzzyData
             {
                 num = (ulong)v;
             }
-            return new FuzzyBignum(sign, new uint[] { (uint)num, (uint)(num >> 0x20) });
+            return new RubyBignum(sign, new uint[] { (uint)num, (uint)(num >> 0x20) });
         }
 
         
-        public static FuzzyBignum Create(uint v)
+        public static RubyBignum Create(uint v)
         {
             if (v == 0)
             {
@@ -368,16 +368,16 @@ namespace NekoKun.FuzzyData
             {
                 return One;
             }
-            return new FuzzyBignum(1, new uint[] { v });
+            return new RubyBignum(1, new uint[] { v });
         }
 
         
-        public static FuzzyBignum Create(ulong v)
+        public static RubyBignum Create(ulong v)
         {
-            return new FuzzyBignum(1, new uint[] { (uint)v, (uint)(v >> 0x20) });
+            return new RubyBignum(1, new uint[] { (uint)v, (uint)(v >> 0x20) });
         }
 
-        public static FuzzyBignum Create(byte[] v)
+        public static RubyBignum Create(byte[] v)
         {
             ContractUtils.RequiresNotNull(v, "v");
             if (v.Length == 0)
@@ -430,12 +430,12 @@ namespace NekoKun.FuzzyData
             if (flag)
             {
                 makeTwosComplement(d);
-                return new FuzzyBignum(-1, d);
+                return new RubyBignum(-1, d);
             }
-            return new FuzzyBignum(1, d);
+            return new RubyBignum(1, d);
         }
 
-        public static FuzzyBignum Divide(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Divide(RubyBignum x, RubyBignum y)
         {
             return (x / y);
         }
@@ -528,7 +528,7 @@ namespace NekoKun.FuzzyData
             }
         }
 
-        public static FuzzyBignum DivRem(FuzzyBignum x, FuzzyBignum y, out FuzzyBignum remainder)
+        public static RubyBignum DivRem(RubyBignum x, RubyBignum y, out RubyBignum remainder)
         {
             uint[] numArray;
             uint[] numArray2;
@@ -541,11 +541,11 @@ namespace NekoKun.FuzzyData
                 throw new ArgumentNullException("y");
             }
             DivModUnsigned(x.data, y.data, out numArray, out numArray2);
-            remainder = new FuzzyBignum(x.sign, numArray2);
-            return new FuzzyBignum(x.sign * y.sign, numArray);
+            remainder = new RubyBignum(x.sign, numArray2);
+            return new RubyBignum(x.sign * y.sign, numArray);
         }
 
-        public bool Equals(FuzzyBignum other)
+        public bool Equals(RubyBignum other)
         {
             if (object.ReferenceEquals(other, null))
             {
@@ -556,7 +556,7 @@ namespace NekoKun.FuzzyData
 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as FuzzyBignum);
+            return this.Equals(obj as RubyBignum);
         }
 
         private static ushort Exponent(byte[] v)
@@ -770,7 +770,7 @@ namespace NekoKun.FuzzyData
             return (this.sign == 0);
         }
 
-        public static FuzzyBignum LeftShift(FuzzyBignum x, int shift)
+        public static RubyBignum LeftShift(RubyBignum x, int shift)
         {
             return (x << shift);
         }
@@ -807,7 +807,7 @@ namespace NekoKun.FuzzyData
             long num4 = num2;
             double d = 0.0;
             double num6 = 1.0;
-            FuzzyBignum one = One;
+            RubyBignum one = One;
             long num7 = num4;
             while (num7 > 0x7fffffffL)
             {
@@ -868,12 +868,12 @@ namespace NekoKun.FuzzyData
             return (num | (num2 << 0x20));
         }
 
-        public static FuzzyBignum Mod(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Mod(RubyBignum x, RubyBignum y)
         {
             return (x % y);
         }
 
-        public FuzzyBignum ModPow(FuzzyBignum power, FuzzyBignum mod)
+        public RubyBignum ModPow(RubyBignum power, RubyBignum mod)
         {
             if (object.ReferenceEquals(power, null))
             {
@@ -887,8 +887,8 @@ namespace NekoKun.FuzzyData
             {
                 throw new ArgumentOutOfRangeException("power", "power must be >= 0");
             }
-            FuzzyBignum integer = this;
-            FuzzyBignum integer2 = One % mod;
+            RubyBignum integer = this;
+            RubyBignum integer2 = One % mod;
             while (power != Zero)
             {
                 if (power.IsOdd())
@@ -906,7 +906,7 @@ namespace NekoKun.FuzzyData
             return integer2;
         }
 
-        public FuzzyBignum ModPow(int power, FuzzyBignum mod)
+        public RubyBignum ModPow(int power, RubyBignum mod)
         {
             if (object.ReferenceEquals(mod, null))
             {
@@ -916,8 +916,8 @@ namespace NekoKun.FuzzyData
             {
                 throw new ArgumentOutOfRangeException("power", "power must be >= 0");
             }
-            FuzzyBignum integer = this;
-            FuzzyBignum integer2 = One % mod;
+            RubyBignum integer = this;
+            RubyBignum integer2 = One % mod;
             while (power != 0)
             {
                 if ((power & 1) != 0)
@@ -935,12 +935,12 @@ namespace NekoKun.FuzzyData
             return integer2;
         }
 
-        public static FuzzyBignum Multiply(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Multiply(RubyBignum x, RubyBignum y)
         {
             return (x * y);
         }
 
-        public static FuzzyBignum Negate(FuzzyBignum x)
+        public static RubyBignum Negate(RubyBignum x)
         {
             return -x;
         }
@@ -983,12 +983,12 @@ namespace NekoKun.FuzzyData
             }
         }
 
-        public FuzzyBignum OnesComplement()
+        public RubyBignum OnesComplement()
         {
             return ~this;
         }
 
-        public static FuzzyBignum operator +(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator +(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1000,12 +1000,12 @@ namespace NekoKun.FuzzyData
             }
             if (x.sign == y.sign)
             {
-                return new FuzzyBignum(x.sign, add0(x.data, x.GetLength(), y.data, y.GetLength()));
+                return new RubyBignum(x.sign, add0(x.data, x.GetLength(), y.data, y.GetLength()));
             }
-            return (x - new FuzzyBignum(-y.sign, y.data));
+            return (x - new RubyBignum(-y.sign, y.data));
         }
 
-        public static FuzzyBignum operator &(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator &(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1033,16 +1033,16 @@ namespace NekoKun.FuzzyData
             }
             if (isNeg && flag2)
             {
-                return new FuzzyBignum(-1, makeTwosComplement(d));
+                return new RubyBignum(-1, makeTwosComplement(d));
             }
             if (!isNeg && !flag2)
             {
-                return new FuzzyBignum(1, d);
+                return new RubyBignum(1, d);
             }
-            return new FuzzyBignum(1, d);
+            return new RubyBignum(1, d);
         }
 
-        public static FuzzyBignum operator |(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator |(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1070,23 +1070,23 @@ namespace NekoKun.FuzzyData
             }
             if ((!isNeg || !flag2) && (!isNeg && !flag2))
             {
-                return new FuzzyBignum(1, numArray3);
+                return new RubyBignum(1, numArray3);
             }
-            return new FuzzyBignum(-1, makeTwosComplement(numArray3));
+            return new RubyBignum(-1, makeTwosComplement(numArray3));
         }
 
-        public static FuzzyBignum operator /(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator /(RubyBignum x, RubyBignum y)
         {
-            FuzzyBignum integer;
+            RubyBignum integer;
             return DivRem(x, y, out integer);
         }
 
-        public static bool operator ==(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator ==(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) == 0);
         }
 
-        public static bool operator ==(FuzzyBignum x, double y)
+        public static bool operator ==(RubyBignum x, double y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1099,17 +1099,17 @@ namespace NekoKun.FuzzyData
             return (x == Create(y));
         }
 
-        public static bool operator ==(FuzzyBignum x, int y)
+        public static bool operator ==(RubyBignum x, int y)
         {
             return (x == y);
         }
 
-        public static bool operator ==(double x, FuzzyBignum y)
+        public static bool operator ==(double x, RubyBignum y)
         {
             return (y == x);
         }
 
-        public static FuzzyBignum operator ^(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator ^(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1137,16 +1137,16 @@ namespace NekoKun.FuzzyData
             }
             if (isNeg && flag2)
             {
-                return new FuzzyBignum(1, numArray3);
+                return new RubyBignum(1, numArray3);
             }
             if (!isNeg && !flag2)
             {
-                return new FuzzyBignum(1, numArray3);
+                return new RubyBignum(1, numArray3);
             }
-            return new FuzzyBignum(-1, makeTwosComplement(numArray3));
+            return new RubyBignum(-1, makeTwosComplement(numArray3));
         }
 
-        public static explicit operator byte(FuzzyBignum self)
+        public static explicit operator byte(RubyBignum self)
         {
             int num;
             if (!self.AsInt32(out num))
@@ -1156,7 +1156,7 @@ namespace NekoKun.FuzzyData
             return (byte)num;
         }
 
-        public static explicit operator decimal(FuzzyBignum self)
+        public static explicit operator decimal(RubyBignum self)
         {
             decimal num;
             if (!self.AsDecimal(out num))
@@ -1166,7 +1166,7 @@ namespace NekoKun.FuzzyData
             return num;
         }
 
-        public static explicit operator double(FuzzyBignum self)
+        public static explicit operator double(RubyBignum self)
         {
             if (object.ReferenceEquals(self, null))
             {
@@ -1175,7 +1175,7 @@ namespace NekoKun.FuzzyData
             return self.ToFloat64();
         }
 
-        public static explicit operator short(FuzzyBignum self)
+        public static explicit operator short(RubyBignum self)
         {
             int num;
             if (!self.AsInt32(out num))
@@ -1185,7 +1185,7 @@ namespace NekoKun.FuzzyData
             return (short)num;
         }
 
-        public static explicit operator int(FuzzyBignum self)
+        public static explicit operator int(RubyBignum self)
         {
             int num;
             if (!self.AsInt32(out num))
@@ -1195,7 +1195,7 @@ namespace NekoKun.FuzzyData
             return num;
         }
 
-        public static explicit operator long(FuzzyBignum self)
+        public static explicit operator long(RubyBignum self)
         {
             long num;
             if (!self.AsInt64(out num))
@@ -1206,7 +1206,7 @@ namespace NekoKun.FuzzyData
         }
 
         
-        public static explicit operator sbyte(FuzzyBignum self)
+        public static explicit operator sbyte(RubyBignum self)
         {
             int num;
             if (!self.AsInt32(out num))
@@ -1216,7 +1216,7 @@ namespace NekoKun.FuzzyData
             return (sbyte)num;
         }
 
-        public static explicit operator float(FuzzyBignum self)
+        public static explicit operator float(RubyBignum self)
         {
             if (object.ReferenceEquals(self, null))
             {
@@ -1226,7 +1226,7 @@ namespace NekoKun.FuzzyData
         }
 
         
-        public static explicit operator ushort(FuzzyBignum self)
+        public static explicit operator ushort(RubyBignum self)
         {
             int num;
             if (!self.AsInt32(out num))
@@ -1237,7 +1237,7 @@ namespace NekoKun.FuzzyData
         }
 
         
-        public static explicit operator uint(FuzzyBignum self)
+        public static explicit operator uint(RubyBignum self)
         {
             uint num;
             if (!self.AsUInt32(out num))
@@ -1248,7 +1248,7 @@ namespace NekoKun.FuzzyData
         }
 
         
-        public static explicit operator ulong(FuzzyBignum self)
+        public static explicit operator ulong(RubyBignum self)
         {
             ulong num;
             if (!self.AsUInt64(out num))
@@ -1258,96 +1258,96 @@ namespace NekoKun.FuzzyData
             return num;
         }
 
-        public static explicit operator FuzzyBignum(double self)
+        public static explicit operator RubyBignum(double self)
         {
             return Create(self);
         }
 
-        public static explicit operator FuzzyBignum(float self)
+        public static explicit operator RubyBignum(float self)
         {
             return Create((double)self);
         }
 
-        public static bool operator >(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator >(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) > 0);
         }
 
-        public static bool operator >=(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator >=(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) >= 0);
         }
 
-        public static implicit operator FuzzyBignum(byte i)
+        public static implicit operator RubyBignum(byte i)
         {
             return Create((uint)i);
         }
 
-        public static implicit operator FuzzyBignum(decimal i)
+        public static implicit operator RubyBignum(decimal i)
         {
             return Create(i);
         }
 
-        public static implicit operator FuzzyBignum(short i)
+        public static implicit operator RubyBignum(short i)
         {
             return Create((int)i);
         }
 
-        public static implicit operator FuzzyBignum(int i)
+        public static implicit operator RubyBignum(int i)
         {
             return Create(i);
         }
 
-        public static implicit operator FuzzyBignum(long i)
+        public static implicit operator RubyBignum(long i)
         {
             return Create(i);
         }
 
         
-        public static implicit operator FuzzyBignum(sbyte i)
+        public static implicit operator RubyBignum(sbyte i)
         {
             return Create((int)i);
         }
 
         
-        public static implicit operator FuzzyBignum(ushort i)
+        public static implicit operator RubyBignum(ushort i)
         {
             return Create((uint)i);
         }
 
         
-        public static implicit operator FuzzyBignum(uint i)
+        public static implicit operator RubyBignum(uint i)
         {
             return Create(i);
         }
 
         
-        public static implicit operator FuzzyBignum(ulong i)
+        public static implicit operator RubyBignum(ulong i)
         {
             return Create(i);
         }
 
-        public static bool operator !=(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator !=(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) != 0);
         }
 
-        public static bool operator !=(FuzzyBignum x, double y)
+        public static bool operator !=(RubyBignum x, double y)
         {
             return (x != y);
         }
 
-        public static bool operator !=(FuzzyBignum x, int y)
+        public static bool operator !=(RubyBignum x, int y)
         {
             return (x != y);
         }
 
-        public static bool operator !=(double x, FuzzyBignum y)
+        public static bool operator !=(double x, RubyBignum y)
         {
             return (x != y);
         }
 
-        public static FuzzyBignum operator <<(FuzzyBignum x, int shift)
+        public static RubyBignum operator <<(RubyBignum x, int shift)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1388,27 +1388,27 @@ namespace NekoKun.FuzzyData
                 }
                 numArray2[index + num] = num7;
             }
-            return new FuzzyBignum(x.sign, numArray2);
+            return new RubyBignum(x.sign, numArray2);
         }
 
-        public static bool operator <(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator <(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) < 0);
         }
 
-        public static bool operator <=(FuzzyBignum x, FuzzyBignum y)
+        public static bool operator <=(RubyBignum x, RubyBignum y)
         {
             return (Compare(x, y) <= 0);
         }
 
-        public static FuzzyBignum operator %(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator %(RubyBignum x, RubyBignum y)
         {
-            FuzzyBignum integer;
+            RubyBignum integer;
             DivRem(x, y, out integer);
             return integer;
         }
 
-        public static FuzzyBignum operator *(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator *(RubyBignum x, RubyBignum y)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1442,10 +1442,10 @@ namespace NekoKun.FuzzyData
                     num7 = num7 >> 0x20;
                 }
             }
-            return new FuzzyBignum(x.sign * y.sign, numArray3);
+            return new RubyBignum(x.sign * y.sign, numArray3);
         }
 
-        public static FuzzyBignum operator ~(FuzzyBignum x)
+        public static RubyBignum operator ~(RubyBignum x)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1454,7 +1454,7 @@ namespace NekoKun.FuzzyData
             return -(x + One);
         }
 
-        public static FuzzyBignum operator >>(FuzzyBignum x, int shift)
+        public static RubyBignum operator >>(RubyBignum x, int shift)
         {
             if (object.ReferenceEquals(x, null))
             {
@@ -1496,7 +1496,7 @@ namespace NekoKun.FuzzyData
                     num7 = num9 << num6;
                 }
             }
-            FuzzyBignum integer = new FuzzyBignum(x.sign, numArray2);
+            RubyBignum integer = new RubyBignum(x.sign, numArray2);
             if (x.IsNegative())
             {
                 for (int k = 0; k < index; k++)
@@ -1514,7 +1514,7 @@ namespace NekoKun.FuzzyData
             return integer;
         }
 
-        public static FuzzyBignum operator -(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum operator -(RubyBignum x, RubyBignum y)
         {
             uint[] numArray;
             int sign = Compare(x, y);
@@ -1522,7 +1522,7 @@ namespace NekoKun.FuzzyData
             {
                 if (x.sign != y.sign)
                 {
-                    return new FuzzyBignum(sign, add0(x.data, x.GetLength(), y.data, y.GetLength()));
+                    return new RubyBignum(sign, add0(x.data, x.GetLength(), y.data, y.GetLength()));
                 }
                 switch ((sign * x.sign))
                 {
@@ -1537,19 +1537,19 @@ namespace NekoKun.FuzzyData
             }
             return Zero;
         Label_0084:
-            return new FuzzyBignum(sign, numArray);
+            return new RubyBignum(sign, numArray);
         }
 
-        public static FuzzyBignum operator -(FuzzyBignum x)
+        public static RubyBignum operator -(RubyBignum x)
         {
             if (object.ReferenceEquals(x, null))
             {
                 throw new ArgumentNullException("x");
             }
-            return new FuzzyBignum(-x.sign, x.data);
+            return new RubyBignum(-x.sign, x.data);
         }
 
-        public FuzzyBignum Power(int exp)
+        public RubyBignum Power(int exp)
         {
             if (exp == 0)
             {
@@ -1559,8 +1559,8 @@ namespace NekoKun.FuzzyData
             {
                 throw new ArgumentOutOfRangeException("exp", "exp must be >= 0");
             }
-            FuzzyBignum integer = this;
-            FuzzyBignum one = One;
+            RubyBignum integer = this;
+            RubyBignum one = One;
             while (exp != 0)
             {
                 if ((exp & 1) != 0)
@@ -1592,12 +1592,12 @@ namespace NekoKun.FuzzyData
             return numArray;
         }
 
-        public static FuzzyBignum RightShift(FuzzyBignum x, int shift)
+        public static RubyBignum RightShift(RubyBignum x, int shift)
         {
             return (x >> shift);
         }
 
-        public FuzzyBignum Square()
+        public RubyBignum Square()
         {
             return (this * this);
         }
@@ -1653,7 +1653,7 @@ namespace NekoKun.FuzzyData
             return numArray;
         }
 
-        public static FuzzyBignum Subtract(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Subtract(RubyBignum x, RubyBignum y)
         {
             return (x - y);
         }
@@ -1914,7 +1914,7 @@ namespace NekoKun.FuzzyData
 
         public object ToType(Type conversionType, IFormatProvider provider)
         {
-            if (conversionType != typeof(FuzzyBignum))
+            if (conversionType != typeof(RubyBignum))
             {
                 throw new NotImplementedException();
             }
@@ -2005,7 +2005,7 @@ namespace NekoKun.FuzzyData
             }
         }
 
-        public static FuzzyBignum Xor(FuzzyBignum x, FuzzyBignum y)
+        public static RubyBignum Xor(RubyBignum x, RubyBignum y)
         {
             return (x ^ y);
         }
