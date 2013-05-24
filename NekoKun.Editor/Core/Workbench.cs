@@ -12,8 +12,6 @@ namespace NekoKun
 {
     public partial class Workbench : Form
     {
-        private List<AbstractFile> pendingChanges = new List<AbstractFile>();
-
         private static Workbench instance;
         protected ToolboxDockContent toolbox;
 
@@ -57,8 +55,20 @@ namespace NekoKun
 
             this.Load += new EventHandler(Workbench_Load);
             this.FormClosing += new FormClosingEventHandler(Workbench_FormClosing);
-
+            this.FormClosed += new FormClosedEventHandler(Workbench_FormClosed);
             this.DockPanel.ActiveDocumentChanged += new EventHandler(DockPanel_ActiveDocumentChanged);
+
+            FileManager.PendingChangesStatusChanged += new EventHandler(FileManager_PendingChangesStatusChanged);
+        }
+
+        void Workbench_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FileManager.PendingChangesStatusChanged -= new EventHandler(FileManager_PendingChangesStatusChanged);
+        }
+
+        void FileManager_PendingChangesStatusChanged(object sender, EventArgs e)
+        {
+            statusPendingChanges.Visible = FileManager.PendingChangesCount != 0;
         }
 
         void DockPanel_ActiveDocumentChanged(object sender, EventArgs e)
@@ -69,7 +79,7 @@ namespace NekoKun
 
         void Workbench_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.pendingChanges.Count >= 1)
+            if (FileManager.PendingChangesCount >= 1)
             {
                 DialogResult result = MessageBox.Show(this, "您已经修改了本工程。在关闭编辑器前是否需要保存呢？", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                 switch (result)
@@ -79,8 +89,8 @@ namespace NekoKun
                     case DialogResult.No:
                         return;
                     case DialogResult.Yes:
-                        this.SaveProject();
-                        if (this.pendingChanges.Count == 0)
+                        FileManager.ApplyPendingChanges();
+                        if (FileManager.PendingChangesCount == 0)
                         {
                             return;
                         }
@@ -124,25 +134,14 @@ namespace NekoKun
             this.DockPanel.DockBottomPortion = 100;
             this.DockPanel.DockRightPortion = 150;
 
-            UpdatePendingChanges();
-        }
-
-        public void AddPendingChange(AbstractFile file)
-        {
-            pendingChanges.Add(file);
-            UpdatePendingChanges();
-        }
-
-        void UpdatePendingChanges()
-        {
-            statusPendingChanges.Visible = pendingChanges.Count != 0;
+            this.FileManager_PendingChangesStatusChanged(null, EventArgs.Empty);
         }
 
         private void statusPendingChanges_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format("当前共有 {0} 个文件尚未保存：", pendingChanges.Count));
-            foreach (AbstractFile file in pendingChanges)
+            sb.AppendLine(string.Format("当前共有 {0} 个文件尚未保存：", FileManager.PendingChangesCount));
+            foreach (AbstractFile file in FileManager.PendingChanges)
             {
                 sb.AppendLine(string.Format("  {0}: {1}；", file.GetType().Name, file.filename));
             }
@@ -156,21 +155,7 @@ namespace NekoKun
 
         private void menuSave_Click(object sender, EventArgs e)
         {
-            SaveProject();
-        }
-
-        public void SaveProject()
-        {
-            List<AbstractFile> changes = new List<AbstractFile>(pendingChanges);
-
-            foreach (AbstractFile file in changes)
-            {
-                if (file.IsDirty)
-                    file.Commit();
-                pendingChanges.Remove(file);
-            }
-
-            UpdatePendingChanges();
+            FileManager.ApplyPendingChanges();
         }
 
         public void RunNormal()
@@ -181,7 +166,7 @@ namespace NekoKun
 
         public void RunDebug()
         {
-            if (this.pendingChanges.Count >= 1)
+            if (FileManager.PendingChangesCount >= 1)
             {
                 DialogResult result = MessageBox.Show(this, "您已经修改了本工程。在开始调试前是否需要保存呢？", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                 switch (result)
@@ -191,7 +176,7 @@ namespace NekoKun
                     case DialogResult.No:
                         break;
                     case DialogResult.Yes:
-                        this.SaveProject();
+                        FileManager.ApplyPendingChanges();
                         break;
                 }
             }

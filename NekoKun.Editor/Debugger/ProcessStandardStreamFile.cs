@@ -27,7 +27,7 @@ namespace NekoKun.Debugger
         }
 
         public ProcessStandardStreamFile(Process Process)
-            : base(String.Format(@"\\.\NekoKun\Process\{0}\StandardStream", Process.Id), false)
+            : base(String.Format(@"\\.\NekoKun\Process\{0}\StandardStream", Process.Id))
         {
             this.Process = Process;
             this.Active = true;

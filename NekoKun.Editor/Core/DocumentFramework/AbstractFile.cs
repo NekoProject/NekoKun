@@ -11,20 +11,11 @@ namespace NekoKun
         protected AbstractEditor editor;
         protected bool isDirty = false;
         protected bool pendingDelete = false;
-        protected bool isProjectFile = true;
 
         public AbstractFile(string filename)
         {
             this.filename = filename;
             FileManager.Open(this);
-        }
-
-        public AbstractFile(string filename, bool IsProjectFile)
-        {
-            this.filename = filename;
-            this.isProjectFile = IsProjectFile;
-            if (this.isProjectFile)
-                FileManager.Open(this);
         }
 
         protected abstract void Save();
@@ -37,12 +28,12 @@ namespace NekoKun
             if (this.pendingDelete == true)
             {
                 this.Delete();
-                this.isDirty = false;
+                this.IsDirty = false;
                 return;
             }
 
             Save();
-            this.isDirty = false;
+            this.IsDirty = false;
         }
 
         protected virtual void Delete()
@@ -52,8 +43,6 @@ namespace NekoKun
 
         public void PendingDelete()
         {
-            FileManager.Close(this);
-
             this.pendingDelete = true;
 
             if (this.editor != null)
@@ -110,18 +99,16 @@ namespace NekoKun
                 if (this.isDirty == false && value == true)
                 {
                     this.isDirty = true;
-                    if (this.IsProjectFile)
-                        Workbench.Instance.AddPendingChange(this);
-                }
-                else if (value == false)
-                    this.isDirty = false;
-            }
-        }
 
-        public bool IsProjectFile
-        {
-            get { return this.isProjectFile; }
-            set { this.isProjectFile = value; }
+                    FileManager.AddPendingChange(this);
+                }
+                else if (value == false && this.isDirty == true)
+                {
+                    this.isDirty = false;
+
+                    FileManager.RemovePendingChange(this);
+                }
+            }
         }
 
         public void MakeDirty()

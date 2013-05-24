@@ -6,7 +6,7 @@ namespace NekoKun
 {
     public static class FileManager
     {
-        private static Dictionary<string, AbstractFile> dict = new Dictionary<string,AbstractFile>();
+        private static Dictionary<string, System.WeakReference> dict = new Dictionary<string, System.WeakReference>();
 
         static FileManager()
         {
@@ -15,30 +15,60 @@ namespace NekoKun
 
         internal static void Open(AbstractFile file)
         {
-            dict.Add(file.filename, file);
+            System.WeakReference filep = new WeakReference(file);
+            dict.Add(file.filename, filep);
+
+            if (dict.Count % 10 == 0)
+            {
+                Clean();
+            }
         }
 
-        internal static void Close(AbstractFile file)
+        private static void Clean()
         {
-            try
+            Dictionary<string, System.WeakReference> dict2 = new Dictionary<string, System.WeakReference>(dict);
+            
+            foreach (var item in dict2)
             {
-                dict.Remove(file.filename);
+                WeakReference fp = item.Value;
+                if (!fp.IsAlive)
+                    dict.Remove(item.Key);
             }
-            catch { }
         }
 
         public static AbstractFile Find(string identify)
         {
-            return dict[identify];
+            WeakReference fp = dict[identify];
+            if (fp.IsAlive)
+            {
+                return dict[identify].Target as AbstractFile;
+            }
+            else
+            {
+                dict.Remove(identify);
+                throw new ArgumentOutOfRangeException("File disposed.");
+            }
+        }
+
+        public static void ForEach(Action<AbstractFile> action)
+        {
+            Clean();
+            var list = new List<AbstractFile>();
+            var src = new WeakReference[dict.Count];
+            dict.Values.CopyTo(src, 0);
+            Array.ForEach<WeakReference>(src, delegate(WeakReference fp)
+            {
+                if (fp.IsAlive)
+                    list.Add(fp.Target as AbstractFile);
+            });
+
+            Array.ForEach<AbstractFile>(list.ToArray(), action);
         }
 
         public static NavPoint[] FindAll(string Keyword)
         {
             var result = new List<NavPoint>();
-            var src = new AbstractFile[dict.Count];
-            dict.Values.CopyTo(src, 0);
-
-            Array.ForEach<AbstractFile>(src, delegate(AbstractFile file) {
+            ForEach(delegate(AbstractFile file) {
                 IFindAllProvider findAll = file as IFindAllProvider;
 
                 if (findAll != null)
@@ -46,6 +76,51 @@ namespace NekoKun
             });
 
             return result.ToArray();
+        }
+
+        public static event EventHandler PendingChangesStatusChanged;
+        private static List<AbstractFile> pendingChanges = new List<AbstractFile>();
+
+        private static void OnPendingChangesStatusChanged()
+        {
+            if (PendingChangesStatusChanged != null)
+                PendingChangesStatusChanged(null, EventArgs.Empty);
+        }
+
+        internal static void AddPendingChange(AbstractFile file)
+        {
+            pendingChanges.Add(file);
+            OnPendingChangesStatusChanged();
+        }
+
+        internal static void RemovePendingChange(AbstractFile file)
+        {
+            pendingChanges.Remove(file);
+            OnPendingChangesStatusChanged();
+        }
+
+        public static void ApplyPendingChanges()
+        {
+            List<AbstractFile> changes = new List<AbstractFile>(pendingChanges);
+
+            foreach (AbstractFile file in changes)
+            {
+                if (file.IsDirty)
+                    file.Commit();
+            }
+        }
+
+        public static int PendingChangesCount
+        {
+            get { return pendingChanges.Count; }
+        }
+
+        public static AbstractFile[] PendingChanges
+        {
+            get
+            {
+                return pendingChanges.ToArray();
+            }
         }
     }
 }

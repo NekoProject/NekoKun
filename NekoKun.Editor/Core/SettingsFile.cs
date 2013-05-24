@@ -10,7 +10,7 @@ namespace NekoKun
         protected Dictionary<string, object> settings;
 
         public SettingsFile(string filename, bool project)
-            : base(filename, project)
+            : base(filename)
         {
             try
             {

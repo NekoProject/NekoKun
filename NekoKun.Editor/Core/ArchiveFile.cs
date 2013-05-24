@@ -13,7 +13,7 @@ namespace NekoKun
         protected string manifest;
 
         public ArchiveFile(string filename)
-            : base(filename, false)
+            : base(filename)
         {
             FileStream fs = new FileStream(filename,  FileMode.Open, FileAccess.Read);
             manifest = NekoKun.Serialization.RubyMarshal.RubyMarshal.Load(fs) as string;
