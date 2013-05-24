@@ -9,6 +9,7 @@ namespace NekoKun.RPGMaker
     {
         public Dictionary<string, MapFile> maps;
         public TilesetFile TilesetFile;
+        public Dictionary<string, System.Windows.Forms.TreeNode> nodes;
 
         public MapInfoFile(Dictionary<string, object> node)
             : base(
@@ -19,6 +20,7 @@ namespace NekoKun.RPGMaker
               )
         {
             this.maps = new Dictionary<string, MapFile>();
+            this.IsSubfileProvider = true;
 
             this.TilesetFile = ProjectManager.Components[node["TilesetProvider"].ToString()] as TilesetFile;
 
@@ -65,6 +67,33 @@ namespace NekoKun.RPGMaker
                 */
 	        }
             this.maps.ToString();
+
+
+
+            nodes = new Dictionary<string, System.Windows.Forms.TreeNode>();
+            List<System.Windows.Forms.TreeNode> order = new List<System.Windows.Forms.TreeNode>();
+
+            foreach (var item in maps)
+            {
+                System.Windows.Forms.TreeNode node2 = new System.Windows.Forms.TreeNode(item.Value.Title);
+                node2.Tag = item.Value;
+                nodes.Add(item.Key, node2);
+                order.Add(node2);
+            }
+
+            order.Sort(
+                delegate(System.Windows.Forms.TreeNode me, System.Windows.Forms.TreeNode other)
+                {
+                    return (me.Tag as MapFile).Order.CompareTo((other.Tag as MapFile).Order);
+                }
+            );
+
+            foreach (System.Windows.Forms.TreeNode item in order)
+            {
+                MapFile map = item.Tag as MapFile;
+                if (map.ParentID != null && nodes.ContainsKey(map.ParentID))
+                    nodes[map.ParentID].Nodes.Add(item);
+            }
         }
 
         protected override void Save()
@@ -80,6 +109,20 @@ namespace NekoKun.RPGMaker
         public override string ToString()
         {
             return "地图索引";
+        }
+
+        public override AbstractFile[] Subfiles
+        {
+            get
+            {
+                List<MapFile> s = new List<MapFile>();
+                foreach (var item in nodes)
+	            {
+                    if (item.Value.Parent == null)
+                        s.Add(item.Value.Tag as MapFile);
+	            }
+                return s.ToArray();
+            }
         }
     }
 }
