@@ -13,6 +13,7 @@ namespace NekoKun.RPGMaker
         public ScriptFile(ScriptListFile file, string code, string title, int id)
             : base(String.Format("{0}:{1}", file.filename, id.ToString()))
         {
+            this.IsHidden = true;
             this.parent = file;
             this.Code = code;
             this.Title = title;

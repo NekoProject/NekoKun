@@ -14,6 +14,8 @@ namespace NekoKun
 
         public AbstractFile(string filename)
         {
+            this.IsSubfileProvider = false;
+            this.IsHidden = false;
             this.filename = filename;
             FileManager.Open(this);
         }
@@ -119,6 +121,26 @@ namespace NekoKun
         public virtual void Goto(NavPoint pt)
         {
             this.ShowEditor();
+        }
+
+        public bool IsSubfileProvider
+        {
+            get;
+            protected set;
+        }
+
+        public virtual AbstractFile[] Subfiles
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public bool IsHidden
+        {
+            get;
+            protected set;
         }
     }
 }

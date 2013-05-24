@@ -19,7 +19,7 @@ namespace NekoKun.Core
         {
             TreeNode root;
             System.IO.FileSystemWatcher watcher;
-            bool OnlyProjectFile = false;
+            bool OnlyProjectFile = true;
             List<string> projectFiles;
 
             public ProjectExplorerTreeView()
@@ -30,6 +30,16 @@ namespace NekoKun.Core
                 RefillTree();
                 //watcher = new System.IO.FileSystemWatcher(ProjectManager.ProjectDir);
                 //watcher.EnableRaisingEvents = false;
+            }
+
+            protected override void OnKeyDown(KeyEventArgs e)
+            {
+                if (e.KeyCode == Keys.O && e.Modifiers == Keys.None)
+                {
+                    OnlyProjectFile = !OnlyProjectFile;
+                    RefillTree();
+                }
+                base.OnKeyDown(e);
             }
 
             void RefillTree()
@@ -94,27 +104,35 @@ namespace NekoKun.Core
             TreeNode CreateFileNode(string filename, TreeNode parent)
             {
                 if (parent == root && filename == ProjectManager.ProjectDocument.filename) return null;
-
                 bool cont = IsContaindInProject(filename);
                 if (OnlyProjectFile && !cont) return null;
+
+                AbstractFile f;
+                if (FileManager.TryFind(filename, out f))
+                {
+                    if (OnlyProjectFile && f.IsHidden) return null;
+                }
+
                 TreeNode node = new TreeNode();
                 node.ImageKey = GetFileIcon(filename);
-                if (!cont)
+                if (!cont || (f != null && f.IsHidden))
                     node.ImageKey = "FileHidden";
 
                 node.SelectedImageKey = node.ImageKey;
                 node.Name = filename;
                 node.Text = filename.Substring(parent.Name.Length + 1);
-                AbstractFile f;
-                if (FileManager.TryFind(filename, out f))
+
+                if (f != null)
                 {
                     node.Tag = f;
                     node.ImageKey = "FileForm";
                     node.SelectedImageKey = node.ImageKey;
-                    node.Text = f.ToString() + "(" + node.Text + ")";
+                    node.Text = f.ToString() + " (" + node.Text + ")";
+                    if (f.IsSubfileProvider)
+                        node.Nodes.Add(CreateDummyNode());
                 }
                 parent.Nodes.Add(node);
-                return null;
+                return node;
             }
 
             private string GetFileIcon(string filename)
@@ -150,7 +168,7 @@ namespace NekoKun.Core
                 return node;
             }
 
-            TreeNode CreateDummyFolderNode(string path, TreeNode parent)
+            TreeNode CreateFolderNode(string path, TreeNode parent)
             {
                 bool cont = IsContaindInProject(path);
                 if (OnlyProjectFile && !cont) return null;
@@ -172,11 +190,37 @@ namespace NekoKun.Core
             void PopulateFolder(TreeNode node)
             {
                 node.Nodes.Clear();
-                string[] subdirs = System.IO.Directory.GetDirectories(node.Name);
-                Array.ForEach<string>(subdirs, (o) => CreateDummyFolderNode(o, node));
+                if (node == root || node.Tag == null)
+                {
+                    string[] subdirs = System.IO.Directory.GetDirectories(node.Name);
+                    Array.ForEach<string>(subdirs, (o) => CreateFolderNode(o, node));
 
-                string[] files = System.IO.Directory.GetFiles(node.Name);
-                Array.ForEach<string>(files, (o) => CreateFileNode(o, node));
+                    string[] files = System.IO.Directory.GetFiles(node.Name);
+                    Array.ForEach<string>(files, (o) => CreateFileNode(o, node));
+                }
+                else
+                {
+                    AbstractFile[] files = (node.Tag as AbstractFile).Subfiles;
+                    if (files != null)
+                        Array.ForEach<AbstractFile>(files, (o) => CreateVirtualFileNode(o, node));
+                }
+            }
+
+            TreeNode CreateVirtualFileNode(AbstractFile f, TreeNode parent)
+            {
+                TreeNode node = new TreeNode();
+                node.ImageKey = "FileForm";
+                node.SelectedImageKey = node.ImageKey;
+                node.Tag = f;
+                node.Name = f.filename;
+                node.Text = f.ToString();
+
+                if (f.IsSubfileProvider)
+                    node.Nodes.Add(CreateDummyNode());
+
+                parent.Nodes.Add(node);
+
+                return node;
             }
 
             ImageList CreateImageList()

@@ -27,5 +27,10 @@ namespace NekoKun
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return "脚本库";
+        }
     }
 }

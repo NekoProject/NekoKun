@@ -21,6 +21,7 @@ namespace NekoKun.RPGMaker
         public MapFile(string filename, TilesetFile tilesetFile)
             : base(filename)
         {
+            this.IsHidden = true;
             this.TilesetFile = tilesetFile;
         }
 

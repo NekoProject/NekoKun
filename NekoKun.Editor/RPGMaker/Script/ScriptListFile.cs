@@ -11,6 +11,7 @@ namespace NekoKun.RPGMaker
         public ScriptListFile(string filename)
             : base(filename)
         {
+            this.IsSubfileProvider = true;
             NekoKun.Core.Application.Logger.Log("加载脚本索引文件：{0}", filename);
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
@@ -156,6 +157,14 @@ namespace NekoKun.RPGMaker
         public override string GenerateFileName(string pageName)
         {
             return filename;
+        }
+
+        public override AbstractFile[] Subfiles
+        {
+            get
+            {
+                return this.scripts.ToArray();
+            }
         }
     }
 }
