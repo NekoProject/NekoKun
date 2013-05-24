@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun.Core
+namespace NekoKun
 {
-    public class Class1
+    class AbstractPad
     {
     }
 }

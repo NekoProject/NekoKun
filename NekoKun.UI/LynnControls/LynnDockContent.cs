@@ -10,7 +10,7 @@ namespace NekoKun.UI
 {
     public class LynnDockContent : DockContent
     {
-        //protected static Image backgroundImage = Program.DecodeBase64Image("iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAMAAADXEh96AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF5/L90Oz9VJBYwwAAABhJREFUeNpiYGQAAkYYAhJgEkohiwMEGAABJgANVHFu+gAAAABJRU5ErkJggg==");
+        //protected static Image backgroundImage = NekoKun.Core.DrawingHelper.DecodeBase64Image("iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAMAAADXEh96AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF5/L90Oz9VJBYwwAAABhJREFUeNpiYGQAAkYYAhJgEkohiwMEGAABJgANVHFu+gAAAABJRU5ErkJggg==");
         protected Color back = Color.FromArgb(191, 219, 255); //Color.FromArgb(231, 242, 253);
 
         public LynnDockContent()

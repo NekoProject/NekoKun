@@ -19,8 +19,8 @@ namespace NekoKun.Core
 
             this.Text = "Unhandled Exception occured in NekoKun";
             this.StartPosition = FormStartPosition.CenterParent;
-            this.txtSummary.Font = Program.GetMonospaceFont();
-            this.txtSummary.Text = Program.ExceptionMessage(e).Replace("\r", "").Replace("\n", System.Environment.NewLine);
+            this.txtSummary.Font = UI.UIManager.GetMonospaceFont();
+            this.txtSummary.Text = ExceptionHelper.ExceptionMessage(e).Replace("\r", "").Replace("\n", System.Environment.NewLine);
             this.txtSummary.ReadOnly = true;
 
             AddException(e);

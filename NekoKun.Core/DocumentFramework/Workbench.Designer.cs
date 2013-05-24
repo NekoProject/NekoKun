@@ -111,7 +111,7 @@
             // 
             // menuSave
             // 
-            this.menuSave.Image = global::NekoKun.Properties.Resources.SaveAll;
+            this.menuSave.Image = global::NekoKun.UI.Properties.Resources.SaveAll;
             this.menuSave.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuSave.Name = "menuSave";
             this.menuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
@@ -133,7 +133,7 @@
             // 
             // menuExit
             // 
-            this.menuExit.Image = global::NekoKun.Properties.Resources.ClosePreviewHS;
+            this.menuExit.Image = global::NekoKun.UI.Properties.Resources.Close;
             this.menuExit.ImageTransparentColor = System.Drawing.Color.Black;
             this.menuExit.Name = "menuExit";
             this.menuExit.ShortcutKeyDisplayString = "Alt+F4";
@@ -164,7 +164,7 @@
             // 
             // menuEditUndo
             // 
-            this.menuEditUndo.Image = global::NekoKun.Properties.Resources.Edit_Undo;
+            this.menuEditUndo.Image = global::NekoKun.UI.Properties.Resources.Undo;
             this.menuEditUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditUndo.Name = "menuEditUndo";
             this.menuEditUndo.ShortcutKeyDisplayString = "Ctrl+Z";
@@ -174,7 +174,7 @@
             // 
             // menuEditRedo
             // 
-            this.menuEditRedo.Image = global::NekoKun.Properties.Resources.Edit_Redo;
+            this.menuEditRedo.Image = global::NekoKun.UI.Properties.Resources.Redo;
             this.menuEditRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditRedo.Name = "menuEditRedo";
             this.menuEditRedo.ShortcutKeyDisplayString = "Ctrl+Y";
@@ -189,7 +189,7 @@
             // 
             // menuEditCut
             // 
-            this.menuEditCut.Image = global::NekoKun.Properties.Resources.Cut;
+            this.menuEditCut.Image = global::NekoKun.UI.Properties.Resources.Cut;
             this.menuEditCut.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditCut.Name = "menuEditCut";
             this.menuEditCut.ShortcutKeyDisplayString = "Ctrl+X";
@@ -199,7 +199,7 @@
             // 
             // menuEditCopy
             // 
-            this.menuEditCopy.Image = global::NekoKun.Properties.Resources.Copy;
+            this.menuEditCopy.Image = global::NekoKun.UI.Properties.Resources.Copy;
             this.menuEditCopy.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditCopy.Name = "menuEditCopy";
             this.menuEditCopy.ShortcutKeyDisplayString = "Ctrl+C";
@@ -209,7 +209,7 @@
             // 
             // menuEditPaste
             // 
-            this.menuEditPaste.Image = global::NekoKun.Properties.Resources.Paste;
+            this.menuEditPaste.Image = global::NekoKun.UI.Properties.Resources.Paste;
             this.menuEditPaste.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuEditPaste.Name = "menuEditPaste";
             this.menuEditPaste.ShortcutKeyDisplayString = "Ctrl+V";
@@ -219,7 +219,7 @@
             // 
             // menuEditDelete
             // 
-            this.menuEditDelete.Image = global::NekoKun.Properties.Resources.Delete;
+            this.menuEditDelete.Image = global::NekoKun.UI.Properties.Resources.Delete;
             this.menuEditDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditDelete.Name = "menuEditDelete";
             this.menuEditDelete.ShortcutKeyDisplayString = "Delete";
@@ -247,7 +247,7 @@
             // 
             // menuEditFind
             // 
-            this.menuEditFind.Image = global::NekoKun.Properties.Resources.Find;
+            this.menuEditFind.Image = global::NekoKun.UI.Properties.Resources.Find;
             this.menuEditFind.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuEditFind.Name = "menuEditFind";
             this.menuEditFind.ShortcutKeyDisplayString = "";
@@ -309,7 +309,7 @@
             // 
             // menuDebugGame
             // 
-            this.menuDebugGame.Image = global::NekoKun.Properties.Resources.Play;
+            this.menuDebugGame.Image = global::NekoKun.UI.Properties.Resources.Play;
             this.menuDebugGame.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuDebugGame.Name = "menuDebugGame";
             this.menuDebugGame.ShortcutKeys = System.Windows.Forms.Keys.F5;
@@ -342,7 +342,7 @@
             // toolSaveAll
             // 
             this.toolSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolSaveAll.Image = global::NekoKun.Properties.Resources.SaveAll;
+            this.toolSaveAll.Image = global::NekoKun.UI.Properties.Resources.SaveAll;
             this.toolSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSaveAll.Name = "toolSaveAll";
             this.toolSaveAll.Size = new System.Drawing.Size(23, 22);
@@ -357,7 +357,7 @@
             // toolRun
             // 
             this.toolRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolRun.Image = global::NekoKun.Properties.Resources.Play;
+            this.toolRun.Image = global::NekoKun.UI.Properties.Resources.Play;
             this.toolRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolRun.Name = "toolRun";
             this.toolRun.Size = new System.Drawing.Size(23, 22);

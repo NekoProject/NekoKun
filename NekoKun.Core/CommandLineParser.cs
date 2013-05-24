@@ -50,7 +50,7 @@ namespace NekoKun.Core
                 str.AppendLine("\t" + this.methods[item].ToString());
                 str.AppendLine();
             }
-            Program.ShowError(str.ToString());
+            NekoKun.Core.Application.ShowError(str.ToString());
         }
 
         public void ParseAndExecute(string[] args)
@@ -62,7 +62,7 @@ namespace NekoKun.Core
             }
             catch (Exception e)
             {
-                Program.ShowError(e.Message);
+                NekoKun.Core.Application.ShowError(e.Message);
                 return;
             }
             Execute(arg);

@@ -13,7 +13,7 @@ namespace NekoKun
         {
             scriptDir = System.IO.Path.GetDirectoryName(filename);
             string[] scripts = System.IO.File.ReadAllText(filename).Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-            Program.Logger.Log("加载脚本索引文件：{0}", filename);
+            NekoKun.Core.Application.Logger.Log("加载脚本索引文件：{0}", filename);
 
             foreach (string script in scripts)
             {
@@ -25,13 +25,13 @@ namespace NekoKun
                 }
                 else
                 {
-                    Program.Logger.Log("  找不到脚本文件：{0}", filen);
+                    NekoKun.Core.Application.Logger.Log("  找不到脚本文件：{0}", filen);
                     this.MakeDirty();
                 }
             }
 
             if (this.IsDirty)
-                Program.Logger.Log("因为脚本索引文件中存在无效条目，且无效条目未被加载，索引文件脏了。");
+                NekoKun.Core.Application.Logger.Log("因为脚本索引文件中存在无效条目，且无效条目未被加载，索引文件脏了。");
         }
 
         public FSBasedScriptListFile(Dictionary<string, object> node)

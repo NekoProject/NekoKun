@@ -33,11 +33,181 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="ArchiveFile.cs" />
+    <Compile Include="CLRCodeCompiler.cs" />
+    <Compile Include="CommandLineParser.cs" />
+    <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
+    <Compile Include="DictionaryWithDefaultProc.cs" />
+    <Compile Include="DocumentFramework\AbstractEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\AbstractFile.cs" />
+    <Compile Include="DocumentFramework\AbstractPad.cs" />
+    <Compile Include="DocumentFramework\FileManager.cs" />
+    <Compile Include="DocumentFramework\FindAllDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\FindAllDialog.Designer.cs">
+      <DependentUpon>FindAllDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentFramework\FindAllResultEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\FindAllResultFile.cs" />
+    <Compile Include="DocumentFramework\IFindAllProvider.cs" />
+    <Compile Include="DocumentFramework\LogEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\LogFile.cs" />
+    <Compile Include="DocumentFramework\NavPoint.cs" />
+    <Compile Include="DocumentFramework\NavPointListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\ToolboxDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\Workbench.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentFramework\Workbench.Designer.cs">
+      <DependentUpon>Workbench.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enum.cs" />
+    <Compile Include="EnumProvider.cs" />
+    <Compile Include="Helpers\DrawingHelper.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="FormatProvider.cs" />
+    <Compile Include="Helpers\XMLHelper.cs" />
+    <Compile Include="IAssemblyProvider.cs" />
+    <Compile Include="ObjectEditor\AbstractObjectEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\ArrayEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\ComplexTextEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\DecimalEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\EnumEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\MultilineTextEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\SingleTextEditor.cs" />
+    <Compile Include="ObjectEditor\Controls\UnknownEditor.cs" />
+    <Compile Include="ProjectFramework\CreateProjectWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectFramework\CreateProjectWizard.Designer.cs">
+      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectEditor\EditorFactory.cs" />
+    <Compile Include="ObjectEditor\ObjectFile.cs" />
+    <Compile Include="ObjectEditor\ObjectFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectFramework\ProjectDocumentFile.cs" />
+    <Compile Include="ProjectFramework\ProjectDocumentFileEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectEditor\Struct\Layouts\IStructEditorLayout.cs" />
+    <Compile Include="ObjectEditor\Struct\Layouts\RawLayout.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ObjectEditor\Struct\Layouts\TableLayout.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ObjectEditor\Struct\Struct.cs" />
+    <Compile Include="ObjectEditor\Struct\StructEditor.cs" />
+    <Compile Include="ObjectEditor\Struct\StructField.cs" />
+    <Compile Include="ProjectFramework\ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="ResourceManager.cs" />
+    <Compile Include="ScriptEditor\FSBased\FSBasedScriptFile.cs" />
+    <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
+    <Compile Include="ScriptEditor\ScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptFile.cs" />
+    <Compile Include="ScriptEditor\ScriptListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.Designer.cs">
+      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.Designer.cs">
+      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptEditor\ScriptListFile.cs" />
+    <Compile Include="ScriptEditor\Virtual\VirtualScriptFile.cs" />
+    <Compile Include="ScriptEditor\Virtual\VirtualScriptListFile.cs" />
+    <Compile Include="SettingsFile.cs" />
+    <Compile Include="SettingsManager.cs" />
+    <Compile Include="StorageManager.cs" />
+    <Compile Include="SyntaxSugarIndexer.cs" />
+    <Compile Include="UnhandledExceptionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UnhandledExceptionDialog.Designer.cs">
+      <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentFramework\FindAllDialog.resx">
+      <DependentUpon>FindAllDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentFramework\Workbench.resx">
+      <DependentUpon>Workbench.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ionic.Zlib\Ionic.Zlib.csproj">
+      <Project>{9816BA86-9250-4C00-A912-25F07F8677D1}</Project>
+      <Name>Ionic.Zlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.Serialization.RubyMarshal\NekoKun.Serialization.RubyMarshal.csproj">
+      <Project>{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}</Project>
+      <Name>NekoKun.Serialization.RubyMarshal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.UI\NekoKun.UI.csproj">
+      <Project>{A413B12F-9E7F-4C03-AF29-12E35FE1FDE2}</Project>
+      <Name>NekoKun.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">
+      <Project>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</Project>
+      <Name>ScintillaNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeifenLuo.WinFormsUI.Docking\WinFormsUI\WeifenLuo.WinFormsUI.Docking.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WeifenLuo.WinFormsUI.Docking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectFramework\CreateProjectWizard.resx">
+      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectFramework\ProjectConversations\rvproj2.xml" />
+    <EmbeddedResource Include="ScriptEditor\ScriptListEditorInsertDialog.resx">
+      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptEditor\ScriptListEditorRenameDialog.resx">
+      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnhandledExceptionDialog.resx">
+      <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

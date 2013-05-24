@@ -59,7 +59,7 @@ namespace NekoKun
                         {
                             components.Add(
                                 item.Attributes["ID"].Value,
-                                Program.CreateInstanceFromTypeName(item.Attributes["Name"].Value, dict)
+                                NekoKun.Core.ReflectionHelper.CreateInstanceFromTypeName(item.Attributes["Name"].Value, dict)
                             );
                         }
                         catch (TypeLoadException)
@@ -74,7 +74,7 @@ namespace NekoKun
             catch (Exception e)
             {
                 Clean();
-                Program.Logger.Log(Program.ExceptionMessage(e));
+                NekoKun.Core.Application.Logger.Log(NekoKun.Core.ExceptionHelper.ExceptionMessage(e));
                 CannotOpenProjectException j = new CannotOpenProjectException(string.Format("Error when opening {0}", file), e);
                 throw j;
             }

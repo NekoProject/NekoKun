@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-/*
+using NekoKun.Serialization.RubyMarshal;
+
 namespace NekoKun.RPGMaker
 {
-    public class AudioFileEditor: UI.LynnButton, IObjectEditor
+    public class AudioFileEditor: AbstractObjectEditor
     {
+        UI.LynnButton btn = new NekoKun.UI.LynnButton();
+
+        public AudioFileEditor(Dictionary<string, object> Params)
+            : base(Params)
+        {
+            btn.Click += new EventHandler(AudioFileEditor_Click);
+        }
+
         protected RubyObject orig;
         protected bool changed;
         protected AudioFile audioFile;
-
-        public AudioFileEditor(Dictionary<string, object> Params)
-        {
-            this.Click += new EventHandler(AudioFileEditor_Click);
-        }
 
         void AudioFileEditor_Click(object sender, EventArgs e)
         {
@@ -24,46 +28,35 @@ namespace NekoKun.RPGMaker
                 this.audioFile = file;
                 changed = true;
                 UpdateText();
-                if (this.DirtyChanged != null)
-                    this.DirtyChanged(this, null);
-            }
-        }
-
-        public void Commit()
-        {
-            if (this.RequestCommit != null)
-                this.RequestCommit(this, null);
-        }
-
-        public object SelectedItem
-        {
-            get
-            {
-                if (!changed)
-                    return orig;
-                return this.audioFile.ToRubyObject();
-            }
-            set
-            {
-                orig = value as RubyObject;
-                changed = false;
-                RubyObject obj = orig;
-                if (obj != null)
-                    this.audioFile = new AudioFile(obj);
-                else
-                    this.audioFile = new AudioFile();
-                UpdateText();
+                this.MakeDirty();
             }
         }
 
         private void UpdateText()
         {
-            this.Text = this.audioFile.ToString();
+            btn.Text = this.audioFile.ToString();
         }
 
-        public event EventHandler RequestCommit;
-        public event EventHandler DirtyChanged;
+        protected override void InitControl()
+        {
+            orig = this.selectedItem as RubyObject;
+            RubyObject obj = orig;
+            if (obj != null)
+                this.audioFile = new AudioFile(obj);
+            else
+                this.audioFile = new AudioFile();
+
+            btn.Text = this.audioFile.ToString();
+        }
+
+        public override System.Windows.Forms.Control Control
+        {
+            get { return btn; }
+        }
+
+        public override void Commit()
+        {
+            this.selectedItem = audioFile;
+        }
     }
 }
-
-*/

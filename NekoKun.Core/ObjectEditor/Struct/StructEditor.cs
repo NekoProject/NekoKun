@@ -76,7 +76,7 @@ namespace NekoKun.ObjectEditor
                 }
                 else
                 {
-                    view.Layout = Program.CreateInstanceFromTypeName(
+                    view.Layout = NekoKun.Core.ReflectionHelper.CreateInstanceFromTypeName(
                         view.LayoutInfo.Attributes["Type"].Value,
                         view.LayoutInfo,
                         new CreateControlDelegate(CreateControl)
@@ -99,9 +99,9 @@ namespace NekoKun.ObjectEditor
         {
             if (node.Name == "Control")
             {
-                AbstractObjectEditor editor = Program.CreateInstanceFromTypeName(
+                AbstractObjectEditor editor = NekoKun.Core.ReflectionHelper.CreateInstanceFromTypeName(
                     node.Attributes["Editor"].Value,
-                    Program.BuildParameterDictionary(node)
+                    NekoKun.Core.XMLHelper.BuildParameterDictionary(node)
                 ) as AbstractObjectEditor;
                 editor.DirtyChanged += new EventHandler(editor_DirtyChanged);
                 StructField item = this.fields[node.Attributes["ID"].Value];
@@ -111,7 +111,7 @@ namespace NekoKun.ObjectEditor
             }
             else if (node.Name == "Layout")
             {
-                IStructEditorLayout layout = Program.CreateInstanceFromTypeName(
+                IStructEditorLayout layout = NekoKun.Core.ReflectionHelper.CreateInstanceFromTypeName(
                     node.Attributes["Type"].Value,
                     node,
                     new CreateControlDelegate(CreateControl)

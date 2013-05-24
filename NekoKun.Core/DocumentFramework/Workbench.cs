@@ -26,13 +26,12 @@ namespace NekoKun
         }
 
         public DockPanel DockPanel = new DockPanel();
-        public ScriptListFile ScriptList;
 
         private Workbench()
         {
             toolbox = new ToolboxDockContent();
 
-            this.Icon = NekoKun.Properties.Resources.MainIcon;
+            this.Icon = NekoKun.UI.Properties.Resources.MainIcon;
 
             DockPanel.Dock = DockStyle.Fill;
 
@@ -102,8 +101,8 @@ namespace NekoKun
 
         void Workbench_Load(object sender, EventArgs e)
         {
-            Program.Logger.ShowEditor();
-            Program.Logger.Editor.DockState = DockState.DockBottom;
+            Core.Application.Logger.ShowEditor();
+            Core.Application.Logger.Editor.DockState = DockState.DockBottom;
 
             this.toolbox.Show(this.DockPanel, DockState.DockLeft);
 
@@ -145,7 +144,7 @@ namespace NekoKun
             {
                 sb.AppendLine(string.Format("  {0}: {1}；", file.GetType().Name, file.filename));
             }
-            Program.Logger.Log(sb.ToString());
+            Core.Application.Logger.Log(sb.ToString());
         }
 
         private void menuExit_Click(object sender, EventArgs e)
@@ -196,7 +195,7 @@ namespace NekoKun
             file.ShowEditor();
             try
             {
-                file.Editor.Show(Program.Logger.Editor.Pane, Program.Logger.Editor);
+                file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
             }
             catch { }
         }
@@ -224,7 +223,7 @@ namespace NekoKun
 
         private void menuViewLog_Click(object sender, EventArgs e)
         {
-            Program.Logger.ShowEditor();
+            NekoKun.Core.Application.Logger.ShowEditor();
         }
 
         private void menuEdit_DropDownOpening(object sender, EventArgs e)
@@ -356,7 +355,7 @@ namespace NekoKun
                 file.ShowEditor();
                 try
                 {
-                    file.Editor.Show(Program.Logger.Editor.Pane, Program.Logger.Editor);
+                    file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
                 }
                 catch { }
             }

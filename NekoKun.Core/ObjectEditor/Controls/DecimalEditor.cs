@@ -12,6 +12,8 @@ namespace NekoKun.ObjectEditor
             : base(Params)
         {
             control = new NekoKun.UI.LynnNumericUpDown();
+            control.Minimum = decimal.MinValue;
+            control.Maximum = decimal.MaxValue;
             control.ValueChanged += new EventHandler(control_ModifiedChanged);
         }
 

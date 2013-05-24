@@ -19,7 +19,7 @@ namespace NekoKun.RPGMaker
             ID = node.Attributes["ID"].Value;
             Name = node.Attributes["Name"].Value;
             ForeColor = (node.Attributes["ForeColor"] != null) ? 
-                Program.ParseColor(node.Attributes["ForeColor"].Value) :
+                Core.DrawingHelper.ParseColor(node.Attributes["ForeColor"].Value) :
                 System.Drawing.SystemColors.WindowText;
 
             foreach (System.Xml.XmlNode cmd in node.ChildNodes)

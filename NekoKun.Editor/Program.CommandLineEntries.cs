@@ -27,7 +27,7 @@ namespace NekoKun
                     }
                     catch (Exception e)
                     {
-                        ShowError(String.Format("查询文件 {0} 失败：{1}", argf[0], e.Message));
+                        NekoKun.Core.Application.ShowError(String.Format("查询文件 {0} 失败：{1}", argf[0], e.Message));
                         return null;
                     }
                 }
@@ -79,7 +79,7 @@ namespace NekoKun
                     {
                         NekoKun.Serialization.RubyMarshal.RubyMarshal.Dump(file, mar);
                     }
-                    Program.ShowError("成功处理文件：" + result);
+                    NekoKun.Core.Application.ShowError("成功处理文件：" + result);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace NekoKun.RPGMaker
         public ScriptListFile(string filename)
             : base(filename)
         {
-            Program.Logger.Log("加载脚本索引文件：{0}", filename);
+            NekoKun.Core.Application.Logger.Log("加载脚本索引文件：{0}", filename);
 
             using (System.IO.FileStream scriptFile = System.IO.File.Open(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
@@ -31,7 +31,7 @@ namespace NekoKun.RPGMaker
                     {
                         id = ran.Next(1, 100000000);
                         this.MakeDirty();
-                        Program.Logger.Log("唯一 ID 遭到破坏。{0}", item[0].ToString());
+                        NekoKun.Core.Application.Logger.Log("唯一 ID 遭到破坏。{0}", item[0].ToString());
                     }
 
                     while (containsID(id))
@@ -52,7 +52,7 @@ namespace NekoKun.RPGMaker
                     }
                     catch
                     {
-                        Program.Logger.Log("无法读取脚本“{0}：{1}”，文件可能已损坏，此页已加载为残存物十六进制堆存。", item[0].ToString(), title);
+                        NekoKun.Core.Application.Logger.Log("无法读取脚本“{0}：{1}”，文件可能已损坏，此页已加载为残存物十六进制堆存。", item[0].ToString(), title);
                         code = "=begin" + System.Environment.NewLine + Program.BuildHexDump(bytes) + System.Environment.NewLine + "=end";
                         this.MakeDirty();
                     }
@@ -64,7 +64,7 @@ namespace NekoKun.RPGMaker
             }
 
             if (this.isDirty)
-                Program.Logger.Log("因为脚本文件中存在错误，且采取了一定措施解决/缓解此矛盾，因此产生了未保存的更改。");
+                NekoKun.Core.Application.Logger.Log("因为脚本文件中存在错误，且采取了一定措施解决/缓解此矛盾，因此产生了未保存的更改。");
         }
 
         public ScriptListFile(Dictionary<string, object> node)

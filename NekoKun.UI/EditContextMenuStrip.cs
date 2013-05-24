@@ -28,42 +28,42 @@ namespace NekoKun
             this.menuFind = new System.Windows.Forms.ToolStripMenuItem();
             this.menuReplace = new System.Windows.Forms.ToolStripMenuItem();
 
-            //TODO: this.menuUndo.Image = global::NekoKun.Properties.Resources.Edit_Undo;
+            this.menuUndo.Image = global::NekoKun.UI.Properties.Resources.Undo;
             this.menuUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuUndo.Name = "menuUndo";
             this.menuUndo.ShortcutKeyDisplayString = "Ctrl+Z";
             this.menuUndo.Text = "撤销(&U)";
             this.menuUndo.Click += new System.EventHandler(this.menuUndo_Click);
 
-            //TODO: this.menuRedo.Image = global::NekoKun.Properties.Resources.Edit_Redo;
+            this.menuRedo.Image = global::NekoKun.UI.Properties.Resources.Redo;
             this.menuRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuRedo.Name = "menuRedo";
             this.menuRedo.ShortcutKeyDisplayString = "Ctrl+Y";
             this.menuRedo.Text = "重做(&R)";
             this.menuRedo.Click += new System.EventHandler(this.menuRedo_Click);
 
-            //TODO: this.menuCut.Image = global::NekoKun.Properties.Resources.Cut;
+            this.menuCut.Image = global::NekoKun.UI.Properties.Resources.Cut;
             this.menuCut.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuCut.Name = "menuCut";
             this.menuCut.ShortcutKeyDisplayString = "Ctrl+X";
             this.menuCut.Text = "剪切(&T)";
             this.menuCut.Click += new System.EventHandler(this.menuCut_Click);
 
-            //TODO: this.menuCopy.Image = global::NekoKun.Properties.Resources.Copy;
+            this.menuCopy.Image = global::NekoKun.UI.Properties.Resources.Copy;
             this.menuCopy.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuCopy.Name = "menuCopy";
             this.menuCopy.ShortcutKeyDisplayString = "Ctrl+C";
             this.menuCopy.Text = "复制(&C)";
             this.menuCopy.Click += new System.EventHandler(this.menuCopy_Click);
 
-            //TODO: this.menuPaste.Image = global::NekoKun.Properties.Resources.Paste;
+            this.menuPaste.Image = global::NekoKun.UI.Properties.Resources.Paste;
             this.menuPaste.ImageTransparentColor = System.Drawing.Color.Fuchsia;
             this.menuPaste.Name = "menuPaste";
             this.menuPaste.ShortcutKeyDisplayString = "Ctrl+V";
             this.menuPaste.Text = "粘贴(&P)";
             this.menuPaste.Click += new System.EventHandler(this.menuPaste_Click);
 
-            //TODO: this.menuDelete.Image = global::NekoKun.Properties.Resources.Delete;
+            this.menuDelete.Image = global::NekoKun.UI.Properties.Resources.Delete;
             this.menuDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuDelete.Name = "menuDelete";
             this.menuDelete.ShortcutKeyDisplayString = "Delete";
@@ -75,7 +75,7 @@ namespace NekoKun
             this.menuSelectAll.Text = "全选(&A)";
             this.menuSelectAll.Click += new System.EventHandler(this.menuSelectAll_Click);
 
-            //TODO: this.menuFind.Image = global::NekoKun.Properties.Resources.Find;
+            this.menuFind.Image = global::NekoKun.UI.Properties.Resources.Find;
             this.menuFind.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuFind.Name = "menuFind";
             this.menuFind.ShortcutKeyDisplayString = "Ctrl+F";

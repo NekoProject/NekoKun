@@ -9,14 +9,14 @@ namespace NekoKun.UI
 {
     public class LynnForm : Form
     {
-        //protected static Image backgroundImage = Program.DecodeBase64Image("iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAMAAADXEh96AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF5/L90Oz9VJBYwwAAABhJREFUeNpiYGQAAkYYAhJgEkohiwMEGAABJgANVHFu+gAAAABJRU5ErkJggg==");
+        //protected static Image backgroundImage = NekoKun.Core.DrawingHelper.DecodeBase64Image("iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAMAAADXEh96AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF5/L90Oz9VJBYwwAAABhJREFUeNpiYGQAAkYYAhJgEkohiwMEGAABJgANVHFu+gAAAABJRU5ErkJggg==");
         protected Color back1 = Color.FromArgb(227, 239, 251);
         protected Color back2 = Color.FromArgb(196, 208, 220);
         protected LinearGradientBrush brush;
 
         public LynnForm()
         {
-            //this.Icon = NekoKun.Properties.Resources.MainIcon;
+            this.Icon = NekoKun.UI.Properties.Resources.MainIcon;
             this.Font = System.Drawing.SystemFonts.MessageBoxFont;
 
             //this.BackgroundImage = backgroundImage;

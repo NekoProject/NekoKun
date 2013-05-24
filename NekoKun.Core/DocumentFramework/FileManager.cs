@@ -8,6 +8,19 @@ namespace NekoKun
     {
         private static Dictionary<string, System.WeakReference> dict = new Dictionary<string, System.WeakReference>();
 
+        /*
+         * 我们像一首最美丽的歌曲
+         * 变成两部悲伤的电影
+         * 为什么你带我走过最难忘的旅行
+         * 然后留下最痛的纪念品
+         * 
+         * 我们那么甜那么美这么相信
+         * 那么疯这么热烈的曾经
+         * 为何我们还是要奔向
+         * 各自的幸福和遗憾中老去
+         * 
+         * 差一点就不是后来的青春了
+         */
         static FileManager()
         {
 

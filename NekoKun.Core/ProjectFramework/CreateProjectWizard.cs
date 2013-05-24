@@ -59,7 +59,7 @@ namespace NekoKun
                     lvi.ToolTipText = root["Description"] != null ? root["Description"].InnerText : "";
                     if (root["Icon"] != null)
                     {
-                        Image image = Program.DecodeBase64Image(root["Icon"].InnerText);
+                        Image image = NekoKun.Core.DrawingHelper.DecodeBase64Image(root["Icon"].InnerText);
 
                         this.templateList.LargeImageList.Images.Add(filename, image);
                         this.templateList.SmallImageList.Images.Add(filename, image);
@@ -102,7 +102,7 @@ namespace NekoKun
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, "无法创建工程。\n\n" + Program.ExceptionMessage(ex), "NekoKun", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "无法创建工程。\n\n" + NekoKun.Core.ExceptionHelper.ExceptionMessage(ex), "NekoKun", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

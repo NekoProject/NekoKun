@@ -30,7 +30,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationIcon>NekoKun.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,121 +61,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DocumentFramework\IFindAllProvider.cs" />
-    <Compile Include="Core\UnhandledExceptionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\UnhandledExceptionDialog.Designer.cs">
-      <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.CommandLineEntries.cs" />
-    <Compile Include="Core\CommandLineParser.cs" />
-    <Compile Include="Core\DocumentFramework\ToolboxDockContent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DictionaryWithDefaultProc.cs" />
-    <Compile Include="Core\ArchiveFile.cs" />
-    <Compile Include="Core\CLRCodeCompiler.cs" />
-    <Compile Include="Core\DocumentFramework\AbstractEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\DocumentFramework\AbstractFile.cs" />
-    <Compile Include="Core\DocumentFramework\LogEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\DocumentFramework\LogFile.cs" />
-    <Compile Include="Core\Enum.cs" />
-    <Compile Include="Core\DocumentFramework\FindAllDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\DocumentFramework\FindAllDialog.Designer.cs">
-      <DependentUpon>FindAllDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Core\DocumentFramework\FindAllResultEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\DocumentFramework\FindAllResultFile.cs" />
-    <Compile Include="Core\EnumProvider.cs" />
-    <Compile Include="Core\FormatProvider.cs" />
-    <Compile Include="Core\IAssemblyProvider.cs" />
-    <Compile Include="Core\Projects\CreateProjectWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\Projects\CreateProjectWizard.Designer.cs">
-      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\ArrayEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\MultilineTextEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\ComplexTextEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\EditorFactory.cs" />
-    <Compile Include="ObjectEditor\AbstractObjectEditor.cs" />
-    <Compile Include="Core\DocumentFramework\NavPoint.cs" />
-    <Compile Include="Core\DocumentFramework\FileManager.cs" />
-    <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
-    <Compile Include="ObjectEditor\Controls\SingleTextEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\DecimalEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\UnknownEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Controls\EnumEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\ObjectFile.cs" />
-    <Compile Include="ObjectEditor\Struct\Layouts\IStructEditorLayout.cs" />
-    <Compile Include="ObjectEditor\ObjectFileEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ObjectEditor\Struct\Struct.cs" />
-    <Compile Include="ObjectEditor\Struct\StructField.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Core\Projects\ProjectDocumentFile.cs" />
-    <Compile Include="Core\Projects\ProjectDocumentFileEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\Projects\ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Core\DocumentFramework\FindAllDialog.resx">
-      <DependentUpon>FindAllDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\Projects\CreateProjectWizard.resx">
-      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\UnhandledExceptionDialog.resx">
-      <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScriptEditor\ScriptListEditorInsertDialog.resx">
-      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ScriptEditor\ScriptListEditorRenameDialog.resx">
-      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Core\WelcomePage.resx">
       <DependentUpon>WelcomePage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\Workbench.resx">
-      <DependentUpon>Workbench.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Core\Projects\ProjectConversations\rvproj2.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -185,19 +87,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ResourceManager.cs" />
     <Compile Include="RPGMaker\AudioFile.cs" />
     <Compile Include="RPGMaker\AudioFileEditor.cs">
     </Compile>
     <Compile Include="RPGMaker\Database\DatabaseFile.cs" />
-    <Compile Include="ObjectEditor\Struct\StructEditor.cs">
-    </Compile>
-    <Compile Include="ObjectEditor\Struct\Layouts\TableLayout.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ObjectEditor\Struct\Layouts\RawLayout.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="RPGMaker\EventCommand\EventCommand.cs" />
     <Compile Include="RPGMaker\EventCommand\EventCommandGroup.cs" />
     <Compile Include="RPGMaker\EventCommand\EventCommandListbox.cs">
@@ -231,54 +124,21 @@
     <Compile Include="RPGMaker\RGSSTone.cs" />
     <Compile Include="RPGMaker\Script\ScriptFile.cs" />
     <Compile Include="RPGMaker\Script\ScriptListFile.cs" />
-    <Compile Include="ScriptEditor\Virtual\VirtualScriptFile.cs" />
-    <Compile Include="ScriptEditor\Virtual\VirtualScriptListFile.cs" />
-    <Compile Include="ScriptEditor\ScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScriptEditor\FSBased\FSBasedScriptFile.cs" />
-    <Compile Include="ScriptEditor\ScriptFile.cs" />
-    <Compile Include="ScriptEditor\ScriptListEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.Designer.cs">
-      <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.Designer.cs">
-      <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
-    <Compile Include="ScriptEditor\ScriptListFile.cs" />
-    <Compile Include="Core\SettingsFile.cs" />
-    <Compile Include="Core\SettingsManager.cs" />
-    <Compile Include="StorageManager.cs" />
-    <Compile Include="SyntaxSugarIndexer.cs" />
     <Compile Include="Core\WelcomePage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\WelcomePage.Designer.cs">
       <DependentUpon>WelcomePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\Workbench.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\Workbench.Designer.cs">
-      <DependentUpon>Workbench.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\NavPointListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ionic.Zlib\Ionic.Zlib.csproj">
       <Project>{9816BA86-9250-4C00-A912-25F07F8677D1}</Project>
       <Name>Ionic.Zlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.Core\NekoKun.Core.csproj">
+      <Project>{44283355-E3C0-48FF-A38F-A9BDE3BBCB38}</Project>
+      <Name>NekoKun.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NekoKun.Serialization.RubyMarshal\NekoKun.Serialization.RubyMarshal.csproj">
       <Project>{A9C0DC50-CEC6-401B-92E3-65787C9BEDC9}</Project>
@@ -296,20 +156,6 @@
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WeifenLuo.WinFormsUI.Docking</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="NekoKun.ico" />
-    <Content Include="NekoKun.png" />
-    <Content Include="Resources\ClosePreviewHS.bmp" />
-    <Content Include="Resources\Copy.bmp" />
-    <Content Include="Resources\Cut.bmp" />
-    <Content Include="Resources\Delete.bmp" />
-    <Content Include="Resources\Edit_Redo.bmp" />
-    <Content Include="Resources\Edit_Undo.bmp" />
-    <Content Include="Resources\Find.bmp" />
-    <Content Include="Resources\Paste.bmp" />
-    <Content Include="Resources\Play.bmp" />
-    <Content Include="Resources\SaveAll.bmp" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
