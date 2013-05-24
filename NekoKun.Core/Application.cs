@@ -7,8 +7,15 @@ namespace NekoKun.Core
 {
     public static class Application
     {
+        static Application()
+        {
+            Logger = new Logger();
+            Logger.Name = "NekoKun 日志";
+            OutputPad.Attach(Logger);
+        }
+
         public static bool UseStandardError = false;
-        public static LogFile Logger = new LogFile();
+        public static Logger Logger;
 
         public static void ShowError(string message)
         {

@@ -128,6 +128,7 @@
     <Content Include="Resources\Copy.bmp" />
     <Content Include="Resources\Cut.bmp" />
     <Content Include="Resources\Delete.bmp" />
+    <None Include="Resources\OutputWindow.bmp" />
     <Content Include="Resources\Redo.bmp" />
     <Content Include="Resources\Undo.bmp" />
     <Content Include="Resources\Find.bmp" />

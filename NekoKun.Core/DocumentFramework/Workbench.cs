@@ -101,8 +101,7 @@ namespace NekoKun
 
         void Workbench_Load(object sender, EventArgs e)
         {
-            Core.Application.Logger.ShowEditor();
-            Core.Application.Logger.Editor.DockState = DockState.DockBottom;
+            ShowSimplePad(typeof(Core.OutputPad));
 
             this.toolbox.Show(this.DockPanel, DockState.DockLeft);
 
@@ -195,7 +194,7 @@ namespace NekoKun
             file.ShowEditor();
             try
             {
-                file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
+                //TODO: file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
             }
             catch { }
         }
@@ -223,7 +222,7 @@ namespace NekoKun
 
         private void menuViewLog_Click(object sender, EventArgs e)
         {
-            NekoKun.Core.Application.Logger.ShowEditor();
+            //TODO: NekoKun.Core.Application.Logger.ShowEditor();
         }
 
         private void menuEdit_DropDownOpening(object sender, EventArgs e)
@@ -355,7 +354,7 @@ namespace NekoKun
                 file.ShowEditor();
                 try
                 {
-                    file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
+                    //TODO: file.Editor.Show(NekoKun.Core.Application.Logger.Editor.Pane, NekoKun.Core.Application.Logger.Editor);
                 }
                 catch { }
             }
@@ -367,6 +366,26 @@ namespace NekoKun
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(Application.ExecutablePath, "/Editor");
             info.UseShellExecute = false;
             System.Diagnostics.Process.Start(info);
+        }
+
+
+        public AbstractPad ShowSimplePad(Type type)
+        {
+            AbstractPad ci;
+
+            foreach (var item in Workbench.Instance.DockPanel.Contents)
+            {
+                if (item.GetType().IsAssignableFrom(type))
+                {
+                    ci = item as AbstractPad;
+                    ci.Activate();
+                    return ci;
+                }
+            }
+
+            ci = (AbstractPad) type.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, null, null);
+            ci.Show(Workbench.Instance.DockPanel);
+            return ci;
         }
     }
 }

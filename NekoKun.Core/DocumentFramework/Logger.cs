@@ -2,35 +2,41 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NekoKun
+namespace NekoKun.Core
 {
-    public class LogFile : AbstractFile
+    public class Logger : IOutputProvider, IDisposable
     {
-        private string log;
+        private NekoKun.UI.Scintilla editor;
+        public string Name { get; set; }
 
-        public LogFile()
-            : base(@"\\.\NekoKun\Log")
+        public Logger()
         {
-            this.log = "";
+            this.editor = new NekoKun.UI.Scintilla();
+            this.editor.IsReadOnly = true;
+        }
+        
+        public void Dispose()
+        {
+            OutputPad.Detach(this);
+            this.editor.Dispose();
+        }
+
+        ~Logger()
+        {
+            Dispose();
         }
 
         public override string ToString()
         {
-            return "日志";
-        }
-
-        protected override void Save()
-        {
-            return;
+            return this.Name == null ? base.ToString() : (this.Name.Length > 0 ? this.Name : base.ToString());
         }
 
         public void Write(string str)
         {
-            this.log += str;
-            if (this.Editor != null)
-            {
-                (this.Editor as LogEditor).Append(str);
-            }
+            this.editor.IsReadOnly = false;
+            this.editor.AppendText(str);
+            this.editor.IsReadOnly = true;
+            this.editor.Caret.Goto(this.editor.TextLength);
         }
 
         public void Write(string format, params object[] args)
@@ -71,24 +77,18 @@ namespace NekoKun
             this.Log(String.Format(format, args));
         }
 
-        public override AbstractEditor CreateEditor()
-        {
-            return new LogEditor(this);
-        }
-
         public string LogText
         {
             set
             {
-                this.log = value;
-                
-                if (editor != null)
-                {
-                    (this.Editor as LogEditor).Editor.Text = this.log;
-                }
+                this.editor.Text = value;
             }
-            get { return this.log; }
+            get { return this.editor.Text; }
         }
 
+        public System.Windows.Forms.Control OutputViewContent
+        {
+            get { return this.editor; }
+        }
     }
 }

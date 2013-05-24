@@ -102,6 +102,13 @@ namespace NekoKun.UI.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap OutputWindow {
+            get {
+                object obj = ResourceManager.GetObject("OutputWindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Paste {
             get {
                 object obj = ResourceManager.GetObject("Paste", resourceCulture);
