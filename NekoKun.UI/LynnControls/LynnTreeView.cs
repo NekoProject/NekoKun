@@ -21,6 +21,7 @@ namespace NekoKun.UI
         public LynnTreeView()
         {
             this.FullRowSelect = true;
+            this.ShowRootLines = false;
             this.LabelEdit = false;
             this.ShowLines = false;
 

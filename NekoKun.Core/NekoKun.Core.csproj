@@ -42,6 +42,7 @@
     <Compile Include="DocumentFramework\IOutputProvider.cs" />
     <Compile Include="Helpers\ArchiveFile.cs" />
     <Compile Include="Helpers\UnhandledExceptionDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Helpers\UnhandledExceptionDialog.Designer.cs">
       <DependentUpon>UnhandledExceptionDialog.cs</DependentUpon>
@@ -49,31 +50,39 @@
     <Compile Include="ObjProvider\CLRCodeCompiler.cs" />
     <Compile Include="Helpers\CommandLineParser.cs" />
     <Compile Include="Debugger\ProcessStandardStreamEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Debugger\ProcessStandardStreamFile.cs" />
     <Compile Include="Helpers\DictionaryWithDefaultProc.cs" />
     <Compile Include="DocumentFramework\AbstractEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\AbstractFile.cs" />
     <Compile Include="DocumentFramework\AbstractPad.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\FileManager.cs" />
     <Compile Include="DocumentFramework\FindAllDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\FindAllDialog.Designer.cs">
       <DependentUpon>FindAllDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DocumentFramework\FindAllResultEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\FindAllResultFile.cs" />
     <Compile Include="DocumentFramework\IFindAllProvider.cs" />
     <Compile Include="DocumentFramework\OutputPad.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\Logger.cs" />
     <Compile Include="DocumentFramework\NavPoint.cs" />
     <Compile Include="DocumentFramework\NavPointListView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DocumentFramework\ToolboxDockContent.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DocumentFramework\Workbench.cs">
       <SubType>Form</SubType>
@@ -99,9 +108,11 @@
     <Compile Include="ObjectEditor\EditorFactory.cs" />
     <Compile Include="ObjectEditor\ObjectFile.cs" />
     <Compile Include="ObjectEditor\ObjectFileEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProjectFramework\ProjectDocumentFile.cs" />
     <Compile Include="ProjectFramework\ProjectDocumentFileEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ObjectEditor\Struct\Layouts\IStructEditorLayout.cs" />
     <Compile Include="ObjectEditor\Struct\Layouts\RawLayout.cs">
@@ -113,7 +124,9 @@
     <Compile Include="ObjectEditor\Struct\Struct.cs" />
     <Compile Include="ObjectEditor\Struct\StructEditor.cs" />
     <Compile Include="ObjectEditor\Struct\StructField.cs" />
-    <Compile Include="ProjectFramework\ProjectExplorerPad.cs" />
+    <Compile Include="ProjectFramework\ProjectExplorerPad.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProjectFramework\ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
@@ -121,16 +134,20 @@
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptFile.cs" />
     <Compile Include="ScriptEditor\FSBased\FSBasedScriptListFile.cs" />
     <Compile Include="ScriptEditor\ScriptEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\ScriptFile.cs" />
     <Compile Include="ScriptEditor\ScriptListEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\ScriptListEditorInsertDialog.Designer.cs">
       <DependentUpon>ScriptListEditorInsertDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScriptEditor\ScriptListEditorRenameDialog.Designer.cs">
       <DependentUpon>ScriptListEditorRenameDialog.cs</DependentUpon>

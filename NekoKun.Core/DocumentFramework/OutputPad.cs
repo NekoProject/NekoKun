@@ -7,6 +7,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace NekoKun.Core
 {
+    [PadDefaultLocation(WeifenLuo.WinFormsUI.Docking.DockState.DockBottom)]
     public class OutputPad : AbstractPad, IClipboardHandler, IUndoHandler, IDeleteHandler, ISelectAllHandler
     {
         #region Static Members
@@ -64,7 +65,7 @@ namespace NekoKun.Core
 
             ItemBox.AutoSize = false;
             ItemBox.ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            ItemBox.Width = 500;
+            ItemBox.Width = 300;
             ItemBox.SelectedIndexChanged += new EventHandler(ItemBox_SelectedIndexChanged);
             ItemBox.Items.AddRange(Providers);
             ItemBox.SelectedIndex = this.ItemBox.Items.Count - 1;

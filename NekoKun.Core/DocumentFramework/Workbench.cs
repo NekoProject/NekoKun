@@ -102,9 +102,10 @@ namespace NekoKun
         void Workbench_Load(object sender, EventArgs e)
         {
             ShowSimplePad(typeof(Core.OutputPad));
+            ShowSimplePad(typeof(Core.ProjectExplorerPad));
 
-            this.toolbox.Show(this.DockPanel, DockState.DockLeft);
-
+            // TODO: this.toolbox.Show(this.DockPanel, DockState.DockLeft);
+            /* TODO: load documents
             foreach (var item in ProjectManager.Components)
             {
                 AbstractFile file = item.Value as AbstractFile;
@@ -128,9 +129,10 @@ namespace NekoKun
                 file.Editor.Show((ProjectManager.Components["Scripts"] as AbstractFile).Editor.Pane, (ProjectManager.Components["Scripts"] as AbstractFile).Editor);
             }
             catch { }
-            this.DockPanel.DockLeftPortion = 150;
-            this.DockPanel.DockBottomPortion = 100;
-            this.DockPanel.DockRightPortion = 150;
+            */
+            this.DockPanel.DockLeftPortion = 200;
+            this.DockPanel.DockBottomPortion = 200;
+            this.DockPanel.DockRightPortion = 200;
 
             this.FileManager_PendingChangesStatusChanged(null, EventArgs.Empty);
         }
@@ -368,7 +370,6 @@ namespace NekoKun
             System.Diagnostics.Process.Start(info);
         }
 
-
         public AbstractPad ShowSimplePad(Type type)
         {
             AbstractPad ci;
@@ -385,7 +386,31 @@ namespace NekoKun
 
             ci = (AbstractPad) type.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, null, null);
             ci.Show(Workbench.Instance.DockPanel);
+            ApplyPadDefaultLocation(ci);
             return ci;
+        }
+
+        private void ApplyPadDefaultLocation(AbstractPad ci)
+        {
+            object[] attrs = ci.GetType().GetCustomAttributes(typeof(PadDefaultLocationAttribute), false);
+            if (attrs.Length > 0)
+            {
+                PadDefaultLocationAttribute attr = attrs[0] as PadDefaultLocationAttribute;
+                ApplyDockContentLocation(ci, attr.DockState);
+            }
+        }
+
+        private void ApplyDockContentLocation(DockContent ci, DockState dockState)
+        {
+            foreach (var item in this.DockPanel.Panes)
+            {
+                if (item.DockState == dockState)
+                {
+                    ci.Show(item, item.Contents[0]);
+                    return;
+                }
+            }
+            ci.DockState = dockState;
         }
     }
 }

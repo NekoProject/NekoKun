@@ -51,16 +51,30 @@ namespace NekoKun
 
         public static AbstractFile Find(string identify)
         {
-            WeakReference fp = dict[identify];
-            if (fp.IsAlive)
-            {
-                return dict[identify].Target as AbstractFile;
-            }
+            AbstractFile f;
+            if (TryFind(identify, out f))
+                return f;
             else
+                throw new ArgumentOutOfRangeException("File disposed or not found.");
+        }
+
+        public static bool TryFind(string identify, out AbstractFile file)
+        {
+            WeakReference fp;
+            if (dict.TryGetValue(identify, out fp))
             {
-                dict.Remove(identify);
-                throw new ArgumentOutOfRangeException("File disposed.");
+                if (fp.IsAlive)
+                {
+                    file = dict[identify].Target as AbstractFile;
+                    return true;
+                }
+                else
+                {
+                    dict.Remove(identify);
+                }
             }
+            file = null;
+            return false;
         }
 
         public static void ForEach(Action<AbstractFile> action)

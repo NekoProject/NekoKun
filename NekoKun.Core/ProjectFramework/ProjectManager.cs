@@ -13,6 +13,11 @@ namespace NekoKun
         private static ProjectDocumentFile projectDocument;
         private static Dictionary<string, object> components;
 
+        public static ProjectDocumentFile ProjectDocument
+        {
+            get { return projectDocument; }
+        }
+
         public static string ProjectDir
         {
             get { return projectDir; }

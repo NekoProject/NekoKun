@@ -17,4 +17,19 @@ namespace NekoKun
                 WeifenLuo.WinFormsUI.Docking.DockAreas.Float;
         }
     }
+
+    [global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    public sealed class PadDefaultLocationAttribute : Attribute
+    {
+        readonly WeifenLuo.WinFormsUI.Docking.DockState dockState;
+
+        public PadDefaultLocationAttribute(WeifenLuo.WinFormsUI.Docking.DockState dockState)
+        {
+            this.dockState = dockState;
+        }
+
+        public WeifenLuo.WinFormsUI.Docking.DockState DockState {
+            get { return this.dockState; }
+        }
+    }
 }

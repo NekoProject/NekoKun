@@ -88,9 +88,100 @@ namespace NekoKun.UI.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap File {
+            get {
+                object obj = ResourceManager.GetObject("File", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileForm {
+            get {
+                object obj = ResourceManager.GetObject("FileForm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileGenerated {
+            get {
+                object obj = ResourceManager.GetObject("FileGenerated", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileHidden {
+            get {
+                object obj = ResourceManager.GetObject("FileHidden", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileImage {
+            get {
+                object obj = ResourceManager.GetObject("FileImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileScript {
+            get {
+                object obj = ResourceManager.GetObject("FileScript", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FileXML {
+            get {
+                object obj = ResourceManager.GetObject("FileXML", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Find {
             get {
                 object obj = ResourceManager.GetObject("Find", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderClosed {
+            get {
+                object obj = ResourceManager.GetObject("FolderClosed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderClosedHidden {
+            get {
+                object obj = ResourceManager.GetObject("FolderClosedHidden", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderClosedVirtual {
+            get {
+                object obj = ResourceManager.GetObject("FolderClosedVirtual", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderOpen {
+            get {
+                object obj = ResourceManager.GetObject("FolderOpen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderOpenHidden {
+            get {
+                object obj = ResourceManager.GetObject("FolderOpenHidden", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap FolderOpenVirtual {
+            get {
+                object obj = ResourceManager.GetObject("FolderOpenVirtual", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -119,6 +210,13 @@ namespace NekoKun.UI.Properties {
         public static System.Drawing.Bitmap Play {
             get {
                 object obj = ResourceManager.GetObject("Play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap ProjectGeneric {
+            get {
+                object obj = ResourceManager.GetObject("ProjectGeneric", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
