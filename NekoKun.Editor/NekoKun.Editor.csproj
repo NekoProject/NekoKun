@@ -61,9 +61,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CreateProjectWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\CreateProjectWizard.Designer.cs">
+      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.CommandLineEntries.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Core\CreateProjectWizard.resx">
+      <DependentUpon>CreateProjectWizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
