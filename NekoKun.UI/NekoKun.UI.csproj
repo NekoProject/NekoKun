@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A413B12F-9E7F-4C03-AF29-12E35FE1FDE2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NekoKun.UI</RootNamespace>
+    <AssemblyName>NekoKun.UI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DockingThemeOcean.cs" />
+    <Compile Include="EditContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IBehavior\IClipboardHandler.cs" />
+    <Compile Include="IBehavior\IDeleteHandler.cs" />
+    <Compile Include="IBehavior\IFindReplaceHandler.cs" />
+    <Compile Include="IBehavior\ISelectAllHandler.cs" />
+    <Compile Include="IBehavior\IToolboxProvider.cs" />
+    <Compile Include="IBehavior\IUndoHandler.cs" />
+    <Compile Include="LynnControls\LynnButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnCombobox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnListbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\LynnTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LynnControls\NativeBorder.cs" />
+    <Compile Include="LynnControls\NativeMethods.cs" />
+    <Compile Include="OwnerPaintPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scintilla\RubyScintilla.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Scintilla\Scintilla.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ToolStripRender\Office2007ColorTable.cs" />
+    <Compile Include="ToolStripRender\Office2007Helpers.cs" />
+    <Compile Include="ToolStripRender\Office2007Renderer.cs" />
+    <Compile Include="UIManager.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScintillaNET\ScintillaNET.csproj">
+      <Project>{F9B6DABD-BBC1-4638-8CE6-A5C9506BFDCB}</Project>
+      <Name>ScintillaNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeifenLuo.WinFormsUI.Docking\WinFormsUI\WeifenLuo.WinFormsUI.Docking.csproj">
+      <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
+      <Name>WeifenLuo.WinFormsUI.Docking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
