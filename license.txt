@@ -11,7 +11,7 @@ are permitted provided that the following conditions are met:
   this list of conditions and the following disclaimer in the documentation 
   and/or other materials provided with the distribution.
 
-* Commercial distributions in any form are not allowed.
+* Commercial distribution of any kind is not allowed.
 
 Permissions beyond the scope of this license may be available at <i@orzFly.com>
 
